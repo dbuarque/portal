@@ -1,0 +1,11 @@
+<template>
+    <div class="country-select-container">
+        <select md-select disabled.bind="config.state === 'disabled'"
+                value.bind="value" class="form-control">
+            <option disabled model.bind="null">Select a country</option>
+            <option model.bind="country.code" repeat.for="country of countries">
+                ${country.name}
+            </option>
+        </select>
+    </div>
+</template>

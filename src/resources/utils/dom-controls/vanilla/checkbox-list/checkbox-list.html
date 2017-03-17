@@ -1,0 +1,11 @@
+<template>
+    <div class="checkbox-list-container">
+        <div class="checkbox-container ${config.containerClass}" repeat.for="c of checkboxList">
+            <label>
+                <input type="checkbox" value.bind="$index" checked.bind="c.checked" change.delegate="checkboxSelected($event)">
+                ${c.option[config.labelProp] || c.option.label || c.option}
+                &nbsp;
+            </label>
+        </div>
+    </div>
+</template>

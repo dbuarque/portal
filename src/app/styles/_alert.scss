@@ -1,0 +1,13 @@
+.alert {
+    &.alert-error {
+        color: $error;
+    }
+
+    &.alert-primary {
+        color: $primary;
+    }
+
+    &.alert-info {
+        background: $accent;
+    }
+}

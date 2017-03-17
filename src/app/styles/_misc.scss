@@ -1,0 +1,36 @@
+a.underline {
+    text-decoration: underline;
+}
+
+.padded-container {
+  padding: 10px;
+}
+
+.tt-validation.tooltipster-sidetip {
+
+    .tooltipster-box {
+        background: #fff;
+        border: 2px solid $error !important;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        line-height: 16px;
+        font-weight: bold;
+
+        .tooltipster-content {
+            color: $error;
+        }
+    }
+
+    &.tooltipster-top .tooltipster-arrow-border {
+        border-top-color: $error;
+    }
+
+    .tooltipster-arrow-background {
+        border-top-color: #fff;
+    }
+}
+
+.invalid.touched, .validated.invalid {
+    border-bottom: 1px solid $error;
+    box-shadow: 0 2px 1px -1px $error;
+}

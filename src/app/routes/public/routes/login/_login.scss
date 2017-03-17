@@ -1,0 +1,11 @@
+.login {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+
+    .login-container {
+        width: 90%;
+        max-width: 500px;
+    }
+}

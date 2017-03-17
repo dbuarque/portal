@@ -1,0 +1,32 @@
+.modal-wrapper {
+    position: fixed;
+    top: 0; bottom: 0; right: 0; left: 0;
+    overflow-y: auto;
+
+    .modal {
+        background-color: #fff;
+        overflow-y: visible;
+        height: auto;
+        max-height: none;
+        position: relative;
+        top: auto !important;
+        margin: 50px auto;
+
+        .modal-content {
+            padding: 20px;
+        }
+
+        .modal-title {
+            text-align: center;
+            margin: 0;
+        }
+
+        &.sm {
+            max-width: 300px;
+        }
+
+        &.md {
+            max-width: 500px;
+        }
+    }
+}

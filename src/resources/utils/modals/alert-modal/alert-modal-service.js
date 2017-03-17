@@ -1,0 +1,20 @@
+/**
+ * Created by istrauss on 4/7/2016.
+ */
+
+import {inject} from 'aurelia-framework';
+import ModalService from '../modal/modal-service';
+
+@inject(ModalService)
+export default class AlertModalService {
+    constructor(modalService) {
+        this.modalService = modalService;
+    }
+    open(type, message, options = {}) {
+        let passedInfo = Object.assign({}, {type, message}, options);
+        return this.modalService.open('resources/utils/modals/alert-modal/alert-modal', passedInfo, {
+            modalClass: 'alert-modal',
+            dismissible: options.confirm ? false : true
+        });
+    }
+}

@@ -1,0 +1,53 @@
+.card {
+    -webkit-box-shadow: $shadow1;
+    -moz-box-shadow: $shadow1;
+    box-shadow: $shadow1;
+    border-radius: 0;
+
+    .card-content {
+        padding: 10px;
+
+        .card-heading {
+
+            .card-heading-right {
+                display: inline-block;
+                float: right;
+            }
+
+            .card-title, .toggle-container {
+                line-height: 14px;
+                height: 14px;
+                font-size: 14px;
+                font-weight: 600;
+                display: inline-block;
+            }
+        }
+    }
+
+    .card-body {
+        padding: 10px 0;
+    }
+}
+
+.form-field {
+    margin-top: 1rem;
+
+    label {
+        height: 14px;
+        line-height: 14px;
+    }
+}
+
+.alert-badge {
+    height: 18px;
+    min-width: 18px;
+    padding: 2px;
+    border-radius: 8px;
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    line-height: 14px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+}

@@ -1,0 +1,14 @@
+<template>
+    <div class="modal-wrapper">
+        <div class="modal ${instruction.options.modalClass & oneTime}">
+            <div class="modal-content" role="document">
+                <div class="modal-header">
+                    <h6 class="modal-title"><strong>${instruction.passedInfo.title}</strong></h6>
+                </div>
+                <div class="modal-body">
+                    <compose view-model.bind="instruction.path" model.bind="{ modalVM: $this, passedInfo: instruction.passedInfo, element: element }"></compose>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

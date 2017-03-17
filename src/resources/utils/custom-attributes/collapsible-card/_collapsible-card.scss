@@ -1,0 +1,51 @@
+.card.collapsible-card {
+
+  .card-heading {
+    cursor: pointer;
+    width: 100%;
+
+    .card-title {
+      display: inline-block;
+    }
+
+    .toggle-container {
+      height: inherit;
+      width: 15px;
+      display: inline-block;
+
+      .fa-chevron-down, .fa-chevron-right {
+        margin-right: 10px;
+        color: #000 !important;
+      }
+    }
+
+    &.disabled {
+
+      .toggle-container {
+
+        .fa-chevron-down, .fa-chevron-right {
+          color: #ccc !important;
+        }
+      }
+    }
+  }
+
+  .card-body {
+    position: relative;
+
+    .content-disabled-overlay {
+      position: absolute;
+      top: 0; bottom: 0; left: 0; right: 0;
+      background: #fafafa;
+      opacity: 0.2;
+      display: none;
+    }
+
+    &.disabled {
+
+      .content-disabled-overlay {
+        display: block;
+      }
+    }
+  }
+}

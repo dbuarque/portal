@@ -1,0 +1,56 @@
+<template>
+    <div class="form-field col-sm-${formField.columns || 12} ${formField.push ? 'col-sm-push-next-' + formField.push : ''}" repeat.for="formField of formFields">
+        <div>
+            <label if.bind="formField.label">${formField.label}</label>
+
+            <input disabled.bind="formField.control.state === 'disabled'" type="text" value.bind="formField.model[formField.property]"
+                   if.one-time="formField.control.type === 'text'" class="form-control" tt-validate="manager.bind: validationManager; key.bind: formField.formKey;">
+
+            <textarea disabled.bind="formField.control.state === 'disabled'" value.bind="formField.model[formField.property]" tt-validate="manager.bind: validationManager; key.bind: formField.formKey;"
+                          if.one-time="formField.control.type === 'textArea'" rows.one-time="formField.control.options.rows" class="form-control"></textarea>
+
+            <input type="number" if.one-time="formField.control.type === 'number'" class="form-control" value.bind="formField.model[formField.property]"
+                   tt-validate="manager.bind: validationManager; key.bind: formField.formKey;" disabled.bind="formField.control.state === 'disabled'"
+                   step.one-time="formField.control.step" min.one-time="formField.control.min" max.one-time="formField.control.max">
+
+            <select2 tt-validate="manager.bind: validationManager; key.bind: formField.formKey; element-selector: .select2-custom-element"
+                       value.bind="formField.model[formField.property]" config.bind="formField.control" options.bind="formField.control.options"
+                       if.one-time="formField.control.type === 'select2'" disabled.bind="formField.control.state === 'disabled'"></select2>
+
+            <select-dd tt-validate="manager.bind: validationManager; key.bind: formField.formKey; element-selector: select"
+                       value.bind="formField.model[formField.property]" config.bind="formField.control" options.bind="formField.control.options"
+                       if.one-time="formField.control.type === 'select'" disabled.bind="formField.control.state === 'disabled'"></select-dd>
+
+            <state-select tt-validate="manager.bind: validationManager; key.bind: formField.formKey; element-selector: select"
+                          value.bind="formField.model[formField.property]" config.bind="formField.control"
+                          if.one-time="formField.control.type === 'stateSelect'"></state-select>
+
+            <aurelia-flatpickr tt-validate="manager.bind: validationManager; key.bind: formField.formKey; element-selector: .aurelia-flatpickr"
+                   if.one-time="formField.control.type == 'date'" config.bind="formField.control" value.bind="formField.model[formField.property]"></aurelia-flatpickr>
+
+            <!--<input tt-validate="manager.bind: validationManager; key.bind: formField.formKey;"
+                   if.one-time="formField.control.type == 'date'" type="date" placeholder="pick a date"
+                   md-datepicker="container: body; value.two-way: formField.model[formField.property];" />-->
+
+            <!--<bootstrap-datepicker tt-validate="manager.bind: validationManager; key.bind: formField.formKey; element-selector: :input;"
+                                  disabled.bind="formField.control.state === 'disabled'" value.bind="formField.model[formField.property]" other-value.bind="'test'"
+                                  if.one-time="formField.control.type == 'date'"></bootstrap-datepicker>-->
+
+            <!--<bootstrap-multiselect if.one-time="formField.control.type == 'multiselect'" config.bind="formField.control"
+                                   tt-validate="manager.bind: validationManager; key.bind: formField.formKey; element-selector: button.multiselect"
+                                   value.bind="formField.model[formField.property]"></bootstrap-multiselect>-->
+
+            <radio-list if.one-time="formField.control.type === 'radioList'"
+                        tt-validate="manager.bind: validationManager; key.bind: formField.formKey; element-selector: .radio-list-container"
+                        options.bind="formField.control.options" value.bind="formField.model[formField.property]"></radio-list>
+
+            <wysiwyg if.one-time="formField.control.type === 'wysiwyg'" value.bind="formField.model[formField.property]"></wysiwyg>
+
+            <label-vc value.bind="formField.model[formField.property]" if.one-time="formField.control.type === 'label'"
+                      value-converter.bind="formField.control.valueConverter"></label-vc>
+
+            <!--<compose model.bind="model" value.bind="formField.model[formField.property]"
+                     if.one-time="formField.control.type === 'custom'" view-model.bind="formField.control.moduleId"></compose>-->
+        </div>
+    </div>
+</template>

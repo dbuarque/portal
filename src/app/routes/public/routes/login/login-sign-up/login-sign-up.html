@@ -1,0 +1,39 @@
+<template>
+    <div>
+        <alert config.bind="alertConfig"></alert>
+
+        <div if.bind="action === 'login'">
+            <form novalidate focus-input submit.trigger="login()">
+                <div class="row">
+                    <div class="col s12">
+                        <ul class="tabs">
+                            <li class="tab col s6" style="cursor: pointer"><a class="active" click.trigger="mode='public'">Use Public Key</a></li>
+                            <li class="tab col s6" style="cursor: pointer"><a  click.trigger="mode='secret'">Use Secret Key</a></li>
+                        </ul>
+                    </div>
+                    <div class="col s12">
+                        <div if.bind="mode === 'public'">
+                            <div class="form-field">
+                                <label>Public Key</label>
+                                <input tt-validate="manager.bind: validationManager; key: publicKey"
+                                       type="text" class="form-control" value.bind="publicKey" required title="Public Key">
+                            </div>
+                        </div>
+                        <div if.bind="mode === 'secret'">
+                            <div class="form-field">
+                                <label>Secret Key</label>
+                                <input tt-validate="manager.bind: validationManager; key: secretKey"
+                                       type="text" class="form-control" value.bind="secretKey" required title="Secret Key">
+                            </div>
+                        </div>
+                        <div class="cols center-align form-field">
+                            <button md-waves type="submit" class="btn primary">
+                                <i class="fa fa-check"></i>&nbsp;Login
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>

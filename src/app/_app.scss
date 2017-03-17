@@ -1,0 +1,21 @@
+@import "styles/styles";
+@import "routes/public/public";
+@import "routes/account/account";
+@import "navbar/navbar";
+
+html, body {
+  background-color: $background;
+
+  .page-wrapper {
+    padding: 20px;
+  }
+}
+
+.splash {
+  width: 100%;
+  text-align: center;
+
+  .message {
+    font-size: 30px;
+  }
+}

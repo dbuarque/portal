@@ -1,0 +1,14 @@
+node_modules
+.DS_STORE
+npm-debug.log*
+/build
+/typings
+/.awcache
+/electron.js*
+/release
+/dist
+/build-development
+/build-production
+/test/coverage
+yarn.lock
+.idea

@@ -1,0 +1,18 @@
+<template>
+    <div class="alert alert-${passedInfo.type & oneTime}" style="text-align: center">
+        <strong>
+            <i class="fa fa-lg ${passedInfo.type === 'error' ? 'fa-exclamation-triangle text-danger' : passedInfo.type === 'warning' ? 'fa-exclamation-circle text-warning' : passedInfo.type === 'success' ? 'fa-check-square-o text-primary' : 'fa-info-circle'}"></i>
+        </strong>
+        &nbsp;
+        ${passedInfo.message}
+        <div class="form-field" if.one-time="passedInfo.confirm">
+            <br>
+            <button md-waves type="button" class="btn btn-default" click.trigger="modalVM.dismiss()">
+                <i class="fa fa-times"></i>&nbsp;Cancel
+            </button>
+            <button md-waves type="button" class="btn ${passedInfo.confirm.btnClass || 'primary'}" click.trigger="modalVM.close()">
+                <i class="fa fa-${passedInfo.confirm.btnIcon || 'check'}"></i>&nbsp;Confirm
+            </button>
+        </div>
+    </div>
+</template>

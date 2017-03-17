@@ -1,0 +1,24 @@
+<template>
+    <require from="./login-sign-up/login-sign-up"></require>
+    <require from="./login-sign-up/login-sign-up-action-title-value-converter"></require>
+    <div>
+        <alert if.bind="devAlertConfig" config.bind="devAlertConfig"></alert>
+        <br>
+    </div>
+    <div class="login">
+        <div class="login-container">
+            <div class="card" style="padding: 15px;">
+                <div class="card-content">
+                    <div class="card-heading">
+                        <div class="card-title">
+                            ${action | loginRegisterActionTitle}
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <login-sign-up initial-message.bind="initialMessage" action.bind="action" login.trigger="onLoginSuccess($event)"></login-sign-up>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

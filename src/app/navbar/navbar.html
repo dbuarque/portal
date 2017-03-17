@@ -1,0 +1,38 @@
+<template>
+    <div class="navbar">
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="#" class="brand-logo">Stellrex</a>
+
+                    <ul class="right">
+                        <li>
+                            <a md-dropdown="activates: user-dd">
+                                <i class="fa fa-user-o fa-lg"></i>
+                                <span class="hide-on-med-and-down" style="font-size: 20px; vertical-align: middle;">&nbsp;${firstFive}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <ul id="user-dd" class="dropdown-content">
+                <li md-waves if.bind="account">
+                    <a href="javascript:void(0)" click.delegate="goToProfile()">
+                        <i class="fa fa-pencil-square-o"></i>&nbsp;Profile
+                    </a>
+                </li>
+                <li md-wave if.bind="account">
+                    <a href="javascript:void(0)" click.delegate="logout()">
+                        <i class="fa fa-sign-out"></i>&nbsp;Log Out
+                    </a>
+                </li>
+                <li md-wave if.bind="!account">
+                    <a href="javascript:void(0)" click.delegate="login()">
+                        <i class="fa in"></i>&nbsp;Log In
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</template>

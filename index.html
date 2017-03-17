@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title><%- htmlWebpackPlugin.options.metadata.title %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <base href="<%- htmlWebpackPlugin.options.metadata.baseUrl %>">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="stellar-sdk.js"></script>
+
+    <% if (htmlWebpackPlugin.options.metadata.ENV === 'development') { %>
+    <script>
+        stellrex = {
+            env: 'development',
+            api: window.location.hostname.indexOf('localhost') > -1 ? 'http://localhost:1337' : 'https://dev.api.stellrex.com',
+            publicFiles: 'https://s3.amazonaws.com/stellrex-public-files-development'
+        };
+    </script>
+    <% } %>
+    <% if (htmlWebpackPlugin.options.metadata.ENV === 'production') { %>
+    <script>
+        stellrex = {
+            env: 'production'
+        };
+
+        stellrex.api = stellrex.env === 'stage' ? 'https://stage.api.stellrex.com' : 'https://api.stellrex.com';
+        stellrex.publicFiles = stellrex.env === 'stage' ? 'https://stage.publicfiles.stellrex.com' : 'https://publicfiles.stellrex.com';
+    </script>
+    <% } %>
+    <!-- imported CSS are concatenated and added automatically -->
+</head>
+<body aurelia-app="main">
+<% if (htmlWebpackPlugin.options.metadata.ENV === 'development') { %>
+<!-- Webpack Dev Server reload -->
+<script src="/webpack-dev-server.js"></script>
+<% } %>
+
+</body>
+</html>

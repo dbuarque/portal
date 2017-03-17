@@ -1,0 +1,38 @@
+.md-routed-sidenav {
+    .side-nav > ul > li {
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        > a {
+            height: 48px;
+            line-height: 48px;
+            padding: 0 16px;
+            display: inline-block;
+            width: 100%;
+
+            &:hover {
+                background-color: rgba(0, 0, 0, 0);
+            }
+
+            i {
+                font-size: 24px;
+                margin-right: 20px;
+            }
+        }
+    }
+
+    .side-nav li > a > i {
+        margin-right: 20px;
+    }
+}
+
+
+@media all and (min-width: 992px) {
+    .md-routed-sidenav {
+        .side-nav {
+            padding-top: 65px;
+            z-index: 988;
+        }
+    }
+}

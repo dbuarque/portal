@@ -1,0 +1,10 @@
+<template>
+    <div class="select-dd">
+        <select multiple.one-time="config.multiple" md-select="disabled.bind:disabled" value.two-way="value" md-select.ref="mdSelect">
+            <option disabled.bind="config.multiple || config.disableDefault" selected="selected"
+                    model.one-time="config.placeholderValue || 0">${config.defaultLabel || 'Select item' + (config.multiple ? 's' : '')}</option>
+            <option model.one-time="option[config.valueProp] !== undefined ? option[config.valueProp] : option" repeat.for="option of options"
+            >${config.getLabel ? config.getLabel(option) : option[config.labelProp] || option}</option>
+        </select>
+    </div>
+</template>

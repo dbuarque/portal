@@ -1,0 +1,19 @@
+<template>
+    <div if.bind="config.message && !closed" class="card alert alert-${config.type}">
+        <table>
+            <tr>
+                <td>
+                    <strong>
+                        <i class.bind="'fa ' + (config.type === 'error' ? 'fa-exclamation-triangle text-danger' : config.type === 'warning' ? 'fa-exclamation-circle text-warning' : config.type === 'success' ? 'fa-check-square-o text-primary' : 'fa-info-circle')"></i>
+                    </strong>
+                    <span innerhtml.bind="config.message | sanitizeHTML"></span>
+                </td>
+                <td>
+                    <button if.bind="config.dismissible !== false" type="button" click.trigger="closed = true">
+                        &times;
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</template>
