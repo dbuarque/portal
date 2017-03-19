@@ -3,7 +3,6 @@
  */
 
 export * from './helpers/helpers';
-export * from './factories/factories';
 export * from './workers/workers';
 export * from './modals/modals';
 export * from './validation/validation';

@@ -1,0 +1,17 @@
+<template>
+    <div class="row">
+        <div class="col s12 form-field">
+            <label>Code</label>
+            <autocomplete options.bind="defaultAssets" value.bind="code" config.bind="config.autocomplete"
+                          tt-validate="manager.bind: validationManager; key: code; element-selector: .autocomplete" required></autocomplete>
+        </div>
+        <div class="col s12 form-field">
+            <label>Issuer</label>
+            <input disabled.bind="code === 'XLM'" type="text" value.bind="issuer" tt-validate="manager.bind: validationManager; key: issuer;" required>
+        </div>
+    </div>
+    <h6 class="primary-text" show.bind="loading > 0">
+        Loading info...
+    </h6>
+    <h6 show.bind="loading === 0" innerhtml.bind="info"></h6>
+</template>

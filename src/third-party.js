@@ -3,6 +3,7 @@
  */
 import './globals';
 
+import 'jquery-ui/ui/widgets/autocomplete';
 import 'trumbowyg';
 import 'tooltipster';
 import 'datatables.net';

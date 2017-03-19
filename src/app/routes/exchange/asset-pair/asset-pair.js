@@ -3,11 +3,21 @@
  */
 
 import {inject} from 'aurelia-framework';
+import {AppStore} from 'utils';
 import Config from './asset-pair-config';
 
-@inject(Config)
+@inject(Config, AppStore)
 export class AssetPair {
-    constructor(config) {
+    constructor(config, appStore) {
         this.config = config;
+        this.appStore = appStore;
+    }
+
+    bind() {
+
+    }
+
+    updateFromStore() {
+
     }
 }

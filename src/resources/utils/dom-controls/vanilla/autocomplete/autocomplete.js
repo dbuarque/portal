@@ -2,7 +2,7 @@
  * Created by istrauss on 3/17/2017.
  */
 
-import {inject, bindable} from 'aurelia-framework';
+import {inject, bindable, bindingMode} from 'aurelia-framework';
 
 const defaultConfig = {
     labelProp: 'label',
@@ -12,7 +12,7 @@ const defaultConfig = {
 @inject(Element)
 export class AutocompleteCustomElement {
 
-    @bindable value;
+    @bindable({defaultBindingMode: bindingMode.twoWay}) value;
     @bindable config;
     @bindable options;
 
@@ -27,18 +27,30 @@ export class AutocompleteCustomElement {
         };
     }
 
+    valueChanged() {
+        if (this.$autocomplete) {
+            this.$autocomplete.val(this.value);
+        }
+    }
+
     attached() {
-        $(this.element)
-            .find('.autocomplete')
+        const vm = this;
+        vm.$autocomplete = $(vm.element).find('.autocomplete');
+
+        vm.$autocomplete
             .autocomplete({
-                data: options.reduce((map, o) => {
-                    const label = this.config.getLabel ? this.config.getLabel(o) : o[this.config.labelProp];
-                    const value = this.config.getValue ? this.config.getValue(o) : o[this.config.valueProp];
-
-                    map[label] = value;
-
-                    return map;
-                })
+                source: vm.options.map(o => {
+                    return {
+                        label: vm.config.getLabel ? vm.config.getLabel(o) : o[vm.config.labelProp],
+                        value: vm.config.getValue ? vm.config.getValue(o) : o[vm.config.valueProp]
+                    };
+                }),
+                open: function() {
+                    $("ul.ui-menu").width( $(this).innerWidth() );
+                },
+                select: function (event, ui) {
+                    vm.value = ui.item.value;
+                }
             });
     }
 }

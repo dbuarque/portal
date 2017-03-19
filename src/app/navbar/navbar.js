@@ -30,7 +30,7 @@ export class Navbar {
     }
 
     login() {
-        this.router.navigate(this.router.generate('public') + '/login');
+        this.router.navigateToRoute('login');
     }
 
     logout() {
@@ -38,7 +38,7 @@ export class Navbar {
     }
 
     goToProfile() {
-        const route = this.router.generate('profile') + '/account';
+        const route = this.router.generate('account') + '/profile';
         let profileUrl = this.router.navigate(route);
     }
 }

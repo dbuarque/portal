@@ -6,7 +6,7 @@ import URI from 'urijs';
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {AppStore} from 'utils';
-import {AppActionCreators} from '../../../../app-action-creators';
+import {AppActionCreators} from '../../app-action-creators';
 
 @inject(Router, AppStore, AppActionCreators)
 export class Login {

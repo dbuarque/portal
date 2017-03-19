@@ -12,13 +12,20 @@ export class AppConfig {
             routes: [
                 {
                     route: [''],
-                    redirect: 'public'
+                    redirect: 'exchange'
                 },
                 {
-                    route: ['public'],
-                    name: 'public',
-                    moduleId: './routes/public/public',
-                    title: 'Home',
+                    route: ['exchange'],
+                    name: 'exchange',
+                    moduleId: './routes/exchange/exchange',
+                    title: 'Exchange',
+                    breadcrumb: true
+                },
+                {
+                    route: ['login'],
+                    name: 'login',
+                    moduleId: './routes/login/login',
+                    title: 'Login',
                     breadcrumb: true
                 },
                 {

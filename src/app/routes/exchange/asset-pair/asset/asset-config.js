@@ -8,7 +8,7 @@ import {transient} from 'aurelia-framework';
 export default class AssetConfig {
     constructor() {
         return {
-            autcomplete: {
+            autocomplete: {
                 valueProp: 'code',
                 labelProp: 'code'
             }
