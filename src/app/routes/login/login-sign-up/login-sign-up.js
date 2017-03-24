@@ -3,7 +3,7 @@
  */
 
 import {inject, bindable, bindingMode} from 'aurelia-framework';
-import {EventHelper, ValidationManager, StellarServer} from 'utils';
+import {EventHelper, ValidationManager, StellarServer} from 'resources';
 
 @inject(Element, ValidationManager, StellarServer)
 export class LoginSignUpCustomElement {

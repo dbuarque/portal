@@ -4,7 +4,7 @@
 
 import _find from 'lodash/find';
 import {inject, bindable, bindingMode} from 'aurelia-framework';
-import {ValidationManager, StellarServer} from 'utils';
+import {ValidationManager, StellarServer} from 'resources';
 import {defaultAssets} from './default-assets';
 import Config from './asset-config';
 

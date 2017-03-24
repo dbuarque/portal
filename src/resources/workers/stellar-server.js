@@ -4,7 +4,7 @@
 
 export class StellarServer {
     constructor() {
-        const server = new StellarSdk.Server('https://horizon.stellar.org');
+        const server = new StellarSdk.Server(window.lupoex.horizon);
         server.sdk = StellarSdk;
         return server;
     }

@@ -2,7 +2,7 @@
  * Created by Ishai on 3/27/2016.
  */
 import {bindable, inject} from 'aurelia-framework';
-import {AppStore} from 'utils';
+import {AppStore} from 'resources';
 import {AppActionCreators} from '../app-action-creators';
 
 @inject(AppStore, AppActionCreators)

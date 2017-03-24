@@ -2,7 +2,7 @@
  * Created by istrauss on 1/7/2017.
  */
 
-import {ActionTypeHelper} from 'utils';
+import {ActionTypeHelper} from 'resources';
 
 export const namespace = 'EXCHANGE';
 

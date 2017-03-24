@@ -7,15 +7,15 @@ import widgets from './widgets/index';
 import valueConverters from './value-converters/index';
 
 let otherResources = [
-    'resources/utils/validation/tt-validate/tt-validate',
+    'resources/validation/tt-validate/tt-validate',
 
-    'resources/utils/custom-attributes/collapsible-card/collapsible-card',
+    'resources/custom-attributes/collapsible-card/collapsible-card',
 
-    'resources/utils/custom-attributes/focus-input/focus-input',
+    'resources/custom-attributes/focus-input/focus-input',
 
-    'resources/utils/modals/modal/modal-anchor',
+    'resources/modals/modal/modal-anchor',
 
-    'resources/utils/display-elements/alert/alert'
+    'resources/display-elements/alert/alert'
 ];
 
 let resources = [domControls, widgets, valueConverters, otherResources]

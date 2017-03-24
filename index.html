@@ -10,30 +10,29 @@
     <script src="stellar-sdk.js"></script>
 
     <% if (htmlWebpackPlugin.options.metadata.ENV === 'development') { %>
-    <script>
-        stellrex = {
-            env: 'development',
-            api: window.location.hostname.indexOf('localhost') > -1 ? 'http://localhost:1337' : 'https://dev.api.stellrex.com',
-            publicFiles: 'https://s3.amazonaws.com/stellrex-public-files-development'
-        };
-    </script>
+        <script>
+            lupoex = {
+                env: 'development',
+                api: 'http://localhost:1337',
+                horizon: 'https://test-horizon.stellar.org'
+            };
+        </script>
     <% } %>
     <% if (htmlWebpackPlugin.options.metadata.ENV === 'production') { %>
-    <script>
-        stellrex = {
-            env: 'production'
-        };
-
-        stellrex.api = stellrex.env === 'stage' ? 'https://stage.api.stellrex.com' : 'https://api.stellrex.com';
-        stellrex.publicFiles = stellrex.env === 'stage' ? 'https://stage.publicfiles.stellrex.com' : 'https://publicfiles.stellrex.com';
-    </script>
+        <script>
+            lupoex = {
+                env: 'production',
+                api: 'https://api.lupoex.com',
+                horizon: 'https://horizon.stellar.org'
+            };
+        </script>
     <% } %>
     <!-- imported CSS are concatenated and added automatically -->
 </head>
 <body aurelia-app="main">
 <% if (htmlWebpackPlugin.options.metadata.ENV === 'development') { %>
-<!-- Webpack Dev Server reload -->
-<script src="/webpack-dev-server.js"></script>
+    <!-- Webpack Dev Server reload -->
+    <script src="/webpack-dev-server.js"></script>
 <% } %>
 
 </body>

@@ -4,7 +4,7 @@
 
 import {inject} from 'aurelia-framework';
 import {appActionTypes} from './app-action-types';
-import {StellarServer} from 'utils';
+import {StellarServer} from 'resources';
 
 const {UPDATE_KEYPAIR, UPDATE_ACCOUNT} = appActionTypes;
 

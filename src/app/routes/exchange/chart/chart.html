@@ -1,0 +1,24 @@
+<template>
+    <div class="card" collapsible-card="is-open:true">
+        <div class="card-content">
+            <div class="card-heading">
+                <div class="card-title">
+                    Chart
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="filters row">
+                    <div class="form-field col s4">
+                        <label>From</label>
+                        <aurelia-flatpickr value.bind="from"></aurelia-flatpickr>
+                    </div>
+                    <div class="form-field col s4">
+                        <label>To</label>
+                        <aurelia-flatpickr value.bind="to"></aurelia-flatpickr>
+                    </div>
+                </div>
+                <div class="chart"></div>
+            </div>
+        </div>
+    </div>
+</template>

@@ -85,9 +85,8 @@ let config = generateConfig(
         resolve: {
             alias: {
                 app: path.resolve( __dirname, 'src', 'app'),
-                resources: path.resolve( __dirname, 'src', 'resources'),
-                utils: path.resolve( __dirname, 'src', 'resources', 'utils', 'utils'),
-                'scrapsys-utils': path.resolve( __dirname, 'src', 'resources', 'scrapsys-utils', 'scrapsys-utils'),
+                resources: path.resolve( __dirname, 'src', 'resources', 'resources'),
+                'app-resources': path.resolve( __dirname, 'src', 'app', 'resources', 'resources'),
                 '$': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.js'),
                 'jquery': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.js')
             }

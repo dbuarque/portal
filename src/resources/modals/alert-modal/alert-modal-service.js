@@ -12,7 +12,7 @@ export default class AlertModalService {
     }
     open(type, message, options = {}) {
         let passedInfo = Object.assign({}, {type, message}, options);
-        return this.modalService.open('resources/utils/modals/alert-modal/alert-modal', passedInfo, {
+        return this.modalService.open('resources/modals/alert-modal/alert-modal', passedInfo, {
             modalClass: 'alert-modal',
             dismissible: options.confirm ? false : true
         });

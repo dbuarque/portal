@@ -23,9 +23,9 @@ export async function configure(aurelia) {
         .plugin('aurelia-flatpickr')
         .plugin('aurelia-crumbs')
         .plugin('aurelia-materialize-bridge', bridge => bridge.useAll() )
-        .feature('resources/utils');
+        .feature('resources');
 
-    if (window.stellrex.env === 'development') {
+    if (window.lupoex.env === 'development') {
         aurelia.use
             .developmentLogging();
     }
@@ -36,7 +36,7 @@ export async function configure(aurelia) {
     const middleware = [thunk];
 
     const composeEnhancers =
-        window.stellrex.env === 'development' &&
+        window.lupoex.env === 'development' &&
         window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
             window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
                 // Specify here name, actionsBlacklist, actionsCreators and other options

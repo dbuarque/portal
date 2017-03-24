@@ -4,21 +4,30 @@
         <div class="card-content">
             <div class="card-heading">
                 <div class="card-title">
-                    Asset Pair <span show.bind="loadedUnderlying && loadedCorresponding">(${loadedUnderlying.code + '/' + loadedCorresponding.code})</span>
+                    Asset Pair <span show.bind="loadedBase && loadedCounter">(${loadedBase.code + '/' + loadedCounter.code})</span>
                 </div>
             </div>
             <div class="card-body">
                 <alert config.bind="alertConfig"></alert>
-                <div class="row">
-                    <div class="col s6">
-                        <h6 class="primary-text center"><strong>Underlying Asset</strong></h6>
-                        <asset issuer.bind="underlying.issuer" code.bind="underlying.code"></asset>
+                <form submit.trigger="load()">
+                    <div class="row">
+                        <div class="col s6">
+                            <h6 class="primary-text center"><strong>Base Asset</strong></h6>
+                            <asset view-model.ref="baseAssetVm" issuer.bind="assetPair.base.issuer" code.bind="assetPair.base.code"></asset>
+                        </div>
+                        <div class="col s6">
+                            <h6 class="primary-text center"><strong>Counter Asset</strong></h6>
+                            <asset view-model.ref="counterAssetVm" issuer.bind="assetPair.counter.issuer" code.bind="assetPair.counter.code"></asset>
+                        </div>
                     </div>
-                    <div class="col s6">
-                        <h6 class="primary-text center"><strong>Corresponding Asset</strong></h6>
-                        <asset issuer.bind="corresponding.issuer" code.bind="corresponding.code"></asset>
+                    <div class="row">
+                        <div class="col sm12">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa-refresh"></i>&nbsp;Load
+                            </button>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>

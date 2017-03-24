@@ -5,7 +5,7 @@
 import URI from 'urijs';
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
-import {AppStore} from 'utils';
+import {AppStore} from 'resources';
 import {AppActionCreators} from '../../app-action-creators';
 
 @inject(Router, AppStore, AppActionCreators)
@@ -46,7 +46,7 @@ export class Login {
     }
 
     activate() {
-        if (window.stellrex.env === 'development') {
+        if (window.lupoex.env === 'development') {
             this.devAlertConfig = {
                 type: 'info',
                 message: 'Hey, we noticed you are running in development mode. This site connects to the testnet in development mode. If you have a testnet stellar account, you can use that to login. Otherwise, you can use the following to login <br><ul><li>Public Key: GDH5E3PIYCHMUQHWJBUYM3BDO37FEBUIKSNEXDGNEGZ3KO5WIX4C2Z7K</li><li>Secret Key: SAFO66G2WUOEL6ES6J7Q773R7Y57YQPK544C44HUHRS2MJ5PRS3MZNSD</li></ul>'

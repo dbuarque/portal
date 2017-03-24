@@ -2,7 +2,7 @@
  * Created by Ishai on 12/20/2016.
  */
 
-import {ReducerHelper} from 'utils';
+import {ReducerHelper} from 'resources';
 import {appActionTypes} from './app-action-types';
 import {exchange} from './routes/exchange/exchange-reducers';
 
