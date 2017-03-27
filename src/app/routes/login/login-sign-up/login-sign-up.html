@@ -6,9 +6,9 @@
             <form novalidate focus-input submit.trigger="login()">
                 <div class="row">
                     <div class="col s12">
-                        <ul class="tabs">
-                            <li class="tab col s6" style="cursor: pointer"><a class="active" click.trigger="mode='public'">Use Public Key</a></li>
-                            <li class="tab col s6" style="cursor: pointer"><a  click.trigger="mode='secret'">Use Secret Key</a></li>
+                        <ul md-tabs="fixed: true;">
+                            <li md-waves="color: primary;"><a class="active" click.trigger="mode='public'">Use Public Key</a></li>
+                            <li md-waves="color: primary;"><a  click.trigger="mode='secret'">Use Secret Key</a></li>
                         </ul>
                     </div>
                     <div class="col s12">

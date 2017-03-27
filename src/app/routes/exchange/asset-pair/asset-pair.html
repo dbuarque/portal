@@ -4,7 +4,7 @@
         <div class="card-content">
             <div class="card-heading">
                 <div class="card-title">
-                    Asset Pair <span show.bind="loadedBase && loadedCounter">(${loadedBase.code + '/' + loadedCounter.code})</span>
+                    Asset Pair <span show.bind="loadedBase && loadedCounter">(${loadedCounter.code + '/' + loadedBase.code})</span>
                 </div>
             </div>
             <div class="card-body">
@@ -12,18 +12,24 @@
                 <form submit.trigger="load()">
                     <div class="row">
                         <div class="col s6">
-                            <h6 class="primary-text center"><strong>Base Asset</strong></h6>
+                            <h6 class="primary-text center">
+                                <strong>Selling Asset</strong>&nbsp;
+                                <md-progress show.bind="baseAssetVm.loading > 0" md-type="circular"  md-pixel-size="12" md-color="blue"></md-progress>
+                            </h6>
                             <asset view-model.ref="baseAssetVm" issuer.bind="assetPair.base.issuer" code.bind="assetPair.base.code"></asset>
                         </div>
                         <div class="col s6">
-                            <h6 class="primary-text center"><strong>Counter Asset</strong></h6>
+                            <h6 class="primary-text center">
+                                <strong>Buying Asset</strong>&nbsp;
+                                <md-progress show.bind="counterAssetVm.loading > 0" md-type="circular" md-pixel-size="12" md-color="blue"></md-progress>
+                            </h6>
                             <asset view-model.ref="counterAssetVm" issuer.bind="assetPair.counter.issuer" code.bind="assetPair.counter.code"></asset>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col sm12">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fa-refresh"></i>&nbsp;Load
+                    <div class="row center">
+                        <div class="form-field">
+                            <button type="submit" class="btn accent">
+                                <i class="fa fa-refresh"></i>&nbsp;Load
                             </button>
                         </div>
                     </div>

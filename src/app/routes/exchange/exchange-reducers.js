@@ -14,8 +14,5 @@ let _exchange = ReducerHelper.combineReducersProvideRootState({
 export const exchange = ReducerHelper.restrictReducerToNamespace(_exchange, namespace);
 
 function assetPair(state, action) {
-    return action.type === UPDATE_ASSET_PAIR ? {
-        ...state,
-        assetPair: action.payload
-    } : (state || {});
+    return action.type === UPDATE_ASSET_PAIR ? action.payload : state;
 }

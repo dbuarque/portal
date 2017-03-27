@@ -17,4 +17,12 @@ export default class AssetResource extends BaseResource {
 
         this.modalService = modalService;
     }
+
+    codeMatch(match) {
+        return this.get('/CodeMatch', {match});
+    }
+
+    issuersByCode(code) {
+        return this.get('/IssuersByCode', {code});
+    }
 }

@@ -1,7 +1,7 @@
 import 'font-awesome/css/font-awesome.css';
 import './third-party-css';
 import '!style-loader!css-loader!sass-loader!./main.scss';
-import {AppStore} from 'utils';
+import {AppStore} from 'resources';
 import {app as rootReducer} from './app/app-reducers';
 import {applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';

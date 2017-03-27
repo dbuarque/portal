@@ -5,12 +5,13 @@
 import {inject} from 'aurelia-framework';
 import {AppStore} from 'resources';
 import {ExchangeActionCreators} from '../exchange-action-creators';
-import Config from './asset-pair-config';
 
-@inject(Config, AppStore, ExchangeActionCreators)
+@inject(AppStore, ExchangeActionCreators)
 export class AssetPair {
-    constructor(config, appStore, exchangeActionCreators) {
-        this.config = config;
+
+    size = 16;
+
+    constructor(appStore, exchangeActionCreators) {
         this.appStore = appStore;
         this.exchangeActionCreators = exchangeActionCreators;
     }
@@ -33,8 +34,21 @@ export class AssetPair {
     }
 
     load() {
-        if (!this.baseAssetVm.validate() || !this.counterAssetVm.validate()) {
+        const baseValid = this.baseAssetVm.validate();
+        const counterValid = this.counterAssetVm.validate();
+        if (!baseValid || !counterValid) {
             return;
+        }
+
+        if (this.assetPair.base.code === this.assetPair.counter.code && this.assetPair.base.issuer === this.assetPair.counter.issuer) {
+            this.alertConfig = {
+                type: 'error',
+                message: 'Base and Counter assets must not have identical codes and issuers.'
+            };
+            return;
+        }
+        else {
+            this.alertConfig = undefined;
         }
 
         this.appStore.dispatch(this.exchangeActionCreators.updateAssetPair(this.assetPair));

@@ -1,0 +1,43 @@
+<template>
+    <require from="./orders-table-value-converters"></require>
+    <table class="highlight striped centered responsive-table">
+        <thead>
+            <tr>
+                <th>
+                    Price
+                </th>
+                <th>
+                    ${assetPair.counter.code & oneTime}
+                </th>
+                <th>
+                    ${assetPair.base.code & oneTime}
+                </th>
+                <th>
+                    Sum (${assetPair.counter.code & oneTime})
+                </th>
+                <th>
+                    Sum (${assetPair.base.code & oneTime})
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr repeat.for="order of orders">
+                <td>
+                    ${order.price & oneTime} ${assetPair.counter.code & oneTime}/${assetPair.base.code & oneTime}
+                </td>
+                <td>
+                    ${order | orderAmount:'counter' & oneTime}
+                </td>
+                <td>
+                    ${order | orderAmount: 'base' & oneTime}
+                </td>
+                <td>
+                    ${orders | sumOrdersAmount:$index:'counter' & oneTime}
+                </td>
+                <td>
+                    ${orders | sumOrdersAmount:$index:'base' & oneTime}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</template>

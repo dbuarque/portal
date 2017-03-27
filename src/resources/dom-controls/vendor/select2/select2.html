@@ -1,0 +1,8 @@
+<template>
+    <div class="select2-custom-element" class.bind="disabled ? 'disabled' : ''">
+        <select>
+            <option></option>
+            <option repeat.for="option of formattedOptions" value.bind="option.id">${option.text}</option>
+        </select>
+    </div>
+</template>

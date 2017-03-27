@@ -45,6 +45,7 @@
     background-color: lighten($primary, 15%);
     transition: .2s ease-out;
 }
+
 .btn-flat:not(.disabled):hover {
     /*background-color: ${mdAccentColor | lighten:3};*/
     background-color: rgba(50, 50, 50, .15);
@@ -64,11 +65,11 @@
     transition: .2s ease-out;
 }
 .btn.accent:hover, .btn-flat.accent:hover, .btn-large.accent:hover, .btn-floating:hover {
-    background-color: lighten($accent, 30%);
+    background-color: lighten($accent, 5%);
     transition: .2s ease-out;
 }
 .btn.accent:focus, .btn-flat.accent:focus, .btn-large.accent:focus, .btn-floating:focus {
-    background-color: lighten($accent, 15%);
+    background-color: lighten($accent, 10%);
     transition: .2s ease-out;
 }
 /* checkbox */

@@ -3,13 +3,14 @@ import URI from 'urijs';
 import {AppConfig} from './app-config';
 import {inject} from 'aurelia-framework';
 import {Redirect} from 'aurelia-router';
-import {AuthenticateStep} from './auth/navigation-steps/navigation-steps';
+import {AuthenticateStep, JsonClient} from 'app-resources';
 
-@inject(AppConfig)
+@inject(AppConfig, JsonClient)
 export class App {
 
-    constructor(appConfig) {
+    constructor(appConfig, jsonClient) {
         this.config = appConfig;
+        this.jsonClient = jsonClient;
     }
 
     configureRouter(routerConfig, router) {
@@ -19,6 +20,9 @@ export class App {
         this.registerNavigationSteps(routerConfig);
 
         this.router = router;
+    }
+    activate() {
+        this.jsonClient.configure();
     }
 
     registerNavigationSteps(routerConfig) {

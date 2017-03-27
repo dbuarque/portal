@@ -96,6 +96,7 @@
     "moment": "^2.14.1",
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
+    "select2": "^4.0.3",
     "techan": "^0.8.0",
     "tooltipster": "^4.2.2",
     "trumbowyg": "^2.1.1",

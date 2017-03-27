@@ -3,7 +3,7 @@
  */
 
 import {inject} from 'aurelia-framework';
-import {AlertToaster} from '../workers/alert-toaster/alert-toaster';
+import {AlertToaster} from 'resources';
 
 const defaultErrors = {
     default: {

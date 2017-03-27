@@ -107,7 +107,7 @@ export class chart {
     }
 
     processData() {
-        this.data =
+        //this.data =
     }
 
     draw() {
