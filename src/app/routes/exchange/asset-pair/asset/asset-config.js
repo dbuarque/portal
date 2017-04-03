@@ -16,7 +16,7 @@ export default class AssetConfig {
                 placeholder: 'Select Code',
                 placeholderValue: null,
                 allowClear: true,
-                minimumInputLength: 0,
+                minimumInputLength: 1,
                 ajax: {
                     delay: 250,
                     cache: true,

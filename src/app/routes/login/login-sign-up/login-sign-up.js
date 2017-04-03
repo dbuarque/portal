@@ -35,10 +35,8 @@ export class LoginSignUpCustomElement {
             return;
         }
 
-        const keyPair = this.stellarServer.sdk.Keypair.fromPublicKey(this.publicKey);
+        this.loading++;
 
-        EventHelper.emitEvent(this.element, 'login', {
-            detail: keyPair
-        });
+        const keyPair = this.stellarServer.sdk.Keypair.fromPublicKey(this.publicKey);
     }
 }

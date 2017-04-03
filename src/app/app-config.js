@@ -21,13 +21,13 @@ export class AppConfig {
                     title: 'Exchange',
                     breadcrumb: true
                 },
-                {
-                    route: ['login'],
-                    name: 'login',
-                    moduleId: './routes/login/login',
-                    title: 'Login',
-                    breadcrumb: true
-                },
+                //{
+                //    route: ['login'],
+                //    name: 'login',
+                //    moduleId: './routes/login/login',
+                //    title: 'Login',
+                //    breadcrumb: true
+                //},
                 {
                     route: ['account'],
                     name: 'account',

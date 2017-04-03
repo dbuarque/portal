@@ -27,6 +27,12 @@ export class AssetCustomElement {
 
     async codeChanged() {
         this.issuer = null;
+
+        if (!this.code) {
+            this.issuers = [];
+            return;
+        }
+
         this.loading++;
         const issuers = await this.assetResource.issuersByCode(this.code);
         this.issuers = issuers.map(i => {
@@ -35,6 +41,7 @@ export class AssetCustomElement {
                 label: i
             };
         });
+
         this.loading--;
     }
 
