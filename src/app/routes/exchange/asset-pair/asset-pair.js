@@ -7,7 +7,7 @@ import {AppStore} from 'resources';
 import {ExchangeActionCreators} from '../exchange-action-creators';
 
 @inject(AppStore, ExchangeActionCreators)
-export class AssetPair {
+export class AssetPairCustomElement {
 
     size = 16;
 
@@ -34,16 +34,16 @@ export class AssetPair {
     }
 
     load() {
-        const baseValid = this.baseAssetVm.validate();
-        const counterValid = this.counterAssetVm.validate();
-        if (!baseValid || !counterValid) {
+        const sellingValid = this.sellingAssetVm.validate();
+        const buyingValid = this.buyingAssetVm.validate();
+        if (!sellingValid || !buyingValid) {
             return;
         }
 
-        if (this.assetPair.base.code === this.assetPair.counter.code && this.assetPair.base.issuer === this.assetPair.counter.issuer) {
+        if (this.assetPair.selling.code === this.assetPair.buying.code && this.assetPair.selling.issuer === this.assetPair.buying.issuer) {
             this.alertConfig = {
                 type: 'error',
-                message: 'Base and Counter assets must not have identical codes and issuers.'
+                message: 'Selling and Buying assets must not have identical codes and issuers.'
             };
             return;
         }

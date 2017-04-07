@@ -7,35 +7,35 @@
                     Price
                 </th>
                 <th>
-                    ${assetPair.counter.code & oneTime}
+                    ${assetPair.buying.code & oneTime}
                 </th>
                 <th>
-                    ${assetPair.base.code & oneTime}
+                    ${assetPair.selling.code & oneTime}
                 </th>
                 <th>
-                    Sum (${assetPair.counter.code & oneTime})
+                    Sum (${assetPair.buying.code & oneTime})
                 </th>
                 <th>
-                    Sum (${assetPair.base.code & oneTime})
+                    Sum (${assetPair.selling.code & oneTime})
                 </th>
             </tr>
         </thead>
         <tbody>
             <tr repeat.for="order of orders">
                 <td>
-                    ${order.price & oneTime} ${assetPair.counter.code & oneTime}/${assetPair.base.code & oneTime}
+                    ${order.price & oneTime} ${assetPair.buying.code & oneTime}/${assetPair.selling.code & oneTime}
                 </td>
                 <td>
-                    ${order | orderAmount:'counter' & oneTime}
+                    ${order | orderAmount:'buying' & oneTime}
                 </td>
                 <td>
-                    ${order | orderAmount: 'base' & oneTime}
+                    ${order | orderAmount: 'selling' & oneTime}
                 </td>
                 <td>
-                    ${orders | sumOrdersAmount:$index:'counter' & oneTime}
+                    ${orders | sumOrdersAmount:$index:'buying' & oneTime}
                 </td>
                 <td>
-                    ${orders | sumOrdersAmount:$index:'base' & oneTime}
+                    ${orders | sumOrdersAmount:$index:'selling' & oneTime}
                 </td>
             </tr>
         </tbody>

@@ -1,0 +1,39 @@
+<template>
+    <div class="card price-chart" collapsible-card="is-open:true">
+        <div class="card-content">
+            <div class="card-heading">
+                <div class="card-title">
+                    Chart
+                </div>
+            </div>
+            <div class="card-body">
+                <i show.bind="!assetPair">Select an asset pair to get started.</i>
+                <div show.bind="true">
+                    <div class="filters row">
+                        <div class="form-field col s4">
+                            <label>From</label>
+                            <aurelia-flatpickr value.bind="from"></aurelia-flatpickr>
+                        </div>
+                        <div class="form-field col s4">
+                            <label>To</label>
+                            <aurelia-flatpickr value.bind="to"></aurelia-flatpickr>
+                        </div>
+                        <div class="form-field col s4">
+                            <label>Interval</label>
+                            <select md-select="disabled.bind:disabled" value.two-way="interval" change.trigger="refresh()">
+                                <option value="300">5 Minutes</option>
+                                <option value="900">15 Minutes</option>
+                                <option value="1800">30 Minutes</option>
+                                <option value="3600">1 Hour</option>
+                                <option value="14400">4 Hours</option>
+                                <option value="86400" selected>1 Day</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="chart"></div>
+                    <spinner-overlay show.bind="false"></spinner-overlay>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

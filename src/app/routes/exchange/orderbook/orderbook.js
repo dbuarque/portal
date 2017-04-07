@@ -6,7 +6,7 @@ import {inject} from 'aurelia-framework';
 import {StellarServer, AppStore} from 'resources';
 
 @inject(StellarServer, AppStore)
-export class Orderbook {
+export class OrderbookCustomElement {
 
     loading = 0;
 
@@ -35,15 +35,15 @@ export class Orderbook {
     }
 
     async refresh() {
-        if (!this.assetPair.base || !this.assetPair.counter) {
+        if (!this.assetPair) {
             return;
         }
 
         this.loading++;
 
         const orderbook = await this.stellarServer.orderbook(
-            this.assetPair.base.code === 'XLM' ? this.stellarServer.sdk.Asset.native() : new this.stellarServer.sdk.Asset(this.assetPair.base.code, this.assetPair.base.issuer),
-            this.assetPair.counter.code === 'XLM' ? this.stellarServer.sdk.Asset.native() : new this.stellarServer.sdk.Asset(this.assetPair.counter.code, this.assetPair.counter.issuer)
+            this.assetPair.selling.code === 'XLM' ? this.stellarServer.sdk.Asset.native() : new this.stellarServer.sdk.Asset(this.assetPair.selling.code, this.assetPair.selling.issuer),
+            this.assetPair.buying.code === 'XLM' ? this.stellarServer.sdk.Asset.native() : new this.stellarServer.sdk.Asset(this.assetPair.buying.code, this.assetPair.buying.issuer)
         )
             .call();
 

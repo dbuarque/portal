@@ -5,9 +5,9 @@
 import {inject} from 'aurelia-framework'
 
 export class OrderAmountValueConverter {
-    toView(o, counterBase) {
+    toView(o, sellingBuying) {
         const amount = parseFloat(o.amount, 10);
-        const result = counterBase === 'base' ? amount : amount * o.price_r.n / o.price_r.d;
+        const result = sellingBuying === 'selling' ? amount : amount * o.price_r.n / o.price_r.d;
         return parseFloat(result.toFixed(6));
     }
 }
@@ -17,9 +17,9 @@ export class SumOrdersAmountValueConverter {
     constructor(orderAmount) {
         this.orderAmount = orderAmount;
     }
-    toView(orders, toIndex, counterBase) {
+    toView(orders, toIndex, sellingBuying) {
         return orders.slice(0, toIndex + 1).reduce((result, o) => {
-            const orderAmount = this.orderAmount.toView(o, counterBase);
+            const orderAmount = this.orderAmount.toView(o, sellingBuying);
             return result + orderAmount;
         }, 0);
     }

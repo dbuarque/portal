@@ -20,22 +20,21 @@ export default class AssetResource extends BaseResource {
 
     /**
      * Gets a list of ticker data.
-     * @param start unix timestamp to start from
-     * @param end unix timestamp to end at
-     * @param soldAssetCode
-     * @param soldAssetIssuer
-     * @param boughtAssetCode
-     * @param boughtAssetIssuer
+     * @param interval
+     * @param assetPair
+     * @param [start]
+     * @param [end]
      * @returns {*}
      */
-    list(start, end, soldAssetCode, soldAssetIssuer, boughtAssetCode, boughtAssetIssuer) {
-        return this.get({
+    list(interval, assetPair, start, end) {
+        return this.get('/List', {
+            interval,
+            boughtAssetCode: assetPair.buying.code,
+            boughtAssetIssuer: assetPair.buying.issuer || undefined,
+            soldAssetCode: assetPair.selling.code,
+            soldAssetIssuer: assetPair.selling.issuer || undefined,
             start,
-            end,
-            soldAssetCode,
-            soldAssetIssuer,
-            boughtAssetCode,
-            boughtAssetIssuer
-        }, '/List');
+            end
+        });
     }
 }

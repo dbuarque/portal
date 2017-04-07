@@ -4,7 +4,7 @@
         <div class="card-content">
             <div class="card-heading">
                 <div class="card-title">
-                    Asset Pair <span show.bind="loadedBase && loadedCounter">(${loadedCounter.code + '/' + loadedBase.code})</span>
+                    Asset Pair <span show.bind="loadedSelling && loadedBuying">(${loadedBuying.code + '/' + loadedSelling.code})</span>
                 </div>
             </div>
             <div class="card-body">
@@ -14,16 +14,16 @@
                         <div class="col s6">
                             <h6 class="primary-text center">
                                 <strong>Selling Asset</strong>&nbsp;
-                                <md-progress show.bind="baseAssetVm.loading > 0" md-type="circular"  md-pixel-size="12" md-color="blue"></md-progress>
+                                <md-progress show.bind="sellingAssetVm.loading > 0" md-type="circular"  md-pixel-size="12" md-color="blue"></md-progress>
                             </h6>
-                            <asset view-model.ref="baseAssetVm" issuer.bind="assetPair.base.issuer" code.bind="assetPair.base.code"></asset>
+                            <asset view-model.ref="sellingAssetVm" issuer.bind="assetPair.selling.issuer" code.bind="assetPair.selling.code"></asset>
                         </div>
                         <div class="col s6">
                             <h6 class="primary-text center">
                                 <strong>Buying Asset</strong>&nbsp;
-                                <md-progress show.bind="counterAssetVm.loading > 0" md-type="circular" md-pixel-size="12" md-color="blue"></md-progress>
+                                <md-progress show.bind="buyingAssetVm.loading > 0" md-type="circular" md-pixel-size="12" md-color="blue"></md-progress>
                             </h6>
-                            <asset view-model.ref="counterAssetVm" issuer.bind="assetPair.counter.issuer" code.bind="assetPair.counter.code"></asset>
+                            <asset view-model.ref="buyingAssetVm" issuer.bind="assetPair.buying.issuer" code.bind="assetPair.buying.code"></asset>
                         </div>
                     </div>
                     <div class="row center">
