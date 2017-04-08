@@ -5,18 +5,20 @@
                 <div class="card-title">
                     Chart
                 </div>
+                <i class="fa fa-refresh right" click.trigger="refresh()"></i>
             </div>
             <div class="card-body">
                 <i show.bind="!assetPair">Select an asset pair to get started.</i>
-                <div show.bind="true">
+                <i show.bind="noData">There is no trade data for the chosen asset pair.</i>
+                <div show.bind="assetPair && !noData">
                     <div class="filters row">
                         <div class="form-field col s4">
                             <label>From</label>
-                            <aurelia-flatpickr value.bind="from"></aurelia-flatpickr>
+                            <aurelia-flatpickr value.bind="start"></aurelia-flatpickr>
                         </div>
                         <div class="form-field col s4">
                             <label>To</label>
-                            <aurelia-flatpickr value.bind="to"></aurelia-flatpickr>
+                            <aurelia-flatpickr value.bind="end"></aurelia-flatpickr>
                         </div>
                         <div class="form-field col s4">
                             <label>Interval</label>
@@ -31,7 +33,7 @@
                         </div>
                     </div>
                     <div class="chart"></div>
-                    <spinner-overlay show.bind="false"></spinner-overlay>
+                    <spinner-overlay show.bind="loading > 0"></spinner-overlay>
                 </div>
             </div>
         </div>

@@ -37,4 +37,22 @@ export default class AssetResource extends BaseResource {
             end
         });
     }
+
+    /**
+     * Gets a list of ticker data.
+     * @param interval
+     * @param assetPair
+     * @param before
+     * @returns {*}
+     */
+    lastPrevious(interval, assetPair, before) {
+        return this.get('/LastPrevious', {
+            interval,
+            boughtAssetCode: assetPair.buying.code,
+            boughtAssetIssuer: assetPair.buying.issuer || undefined,
+            soldAssetCode: assetPair.selling.code,
+            soldAssetIssuer: assetPair.selling.issuer || undefined,
+            before
+        });
+    }
 }

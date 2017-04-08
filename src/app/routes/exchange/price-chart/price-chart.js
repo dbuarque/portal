@@ -4,28 +4,33 @@
 
 import {inject} from 'aurelia-framework';
 import techan from 'techan';
-import {StellarServer, AppStore} from 'resources';
+import {StellarServer, AppStore, ObserverManager, ObservationInstruction} from 'resources';
 import {TickerResource} from 'app-resources';
 
-@inject(Element, AppStore, StellarServer, TickerResource)
+@inject(Element, StellarServer, AppStore, ObserverManager, TickerResource)
 export class PriceChartCustomElement {
 
     loading = 0;
+    interval = "86400";
+    noData = false;
 
-    constructor(element, appStore, stellarServer, tickerResource) {
+    constructor(element, stellarServer, appStore, observerManager, tickerResource) {
         this.element = element;
-        this.appStore = appStore;
         this.stellarServer = stellarServer;
+        this.appStore = appStore;
+        this.observerManager = observerManager;
         this.tickerResource = tickerResource;
     }
 
     bind() {
         this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
         this.updateFromStore();
+        this.subscribeObservers();
     }
 
     unbind() {
         this.unsubscribeFromStore();
+        this.observerManager.unsubscribe();
     }
 
     attached() {
@@ -60,9 +65,15 @@ export class PriceChartCustomElement {
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         this.accessor = this.candlestick.accessor();
+    }
 
-        this.interval = 86400;
-        this.refresh();
+    subscribeObservers() {
+        const instructions = [
+            new ObservationInstruction(this, 'start', this.refresh.bind(this)),
+            new ObservationInstruction(this, 'end', this.refresh.bind(this))
+        ];
+
+        this.observerManager.subscribe(instructions);
     }
 
     updateFromStore() {
@@ -76,40 +87,91 @@ export class PriceChartCustomElement {
     }
 
     async refresh() {
-        //if (!this.assetPair || !this.interval) {
-        //    return;
-        //}
-//
-        //this.loading++;
-        //
-        //this.rawData = await this.tickerResource.list(this.interval, this.assetPair, this.start, this.end);
-        this.rawData = await this.tickerResource.list(this.interval, {
-            selling: {
-                code: 'JPY',
-                issuer: 'GBVAOIACNSB7OVUXJYC5UE2D4YK2F7A24T7EE5YOMN4CE6GCHUTOUQXM'
-            },
-            buying: {
-                code: 'XLM'
-            }
-        }, this.start, this.end);
-        this.draw();
+        if (!this.assetPair) {
+            return;
+        }
 
-        //this.loading--;
+        this.loading++;
+
+        const values = await Promise.all([
+            this.tickerResource.list(this.interval, this.assetPair, this.start, this.end),
+            this.start ? this.tickerResource.lastPrevious(this.interval, this.assetPair, this.start) : Promise.resolve([])
+        ]);
+
+        const rawData = values[0];
+
+        this.noData = rawData.length === 0;
+        if (this.noData) {
+            return;
+        }
+
+        const lastPreviousDatum = values[1][0];
+        let start = this.start;
+        let end = this.end;
+
+        if (start && !lastPreviousDatum) {
+            start = new Date(rawData[0].begin_ts);
+        }
+
+        const fullData = this.getFullData(rawData, lastPreviousDatum, start, end);
+        this.draw(fullData);
+
+        this.loading--;
     }
 
-    draw() {
-        const fullData = this.getData();
-        const data = fullData
-            .map((d) => {
-                return {
-                    date: new Date(d.begin_ts),
-                    open: d.open || 0,
-                    high: d.high || 0,
-                    low: d.low || 0,
-                    close: d.close || 0,
-                    volume: d.bought_vol || 0
-                };
-            }).sort((a, b) => {
+    getFullData(rawData, lastPreviousDatum, start, end) {
+        start = new Date(start || rawData[0].begin_ts);
+        end = end ? new Date(end) : new Date();
+        const data = [];
+
+        if (lastPreviousDatum) {
+            lastPreviousDatum = this.lastPreviousDatum(lastPreviousDatum);
+        }
+
+        let i = 0;
+        let d = start;
+        while(moment(d).isSameOrBefore(end)) {
+            if (i < rawData.length && moment(d).isSameOrAfter(rawData[i].begin_ts)) {
+                data.push(this.mapDatumForGraph(rawData[i]));
+                lastPreviousDatum = this.lastPreviousDatum(rawData[i]);
+                i++;
+            }
+            else {
+                data.push({
+                    ...lastPreviousDatum,
+                    date: new Date(d.valueOf())
+                })
+            }
+            d = this.addSeconds(d, parseInt(this.interval, 10));
+        }
+
+        return data;
+    }
+
+    lastPreviousDatum(rawDatum) {
+        return {
+            open: rawDatum.close,
+            high: rawDatum.close,
+            low: rawDatum.close,
+            close: rawDatum.close,
+            volume: 0
+        };
+    }
+    
+    mapDatumForGraph(rawDatum) {
+        return {
+            date: new Date(rawDatum.begin_ts),
+            open: rawDatum.open,
+            high: rawDatum.high,
+            low: rawDatum.low,
+            close: rawDatum.close,
+            volume: rawDatum.bought_vol
+        };
+    }
+
+    draw(data) {
+        data = data
+            .sort((a, b) => {
                 return d3.ascending(this.accessor.d(a), this.accessor.d(b));
             });
 
@@ -137,29 +199,6 @@ export class PriceChartCustomElement {
         this.svg.selectAll("g.candlestick").datum(data).call(this.candlestick);
         this.svg.selectAll("g.x.axis").call(this.xAxis);
         this.svg.selectAll("g.y.axis").call(this.yAxis);
-    }
-
-    getData() {
-        const start = new Date(this.start || this.rawData[0].begin_ts);
-        const end = this.end ? new Date(this.end) : new Date();
-        const data = [];
-
-        let i = 0;
-        let d = start;
-        while(moment(d).isSameOrBefore(end)) {
-            if (i < this.rawData.length && moment(d).isSameOrAfter(this.rawData[i].begin_ts)) {
-                data.push(this.rawData[i]);
-                i++;
-            }
-            else {
-                data.push({
-                    begin_ts: d.toISOString()
-                })
-            }
-            d = this.addSeconds(d, parseInt(this.interval, 10));
-        }
-
-        return data;
     }
 
     addSeconds(date, seconds) {
