@@ -105,17 +105,6 @@
   }
 }
 
-nav .nav-wrapper i {
-  height: initial;
-  line-height: normal;
-}
-
-.navbar-fixed {
-  .nav-wrapper {
-    background-color: $primary;
-  }
-}
-
 .aurelia-crumbs {
   a:hover {
     text-decoration: underline !important;

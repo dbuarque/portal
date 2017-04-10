@@ -11,8 +11,6 @@ let otherResources = [
 
     'resources/custom-attributes/collapsible-card/collapsible-card',
 
-    'resources/custom-attributes/focus-input/focus-input',
-
     'resources/modals/modal/modal-anchor',
 
     'resources/display-elements/alert/alert'

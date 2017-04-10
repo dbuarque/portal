@@ -1,9 +1,34 @@
-#dashboard-user-dd {
-  min-width: 125px;
-  right: 0;
+.nav-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+
+    .brand-logo {
+        height: 64px;
+        line-height: 64px;
+        vertical-align: middle;
+
+        img {
+            height: 50px;
+            width: 50px;
+            display: inline;
+            vertical-align: middle;
+            margin-top: -5px;
+        }
+
+        .brand-desc {
+            font-size: 16px;
+            vertical-align: middle;
+        }
+    }
 }
 
-.alert-badge {
-  top: 15px;
-  right: 5px;
+nav .nav-wrapper i {
+    height: initial;
+    line-height: normal;
+}
+
+.navbar-fixed {
+    nav {
+        background-color: $accent;
+    }
 }

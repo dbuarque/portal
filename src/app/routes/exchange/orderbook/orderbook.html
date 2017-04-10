@@ -6,6 +6,7 @@
                 <div class="card-title">
                     Order Book <span show.bind="assetPair">(${assetPair.buying.code + '/' + assetPair.selling.code})</span>
                 </div>
+                <i class="fa fa-refresh right" no-collapse click.trigger="refresh()"></i>
             </div>
             <div class="card-body">
                 <i if.bind="!assetPair">Select an asset pair to get started.</i>

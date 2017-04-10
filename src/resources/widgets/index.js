@@ -4,8 +4,5 @@
 
 export default [
     'resources/widgets/form-fields/form-fields',
-    'resources/widgets/jquery-data-table/jquery-data-table',
-    'resources/widgets/md-routed-sidenav/md-routed-sidenav',
-    'resources/widgets/spinner-overlay/spinner-overlay',
-    'resources/widgets/wysiwyg/wysiwyg'
+    'resources/widgets/spinner-overlay/spinner-overlay'
 ];

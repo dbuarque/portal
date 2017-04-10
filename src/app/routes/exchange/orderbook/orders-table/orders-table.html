@@ -23,19 +23,19 @@
         <tbody>
             <tr repeat.for="order of orders">
                 <td>
-                    ${order.price & oneTime} ${assetPair.buying.code & oneTime}/${assetPair.selling.code & oneTime}
+                    ${order.price | toPrecision:5 & oneTime} ${assetPair.buying.code & oneTime}/${assetPair.selling.code & oneTime}
                 </td>
                 <td>
-                    ${order | orderAmount:'buying' & oneTime}
+                    ${order | orderAmount:'buying' | toPrecision:5 & oneTime}
                 </td>
                 <td>
-                    ${order | orderAmount: 'selling' & oneTime}
+                    ${order | orderAmount: 'selling' | toPrecision:5 & oneTime}
                 </td>
                 <td>
-                    ${orders | sumOrdersAmount:$index:'buying' & oneTime}
+                    ${orders | sumOrdersAmount:$index:'buying' | toPrecision:7 & oneTime}
                 </td>
                 <td>
-                    ${orders | sumOrdersAmount:$index:'selling' & oneTime}
+                    ${orders | sumOrdersAmount:$index:'selling' | toPrecision:7 & oneTime}
                 </td>
             </tr>
         </tbody>

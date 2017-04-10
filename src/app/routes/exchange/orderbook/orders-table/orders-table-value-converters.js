@@ -24,3 +24,9 @@ export class SumOrdersAmountValueConverter {
         }, 0);
     }
 }
+
+export class ToPrecisionValueConverter {
+    toView(num, precision) {
+        return parseFloat(num, 10).toPrecision(precision);
+    }
+}

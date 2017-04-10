@@ -44,8 +44,6 @@
                         tt-validate="manager.bind: validationManager; key.bind: formField.formKey; element-selector: .radio-list-container"
                         options.bind="formField.control.options" value.bind="formField.model[formField.property]"></radio-list>
 
-            <wysiwyg if.one-time="formField.control.type === 'wysiwyg'" value.bind="formField.model[formField.property]"></wysiwyg>
-
             <label-vc value.bind="formField.model[formField.property]" if.one-time="formField.control.type === 'label'"
                       value-converter.bind="formField.control.valueConverter"></label-vc>
 

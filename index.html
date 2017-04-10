@@ -7,7 +7,7 @@
     <base href="<%- htmlWebpackPlugin.options.metadata.baseUrl %>">
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script src="stellar-sdk.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stellar-sdk/0.7.3/stellar-sdk.js"></script>
 
     <% if (htmlWebpackPlugin.options.metadata.ENV === 'development') { %>
         <script>
@@ -22,7 +22,7 @@
         <script>
             lupoex = {
                 env: 'production',
-                api: 'https://api.lupoex.com',
+                api: 'http://api.lupoex.com',
                 horizon: 'https://horizon.stellar.org'
             };
         </script>

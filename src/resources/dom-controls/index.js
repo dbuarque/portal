@@ -9,6 +9,5 @@ export default [
     'resources/dom-controls/vanilla/select-dd/select-dd',
     'resources/dom-controls/vanilla/state-select/state-select',
     'resources/dom-controls/vanilla/country-select/country-select',
-    'resources/dom-controls/vanilla/autocomplete/autocomplete',
     'resources/dom-controls/vendor/select2/select2'
 ];
