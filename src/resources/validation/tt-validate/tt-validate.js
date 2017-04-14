@@ -280,10 +280,11 @@ export default class TtValidateCustomAttribute {
     }
 
     generateTooltipContent(result, message) {
-        if (result) {
-            this.$validatedElement.tooltipster('hide');
+        if (result || !message) {
+            this.$validatedElement.tooltipster('disable');
         }
         else {
+            this.$validatedElement.tooltipster('enable');
             let newMessage = '<i class="fa fa-warning"></i>&nbsp;' + message;
             if ( this.$validatedElement.tooltipster('content') !== newMessage) {
                 this.$validatedElement.tooltipster('content', newMessage);

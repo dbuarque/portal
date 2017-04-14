@@ -9,18 +9,31 @@
             </div>
             <div class="card-body">
                 <i show.bind="!assetPair">Select an asset pair to get started.</i>
-                <i show.bind="noData">There is no trade data for the chosen asset pair.</i>
-                <div show.bind="assetPair && !noData">
+                <div show.bind="assetPair">
                     <div class="filters row">
-                        <div class="form-field col s4">
+                        <div class="form-field col m4">
                             <label>From</label>
-                            <aurelia-flatpickr value.bind="start"></aurelia-flatpickr>
+                            <aurelia-flatpickr config.bind="{wrap:true}" value.bind="start">
+                                <div class="input-group aurelia-flatpickr">
+                                    <input type="text" class="form-control" placeholder="Select date" data-input>
+                                    <div class="btn-group">
+                                        <button class="btn btn-flat" type="button" data-clear><i class="fa fa-times"></i></button>
+                                    </div>
+                                </div>
+                            </aurelia-flatpickr>
                         </div>
-                        <div class="form-field col s4">
+                        <div class="form-field col m4">
                             <label>To</label>
-                            <aurelia-flatpickr value.bind="end"></aurelia-flatpickr>
+                            <aurelia-flatpickr config.bind="{wrap:true}" value.bind="end">
+                                <div class="input-group aurelia-flatpickr">
+                                    <input type="text" class="form-control" placeholder="Select date" data-input>
+                                    <div class="btn-group">
+                                        <button class="btn btn-flat" type="button" data-clear><i class="fa fa-times"></i></button>
+                                    </div>
+                                </div>
+                            </aurelia-flatpickr>
                         </div>
-                        <div class="form-field col s4">
+                        <div class="form-field col m4">
                             <label>Interval</label>
                             <select md-select="disabled.bind:disabled" value.two-way="interval" change.trigger="refresh()">
                                 <option value="300">5 Minutes</option>
@@ -32,8 +45,16 @@
                             </select>
                         </div>
                     </div>
-                    <div class="chart"></div>
-                    <spinner-overlay show.bind="loading > 0"></spinner-overlay>
+                    <div>
+                        <div show.bind="noData">
+                            <br>
+                            <i>There is no trade data for the chosen asset pair.</i>
+                        </div>
+                        <div show.bind="!noData" class="chart-scroll">
+                            <div class="chart"></div>
+                        </div>
+                        <spinner-overlay show.bind="loading > 0"></spinner-overlay>
+                    </div>
                 </div>
             </div>
         </div>

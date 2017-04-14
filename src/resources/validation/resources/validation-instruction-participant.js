@@ -27,8 +27,8 @@ export default class ValidationInstructionParticipant {
             this.valid = validator.validate(value);
 
             if (!this.valid) {
-                let message = validator.message.replace('@title', this.instruction.title);
-                this.notify(false,  message, manuallyTriggered, this);
+                let message = validator.message && this.instruction.title ? validator.message.replace('@title', this.instruction.title) : undefined;
+                this.notify(false, message, manuallyTriggered, this);
 
                 return false;
             }

@@ -51,3 +51,24 @@
     font-size: 14px;
     font-weight: bold;
 }
+
+.input-group {
+    display: table;
+    width: 100%;
+
+    input, .btn-group {
+        display: table-cell;
+    }
+
+    button {
+        padding-right: 10px;
+        padding-left: 10px;
+        margin-right: 0;
+    }
+}
+
+.row {
+    .col {
+        width: 100%;
+    }
+}
