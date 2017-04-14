@@ -1,5 +1,7 @@
 # Lupoex Client
 
+A live version of Lupoex can be found at: [Lupoex.com](http://lupoex.com)
+
 Lupoex (for lumen powered exchange) is the beginnings of a fully fledged trading client.
 Upon looking at the trading clients already in existence we decided to focus on the visualization part to begin with.
 Specifically, we wanted to give the users the ability to:
