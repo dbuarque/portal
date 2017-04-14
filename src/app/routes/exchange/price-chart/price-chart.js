@@ -51,7 +51,11 @@ export class PriceChartCustomElement {
 
         this.candlestick = techan.plot.candlestick()
             .xScale(this.x)
-            .yScale(this.y);
+            .yScale(this.y)
+            .width((x) => {
+                const barWidth = x.band() * 0.7;
+                return Math.max(barWidth.toFixed(0), 1);
+            });
 
         this.yVolume = d3.scaleLinear()
             .range([this.height, 0]);
