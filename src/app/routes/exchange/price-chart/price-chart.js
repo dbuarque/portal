@@ -44,7 +44,7 @@ export class PriceChartCustomElement {
         this.height = this.width * 0.5 - margin.top - margin.bottom - 30;
 
         this.x = techan.scale.financetime()
-            .range([55, this.width - 55]);
+            .range([0, this.width]);
 
         this.y = d3.scaleLinear()
             .range([this.height, 0]);
@@ -60,8 +60,8 @@ export class PriceChartCustomElement {
         this.yVolume = d3.scaleLinear()
             .range([this.height, 0]);
         
-        this.ySellingVolume = d3.scaleLinear()
-            .range([this.height, 0]);
+        //this.ySellingVolume = d3.scaleLinear()
+        //    .range([this.height, 0]);
 
         this.volume = techan.plot.volume()
             .accessor(this.candlestick.accessor())   // Set the accessor to a ohlc accessor so we get highlighted bars
@@ -75,14 +75,14 @@ export class PriceChartCustomElement {
         this.yAxis = d3.axisLeft(this.y)
             .tickFormat(this.formatNumber.bind(this));
 
-        this.yRightAxis = d3.axisRight(this.y)
-            .tickFormat(this.formatNumber.bind(this));
-
+        //this.yRightAxis = d3.axisRight(this.y)
+        //    .tickFormat(this.formatNumber.bind(this));
+//
         this.volumeAxis = d3.axisRight(this.yVolume)
             .tickFormat(this.formatNumber.bind(this));
         
-        this.volumeRightAxis = d3.axisLeft(this.ySellingVolume)
-            .tickFormat(this.formatNumber.bind(this));
+        //this.volumeRightAxis = d3.axisLeft(this.ySellingVolume)
+        //    .tickFormat(this.formatNumber.bind(this));
 
         this.ohlcAnnotation = techan.plot.axisannotation()
             .axis(this.yAxis)
@@ -90,12 +90,12 @@ export class PriceChartCustomElement {
             .width(40)
             .format(this.formatNumber.bind(this));
 
-        this.ohlcRightAnnotation = techan.plot.axisannotation()
-            .axis(this.yRightAxis)
-            .orient('right')
-            .format(this.formatNumber.bind(this))
-            .width(40)
-            .translate([this.width, 0]);
+        //this.ohlcRightAnnotation = techan.plot.axisannotation()
+        //    .axis(this.yRightAxis)
+        //    .orient('right')
+        //    .format(this.formatNumber.bind(this))
+        //    .width(40)
+        //    .translate([this.width, 0]);
 
         this.timeAnnotation = techan.plot.axisannotation()
             .axis(this.xAxis)
@@ -112,20 +112,21 @@ export class PriceChartCustomElement {
             .axis(this.volumeAxis)
             .orient("right")
             .format(this.formatNumber.bind(this))
-            .width(40);
-        
-        this.volumeRightAnnotation = techan.plot.axisannotation()
-            .axis(this.volumeRightAxis)
-            .orient("left")
-            .format(this.formatNumber.bind(this))
             .width(40)
             .translate([this.width, 0]);
+        
+        //this.volumeRightAnnotation = techan.plot.axisannotation()
+        //    .axis(this.volumeRightAxis)
+        //    .orient("left")
+        //    .format(this.formatNumber.bind(this))
+        //    .width(40)
+        //    .translate([this.width, 0]);
 
         this.crosshair = techan.plot.crosshair()
             .xScale(this.x)
             .yScale(this.y)
             .xAnnotation([this.timeAnnotation, this.timeTopAnnotation])
-            .yAnnotation([this.ohlcAnnotation, this.ohlcRightAnnotation, this.volumeAnnotation, this.volumeRightAnnotation]);
+            .yAnnotation([this.ohlcAnnotation, this.volumeAnnotation]);
             //.on("enter", this.enter.bind(this))
             //.on("out", this.out.bind(this))
             //.on("move", this.move.bind(this));
@@ -274,17 +275,17 @@ export class PriceChartCustomElement {
         const xDomain = data.map(self.accessor.d);
         const yDomain = this.ensureNoEmptyDomain(techan.scale.plot.ohlc(data, self.accessor).domain());
         const yVolumeDomain = this.ensureNoEmptyDomain(techan.scale.plot.volume(data).domain());
-        const ySellingVolumeDomain = this.ensureNoEmptyDomain(techan.scale.plot.volume(data.map(d => {
-            return {
-                ...d,
-                volume: d.sellingVolume
-            };
-        })).domain());
+        //const ySellingVolumeDomain = this.ensureNoEmptyDomain(techan.scale.plot.volume(data.map(d => {
+        //    return {
+        //        ...d,
+        //        volume: d.sellingVolume
+        //    };
+        //})).domain());
 
         self.x.domain(xDomain);
         self.y.domain(yDomain);
         self.yVolume.domain(yVolumeDomain);
-        self.ySellingVolume.domain(ySellingVolumeDomain);
+        //self.ySellingVolume.domain(ySellingVolumeDomain);
 
         self.svg.selectAll('*').remove();
 
@@ -294,23 +295,23 @@ export class PriceChartCustomElement {
             .attr("transform", "rotate(90)")
             .text("Price (" + this.assetPair.buying.code + '/' + this.assetPair.selling.code + ")");
 
-        self.svg.append('text')
-            .attr("x",self.height * 0.45)
-            .attr("y", -45)
-            .attr("transform", "rotate(90)")
-            .text("Volume (" + self.assetPair.buying.code + ")");
+        //.svg.append('text')
+        //    .attr("x",self.height * 0.45)
+        //    .attr("y", -45)
+        //    .attr("transform", "rotate(90)")
+        //    .text("Volume (" + self.assetPair.buying.code + ")");
 
-        self.svg.append('text')
-            .attr("x", self.width + self.height * 0.45)
-            .attr("y", 50)
-            .attr('transform', 'rotate(90,' + self.width + ',' + 0 + ')')
-            .text("Volume (" + self.assetPair.selling.code + ")");
+        //self.svg.append('text')
+        //    .attr("x", self.width + self.height * 0.45)
+        //    .attr("y", 50)
+        //    .attr('transform', 'rotate(90,' + self.width + ',' + 0 + ')')
+        //    .text("Volume (" + self.assetPair.selling.code + ")");
 
         self.svg.append('text')
             .attr("x", self.width + self.height * 0.45)
             .attr("y", -40)
             .attr('transform', 'rotate(90,' + self.width + ',' + 0 + ')')
-            .text("Price (" + this.assetPair.buying.code + '/' + this.assetPair.selling.code + ")");
+            .text("Volume (" + self.assetPair.buying.code + ")");
 
         //self.coordsText = self.svg.append('text')
         //    .style("text-anchor", "end")
@@ -350,10 +351,10 @@ export class PriceChartCustomElement {
             .attr("class", "y axis")
             .call(self.yAxis);
 
-        self.svg.append("g")
-            .attr("class", "y axis")
-            .attr("transform", "translate(" + self.width + ",0)")
-            .call(self.yRightAxis);
+        //self.svg.append("g")
+        //    .attr("class", "y axis")
+        //    .attr("transform", "translate(" + self.width + ",0)")
+        //    .call(self.yRightAxis);
 
         self.svg.append("g")
             .attr("class", "volume")
@@ -361,12 +362,13 @@ export class PriceChartCustomElement {
 
         self.svg.append("g")
             .attr("class", "volume axis")
+            .attr("transform", "translate(" + self.width + ",0)")
             .call(self.volumeAxis);
 
-        self.svg.append("g")
-            .attr("class", "volume axis")
-            .attr("transform", "translate(" + self.width + ",0)")
-            .call(self.volumeRightAxis);
+        //self.svg.append("g")
+        //    .attr("class", "volume axis")
+        //    .attr("transform", "translate(" + self.width + ",0)")
+        //    .call(self.volumeRightAxis);
 
         self.svg.append('g')
             .attr("class", "crosshair")
