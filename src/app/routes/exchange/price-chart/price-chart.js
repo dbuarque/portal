@@ -2,6 +2,8 @@
  * Created by istrauss on 3/19/2017.
  */
 
+import _throttle from 'lodash/throttle';
+import _find from 'lodash/find';
 import {inject} from 'aurelia-framework';
 import techan from 'techan';
 import {StellarServer, AppStore, ObserverManager, ObservationInstruction} from 'resources';
@@ -21,6 +23,7 @@ export class PriceChartCustomElement {
         this.appStore = appStore;
         this.observerManager = observerManager;
         this.tickerResource = tickerResource;
+        this.move = _throttle(this._move.bind(this), 100);
     }
 
     bind() {
@@ -126,10 +129,10 @@ export class PriceChartCustomElement {
             .xScale(this.x)
             .yScale(this.y)
             .xAnnotation([this.timeAnnotation, this.timeTopAnnotation])
-            .yAnnotation([this.ohlcAnnotation, this.volumeAnnotation]);
-            //.on("enter", this.enter.bind(this))
-            //.on("out", this.out.bind(this))
-            //.on("move", this.move.bind(this));
+            .yAnnotation([this.ohlcAnnotation, this.volumeAnnotation])
+            .on("enter", this.enter.bind(this))
+            .on("out", this.out.bind(this))
+            .on("move", this.move.bind(this));
 
         this.svg = d3.select(this.$chart[0]).append("svg")
             .attr("width", this.width + margin.left + margin.right)
@@ -205,7 +208,7 @@ export class PriceChartCustomElement {
         }
 
         const fullData = this.getFullData(rawData, lastPreviousDatum, start, end);
-        this.draw(fullData);
+        this.data = this.draw(fullData);
 
         this.loading--;
     }
@@ -281,6 +284,10 @@ export class PriceChartCustomElement {
         //        volume: d.sellingVolume
         //    };
         //})).domain());
+
+        //expand yDomains to make room for currentData table in top right
+        yDomain[1] = yDomain[1] * (1 + 50/self.height);
+        yVolumeDomain[1] = yVolumeDomain[1] * (1 + 50/self.height);
 
         self.x.domain(xDomain);
         self.y.domain(yDomain);
@@ -383,6 +390,8 @@ export class PriceChartCustomElement {
         //self.svg.selectAll("g.candlestick").datum(data).call(self.candlestick);
         //self.svg.selectAll("g.x.axis").call(self.xAxis);
         //self.svg.selectAll("g.y.axis").call(self.yAxis);
+
+        return data;
     }
 
     addSeconds(date, seconds) {
@@ -413,17 +422,21 @@ export class PriceChartCustomElement {
         return d3.format(",.3s")(num).replace('k', 'K').replace('G', 'B');
     }
 
-    //enter() {
-    //    this.coordsText.style("display", "inline");
-    //}
-//
-    //out() {
-    //    this.coordsText.style("display", "none");
-    //}
-//
-    //move(coords) {
-    //    this.coordsText.text(
-    //        this.timeAnnotation.format()(coords.x) + ", " + this.ohlcAnnotation.format()(coords.y)
-    //    );
-    //}
+    enter() {
+        this.currentData = undefined;
+    }
+
+    out() {
+        this.currentData = undefined;
+    }
+
+    _move(coords) {
+        const currentData = _find(this.data, {date: coords.x});
+        this.currentData = currentData ? Object.keys(currentData).reduce((_currentData, key) => {
+            if (key !== 'date') {
+                _currentData[key] = this.formatNumber(currentData[key]);
+            }
+            return _currentData;
+        }, {}) : undefined;
+    }
 }

@@ -3,6 +3,22 @@
     .chart-scroll {
         width: 100%;
         overflow-y: auto;
+        position: relative;
+
+        .current-data {
+            padding: 0;
+            position: absolute;
+            top: 50px;
+            right: 60px;
+            margin: 5px;
+            font-size: 10px;
+            width: 350px;
+            color: #000;
+
+            td {
+                padding: 2px;
+            }
+        }
     }
 
     .chart {
