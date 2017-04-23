@@ -6,5 +6,6 @@ import {bindable} from 'aurelia-framework';
 
 export class OrdersTableCustomElement {
     @bindable assetPair;
+    @bindable selling;
     @bindable orders = [];
 }

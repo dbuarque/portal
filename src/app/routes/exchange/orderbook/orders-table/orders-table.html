@@ -27,16 +27,16 @@
                     ${order.price | toPrecision:7 & oneTime} ${assetPair.buying.code & oneTime}/${assetPair.selling.code & oneTime}
                 </td>
                 <td>
-                    ${order | orderAmount:'buying' | toPrecision:7 & oneTime}
+                    ${order | orderAmount:!selling:!selling | toPrecision:7 & oneTime}
                 </td>
                 <td>
-                    ${order | orderAmount: 'selling' | toPrecision:7 & oneTime}
+                    ${order | orderAmount:selling:!selling | toPrecision:7 & oneTime}
                 </td>
                 <td>
-                    ${orders | sumOrdersAmount:$index:'buying' | toPrecision:7 & oneTime}
+                    ${orders | sumOrdersAmount:$index:!selling:!selling | toPrecision:7 & oneTime}
                 </td>
                 <td>
-                    ${orders | sumOrdersAmount:$index:'selling' | toPrecision:7 & oneTime}
+                    ${orders | sumOrdersAmount:$index:selling:!selling | toPrecision:7 & oneTime}
                 </td>
             </tr>
             </tbody>
