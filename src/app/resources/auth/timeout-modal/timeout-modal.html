@@ -1,0 +1,13 @@
+<template>
+    <div style="text-align: center" class="alert-modal-text alert">
+        <strong>
+            <i class="fa fa-lg fa-exclamation-triangle text-danger"></i>
+        </strong>
+        &nbsp;
+        Due to inactivity, you will be logged out in: <strong class="text-danger">${counter}</strong>
+        <br><br>
+        <div class="text-center">
+            <button class="btn btn-default" type="button" click.trigger="stayLoggedIn()">Keep me logged in</button>
+        </div>
+    </div>
+</template>

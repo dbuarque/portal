@@ -4,7 +4,8 @@
 
 
 const actionTitleMap = {
-    login: 'Login'
+    login: 'Login',
+    authenticate: 'Authenticate'
 };
 
 export class LoginRegisterActionTitleValueConverter {

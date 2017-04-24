@@ -10,7 +10,6 @@ export class LoginSignUpCustomElement {
 
     @bindable initialMessage;
     @bindable({defaultBindingMode: bindingMode.twoWay}) action;
-    mode = 'public';
 
     alertConfig = {
         dismissible: false
@@ -38,5 +37,19 @@ export class LoginSignUpCustomElement {
         this.loading++;
 
         const keyPair = this.stellarServer.sdk.Keypair.fromPublicKey(this.publicKey);
+
+        this.loading--;
+    }
+
+    authenticate() {
+        if (!this.validationManager.validate()) {
+            return;
+        }
+
+        this.loading++;
+
+        const keyPair = this.stellarServer.sdk.Keypair.fromPublicKey(this.publicKey);
+
+        this.loading--;
     }
 }
