@@ -1,24 +1,5 @@
 /**
- * Created by istrauss on 3/9/2016.
+ * Created by istrauss on 4/24/2017.
  */
 
-import domControls from './dom-controls/index';
-import widgets from './widgets/index';
-import valueConverters from './value-converters/index';
-
-let otherResources = [
-    'resources/validation/tt-validate/tt-validate',
-
-    'resources/custom-attributes/collapsible-card/collapsible-card',
-
-    'resources/modals/modal/modal-anchor',
-
-    'resources/display-elements/alert/alert'
-];
-
-let resources = [domControls, widgets, valueConverters, otherResources]
-    .reduce((resourceArr, subResources) => resourceArr.concat(subResources), []);
-
-export function configure(config) {
-    config.globalResources(resources);
-}
+export {configure} from './resources';

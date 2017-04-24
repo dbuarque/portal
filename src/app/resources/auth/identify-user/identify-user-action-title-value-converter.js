@@ -8,7 +8,7 @@ const actionTitleMap = {
     authenticate: 'Authenticate'
 };
 
-export class LoginRegisterActionTitleValueConverter {
+export class IdentifyUserActionTitleValueConverter {
     toView(action) {
         return actionTitleMap[action] || 'Login';
     }

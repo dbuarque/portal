@@ -14,17 +14,17 @@ export class TimeoutModal {
         this.intervalId = window.setInterval(() => {
             this.counter--;
             if (this.counter === 0) {
-                this.autoLogout();
+                this.tooLate();
             }
         }, 1000);
     }
 
-    autoLogout() {
+    tooLate() {
         window.clearInterval(this.intervalId);
         this.modalVM.dismiss();
     }
 
-    stayLoggedIn() {
+    noDontDoThat() {
         window.clearInterval(this.intervalId);
         this.modalVM.close();
     }

@@ -6,7 +6,7 @@ import {inject} from 'aurelia-framework';
 import {appActionTypes} from './app-action-types';
 import {StellarServer} from 'resources';
 
-const {UPDATE_KEYPAIR, UPDATE_ACCOUNT} = appActionTypes;
+const {UPDATE_ACCOUNT} = appActionTypes;
 
 @inject(StellarServer)
 export class AppActionCreators {
@@ -14,31 +14,16 @@ export class AppActionCreators {
         this.stellarServer = stellarServer;
     }
 
-    updateIdentity(keyPair) {
+    updateAccount(publicKey) {
         return async (dispatch, getState) => {
-            dispatch(this.updateKeyPair(keyPair));
+            const account = publicKey ? await this.stellarServer.loadAccount(publicKey) : undefined;
 
-            const account = keyPair ? await this.stellarServer.loadAccount(keyPair.publicKey()) : undefined;
-
-            dispatch(this.updateAccount(account));
-        };
-    }
-
-    updateKeyPair(keyPair) {
-        return {
-            type: UPDATE_KEYPAIR,
-            payload: {
-                keyPair
-            }
-        };
-    }
-
-    updateAccount(account) {
-        return {
-            type: UPDATE_ACCOUNT,
-            payload: {
-                account
-            }
+            dispatch({
+                type: UPDATE_ACCOUNT,
+                payload: {
+                    account
+                }
+            });
         };
     }
 }

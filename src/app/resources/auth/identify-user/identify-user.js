@@ -4,9 +4,10 @@
 
 import {inject, bindable, bindingMode} from 'aurelia-framework';
 import {EventHelper, ValidationManager, StellarServer} from 'resources';
+import {AppActionCreators} from '../../../app-action-creators';
 
-@inject(Element, ValidationManager, StellarServer)
-export class LoginSignUpCustomElement {
+@inject(Element, ValidationManager, StellarServer, AppActionCreators)
+export class IdentifyUserCustomElement {
 
     @bindable initialMessage;
     @bindable({defaultBindingMode: bindingMode.twoWay}) action;
@@ -15,10 +16,11 @@ export class LoginSignUpCustomElement {
         dismissible: false
     };
 
-    constructor(element, validationManager, stellarServer) {
+    constructor(element, validationManager, stellarServer, appActionCreators) {
         this.element = element;
         this.validationManager = validationManager;
         this.stellarServer = stellarServer;
+        this.appActionCreators = appActionCreators;
     }
 
     bind() {
@@ -36,7 +38,7 @@ export class LoginSignUpCustomElement {
 
         this.loading++;
 
-        const keyPair = this.stellarServer.sdk.Keypair.fromPublicKey(this.publicKey);
+        this.appStore.dispatch(this.appActionCreators.updateAccount(this.publicKey));
 
         this.loading--;
     }

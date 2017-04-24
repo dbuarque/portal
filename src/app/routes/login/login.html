@@ -1,21 +1,21 @@
 <template>
-    <require from="./login-sign-up/login-sign-up"></require>
-    <require from="./login-sign-up/login-sign-up-action-title-value-converter"></require>
+    <require from="../../resources/auth/identify-user/identify-user"></require>
+    <require from="../../resources/auth/identify-user/identify-user-action-title-value-converter"></require>
     <div>
         <alert if.bind="devAlertConfig" config.bind="devAlertConfig"></alert>
         <br>
     </div>
     <div class="login">
         <div class="login-container">
-            <div class="card" style="padding: 15px;">
+            <div class="card">
                 <div class="card-content">
                     <div class="card-heading">
                         <div class="card-title">
-                            ${action | loginRegisterActionTitle}
+                            ${action | identifyUserActionTitle}
                         </div>
                     </div>
                     <div class="card-body">
-                        <login-sign-up initial-message.bind="initialMessage" action.bind="action" login.trigger="onLoginSuccess($event)"></login-sign-up>
+                        <identify-user initial-message.bind="initialMessage" action.bind="action" login.trigger="onLoginSuccess($event)"></identify-user>
                     </div>
                 </div>
             </div>

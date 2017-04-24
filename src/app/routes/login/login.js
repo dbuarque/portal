@@ -17,7 +17,6 @@ export class Login {
     }
 
     onLoginSuccess(evt) {
-        this.appStore.dispatch(this.appActionCreators.updateIdentity(evt.detail));
         this.router.parent.navigateToRoute(this.redirect.route, this.redirect.params);
     }
 
