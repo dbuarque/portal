@@ -2,7 +2,7 @@
  * Created by istrauss on 1/4/2017.
  */
 
-import {ReducerHelper} from 'resources';
+import {ReducerHelper} from 'global-resources';
 import {namespace, accountActionTypes} from './account-action-types';
 
 //const {} = accountActionTypes;

@@ -3,7 +3,7 @@
  */
 
 import {inject, Container} from 'aurelia-dependency-injection';
-import {ModalService} from 'resources';
+import {ModalService} from 'global-resources';
 import JsonClient from '../clients/json-client';
 import BaseResource from './base-resource';
 

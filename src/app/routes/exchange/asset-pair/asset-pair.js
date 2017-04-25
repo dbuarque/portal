@@ -3,7 +3,7 @@
  */
 
 import {inject} from 'aurelia-framework';
-import {AppStore} from 'resources';
+import {AppStore} from 'global-resources';
 import {ExchangeActionCreators} from '../exchange-action-creators';
 
 @inject(AppStore, ExchangeActionCreators)

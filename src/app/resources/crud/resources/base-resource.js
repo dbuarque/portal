@@ -2,7 +2,7 @@
  * Created by istrauss on 3/23/2016.
  */
 
-import {AlertModalService} from 'resources';
+import {AlertModalService} from 'global-resources';
 
 export default class BaseResource {
     constructor(container, config) {

@@ -20,7 +20,7 @@ module.exports = {
         },
         "loose": true,
         "modules": process.env.BABEL_TARGET === 'node' ? 'commonjs' : false,
-        "useBuiltIns": true
+        "useBuiltIns": "usage"
       }
     ]
   ]

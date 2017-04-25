@@ -1,20 +1,58 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
     <title><%- htmlWebpackPlugin.options.metadata.title %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <base href="<%- htmlWebpackPlugin.options.metadata.baseUrl %>">
+
+    <style>
+        .splash {
+            text-align: center;
+            margin: 10% 0 0 0;
+            box-sizing: border-box;
+        }
+
+        .splash .message {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        .splash .fa-spinner {
+            text-align: center;
+            display: inline-block;
+            margin-top: 10px;
+        }
+    </style>
+
     <!-- imported CSS are concatenated and added automatically -->
-  </head>
-  <body aurelia-app="main">
-    <div class="splash">
-      <div class="message" style="color: #5b6a72;">Lupoex</div>
-      <i class="fa fa-spinner fa-spin" style="color: #08b5e5;"></i>
-    </div>
-    <% if (htmlWebpackPlugin.options.metadata.server) { %>
-    <!-- Webpack Dev Server reload -->
-    <script src="/webpack-dev-server.js"></script>
+
+    <% if (!htmlWebpackPlugin.options.metadata.production) { %>
+    <script>
+        lupoex = {
+            env: 'development',
+            api: 'http://localhost:1337',
+            horizon: 'https://horizon.stellar.org'
+        };
+    </script>
     <% } %>
-  </body>
+    <% if (htmlWebpackPlugin.options.metadata.production) { %>
+    <script>
+        lupoex = {
+            env: 'production',
+            api: 'http://api.lupoex.com',
+            horizon: 'https://horizon.stellar.org'
+        };
+    </script>
+    <% } %>
+</head>
+<body aurelia-app="main">
+<div class="splash">
+    <div class="message" style="color: #5b6a72;">LuPoEx</div>
+    <i class="fa fa-refresh fa-spin fa-2x" style="color: #08b5e5;"></i>
+</div>
+<% if (htmlWebpackPlugin.options.metadata.server) { %>
+<!-- Webpack Dev Server reload -->
+<script src="/webpack-dev-server.js"></script>
+<% } %>
+</body>
 </html>

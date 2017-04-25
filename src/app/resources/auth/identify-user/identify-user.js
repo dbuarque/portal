@@ -3,7 +3,7 @@
  */
 
 import {inject, bindable, bindingMode} from 'aurelia-framework';
-import {EventHelper, ValidationManager, StellarServer} from 'resources';
+import {EventHelper, ValidationManager, StellarServer} from 'global-resources';
 import {AppActionCreators} from '../../../app-action-creators';
 
 @inject(Element, ValidationManager, StellarServer, AppActionCreators)

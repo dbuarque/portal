@@ -9,23 +9,29 @@ export * from './validation/validation';
 export * from './value-converters/value-converters';
 export * from './redux/redux';
 
+import {PLATFORM} from 'aurelia-pal';
 import domControls from './dom-controls/dom-controls';
 import widgets from './widgets/widgets';
 import valueConverters from './value-converters/value-converters';
+import validation from './validation/validation';
+//import {CollapsibleCardCustomAttribute} from './custom-attributes/collapsible-card/collapsible-card';
+//import {ModalAnchorCustomElement} from './modals/modal/modal-anchor';
+//import {AlertCustomElement} from './display-elements/alert/alert';
 
-let otherResources = [
-    'resources/validation/tt-validate/tt-validate',
+//let otherResources = [
+//    './custom-attributes/collapsible-card/collapsible-card',
+//
+//    './modals/modal/modal-anchor',
+//
+//    './display-elements/alert/alert'
+//];
 
-    'resources/custom-attributes/collapsible-card/collapsible-card',
-
-    'resources/modals/modal/modal-anchor',
-
-    'resources/display-elements/alert/alert'
-];
-
-let resources = [domControls, widgets, valueConverters, otherResources]
-    .reduce((resourceArr, subResources) => resourceArr.concat(subResources), []);
+let resources = domControls
+    .concat(widgets)
+    .concat(valueConverters)
+    .concat(validation)
+    .map(r => PLATFORM.moduleName(r));
 
 export function configure(config) {
-    config.globalResources(resources);
+    config.globalResources.apply(config, resources);
 }

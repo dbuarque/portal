@@ -31,7 +31,8 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
         modules: [srcDir, 'node_modules'],
         alias: {
             app: path.resolve( __dirname, 'src', 'app'),
-            resources: path.resolve( __dirname, 'src', 'resources', 'resources'),
+            //'resources': path.resolve( __dirname, 'src', 'resources'),
+            'global-resources': path.resolve( __dirname, 'src', 'resources', 'resources'),
             'app-resources': path.resolve( __dirname, 'src', 'app', 'resources', 'resources'),
             '$': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.js'),
             'jquery': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.js')
@@ -95,7 +96,11 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
         ]
     },
     plugins: [
-        new AureliaPlugin(),
+        new AureliaPlugin(
+            {
+                svg: false
+            }
+        ),
         new ProvidePlugin({
             'Promise': 'bluebird'
             //'$': 'jquery',
@@ -110,7 +115,7 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
             } : undefined,
             metadata: {
                 // available in index.ejs //
-                title, server, baseUrl
+                title, server, baseUrl, production
             }
         }),
         ...when(extractCss, new ExtractTextPlugin({

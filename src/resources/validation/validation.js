@@ -4,3 +4,9 @@
 
 export {default as ValidationManager} from './validation-manager';
 export * from './resources/validators/validators';
+
+import {TtValidateCustomAttribute} from './tt-validate/tt-validate';
+
+export default [
+    './validation/tt-validate/tt-validate'
+];

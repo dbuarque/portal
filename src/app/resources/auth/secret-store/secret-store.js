@@ -3,7 +3,7 @@
  */
 
 import {inject} from 'aurelia-framework';
-import {ModalService} from 'resources';
+import {ModalService} from 'global-resources';
 import {InactivityTracker} from '../inactivity-tracker';
 
 @inject(ModalService, InactivityTracker)

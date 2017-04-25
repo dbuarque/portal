@@ -52,7 +52,7 @@
     "babel-plugin-transform-es2015-shorthand-properties": "^7.0.0-alpha.9",
     "babel-plugin-transform-object-rest-spread": "^7.0.0-alpha.9",
     "babel-polyfill": "next",
-    "babel-preset-env": "^1.4.0",
+    "babel-preset-env": "^2.0.0-alpha.7",
     "babel-register": "next",
     "babel7-jest": "github:niieani/babel7-jest",
     "copy-webpack-plugin": "^4.0.1",
@@ -89,7 +89,9 @@
   },
   "dependencies": {
     "aurelia-bootstrapper": "^2.1.1",
+    "aurelia-crumbs": "^1.0.1",
     "aurelia-fetch-client": "^1.1.2",
+    "aurelia-flatpickr": "^1.2.3",
     "aurelia-framework": "^1.1.2",
     "aurelia-history-browser": "^1.0.0",
     "aurelia-loader-webpack": "^2.1.0",
