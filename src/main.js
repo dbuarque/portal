@@ -8,7 +8,7 @@ import thunk from 'redux-thunk';
 
 import * as Bluebird from 'bluebird';
 Bluebird.config({
-    warnings: false
+    warnings: { wForgottenReturn: false }
 });
 
 import './third-party';
@@ -49,5 +49,5 @@ export async function configure(aurelia) {
 
     AppStore.createAndRegister(rootReducer, enhancer);
 
-    aurelia.setRoot('app/app', document.body);
+    await aurelia.setRoot(PLATFORM.moduleName('app'));
 }
