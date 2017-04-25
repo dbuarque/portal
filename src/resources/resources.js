@@ -2,6 +2,8 @@
  * Created by istrauss on 3/22/2016.
  */
 
+import {PLATFORM} from 'aurelia-pal';
+
 export * from './helpers/helpers';
 export * from './workers/workers';
 export * from './modals/modals';
@@ -9,29 +11,23 @@ export * from './validation/validation';
 export * from './value-converters/value-converters';
 export * from './redux/redux';
 
-import {PLATFORM} from 'aurelia-pal';
-import domControls from './dom-controls/dom-controls';
-import widgets from './widgets/widgets';
-import valueConverters from './value-converters/value-converters';
-import validation from './validation/validation';
-//import {CollapsibleCardCustomAttribute} from './custom-attributes/collapsible-card/collapsible-card';
-//import {ModalAnchorCustomElement} from './modals/modal/modal-anchor';
-//import {AlertCustomElement} from './display-elements/alert/alert';
-
-//let otherResources = [
-//    './custom-attributes/collapsible-card/collapsible-card',
-//
-//    './modals/modal/modal-anchor',
-//
-//    './display-elements/alert/alert'
-//];
-
-let resources = domControls
-    .concat(widgets)
-    .concat(valueConverters)
-    .concat(validation)
-    .map(r => PLATFORM.moduleName(r));
-
 export function configure(config) {
-    config.globalResources.apply(config, resources);
+    config.globalResources(
+        PLATFORM.moduleName('./dom-controls/vanilla/radio-list/radio-list'),
+        PLATFORM.moduleName('./dom-controls/vanilla/label-vc/label-vc'),
+        PLATFORM.moduleName('./dom-controls/vanilla/checkbox-list/checkbox-list'),
+        PLATFORM.moduleName('./dom-controls/vanilla/select-dd/select-dd'),
+        PLATFORM.moduleName('./dom-controls/vanilla/state-select/state-select'),
+        PLATFORM.moduleName('./dom-controls/vanilla/country-select/country-select'),
+        PLATFORM.moduleName('./dom-controls/vendor/select2/select2'),
+        PLATFORM.moduleName('./widgets/form-fields/form-fields'),
+        PLATFORM.moduleName('./widgets/spinner-overlay/spinner-overlay'),
+        PLATFORM.moduleName('./value-converters/object'),
+        PLATFORM.moduleName('./value-converters/string'),
+        PLATFORM.moduleName('./value-converters/date-time'),
+        PLATFORM.moduleName('./validation/tt-validate/tt-validate'),
+        PLATFORM.moduleName('./custom-attributes/collapsible-card/collapsible-card'),
+        PLATFORM.moduleName('./modals/modal/modal-anchor'),
+        PLATFORM.moduleName('./display-elements/alert/alert')
+    );
 }

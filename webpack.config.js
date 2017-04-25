@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const { AureliaPlugin } = require('aurelia-webpack-plugin');
+const { AureliaPlugin, ModuleDependenciesPlugin  } = require('aurelia-webpack-plugin');
 const { optimize: { CommonsChunkPlugin }, ProvidePlugin } = require('webpack');
 
 // config helpers:
@@ -125,9 +125,21 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
         ...when(production, new CommonsChunkPlugin({
             name: ['common']
         })),
-        ...when(production, new CopyWebpackPlugin([
+        new ModuleDependenciesPlugin({
+            "aurelia-materialize-bridge": [
+                "./dropdown/dropdown",
+                "./progress/progress",
+                "./radio/radio",
+                "./select/select",
+                "./switch/switch",
+                "./tabs/tabs",
+                "./tooltip/tooltip",
+                "./waves/waves"
+            ]
+        }),
+        new CopyWebpackPlugin([
             { from: 'favicon.ico', to: 'favicon.ico' },
             { from: 'assets', to: 'assets'}
-        ]))
+        ])
     ]
 });

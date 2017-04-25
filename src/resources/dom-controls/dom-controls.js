@@ -9,13 +9,3 @@ import {SelectDDCustomElement} from './vanilla/select-dd/select-dd';
 import {StateSelectCustomElement} from './vanilla/state-select/state-select';
 import {CountrySelectCustomElement} from './vanilla/country-select/country-select';
 import {Select2CustomElement} from './vendor/select2/select2';
-
-export default [
-    './dom-controls/vanilla/radio-list/radio-list',
-    './dom-controls/vanilla/label-vc/label-vc',
-    './dom-controls/vanilla/checkbox-list/checkbox-list',
-    './dom-controls/vanilla/select-dd/select-dd',
-    './dom-controls/vanilla/state-select/state-select',
-    './dom-controls/vanilla/country-select/country-select',
-    './dom-controls/vendor/select2/select2'
-];

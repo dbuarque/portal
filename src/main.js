@@ -21,9 +21,19 @@ if (Waves) {
 export async function configure(aurelia) {
     aurelia.use
         .standardConfiguration()
-        //.plugin(PLATFORM.moduleName('aurelia-flatpickr'))
-        //.plugin(PLATFORM.moduleName('aurelia-crumbs'))
-        //.plugin(PLATFORM.moduleName('aurelia-materialize-bridge'), bridge => bridge.useAll() )
+        .plugin(PLATFORM.moduleName('aurelia-flatpickr'))
+        .plugin(PLATFORM.moduleName('aurelia-crumbs'))
+        .plugin(PLATFORM.moduleName('aurelia-materialize-bridge'), bridge => {
+            return bridge
+                .useDropdown()
+                .useProgress()
+                .useRadio()
+                .useSelect()
+                .useSwitch()
+                .useTabs()
+                .useTooltip()
+                .useWaves();
+        } )
         .feature(PLATFORM.moduleName('resources/index'));
 
     if (window.lupoex.env === 'development') {
