@@ -38,7 +38,7 @@ export class IdentifyUserCustomElement {
 
         this.loading++;
 
-        this.appStore.dispatch(this.appActionCreators.updateAccount(this.publicKey));
+        this.appStore.dispatch(this.appActionCreators.setAccount(this.publicKey));
 
         this.loading--;
     }

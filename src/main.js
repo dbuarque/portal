@@ -34,7 +34,8 @@ export async function configure(aurelia) {
                 .useTooltip()
                 .useWaves();
         } )
-        .feature(PLATFORM.moduleName('resources/index'));
+        .feature(PLATFORM.moduleName('resources/index'))
+        .feature(PLATFORM.moduleName('app/resources/index'));
 
     if (window.lupoex.env === 'development') {
         aurelia.use

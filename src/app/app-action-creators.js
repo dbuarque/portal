@@ -14,16 +14,43 @@ export class AppActionCreators {
         this.stellarServer = stellarServer;
     }
 
-    updateAccount(publicKey) {
+    setAccount(publicKey) {
         return async (dispatch, getState) => {
-            const account = publicKey ? await this.stellarServer.loadAccount(publicKey) : undefined;
+            let account = getState().account;
 
             dispatch({
                 type: UPDATE_ACCOUNT,
                 payload: {
-                    account
+                    account: {
+                        ...account,
+                        updating: true
+                    }
+                }
+            });
+
+            account = publicKey ? await this.stellarServer.loadAccount(publicKey) : undefined;
+
+            dispatch({
+                type: UPDATE_ACCOUNT,
+                payload: {
+                    account: {
+                        ...account,
+                        updating: false
+                    }
                 }
             });
         };
+    }
+
+    updateAccount() {
+        return (dispatch, getState) => {
+            const account = getState().account;
+
+            if (!account) {
+                return;
+            }
+
+            dispatch(this.setAccount(account.id));
+        }
     }
 }

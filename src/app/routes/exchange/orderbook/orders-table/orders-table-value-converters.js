@@ -3,26 +3,29 @@
  */
 
 import {inject} from 'aurelia-framework'
+import {FormatNumberValueConverter} from 'app-resources';
 
 export class OrderAmountValueConverter {
     toView(o, selling, flip) {
         const amount = parseFloat(o.amount, 10);
         const ratio = flip ? o.price_r.d / o.price_r.n : o.price_r.n / o.price_r.d;
-        const result = selling ? amount : amount * ratio;
-        return parseFloat(result.toFixed(6));
+        return selling ? amount : amount * ratio;
     }
 }
 
-@inject(OrderAmountValueConverter)
+@inject(OrderAmountValueConverter, FormatNumberValueConverter)
 export class SumOrdersAmountValueConverter {
-    constructor(orderAmount) {
+    constructor(orderAmount, formatNumber) {
         this.orderAmount = orderAmount;
+        this.formatNumber = formatNumber;
     }
     toView(orders, toIndex, selling, flip) {
-        return orders.slice(0, toIndex + 1).reduce((result, o) => {
+        const sum = orders.slice(0, toIndex + 1).reduce((result, o) => {
             const orderAmount = this.orderAmount.toView(o, selling, flip);
             return result + orderAmount;
         }, 0);
+
+        return this.formatNumber(sum);
     }
 }
 

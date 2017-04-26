@@ -7,9 +7,9 @@ import _find from 'lodash/find';
 import {inject} from 'aurelia-framework';
 import techan from 'techan';
 import {StellarServer, AppStore, ObserverManager, ObservationInstruction} from 'global-resources';
-import {TickerResource} from 'app-resources';
+import {TickerResource, FormatNumberValueConverter} from 'app-resources';
 
-@inject(Element, StellarServer, AppStore, ObserverManager, TickerResource)
+@inject(Element, StellarServer, AppStore, ObserverManager, TickerResource, FormatNumberValueConverter)
 export class PriceChartCustomElement {
 
     loading = 0;
@@ -17,12 +17,14 @@ export class PriceChartCustomElement {
     interval = "86400";
     noData = false;
 
-    constructor(element, stellarServer, appStore, observerManager, tickerResource) {
+    constructor(element, stellarServer, appStore, observerManager, tickerResource, formatNumber) {
         this.element = element;
         this.stellarServer = stellarServer;
         this.appStore = appStore;
         this.observerManager = observerManager;
         this.tickerResource = tickerResource;
+        this.formatNumber = formatNumber;
+
         this.move = _throttle(this._move.bind(this), 100);
     }
 
@@ -413,13 +415,6 @@ export class PriceChartCustomElement {
         return domainArr[0] === 0 ?
             [0, 1] :
             [domainArr[0] * 0.5, domainArr[0] * 1.5];
-    }
-
-    formatNumber(num) {
-        if (num < 1) {
-            return num.toPrecision(3);
-        }
-        return d3.format(",.3s")(num).replace('k', 'K').replace('G', 'B');
     }
 
     enter() {
