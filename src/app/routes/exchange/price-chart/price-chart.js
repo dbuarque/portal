@@ -273,13 +273,13 @@ export class PriceChartCustomElement {
 
         self.svg.append('text')
             .attr("x",self.height * 0.45)
-            .attr("y", 5 + yDomainWidth * 10)
+            .attr("y", 20 + yDomainWidth * 7)
             .attr("transform", "rotate(90)")
             .text("Price (" + this.assetPair.buying.code + '/' + this.assetPair.selling.code + ")");
 
         self.svg.append('text')
             .attr("x", self.width + self.height * 0.45)
-            .attr("y", -(5 + yVolumeDomainWidth * 10))
+            .attr("y", -(20 + yVolumeDomainWidth * 7))
             .attr('transform', 'rotate(90,' + self.width + ',' + 0 + ')')
             .text("Volume (" + self.assetPair.selling.code + ")");
 
