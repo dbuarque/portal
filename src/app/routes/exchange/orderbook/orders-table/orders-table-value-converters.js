@@ -25,7 +25,7 @@ export class SumOrdersAmountValueConverter {
             return result + orderAmount;
         }, 0);
 
-        return this.formatNumber(sum);
+        return this.formatNumber.toView(sum);
     }
 }
 

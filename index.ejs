@@ -18,13 +18,16 @@
         }
 
         .splash .message {
+            font-size: 30px;
+            color: #5b6a72;
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
 
-        .splash .fa-spinner {
+        .splash .fa-refresh {
             text-align: center;
             display: inline-block;
-            margin-top: 10px;
+            margin-top: 5px;
+            color: #08b5e5;
         }
     </style>
 
@@ -51,8 +54,8 @@
 </head>
 <body aurelia-app="main">
 <div class="splash">
-    <div class="message" style="color: #5b6a72;">LuPoEx</div>
-    <i class="fa fa-refresh fa-spin fa-2x" style="color: #08b5e5;"></i>
+    <div class="message">LuPoEx</div>
+    <i class="fa fa-refresh fa-spin fa-2x"></i>
 </div>
 <% if (htmlWebpackPlugin.options.metadata.server) { %>
 <!-- Webpack Dev Server reload -->

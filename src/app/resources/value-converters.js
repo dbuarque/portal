@@ -3,7 +3,14 @@
  */
 
 export class FormatNumberValueConverter {
-    toView(num, sigFigs = 5) {
+    toView(num, sigFigs = 8) {
+        sigFigs = parseInt(sigFigs);
+
+        //Make sure sigFigs meets requirements of toPrecision()
+        if (isNaN(sigFigs) || sigFigs < 1 || sigFigs > 21) {
+            sigFigs = 8;
+        }
+
         if (num < 1) {
             return num.toPrecision(sigFigs);
         }
