@@ -18,6 +18,8 @@ export class AppActionCreators {
         return async (dispatch, getState) => {
             let account = getState().account;
 
+            account = account || {id: publicKey};
+
             dispatch({
                 type: UPDATE_ACCOUNT,
                 payload: {
@@ -30,13 +32,14 @@ export class AppActionCreators {
 
             account = publicKey ? await this.stellarServer.loadAccount(publicKey) : undefined;
 
+            if (account) {
+                account.updating = false;
+            }
+
             dispatch({
                 type: UPDATE_ACCOUNT,
                 payload: {
-                    account: {
-                        ...account,
-                        updating: false
-                    }
+                    account
                 }
             });
         };

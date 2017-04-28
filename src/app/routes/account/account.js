@@ -3,19 +3,21 @@
  */
 
 import {inject} from 'aurelia-framework';
-import {AccountConfig} from './account-config';
+import {Redirect} from 'aurelia-router';
+import {AppStore} from 'global-resources';
 
-@inject(AccountConfig)
+@inject(AppStore)
 export class Account {
 
-    constructor(accountConfig) {
-        this.config = accountConfig;
+    constructor(appStore) {
+        this.appStore = appStore;
     }
 
-    configureRouter(routerConfig, router) {
-        this.router = router;
+    canActivate() {
+        const account = this.appStore.getState().account;
 
-        routerConfig.options.pushState = true;
-        routerConfig.map(this.config.routes);
+        if (!account || !account.id) {
+            return new Redirect('login');
+        }
     }
 }

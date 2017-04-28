@@ -14,10 +14,7 @@ export const app = ReducerHelper.combineReducersProvideRootState({
 });
 
 function account(state, action) {
-    return action.type === UPDATE_ACCOUNT ? {
-        ...state,
-        account: action.payload.account
-    } : state;
+    return action.type === UPDATE_ACCOUNT ? action.payload.account : state;
 }
 
 

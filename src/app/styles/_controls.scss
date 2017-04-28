@@ -3,6 +3,10 @@ input:not([type]), input[type=text], input[type=password], input[type=email], in
     margin: 0;
 }
 
+.dropdown-content li > a > i {
+    margin: 0 5px 0 0;
+}
+
 
 .select2-custom-element {
     border-bottom: 1px solid #9e9e9e;

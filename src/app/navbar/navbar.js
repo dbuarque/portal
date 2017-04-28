@@ -26,7 +26,7 @@ export class Navbar {
     updateFromStore() {
         const newState = this.appStore.getState();
         this.account = newState.account;
-        this.firstFive = this.account ? this.account.id.slice(0, 5) : null;
+        this.firstFive = this.account && this.account.id ? this.account.id.slice(0, 5) : null;
     }
 
     login() {
@@ -38,7 +38,6 @@ export class Navbar {
     }
 
     goToProfile() {
-        const route = this.router.generate('account') + '/profile';
-        let profileUrl = this.router.navigate(route);
+        this.router.navigateToRoute('account');
     }
 }

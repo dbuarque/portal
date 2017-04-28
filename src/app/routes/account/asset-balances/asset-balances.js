@@ -4,13 +4,14 @@
 
 import {inject, bindable} from 'aurelia-framework';
 import {AppStore} from 'global-resources';
-//import Config from './';
+import Config from './asset-balances-config';
 
-@inject(AppStore)
-export class Assets {
+@inject(Config, AppStore)
+export class AssetBalancesCustomElement {
 
-    constructor(appStore) {
-        this.config = appStore;
+    constructor(config, appStore) {
+        this.config = config;
+        this.appStore = appStore;
     }
 
     bind() {
