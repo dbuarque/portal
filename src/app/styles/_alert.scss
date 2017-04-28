@@ -15,3 +15,17 @@
         }
     }
 }
+
+.toast {
+    &.error {
+        background-color: $error;
+    }
+
+    &.primary, &.success {
+        background-color: $primary;
+    }
+
+    &.alert-info {
+        background-color: $accent;
+    }
+}

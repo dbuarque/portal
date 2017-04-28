@@ -5,13 +5,15 @@
 import {inject, bindable} from 'aurelia-framework';
 import {AppStore} from 'global-resources';
 import Config from './asset-balances-config';
+import {AppActionCreators} from '../../../app-action-creators';
 
-@inject(Config, AppStore)
+@inject(Config, AppStore, AppActionCreators)
 export class AssetBalancesCustomElement {
 
-    constructor(config, appStore) {
+    constructor(config, appStore, appActionCreators) {
         this.config = config;
         this.appStore = appStore;
+        this.appActionCreators = appActionCreators;
     }
 
     bind() {

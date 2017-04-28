@@ -25,7 +25,7 @@ export default class AssetBalancesConfig {
                         searchable: true
                     },
                     {
-                        title: 'Code',
+                        title: 'Issuer',
                         data: 'asset_issuer',
                         render(cellData, type, rowData) {
                             return rowData.asset_type === 'native' ? '' : rowData.asset_issuer;

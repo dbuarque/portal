@@ -2,14 +2,17 @@ import {PLATFORM} from 'aurelia-pal';
 //import URI from 'urijs';
 import {AppConfig} from './app-config';
 import {inject} from 'aurelia-framework';
-import {JsonClient} from 'app-resources';
+import {JsonClient, AccountSyncer} from 'app-resources';
 
-@inject(AppConfig, JsonClient)
+@inject(AppConfig, JsonClient, AccountSyncer)
 export class App {
 
-    constructor(appConfig, jsonClient) {
+    constructor(appConfig, jsonClient, accountSyncer) {
         this.config = appConfig;
         this.jsonClient = jsonClient;
+        this.accountSyncer = accountSyncer;
+
+        this.accountSyncer.init();
     }
 
     configureRouter(routerConfig, router) {

@@ -7,9 +7,10 @@ html, body {
   background-color: $background;
 
   .page-wrapper {
-      padding: 20px 0;
+      padding: 20px 2px;
       max-width: 1200px;
       margin: 0 auto;
+      overflow-x: auto;
   }
 }
 

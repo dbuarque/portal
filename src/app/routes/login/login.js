@@ -17,7 +17,7 @@ export class Login {
     }
 
     onLoginSuccess() {
-        this.router.navigateToRoute('account');
+        this.router.navigateToRoute('exchange');
         //this.router.parent.navigateToRoute(this.redirect.route, this.redirect.params);
     }
 
@@ -25,7 +25,7 @@ export class Login {
         const account = this.appStore.getState().account;
 
         if (account && account.id) {
-            return new Redirect('account');
+            return new Redirect('exchange');
         }
     }
 

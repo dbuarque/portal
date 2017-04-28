@@ -6,13 +6,19 @@
 
   table.dataTable {
     margin: 0;
-    border: 1px #ddd solid;
+    border-bottom: 1px $gray solid;
+
+    thead {
+      input {
+        border-bottom: 1px #fff solid;
+      }
+    }
 
     tr {
 
       th, td {
         text-align: center;
-        border-color: #ddd;
+        border-color: $gray;
 
         &:first-child {
 

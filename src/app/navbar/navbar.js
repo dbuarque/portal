@@ -2,16 +2,17 @@
  * Created by Ishai on 3/27/2016.
  */
 import {bindable, inject} from 'aurelia-framework';
-import {AppStore} from 'global-resources';
+import {AppStore, AlertToaster} from 'global-resources';
 import {AppActionCreators} from '../app-action-creators';
 
-@inject(AppStore, AppActionCreators)
+@inject(AppStore, AppActionCreators, AlertToaster)
 export class Navbar {
     @bindable router;
 
-    constructor(appStore, appActionCreators) {
+    constructor(appStore, appActionCreators, toaster) {
         this.appStore = appStore;
         this.appActionCreators = appActionCreators;
+        this.toaster = toaster;
     }
 
     bind() {
@@ -29,15 +30,20 @@ export class Navbar {
         this.firstFive = this.account && this.account.id ? this.account.id.slice(0, 5) : null;
     }
 
+    goToExchange() {
+        this.router.navigateToRoute('exchange');
+    }
+
     login() {
         this.router.navigateToRoute('login');
     }
 
     logout() {
-        this.appStore.dispatch(this.appActionCreators.updateIdentity());
+        this.toaster.success('Logged out successfully.');
+        this.appStore.dispatch(this.appActionCreators.setAccount());
     }
 
-    goToProfile() {
+    goToAccount() {
         this.router.navigateToRoute('account');
     }
 }
