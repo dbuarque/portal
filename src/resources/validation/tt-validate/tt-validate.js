@@ -9,18 +9,12 @@ import {RequiredValidator, NumberValidator, EmailValidator, MinlengthValidator, 
 
 /**
  * Adds validation functionality to a dom control
- * @element tt-validate
- * @interface TtValidateCustomAttribute
- */
-
-/**
- * Adds validation functionality to a dom control
  * @class TtValidateCustomAttribute
  * @uses customAttribute
  */
 @customAttribute('tt-validate')
 @inject(Element, TaskQueue)
-export default class TtValidateCustomAttribute {
+export class TtValidateCustomAttribute {
 
     /**
      * BINDABLE - The validation manager that should validate this element.

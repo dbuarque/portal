@@ -4,7 +4,7 @@
 
 import {inject} from 'aurelia-dependency-injection';
 import {Redirect} from 'aurelia-router';
-import {AppStore} from 'resources';
+import {AppStore} from 'global-resources';
 
 @inject(AppStore)
 export default class AuthenticateStep {

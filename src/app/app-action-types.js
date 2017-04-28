@@ -3,7 +3,6 @@
  */
 
 export const appActionTypes = {
-    UPDATE_KEYPAIR: 'UPDATE_KEYPAIR',
     UPDATE_ACCOUNT: 'UPDATE_ACCOUNT'
 };
 

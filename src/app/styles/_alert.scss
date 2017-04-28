@@ -8,6 +8,10 @@
     }
 
     &.alert-info {
-        background: $accent;
+        color: $accent;
+
+        i.fa-info-circle {
+            color: $primary;
+        }
     }
 }

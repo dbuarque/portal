@@ -3,7 +3,7 @@
  */
 
 import {inject} from 'aurelia-framework';
-import {StellarServer, AppStore} from 'resources';
+import {StellarServer, AppStore} from 'global-resources';
 
 @inject(StellarServer, AppStore)
 export class OrderbookCustomElement {

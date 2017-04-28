@@ -1,0 +1,27 @@
+module.exports = {
+  "plugins": [
+    "transform-decorators-legacy",
+    "transform-class-properties",
+    "transform-object-rest-spread",
+    "transform-es2015-shorthand-properties",
+    "transform-es2015-computed-properties"
+  ],
+  "presets": [
+    [
+      "env", {
+        "targets": process.env.BABEL_TARGET === 'node' ? {
+          "node": "current"
+        } : {
+          "browsers": [
+            "last 2 versions",
+            "not ie <= 11"
+          ],
+          "uglify": process.env.NODE_ENV === 'production'
+        },
+        "loose": true,
+        "modules": process.env.BABEL_TARGET === 'node' ? 'commonjs' : false,
+        "useBuiltIns": "usage"
+      }
+    ]
+  ]
+};

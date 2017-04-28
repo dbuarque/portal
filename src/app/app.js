@@ -1,4 +1,4 @@
-
+import {PLATFORM} from 'aurelia-pal';
 import URI from 'urijs';
 import {AppConfig} from './app-config';
 import {inject} from 'aurelia-framework';

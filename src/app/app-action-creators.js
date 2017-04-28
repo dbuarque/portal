@@ -4,9 +4,9 @@
 
 import {inject} from 'aurelia-framework';
 import {appActionTypes} from './app-action-types';
-import {StellarServer} from 'resources';
+import {StellarServer} from 'global-resources';
 
-const {UPDATE_KEYPAIR, UPDATE_ACCOUNT} = appActionTypes;
+const {UPDATE_ACCOUNT} = appActionTypes;
 
 @inject(StellarServer)
 export class AppActionCreators {
@@ -14,31 +14,43 @@ export class AppActionCreators {
         this.stellarServer = stellarServer;
     }
 
-    updateIdentity(keyPair) {
+    setAccount(publicKey) {
         return async (dispatch, getState) => {
-            dispatch(this.updateKeyPair(keyPair));
+            let account = getState().account;
 
-            const account = keyPair ? await this.stellarServer.loadAccount(keyPair.publicKey()) : undefined;
+            dispatch({
+                type: UPDATE_ACCOUNT,
+                payload: {
+                    account: {
+                        ...account,
+                        updating: true
+                    }
+                }
+            });
 
-            dispatch(this.updateAccount(account));
+            account = publicKey ? await this.stellarServer.loadAccount(publicKey) : undefined;
+
+            dispatch({
+                type: UPDATE_ACCOUNT,
+                payload: {
+                    account: {
+                        ...account,
+                        updating: false
+                    }
+                }
+            });
         };
     }
 
-    updateKeyPair(keyPair) {
-        return {
-            type: UPDATE_KEYPAIR,
-            payload: {
-                keyPair
-            }
-        };
-    }
+    updateAccount() {
+        return (dispatch, getState) => {
+            const account = getState().account;
 
-    updateAccount(account) {
-        return {
-            type: UPDATE_ACCOUNT,
-            payload: {
-                account
+            if (!account) {
+                return;
             }
-        };
+
+            dispatch(this.setAccount(account.id));
+        }
     }
 }

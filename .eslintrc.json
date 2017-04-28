@@ -1,10 +1,3 @@
 {
-  "extends": "./node_modules/aurelia-tools/.eslintrc.json",
-  "rules": {
-    "indent": [2, 4],
-    "brace-style": [2, "stroustrup", { "allowSingleLine": true }],
-    "camelcase": [0, {"properties": "never"}],
-    "no-trailing-spaces": [2, { "skipBlankLines": true }],
-    "strict": [0]
-  }
+  "extends": "./node_modules/aurelia-tools/.eslintrc.json"
 }

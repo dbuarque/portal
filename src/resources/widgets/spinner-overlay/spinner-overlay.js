@@ -6,7 +6,7 @@ import {inject, bindable} from 'aurelia-framework';
 import {ObserverManager, ObservationInstruction} from '../../workers/workers';
 
 @inject(Element, ObserverManager)
-export class SpinnerOverlay {
+export class SpinnerOverlayCustomElement {
 
     @bindable minHeight = 350;
     @bindable size = 'large';

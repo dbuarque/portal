@@ -5,7 +5,7 @@
 import URI from 'urijs';
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
-import {AppStore} from 'resources';
+import {AppStore} from 'global-resources';
 import {AppActionCreators} from '../../app-action-creators';
 
 @inject(Router, AppStore, AppActionCreators)
@@ -17,7 +17,6 @@ export class Login {
     }
 
     onLoginSuccess(evt) {
-        this.appStore.dispatch(this.appActionCreators.updateIdentity(evt.detail));
         this.router.parent.navigateToRoute(this.redirect.route, this.redirect.params);
     }
 

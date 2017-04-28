@@ -6,10 +6,10 @@ import _throttle from 'lodash/throttle';
 import _find from 'lodash/find';
 import {inject} from 'aurelia-framework';
 import techan from 'techan';
-import {StellarServer, AppStore, ObserverManager, ObservationInstruction} from 'resources';
-import {TickerResource} from 'app-resources';
+import {StellarServer, AppStore, ObserverManager, ObservationInstruction} from 'global-resources';
+import {TickerResource, FormatNumberValueConverter} from 'app-resources';
 
-@inject(Element, StellarServer, AppStore, ObserverManager, TickerResource)
+@inject(Element, StellarServer, AppStore, ObserverManager, TickerResource, FormatNumberValueConverter)
 export class PriceChartCustomElement {
 
     loading = 0;
@@ -17,12 +17,14 @@ export class PriceChartCustomElement {
     interval = "86400";
     noData = false;
 
-    constructor(element, stellarServer, appStore, observerManager, tickerResource) {
+    constructor(element, stellarServer, appStore, observerManager, tickerResource, formatNumber) {
         this.element = element;
         this.stellarServer = stellarServer;
         this.appStore = appStore;
         this.observerManager = observerManager;
         this.tickerResource = tickerResource;
+        this.formatNumber = formatNumber;
+
         this.move = _throttle(this._move.bind(this), 100);
     }
 
@@ -41,10 +43,9 @@ export class PriceChartCustomElement {
         this.$element = $(this.element);
         this.$chart = this.$element.find('.chart');
 
-
-        const margin = {top: 50, right: 50, bottom: 30, left: 50};
-        this.width = Math.max(this.$element.find('.price-chart').width() - margin.left - margin.right - 30, 900);
-        this.height = this.width * 0.5 - margin.top - margin.bottom - 30;
+        this.margin = {top: 0, right: 100, bottom: 40, left: 100};
+        this.width = Math.max(this.$element.find('.card-body').width() - this.margin.left - this.margin.right, 900 - this.margin.left - this.margin.right);
+        this.height = this.width * 0.5 - this.margin.top - this.margin.bottom;
 
         this.x = techan.scale.financetime()
             .range([0, this.width]);
@@ -62,7 +63,7 @@ export class PriceChartCustomElement {
 
         this.yVolume = d3.scaleLinear()
             .range([this.height, 0]);
-        
+
         //this.ySellingVolume = d3.scaleLinear()
         //    .range([this.height, 0]);
 
@@ -73,32 +74,17 @@ export class PriceChartCustomElement {
 
         this.xAxis = d3.axisBottom(this.x);
 
-        this.xTopAxis = d3.axisTop(this.x);
-
         this.yAxis = d3.axisLeft(this.y)
-            .tickFormat(this.formatNumber.bind(this));
+            .tickFormat(num => this.formatNumber.toView(num, 3));
 
-        //this.yRightAxis = d3.axisRight(this.y)
-        //    .tickFormat(this.formatNumber.bind(this));
-//
         this.volumeAxis = d3.axisRight(this.yVolume)
-            .tickFormat(this.formatNumber.bind(this));
-        
-        //this.volumeRightAxis = d3.axisLeft(this.ySellingVolume)
-        //    .tickFormat(this.formatNumber.bind(this));
+            .tickFormat(num => this.formatNumber.toView(num, 3));
 
         this.ohlcAnnotation = techan.plot.axisannotation()
             .axis(this.yAxis)
             .orient('left')
-            .width(40)
-            .format(this.formatNumber.bind(this));
-
-        //this.ohlcRightAnnotation = techan.plot.axisannotation()
-        //    .axis(this.yRightAxis)
-        //    .orient('right')
-        //    .format(this.formatNumber.bind(this))
-        //    .width(40)
-        //    .translate([this.width, 0]);
+            .width(90)
+            .format(num => this.formatNumber.toView(num));
 
         this.timeAnnotation = techan.plot.axisannotation()
             .axis(this.xAxis)
@@ -107,38 +93,28 @@ export class PriceChartCustomElement {
             .width(65)
             .translate([0, this.height]);
 
-        this.timeTopAnnotation = techan.plot.axisannotation()
-            .axis(this.xTopAxis)
-            .orient('top');
-
         this.volumeAnnotation = techan.plot.axisannotation()
             .axis(this.volumeAxis)
             .orient("right")
-            .format(this.formatNumber.bind(this))
-            .width(40)
+            .format(num => this.formatNumber.toView(num))
+            .width(90)
             .translate([this.width, 0]);
-        
-        //this.volumeRightAnnotation = techan.plot.axisannotation()
-        //    .axis(this.volumeRightAxis)
-        //    .orient("left")
-        //    .format(this.formatNumber.bind(this))
-        //    .width(40)
-        //    .translate([this.width, 0]);
 
         this.crosshair = techan.plot.crosshair()
             .xScale(this.x)
             .yScale(this.y)
-            .xAnnotation([this.timeAnnotation, this.timeTopAnnotation])
+            .xAnnotation([this.timeAnnotation])
             .yAnnotation([this.ohlcAnnotation, this.volumeAnnotation])
             .on("enter", this.enter.bind(this))
             .on("out", this.out.bind(this))
             .on("move", this.move.bind(this));
 
         this.svg = d3.select(this.$chart[0]).append("svg")
-            .attr("width", this.width + margin.left + margin.right)
-            .attr("height", this.height + margin.top + margin.bottom)
+            .attr("class", "main-chart")
+            .attr("width", this.width + this.margin.left + this.margin.right)
+            .attr("height", this.height + this.margin.top + this.margin.bottom)
             .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
 
         this.accessor = this.candlestick.accessor();
     }
@@ -251,6 +227,7 @@ export class PriceChartCustomElement {
             low: rawDatum.close,
             close: rawDatum.close,
             volume: 0,
+            buyingVolume: 0,
             sellingVolume: 0
         };
     }
@@ -262,13 +239,16 @@ export class PriceChartCustomElement {
             high: rawDatum.high,
             low: rawDatum.low,
             close: rawDatum.close,
-            volume: rawDatum.bought_vol,
+            volume: rawDatum.sold_vol,
+            buyingVolume: rawDatum.sold_vol,
             sellingVolume: rawDatum.sold_vol
         };
     }
 
     draw(data) {
         const self = this;
+
+        self.svg.selectAll('*').remove();
         
         data = data
             .sort((a, b) => {
@@ -278,12 +258,6 @@ export class PriceChartCustomElement {
         const xDomain = data.map(self.accessor.d);
         const yDomain = this.ensureNoEmptyDomain(techan.scale.plot.ohlc(data, self.accessor).domain());
         const yVolumeDomain = this.ensureNoEmptyDomain(techan.scale.plot.volume(data).domain());
-        //const ySellingVolumeDomain = this.ensureNoEmptyDomain(techan.scale.plot.volume(data.map(d => {
-        //    return {
-        //        ...d,
-        //        volume: d.sellingVolume
-        //    };
-        //})).domain());
 
         //expand yDomains to make room for currentData table in top right
         yDomain[1] = yDomain[1] * (1 + 50/self.height);
@@ -292,39 +266,22 @@ export class PriceChartCustomElement {
         self.x.domain(xDomain);
         self.y.domain(yDomain);
         self.yVolume.domain(yVolumeDomain);
-        //self.ySellingVolume.domain(ySellingVolumeDomain);
 
-        self.svg.selectAll('*').remove();
+        //Calculate how far away the y axis labels need to be.
+        const yDomainWidth = this.calculateAxisWidth(yDomain);
+        const yVolumeDomainWidth = this.calculateAxisWidth(yVolumeDomain);
 
         self.svg.append('text')
             .attr("x",self.height * 0.45)
-            .attr("y", 45)
+            .attr("y", 20 + yDomainWidth * 7)
             .attr("transform", "rotate(90)")
             .text("Price (" + this.assetPair.buying.code + '/' + this.assetPair.selling.code + ")");
 
-        //.svg.append('text')
-        //    .attr("x",self.height * 0.45)
-        //    .attr("y", -45)
-        //    .attr("transform", "rotate(90)")
-        //    .text("Volume (" + self.assetPair.buying.code + ")");
-
-        //self.svg.append('text')
-        //    .attr("x", self.width + self.height * 0.45)
-        //    .attr("y", 50)
-        //    .attr('transform', 'rotate(90,' + self.width + ',' + 0 + ')')
-        //    .text("Volume (" + self.assetPair.selling.code + ")");
-
         self.svg.append('text')
             .attr("x", self.width + self.height * 0.45)
-            .attr("y", -40)
+            .attr("y", -(20 + yVolumeDomainWidth * 7))
             .attr('transform', 'rotate(90,' + self.width + ',' + 0 + ')')
-            .text("Volume (" + self.assetPair.buying.code + ")");
-
-        //self.coordsText = self.svg.append('text')
-        //    .style("text-anchor", "end")
-        //    .attr("class", "coords")
-        //    .attr("x", self.width - 5)
-        //    .attr("y", 15);
+            .text("Volume (" + self.assetPair.selling.code + ")");
 
         self.svg.append("g")
             .attr("class", "candlestick");
@@ -345,37 +302,35 @@ export class PriceChartCustomElement {
             .attr("class", "candlestick")
             .call(self.candlestick);
 
-        self.svg.append("g")
-            .attr("class", "x axis")
-            .call(self.xTopAxis);
-
-        self.svg.append("g")
+        const xAxisSvg = self.svg.append("g")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + self.height + ")")
             .call(self.xAxis);
 
-        self.svg.append("g")
+        xAxisSvg.append("path")
+            .attr("class", "axis-line")
+            .attr("d", "M -" + self.margin.left + ",0 V -0.5 H " + (self.margin.left + self.width + self.margin.right) + " V 0");
+
+        const yAxisSvg = self.svg.append("g")
             .attr("class", "y axis")
             .call(self.yAxis);
 
-        //self.svg.append("g")
-        //    .attr("class", "y axis")
-        //    .attr("transform", "translate(" + self.width + ",0)")
-        //    .call(self.yRightAxis);
+        yAxisSvg.append("path")
+            .attr("class", "axis-line")
+            .attr("d", "M 0," + (self.height + self.margin.bottom - 1) + " H -0.5 V -0.5 H 0");
 
         self.svg.append("g")
             .attr("class", "volume")
             .attr("clip-path", "url(#ohlcClip)");
 
-        self.svg.append("g")
+        const volumeAxisSvg = self.svg.append("g")
             .attr("class", "volume axis")
             .attr("transform", "translate(" + self.width + ",0)")
             .call(self.volumeAxis);
 
-        //self.svg.append("g")
-        //    .attr("class", "volume axis")
-        //    .attr("transform", "translate(" + self.width + ",0)")
-        //    .call(self.volumeRightAxis);
+        volumeAxisSvg.append("path")
+            .attr("class", "axis-line")
+            .attr("d", "M 0," + (self.height + self.margin.bottom - 1) + " H -0.5 V -0.5 H 0");
 
         self.svg.append('g')
             .attr("class", "crosshair")
@@ -387,9 +342,8 @@ export class PriceChartCustomElement {
 
         self.svg.select("g.volume").call(self.volume.refresh);
 
-        //self.svg.selectAll("g.candlestick").datum(data).call(self.candlestick);
-        //self.svg.selectAll("g.x.axis").call(self.xAxis);
-        //self.svg.selectAll("g.y.axis").call(self.yAxis);
+        this.removeZeroTickers(yAxisSvg);
+        this.removeZeroTickers(volumeAxisSvg);
 
         return data;
     }
@@ -415,11 +369,20 @@ export class PriceChartCustomElement {
             [domainArr[0] * 0.5, domainArr[0] * 1.5];
     }
 
-    formatNumber(num) {
-        if (num < 1) {
-            return num.toPrecision(3);
-        }
-        return d3.format(",.3s")(num).replace('k', 'K').replace('G', 'B');
+    calculateAxisWidth(domainArr) {
+        return domainArr.reduce((result, element) => {
+            const formattedNumber = this.formatNumber.toView(element, 3);
+            const elementWidth = formattedNumber.split('').length;
+            return Math.max(result, elementWidth);
+        }, 0);
+    }
+
+    removeZeroTickers(axis) {
+        axis.selectAll('g.tick text').each(function() {
+            if (this.innerHTML === '0.00') {
+                this.style.display = 'none';
+            }
+        });
     }
 
     enter() {
@@ -434,7 +397,7 @@ export class PriceChartCustomElement {
         const currentData = _find(this.data, {date: coords.x});
         this.currentData = currentData ? Object.keys(currentData).reduce((_currentData, key) => {
             if (key !== 'date') {
-                _currentData[key] = this.formatNumber(currentData[key]);
+                _currentData[key] = this.formatNumber.toView(currentData[key]);
             }
             return _currentData;
         }, {}) : undefined;

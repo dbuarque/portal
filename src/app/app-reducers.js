@@ -2,24 +2,16 @@
  * Created by Ishai on 12/20/2016.
  */
 
-import {ReducerHelper} from 'resources';
+import {ReducerHelper} from 'global-resources';
 import {appActionTypes} from './app-action-types';
 import {exchange} from './routes/exchange/exchange-reducers';
 
-const {UPDATE_ACCOUNT, UPDATE_KEYPAIR} = appActionTypes;
+const {UPDATE_ACCOUNT} = appActionTypes;
 
 export const app = ReducerHelper.combineReducersProvideRootState({
     account,
-    keyPair,
     exchange
 });
-
-function keyPair(state, action) {
-    return action.type === UPDATE_KEYPAIR ? {
-        ...state,
-        keyPair: action.payload.keyPair
-    } : state;
-}
 
 function account(state, action) {
     return action.type === UPDATE_ACCOUNT ? {
