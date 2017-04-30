@@ -47,7 +47,7 @@ export class AssetCustomElement {
 
     issuerChanged() {
         this.findIssuerAccount();
-        this.validateCodeIssuerCombo();
+        //this.validateCodeIssuerCombo();
     }
 
     async findIssuerAccount() {
@@ -69,23 +69,23 @@ export class AssetCustomElement {
         }
     }
 
-    async validateCodeIssuerCombo() {
-        if (this.issuer && this.code) {
-            this.loading++;
-            try {
-                this.orderbook = await this.stellarServer.orderbook(
-                    new this.stellarServer.sdk.Asset(this.code, this.issuer),
-                    this.stellarServer.sdk.Asset.native()
-                );
-                this.loading--;
-            }
-            catch (e) {
-                this.infoClass = 'error';
-                this.info = 'Sorry, it looks like that issuer does not exist or that issuer has not issued an asset with that code.';
-                this.loading--;
-            }
-        }
-    }
+    //async validateCodeIssuerCombo() {
+    //    if (this.issuer && this.code) {
+    //        this.loading++;
+    //        try {
+    //            this.orderbook = await this.stellarServer.orderbook(
+    //                new this.stellarServer.sdk.Asset(this.code, this.issuer),
+    //                this.stellarServer.sdk.Asset.native()
+    //            );
+    //            this.loading--;
+    //        }
+    //        catch (e) {
+    //            this.infoClass = 'error';
+    //            this.info = 'Sorry, it looks like that issuer does not exist or that issuer has not issued an asset with that code.';
+    //            this.loading--;
+    //        }
+    //    }
+    //}
 
     validate() {
         return this.validationManager.validate();

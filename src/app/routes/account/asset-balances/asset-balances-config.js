@@ -14,7 +14,7 @@ export default class AssetBalancesConfig {
                     {
                         title: 'Balance',
                         data: 'balance',
-                        searchable: true
+                        searchable: false
                     },
                     {
                         title: 'Code',
