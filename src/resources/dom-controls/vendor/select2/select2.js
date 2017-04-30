@@ -3,17 +3,17 @@
  */
 
 import {inject, bindable, customElement, TaskQueue, bindingMode} from 'aurelia-framework';
-import {EventHelper} from '../../../helpers/event-helper';
+import {EventHelper} from '../../../helpers/helpers';
 
 @customElement('select2')
 @inject(Element, TaskQueue)
 export class Select2CustomElement {
-         
+
     @bindable config = {};
     @bindable options = [];
     @bindable({defaultBindingMode: bindingMode.twoWay}) value;
     @bindable disabled;
-    
+
     constructor(element, taskQueue) {
         this.element = element;
         this.$element = $(element);
@@ -26,7 +26,7 @@ export class Select2CustomElement {
 
     attached() {
         const vm = this;
-        
+
         vm.config.dropdownParent = vm.$element.find('.select2-custom-element');
         vm.$select = vm.$element.find('select');
 
@@ -54,11 +54,8 @@ export class Select2CustomElement {
             })
             .select2(vm.config);
 
-        if (!vm.config.ajax) {
-            vm.optionsChanged();
-        }
-
-        this.disabledChanged();
+        vm.optionsChanged();
+        vm.disabledChanged();
     }
 
     disabledChanged() {
@@ -99,7 +96,7 @@ export class Select2CustomElement {
 
         const selectValue = this.$select.val();
 
-        if (selectValue !== this.value) {
+        if (selectValue !== this.value && this.options && this.options.length > 0) {
             this.$select.val(this.value).trigger('change');
         }
     }

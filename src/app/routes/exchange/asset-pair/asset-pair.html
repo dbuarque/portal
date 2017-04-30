@@ -13,8 +13,8 @@
                     <div class="row">
                         <div class="col m6">
                             <h6 class="primary-text center">
-                                <strong>Selling Asset</strong>&nbsp;
-                                <md-progress show.bind="sellingAssetVm.loading > 0" md-type="circular"  md-pixel-size="12" md-color="blue"></md-progress>
+                                <strong>Selling Asset</strong>&nbsp
+                                <i show.bind="sellingAssetVm.loading > 0" class="fa fa-refresh fa-spin primary-text"></i>
                             </h6>
                             <asset view-model.ref="sellingAssetVm" issuer.bind="assetPair.selling.issuer" code.bind="assetPair.selling.code"></asset>
                         </div>
@@ -24,7 +24,7 @@
                             </div>
                             <h6 class="primary-text center">
                                 <strong>Buying Asset</strong>&nbsp;
-                                <md-progress show.bind="buyingAssetVm.loading > 0" md-type="circular" md-pixel-size="12" md-color="blue"></md-progress>
+                                <i show.bind="buyingAssetVm.loading > 0" class="fa fa-refresh fa-spin primary-text"></i>
                             </h6>
                             <asset view-model.ref="buyingAssetVm" issuer.bind="assetPair.buying.issuer" code.bind="assetPair.buying.code"></asset>
                         </div>

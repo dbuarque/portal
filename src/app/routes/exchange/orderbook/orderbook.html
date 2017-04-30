@@ -6,7 +6,7 @@
                 <div class="card-title">
                     Order Book
                 </div>
-                <i class="fa fa-refresh right" no-collapse click.trigger="refresh()"></i>
+                <i class="fa fa-refresh right ${loading > 0 ? 'fa-spin primary-text' : ''}" no-collapse click.trigger="refresh()"></i>
             </div>
             <div class="card-body">
                 <i if.bind="!assetPair">Select an asset pair to get started.</i>
@@ -24,7 +24,6 @@
                         <orders-table selling.bind="false" orders.bind="bids" asset-pair.bind="assetPair"></orders-table>
                     </div>
                 </div>
-                <spinner-overlay show.bind="loading > 0"></spinner-overlay>
             </div>
         </div>
     </div>

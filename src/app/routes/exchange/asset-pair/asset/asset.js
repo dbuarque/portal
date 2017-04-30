@@ -26,7 +26,10 @@ export class AssetCustomElement {
     }
 
     async codeChanged() {
-        this.issuer = null;
+        this.codes = this.code ? [{
+            value: this.code,
+            label: this.code
+        }] : [];
 
         if (!this.code) {
             this.issuers = [];
@@ -41,6 +44,12 @@ export class AssetCustomElement {
                 label: i
             };
         });
+
+        const issuer = _find(this.issuers, {value: this.issuer});
+
+        if (!issuer) {
+            this.issuer = null;
+        }
 
         this.loading--;
     }
