@@ -33,12 +33,12 @@
 
     <!-- imported CSS are concatenated and added automatically -->
 
-    <% if (!htmlWebpackPlugin.options.metadata.production) { %>
+    <% if (!htmlWebpackPlugin.options.metadata.development) { %>
     <script>
         lupoex = {
             env: 'development',
             api: 'http://localhost:1337',
-            horizon: 'https://horizon.stellar.org'
+            horizon: 'https://horizon-testnet.stellar.org/'
         };
     </script>
     <% } %>

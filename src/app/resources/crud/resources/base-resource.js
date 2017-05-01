@@ -14,6 +14,37 @@ export default class BaseResource {
         return this.sendAjax(action, {}, options);
     }
 
+    //getDataTable(data, settings, additionalFilters) {
+    //    let query = {
+    //        offset: data.start,
+    //        limit: data.length,
+    //        order: data.columns[data.order[0].column].data + ':' + data.order[0].dir
+    //    };
+//
+    //    data.columns.forEach(column => {
+    //        if (column.searchable && column.search.value) {
+    //            query[column.data] = 'like:' + '%' + column.search.value + '%';
+    //        }
+    //    });
+//
+    //    Object.assign(query, additionalFilters);
+//
+    //    return this.findAndCount(query)
+    //        .then(results => {
+    //            return {
+    //                draw: data.draw,
+    //                recordsTotal: results.count,
+    //                recordsFiltered: results.count,
+    //                data: results.rows
+    //            };
+    //        })
+    //        .catch(err => {
+    //            return {
+    //                error: err.message
+    //            };
+    //        });
+    //}
+
     post(action, query, body, options = {}) {
         options.query = query;
         return this.sendAjax(action, {
