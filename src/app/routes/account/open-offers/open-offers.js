@@ -4,13 +4,15 @@
 
 import {inject} from 'aurelia-framework';
 import {StellarServer, AppStore} from 'global-resources';
+import Config from './open-offers-config';
 
-@inject(StellarServer, AppStore)
+@inject(Config, StellarServer, AppStore)
 export class OpenOffersCustomElement {
 
     loading = 0;
 
-    constructor(stellarServer, appStore) {
+    constructor(config, stellarServer, appStore) {
+        this.config = config;
         this.stellarServer = stellarServer;
         this.appStore = appStore;
     }
@@ -25,31 +27,25 @@ export class OpenOffersCustomElement {
     }
 
     updateFromStore() {
-        const newState = this.appStore.getState();
-        const exchange = newState.exchange;
+        const state = this.appStore.getState();
 
-        if (this.assetPair !== exchange.assetPair) {
-            this.assetPair = exchange.assetPair;
+        const oldAccountId = this.account ? this.account.id : undefined;
+
+        this.account = state.account;
+
+        if (this.account.id !== oldAccountId) {
             this.refresh();
         }
     }
 
     async refresh() {
-        if (!this.assetPair) {
-            return;
-        }
-
         this.loading++;
 
-        const orderbook = await this.stellarServer.orderbook(
-            this.assetPair.selling.code === 'XLM' ? this.stellarServer.sdk.Asset.native() : new this.stellarServer.sdk.Asset(this.assetPair.selling.code, this.assetPair.selling.issuer),
-            this.assetPair.buying.code === 'XLM' ? this.stellarServer.sdk.Asset.native() : new this.stellarServer.sdk.Asset(this.assetPair.buying.code, this.assetPair.buying.issuer)
-        )
+        this.offersResult = await this.stellarServer.offers('accounts', this.account.id)
             .call();
 
-        this.loading--;
+        this.offers = this.offersResult.records;
 
-        this.bids = orderbook.bids;
-        this.asks = orderbook.asks;
+        this.loading--;
     }
 }
