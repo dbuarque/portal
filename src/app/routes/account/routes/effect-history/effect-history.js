@@ -4,10 +4,10 @@
 
 import {inject} from 'aurelia-framework';
 import {StellarServer, AppStore} from 'global-resources';
-import Config from './open-offers-config';
+import Config from './effect-history-config';
 
 @inject(Config, StellarServer, AppStore)
-export class OpenOffersCustomElement {
+export class TransactionCustomElement {
 
     loading = 0;
 
@@ -17,7 +17,7 @@ export class OpenOffersCustomElement {
         this.appStore = appStore;
     }
 
-    bind() {
+    activate() {
         this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
         this.updateFromStore();
     }
@@ -38,14 +38,7 @@ export class OpenOffersCustomElement {
         }
     }
 
-    async refresh() {
-        this.loading++;
-
-        this.offersResult = await this.stellarServer.offers('accounts', this.account.id)
-            .call();
-
-        this.offers = this.offersResult.records;
-
-        this.loading--;
+    refresh() {
+        this.effectCallBuilder = this.account ? this.stellarServer.effects().forAccount(this.account.id) : undefined;
     }
 }

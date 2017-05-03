@@ -3,15 +3,25 @@
  */
 
 import {inject} from 'aurelia-framework';
-import {Redirect, Router} from 'aurelia-router';
+import {EventAggregator} from 'aurelia-event-aggregator';
 import {AppStore} from 'global-resources';
+import Config from './account-config';
 
-@inject(Router, AppStore)
+@inject(Config, EventAggregator, AppStore)
 export class Account {
 
-    constructor(router, appStore) {
-        this.router = router;
+    constructor(config, eventAggregator, appStore) {
+        this.config = config;
+        this.eventAggregator = eventAggregator;
+
         this.appStore = appStore;
+    }
+
+    configureRouter(routerConfig, router) {
+        routerConfig.options.pushState = true;
+        routerConfig.map(this.config.routes);
+
+        this.router = router;
     }
 
     canActivate() {
@@ -27,15 +37,30 @@ export class Account {
         this.updateFromStore();
     }
 
-    deactivate() {
+    unbind() {
         this.unsubscribeFromStore();
+    }
+
+    attached() {
+        this.subscription = this.eventAggregator.subscribe(
+            'router:navigation:success',
+            this.navigationSuccess.bind(this));
+    }
+
+    detached() {
+        this.subscription.dispose();
+    }
+
+    navigationSuccess(event) {
+        const routeName = event.instruction.fragment.split('/')[2] || 'profile';
+        this.accountTabs.selectTab('tab-' + routeName);
     }
 
     updateFromStore() {
         this.account = this.appStore.getState().account;
 
         if (!this.account) {
-            this.router.navigateToRoute('exchange');
+            this.router.parent.navigateToRoute('exchange');
         }
     }
 }

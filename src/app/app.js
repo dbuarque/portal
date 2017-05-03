@@ -21,6 +21,7 @@ export class App {
 
         this.router = router;
     }
+
     activate() {
         this.jsonClient.configure();
     }

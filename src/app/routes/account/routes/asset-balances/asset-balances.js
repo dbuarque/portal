@@ -5,7 +5,7 @@
 import {inject, bindable} from 'aurelia-framework';
 import {AppStore} from 'global-resources';
 import Config from './asset-balances-config';
-import {AppActionCreators} from '../../../app-action-creators';
+import {AppActionCreators} from '../../../../app-action-creators';
 
 @inject(Config, AppStore, AppActionCreators)
 export class AssetBalancesCustomElement {
@@ -16,7 +16,7 @@ export class AssetBalancesCustomElement {
         this.appActionCreators = appActionCreators;
     }
 
-    bind() {
+    activate() {
         this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
         this.updateFromStore();
     }

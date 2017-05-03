@@ -1,8 +1,20 @@
 <template>
-    <require from="./asset-balances/asset-balances"></require>
-    <require from="./open-offers/open-offers"></require>
     <div class="account">
-        <asset-balances></asset-balances>
-        <open-offers></open-offers>
+        <div class="card">
+            <div class="card-content">
+                <div class="card-body">
+                    <div class="tabs">
+                        <ul md-tabs="fixed: true;" md-tabs.ref="accountTabs"  class="z-depth-1">
+                            <li repeat.for="route of router.routes" if.bind="route.moduleId">
+                                <a class="${router.currentInstruction.config.name === route.name ? 'active' : '' & oneTime}" click.trigger="router.navigateToRoute(route.name)" href="${'#tab-' + route.name}">${route.title & oneTime}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <router-view></router-view>
+                </div>
+            </div>
+        </div>
     </div>
 </template>

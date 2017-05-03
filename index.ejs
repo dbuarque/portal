@@ -35,10 +35,15 @@
 
     <% if (!htmlWebpackPlugin.options.metadata.development) { %>
     <script>
+        //lupoex = {
+        //    env: 'development',
+        //    api: 'http://localhost:1337',
+        //    horizon: 'https://horizon-testnet.stellar.org/'
+        //};
         lupoex = {
-            env: 'development',
-            api: 'http://localhost:1337',
-            horizon: 'https://horizon-testnet.stellar.org/'
+            env: 'production',
+            api: 'http://api.lupoex.com',
+            horizon: 'https://horizon.stellar.org'
         };
     </script>
     <% } %>
