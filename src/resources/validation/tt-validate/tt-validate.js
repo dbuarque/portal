@@ -3,7 +3,7 @@
  */
 
 import {inject, bindable, TaskQueue, customAttribute} from 'aurelia-framework';
-import _find from 'lodash/find';
+import _find from 'lodash.find';
 import {EventHelper} from '../../helpers/event-helper';
 import {RequiredValidator, NumberValidator, EmailValidator, MinlengthValidator, MaxlengthValidator} from '../resources/validators/validators';
 

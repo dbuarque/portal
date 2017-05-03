@@ -2,7 +2,7 @@
  * Created by istrauss on 3/17/2017.
  */
 
-import _cloneDeep from 'lodash/cloneDeep';
+import _cloneDeep from 'lodash.clonedeep';
 import {inject} from 'aurelia-framework';
 import {AppStore} from 'global-resources';
 import {ExchangeActionCreators} from '../exchange-action-creators';

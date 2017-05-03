@@ -2,8 +2,8 @@
  * Created by istrauss on 3/30/2016.
  */
 
-import _get from 'lodash/get';
-import _cloneDeep from 'lodash/cloneDeep';
+import _get from 'lodash.get';
+import _cloneDeep from 'lodash.clonedeep';
 import {inject, customElement, bindable, bindingMode, containerless} from 'aurelia-framework';
 import {ObserverManager, ObservationInstruction} from '../../workers/workers';
 
