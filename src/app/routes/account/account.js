@@ -45,13 +45,29 @@ export class Account {
         this.subscription = this.eventAggregator.subscribe(
             'router:navigation:success',
             this.navigationSuccess.bind(this));
+
+        this.getViewModel();
     }
 
     detached() {
         this.subscription.dispose();
     }
 
+    refresh() {
+        if (!this.currentViewModel || this.currentViewModel.refreshing) {
+            return;
+        }
+
+        this.currentViewModel.refresh();
+    }
+
+    getViewModel() {
+        this.currentViewModel = this.router.currentInstruction.viewPortInstructions.default.controller.viewModel;
+    }
+
     navigationSuccess(event) {
+        this.getViewModel();
+
         const routeName = event.instruction.fragment.split('/')[2] || 'profile';
         this.accountTabs.selectTab('tab-' + routeName);
     }

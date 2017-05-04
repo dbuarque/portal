@@ -31,10 +31,10 @@ export class AssetBalancesCustomElement {
     }
 
     refresh() {
-        if (this.account.updating) {
-            return;
-        }
-
         this.appStore.dispatch(this.appActionCreators.updateAccount());
+    }
+
+    get refreshing() {
+        return this.account.updating;
     }
 }
