@@ -1,5 +1,13 @@
 <template>
     <div class="asset-balances">
-        <jquery-data-table config.bind="config.table" list.bind="account.balances"></jquery-data-table>
+        <div class="right-align">
+            <button disabled.bind="account.updating" type="button" class="btn btn-flat" click.trigger="refresh()">
+                <i class="fa fa-refresh"></i>
+            </button>
+        </div>
+        <div>
+            <jquery-data-table if.bind="account.balances" config.bind="config.table" list.bind="account.balances"></jquery-data-table>
+            <spinner-overlay size.bind="2x" show.bind="account.updating"></spinner-overlay>
+        </div>
     </div>
 </template>
