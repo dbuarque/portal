@@ -55,7 +55,7 @@ export class List {
 
         vm.config.table.columns[3].cellCallback = (cell, rowData) => {
             cell.empty();
-            $('<button class="btn accent btn-flat" type="button">Events</button>')
+            $('<button class="btn accent btn-flat" type="button">Effects</button>')
                 .click(() => {
                     vm.router.navigateToRoute('detail', {operationId: rowData.id}); //rowData.transactionTypeName.toLowerCase()
                 })
