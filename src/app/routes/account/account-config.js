@@ -19,8 +19,7 @@ export default class AppConfig {
                     route: ['profile'],
                     name: 'profile',
                     moduleId: PLATFORM.moduleName('./routes/profile/profile'),
-                    title: 'Profile',
-                    breadcrumb: true
+                    title: 'Profile'
                 },
                 {
                     route: ['asset-balances'],
@@ -31,7 +30,7 @@ export default class AppConfig {
                 },
                 {
                     route: ['open-offers'],
-                    name: 'account',
+                    name: 'open-offers',
                     moduleId: PLATFORM.moduleName('./routes/open-offers/open-offers'),
                     title: 'Open Offers',
                     breadcrumb: true

@@ -1,11 +1,11 @@
 /**
- * Created by Ishai on 5/2/2017.
+ * Created by Ishai on 5/5/2017.
  */
 
 import {transient} from 'aurelia-framework';
 
 @transient()
-export default class EffectHistoryConfig {
+export default class ListConfig {
 
     constructor() {
         return {
@@ -17,6 +17,10 @@ export default class EffectHistoryConfig {
                         render(cellData, type, rowData) {
                             return rowData.type.split('_').map(w => w.slice(0, 1).toUpperCase() + w.slice(1)).join(' ');
                         }
+                    },
+                    {
+                        title: 'Id',
+                        data: 'id'
                     },
                     {
                         title: 'Details',
@@ -34,13 +38,13 @@ export default class EffectHistoryConfig {
 
                             table.appendTo(cell);
                         }
-                    }//,
-                    //{
-                    //    title: '',
-                    //    defaultContent: '',
-                    //    searchable: false,
-                    //    orderable: false
-                    //}
+                    },
+                    {
+                        title: '',
+                        defaultContent: '',
+                        searchable: false,
+                        orderable: false
+                    }
                 ]
             }
         };

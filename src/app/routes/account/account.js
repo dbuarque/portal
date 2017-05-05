@@ -2,6 +2,7 @@
  * Created by istrauss on 4/22/2016.
  */
 
+import _findIndex from 'lodash.findindex';
 import {inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {AppStore} from 'global-resources';
@@ -46,7 +47,7 @@ export class Account {
             'router:navigation:success',
             this.navigationSuccess.bind(this));
 
-        this.getViewModel();
+        this.navigationSuccess();
     }
 
     detached() {
@@ -61,15 +62,25 @@ export class Account {
         this.currentViewModel.refresh();
     }
 
-    getViewModel() {
-        this.currentViewModel = this.router.currentInstruction.viewPortInstructions.default.controller.viewModel;
+    navigationSuccess() {
+        const viewPortInstruction = this.router.currentInstruction.viewPortInstructions.default;
+
+        if (viewPortInstruction.strategy === 'no-change') {
+            return;
+        }
+
+        this.currentViewModel = viewPortInstruction.controller.viewModel;
+        this.currentRoute = this.router.currentInstruction.config.route.split('/')[0];
+
+        let routeName = this.router.currentInstruction.config.name;
+        routeName = _findIndex(this.config.routes, {name: routeName}) > -1 ? routeName : 'profile';
+        this.accountTabs.selectTab('tab-' + routeName);
     }
 
-    navigationSuccess(event) {
-        this.getViewModel();
-
-        const routeName = event.instruction.fragment.split('/')[2] || 'profile';
-        this.accountTabs.selectTab('tab-' + routeName);
+    navigateToRoute(routeName) {
+        if (this.router.currentInstruction.config.name !== routeName) {
+            this.router.navigateToRoute(routeName);
+        }
     }
 
     updateFromStore() {

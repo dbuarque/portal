@@ -10,6 +10,7 @@ import Config from './open-offers-config';
 export class OpenOffers {
 
     loading = 0;
+    offers = [];
 
     constructor(config, stellarServer, appStore) {
         this.config = config;
@@ -41,11 +42,22 @@ export class OpenOffers {
     async refresh() {
         this.loading++;
 
-        this.offersResult = await this.stellarServer.offers('accounts', this.account.id)
-            .call();
-
-        this.offers = this.offersResult.records;
+        this.page = undefined;
+        await this.getMoreOffers();
 
         this.loading--;
+    }
+
+    async getMoreOffers() {
+        this.page = this.page ? await this.page.next() : await this.stellarServer.offers('accounts', this.account.id).limit(100).call();
+        this.offers = this.offers.concat(this.page.records);
+
+        if (this.page.records === 100) {
+            return this.getMoreOffers();
+        }
+    }
+
+    get refreshing() {
+        return this.account.updating || this.loading > 0;
     }
 }

@@ -1,9 +1,4 @@
 <template>
-    <div class="right">
-        <button disabled.bind="account.updating || loading > 0" type="button" class="btn btn-flat ${account.updating || loading > 0 ? 'primary'}">
-            <i class="fa fa-refresh ${account.updating || loading > 0 ? 'fa-spin' : ''}" click.trigger="refresh()"></i>
-        </button>
-    </div>
     <i if.bind="!offers || offers.length === 0">There are no open offers for account: ${account.id}</i>
     <jquery-data-table if.bind="offers && offers.length > 0" config.bind="config.table" list.bind="offers"></jquery-data-table>
 </template>

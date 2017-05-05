@@ -1,11 +1,11 @@
 /**
- * Created by Ishai on 5/2/2017.
+ * Created by Ishai on 5/5/2017.
  */
 
 import {transient} from 'aurelia-framework';
 
 @transient()
-export default class EffectHistoryConfig {
+export default class DetailConfig {
 
     constructor() {
         return {

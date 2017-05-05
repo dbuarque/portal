@@ -1,7 +1,7 @@
 <template>
     <div class="row">
         <div class="col m6">
-            <div class="card" collapsible-card>
+            <div class="card" collapsible-card="is-open:true">
                 <div class="card-content">
                     <div class="card-heading">
                         <div class="card-title">
@@ -17,7 +17,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card" collapsible-card>
+            <div class="card" collapsible-card="is-open:true">
                 <div class="card-content">
                     <div class="card-heading">
                         <div class="card-title">
@@ -35,7 +35,7 @@
             </div>
         </div>
         <div class="col m6">
-            <div class="card" collapsible-card>
+            <div class="card" collapsible-card="is-open:true">
                 <div class="card-content">
                     <div class="card-heading">
                         <div class="card-title">
@@ -51,7 +51,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card" collapsible-card>
+            <div class="card" collapsible-card="is-open:true">
                 <div class="card-content">
                     <div class="card-heading">
                         <div class="card-title">
@@ -59,11 +59,12 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <ul class="collection">
+                        <ul class="collection"if.bind="account.data | objectIsNotEmpty">
                             <li repeat.for="datum of account.data | objectToArray" class="collection-item">
                                 ${datum.key}: ${datum.value}
                             </li>
                         </ul>
+                        <i if.bind="account.data | objectIsEmpty">There is no data for account: ${account.id}</i>
                     </div>
                 </div>
             </div>

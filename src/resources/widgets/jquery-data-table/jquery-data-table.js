@@ -126,7 +126,7 @@ export class JqueryDataTableCustomElement {
                     return;
                 }
 
-                let cell = $('td:eq(' + colIndex + ')', row);
+                let cell = $('> td:eq(' + colIndex + ')', row);
                 column.cellCallback.call(this, cell, rowData);
             });
 

@@ -39,8 +39,8 @@ input:not([type]), input[type=text], input[type=password], input[type=email], in
             position: relative;
 
             &:before {
-                content: "\E86A";
-                font-family: "Material Icons";
+                content: "\f021";
+                font-family: "FontAwesome";
                 left:10px;
                 position:absolute;
                 top:5px;
