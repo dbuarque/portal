@@ -111,7 +111,7 @@
     "datatables.net-dt": "^1.10.15",
     "datatables.net-responsive": "^2.1.1",
     "datatables.net-responsive-dt": "^2.1.1",
-    "flatpickr": "^2.4.3",
+    "flatpickr": "^2.5.8",
     "font-awesome": "^4.7.0",
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.2.1",
