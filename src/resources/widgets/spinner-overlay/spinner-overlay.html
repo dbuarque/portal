@@ -1,5 +1,5 @@
 <template>
-    <div class="spinner-overlay">
-        <md-progress md-type="circular" md-size.bind="size" md-color="blue"></md-progress>
+    <div class="spinner-overlay ${transparent ? 'transparent' : '' & oneTime}">
+        <i class="fa fa-refresh fa-spin fa-${size & oneTime}"></i>
     </div>
 </template>

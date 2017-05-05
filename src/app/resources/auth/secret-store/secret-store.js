@@ -18,7 +18,7 @@ export class SecretStore {
         this._secret = secret;
 
         if (remember) {
-            this.inactivityTracker.subscribe(this.forget.bind(this));
+            this.unsubscribeFromInactivityTracker = this.inactivityTracker.subscribe(this.forget.bind(this));
         }
     }
 
@@ -28,5 +28,7 @@ export class SecretStore {
         }
 
         this._secret = undefined;
+
+        this.unsubscribeFromInactivityTracker();
     }
 }

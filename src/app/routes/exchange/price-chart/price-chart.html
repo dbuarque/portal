@@ -5,7 +5,7 @@
                 <div class="card-title">
                     Chart
                 </div>
-                <i class="fa fa-refresh right" no-collapse click.trigger="refresh()"></i>
+                <i class="fa fa-refresh right ${loading > 0 ? 'fa-spin primary-text' : ''}" no-collapse click.trigger="refresh()"></i>
             </div>
             <div class="card-body">
                 <i show.bind="!assetPair">Select an asset pair to get started.</i>
@@ -66,7 +66,6 @@
                             </table>
                             <div class="chart"></div>
                         </div>
-                        <spinner-overlay show.bind="loading > 0"></spinner-overlay>
                     </div>
                 </div>
             </div>

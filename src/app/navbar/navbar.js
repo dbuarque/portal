@@ -2,16 +2,17 @@
  * Created by Ishai on 3/27/2016.
  */
 import {bindable, inject} from 'aurelia-framework';
-import {AppStore} from 'global-resources';
+import {AppStore, AlertToaster} from 'global-resources';
 import {AppActionCreators} from '../app-action-creators';
 
-@inject(AppStore, AppActionCreators)
+@inject(AppStore, AppActionCreators, AlertToaster)
 export class Navbar {
     @bindable router;
 
-    constructor(appStore, appActionCreators) {
+    constructor(appStore, appActionCreators, toaster) {
         this.appStore = appStore;
         this.appActionCreators = appActionCreators;
+        this.toaster = toaster;
     }
 
     bind() {
@@ -26,7 +27,11 @@ export class Navbar {
     updateFromStore() {
         const newState = this.appStore.getState();
         this.account = newState.account;
-        this.firstFive = this.account ? this.account.id.slice(0, 5) : null;
+        this.firstFive = this.account && this.account.id ? this.account.id.slice(0, 5) : null;
+    }
+
+    goToExchange() {
+        this.router.navigateToRoute('exchange');
     }
 
     login() {
@@ -34,11 +39,11 @@ export class Navbar {
     }
 
     logout() {
-        this.appStore.dispatch(this.appActionCreators.updateIdentity());
+        this.toaster.success('Logged out successfully.');
+        this.appStore.dispatch(this.appActionCreators.setAccount());
     }
 
-    goToProfile() {
-        const route = this.router.generate('account') + '/profile';
-        let profileUrl = this.router.navigate(route);
+    goToAccount() {
+        this.router.navigateToRoute('account');
     }
 }

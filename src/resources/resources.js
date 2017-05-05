@@ -22,6 +22,7 @@ export function configure(config) {
         PLATFORM.moduleName('./dom-controls/vendor/select2/select2'),
         PLATFORM.moduleName('./widgets/form-fields/form-fields'),
         PLATFORM.moduleName('./widgets/spinner-overlay/spinner-overlay'),
+        PLATFORM.moduleName('./widgets/jquery-data-table/jquery-data-table'),
         PLATFORM.moduleName('./value-converters/object'),
         PLATFORM.moduleName('./value-converters/string'),
         PLATFORM.moduleName('./value-converters/date-time'),

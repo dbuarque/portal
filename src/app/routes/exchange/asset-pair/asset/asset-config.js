@@ -31,6 +31,9 @@ export default class AssetConfig {
                                         }
                                     })
                                 })
+                            })
+                            .catch(err => {
+                                failure(err);
                             });
                     }
                 },

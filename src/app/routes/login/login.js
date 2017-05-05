@@ -2,9 +2,9 @@
  * Created by Ishai on 3/31/2016.
  */
 
-import URI from 'urijs';
+//import URI from 'urijs';
 import {inject} from 'aurelia-framework';
-import {Router} from 'aurelia-router';
+import {Router, Redirect} from 'aurelia-router';
 import {AppStore} from 'global-resources';
 import {AppActionCreators} from '../../app-action-creators';
 
@@ -16,32 +16,17 @@ export class Login {
         this.appActionCreators = appActionCreators;
     }
 
-    onLoginSuccess(evt) {
-        this.router.parent.navigateToRoute(this.redirect.route, this.redirect.params);
+    onLoginSuccess() {
+        this.router.navigateToRoute('exchange');
+        //this.router.parent.navigateToRoute(this.redirect.route, this.redirect.params);
     }
 
     canActivate() {
-        let uri = URI();
-        let params = uri.search(true);
+        const account = this.appStore.getState().account;
 
-        if (params.redirect) {
-            this.redirect = {
-                route: params.redirect,
-                params: Object.keys(params).reduce((_params, key) => {
-                    if (key !== 'redirect') {
-                        _params[key] = params[key];
-                    }
-                    return _params;
-                }, {})
-            };
+        if (account && account.id) {
+            return new Redirect('exchange');
         }
-        else {
-            this.redirect = {
-                route: 'public'
-            };
-        }
-
-        this.action = params.action;
     }
 
     activate() {
@@ -50,6 +35,21 @@ export class Login {
                 type: 'info',
                 message: 'Hey, we noticed you are running in development mode. This site connects to the testnet in development mode. If you have a testnet stellar account, you can use that to login. Otherwise, you can use the following to login <br><ul><li>Public Key: GDH5E3PIYCHMUQHWJBUYM3BDO37FEBUIKSNEXDGNEGZ3KO5WIX4C2Z7K</li><li>Secret Key: SAFO66G2WUOEL6ES6J7Q773R7Y57YQPK544C44HUHRS2MJ5PRS3MZNSD</li></ul>'
             };
+        }
+
+        this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
+        this.updateFromStore();
+    }
+
+    deactivate() {
+        this.unsubscribeFromStore();
+    }
+
+    updateFromStore() {
+        this.account = this.appStore.getState().account;
+
+        if (this.account) {
+            this.onLoginSuccess();
         }
     }
 }

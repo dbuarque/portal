@@ -2,6 +2,7 @@
  * Created by istrauss on 3/17/2017.
  */
 
+import _cloneDeep from 'lodash.clonedeep';
 import {inject} from 'aurelia-framework';
 import {AppStore} from 'global-resources';
 import {ExchangeActionCreators} from '../exchange-action-creators';
@@ -19,9 +20,6 @@ export class AssetPairCustomElement {
     bind() {
         this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
         this.updateFromStore();
-        this.assetPair = {
-            ...this.storedAssetPair
-        };
     }
 
     unbind() {
@@ -30,7 +28,11 @@ export class AssetPairCustomElement {
 
     updateFromStore() {
         const exchange = this.appStore.getState().exchange;
-        this.storedAssetPair = exchange.assetPair;
+
+        if (this.storedAssetPair !== exchange.assetPair) {
+            this.storedAssetPair = exchange.assetPair;
+            this.assetPair = _cloneDeep(this.storedAssetPair);
+        }
     }
 
     load() {

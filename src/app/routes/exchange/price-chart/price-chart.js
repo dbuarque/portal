@@ -2,8 +2,8 @@
  * Created by istrauss on 3/19/2017.
  */
 
-import _throttle from 'lodash/throttle';
-import _find from 'lodash/find';
+import _throttle from 'lodash.throttle';
+import _find from 'lodash.find';
 import {inject} from 'aurelia-framework';
 import techan from 'techan';
 import {StellarServer, AppStore, ObserverManager, ObservationInstruction} from 'global-resources';
@@ -396,9 +396,7 @@ export class PriceChartCustomElement {
     _move(coords) {
         const currentData = _find(this.data, {date: coords.x});
         this.currentData = currentData ? Object.keys(currentData).reduce((_currentData, key) => {
-            if (key !== 'date') {
-                _currentData[key] = this.formatNumber.toView(currentData[key]);
-            }
+            _currentData[key] = key !== 'date' ? this.formatNumber.toView(currentData[key]) : currentData[key];
             return _currentData;
         }, {}) : undefined;
     }

@@ -4,16 +4,19 @@
 
 import {inject, bindable} from 'aurelia-framework';
 import {AppStore} from 'global-resources';
-//import Config from './';
+import Config from './asset-balances-config';
+import {AppActionCreators} from '../../../../app-action-creators';
 
-@inject(AppStore)
-export class Assets {
+@inject(Config, AppStore, AppActionCreators)
+export class AssetBalances {
 
-    constructor(appStore) {
-        this.config = appStore;
+    constructor(config, appStore, appActionCreators) {
+        this.config = config;
+        this.appStore = appStore;
+        this.appActionCreators = appActionCreators;
     }
 
-    bind() {
+    activate() {
         this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
         this.updateFromStore();
     }
@@ -28,10 +31,10 @@ export class Assets {
     }
 
     refresh() {
-        if (this.account.updating) {
-            return;
-        }
-
         this.appStore.dispatch(this.appActionCreators.updateAccount());
+    }
+
+    get refreshing() {
+        return this.account.updating;
     }
 }

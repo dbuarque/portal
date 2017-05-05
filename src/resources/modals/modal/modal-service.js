@@ -4,7 +4,7 @@
 
 import {inject, TemplatingEngine} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
-import _uniqueId from 'lodash/uniqueId';
+import _uniqueId from 'lodash.uniqueid';
 
 const defaultModalOptions = {
     keyboard: false,

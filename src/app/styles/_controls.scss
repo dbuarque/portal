@@ -3,9 +3,13 @@ input:not([type]), input[type=text], input[type=password], input[type=email], in
     margin: 0;
 }
 
+.dropdown-content li > a > i {
+    margin: 0 5px 0 0;
+}
+
 
 .select2-custom-element {
-    border-bottom: 1px solid #9e9e9e;
+    border-bottom: 1px solid $gray;
     height: 34px;
 
     &.disabled {
@@ -28,15 +32,15 @@ input:not([type]), input[type=text], input[type=password], input[type=email], in
     }
 
     .select2-dropdown {
-        border-top: 1px solid #9e9e9e;
+        border-top: 1px solid $gray;
 
         li.loading-results {
             color: #fff;
             position: relative;
 
             &:before {
-                content: "\E86A";
-                font-family: "Material Icons";
+                content: "\f021";
+                font-family: "FontAwesome";
                 left:10px;
                 position:absolute;
                 top:5px;
@@ -106,7 +110,7 @@ textarea.materialize-textarea {
 
 input.aurelia-flatpickr, .aurelia-flatpickr input {
     color: $accent-text !important;
-    border-bottom: 1px solid #9e9e9e !important;
+    border-bottom: 1px solid $gray !important;
 }
 
 .aurelia-flatpickr {
@@ -116,6 +120,6 @@ input.aurelia-flatpickr, .aurelia-flatpickr input {
 }
 
 input:not([type]):focus:not([readonly]), input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly]), input[type=email]:focus:not([readonly]), input[type=url]:focus:not([readonly]), input[type=time]:focus:not([readonly]), input[type=date]:focus:not([readonly]), input[type=datetime]:focus:not([readonly]), input[type=datetime-local]:focus:not([readonly]), input[type=tel]:focus:not([readonly]), input[type=number]:focus:not([readonly]), input[type=search]:focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
-    border-bottom: 1px solid #9e9e9e;
+    border-bottom: 1px solid $gray;
     box-shadow: none;
 }

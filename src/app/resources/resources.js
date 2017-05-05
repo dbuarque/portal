@@ -9,6 +9,7 @@ export * from './value-converters';
 
 export function configure(config) {
     config.globalResources(
-        PLATFORM.moduleName('./value-converters')
+        PLATFORM.moduleName('./value-converters'),
+        PLATFORM.moduleName('./widgets/stellar-entities-jqdt/stellar-entities-jqdt')
     );
 }

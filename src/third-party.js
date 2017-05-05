@@ -3,6 +3,8 @@
  */
 import './globals';
 
-import 'tooltipster';
-import 'select2';
 import 'materialize-css';
+import 'tooltipster';
+import 'datatables.net';
+import 'datatables.net-responsive';
+import 'select2';

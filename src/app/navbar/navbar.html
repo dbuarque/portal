@@ -3,40 +3,58 @@
         <div class="navbar-fixed">
             <nav>
                 <div class="nav-wrapper">
-                    <a href="#" class="brand-logo">
+                    <a href="javascript:void(0)" class="brand-logo" click.delegate="goToExchange()">
                         <img src="/assets/lupoex-logo.png">
                         LuPoEx
                         <span class="brand-desc hide-on-small-only">Lumen Powered Exchange</span>
                     </a>
 
-                    <!--<ul class="right">
+                    <ul class="right hide-on-med-and-down">
                         <li>
-                            <a md-dropdown="activates: user-dd">
+                            <a href="javascript:void(0)" md-waves click.delegate="goToAccount()" if.bind="account">
                                 <i class="fa fa-user-o fa-lg"></i>
-                                <span class="hide-on-med-and-down" style="font-size: 20px; vertical-align: middle;">&nbsp;${firstFive}</span>
+                                <span style="font-size: 20px; vertical-align: middle;">&nbsp;${firstFive}</span>
                             </a>
                         </li>
-                    </ul>-->
+                        <li>
+                            <a href="javascript:void(0)" md-waves click.delegate="logout()" if.bind="account">
+                                <i class="fa fa-sign-out fa-lg"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" md-waves click.delegate="login()" if.bind="!account">
+                                <i class="fa fa-user-o fa-lg"></i>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="right hide-on-large-only">
+                        <li>
+                            <a href="javascript:void(0)" md-waves md-dropdown="activates: user-dd" if.bind="account">
+                                <i class="fa fa-user-o fa-lg"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" md-waves click.delegate="login()" if.bind="!account">
+                                <i class="fa fa-user-o fa-lg"></i>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </nav>
 
-            <!--<ul id="user-dd" class="dropdown-content">
-                <li md-waves if.bind="account">
-                    <a href="javascript:void(0)" click.delegate="goToProfile()">
-                        <i class="fa fa-pencil-square-o"></i>&nbsp;Profile
+            <ul id="user-dd" class="dropdown-content">
+                <li md-waves>
+                    <a href="javascript:void(0)" click.delegate="goToAccount()">
+                        <i class="fa fa-folder-open-o"></i>Account
                     </a>
                 </li>
-                <li md-wave if.bind="account">
+                <li md-wave>
                     <a href="javascript:void(0)" click.delegate="logout()">
-                        <i class="fa fa-sign-out"></i>&nbsp;Log Out
+                        <i class="fa fa-sign-out"></i>Logout
                     </a>
                 </li>
-                <li md-wave if.bind="!account">
-                    <a href="javascript:void(0)" click.delegate="login()">
-                        <i class="fa in"></i>&nbsp;Log In
-                    </a>
-                </li>
-            </ul>-->
+            </ul>
         </div>
     </div>
 </template>

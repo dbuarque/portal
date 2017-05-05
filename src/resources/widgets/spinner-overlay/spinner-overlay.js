@@ -9,7 +9,8 @@ import {ObserverManager, ObservationInstruction} from '../../workers/workers';
 export class SpinnerOverlayCustomElement {
 
     @bindable minHeight = 350;
-    @bindable size = 'large';
+    @bindable size = '3x';
+    @bindable transparent = false;
 
     constructor(element, observerManager) {
         this.element = element;

@@ -6,13 +6,20 @@
 
   table.dataTable {
     margin: 0;
-    border: 1px #ddd solid;
+    border-bottom: 1px $gray solid;
+    overflow: hidden;
+
+    thead {
+      input {
+        border-bottom: 1px #fff solid;
+      }
+    }
 
     tr {
 
       th, td {
         text-align: center;
-        border-color: #ddd;
+        border-color: $gray;
 
         &:first-child {
 
@@ -108,5 +115,11 @@
 .aurelia-crumbs {
   a:hover {
     text-decoration: underline !important;
+  }
+}
+
+.spinner-overlay {
+  i.fa.fa-refresh {
+    color: $primary;
   }
 }

@@ -5,9 +5,11 @@
     border-radius: 0;
 
     .card-content {
-        padding: 10px;
+        padding: 0;
 
         .card-heading {
+            padding: 10px;
+            padding-bottom: 5px;
 
             .card-heading-right {
                 display: inline-block;
@@ -25,8 +27,13 @@
     }
 
     .card-body {
-        padding: 0;
+        border-top: 1px solid $light-gray;
+        padding: 10px;
     }
+}
+
+.scrollable-table-wrapper {
+    overflow-x: auto;
 }
 
 .form-field {
@@ -70,5 +77,13 @@
 .row {
     .col {
         width: 100%;
+    }
+}
+
+@media only screen and (min-width: 993px) {
+    #toast-container {
+        top: 0 !important;
+        right: 0 !important;
+        position: absolute;
     }
 }

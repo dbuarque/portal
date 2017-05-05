@@ -1,3 +1,46 @@
 <template>
-
+    <div class="account">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-heading">
+                    <div class="row hide-on-small-only">
+                        <div class="col m11">
+                            <div class="tabs">
+                                <ul md-tabs="fixed: true;" md-tabs.ref="accountTabs"  class="z-depth-1">
+                                    <li repeat.for="route of router.routes" if.bind="route.moduleId">
+                                        <a class="${router.currentInstruction.config.name === route.name ? 'active' : '' & oneTime}" click.trigger="navigateToRoute(route.name)" href="${'#tab-' + route.name}">${route.title & oneTime}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col s1">
+                            <button disabled.bind="account.updating" type="button" class="btn btn-flat accent-text refresh-button" click.trigger="refresh()">
+                                <i class="fa fa-refresh"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row hide-on-med-and-up">
+                        <div class="col s10">
+                            <select md-select value.two-way="currentRoute" change.trigger="navigateToRoute(currentRoute)">
+                                <option repeat.for="route of router.routes" model.bind="route.name">${route.title}</option>
+                            </select>
+                        </div>
+                        <div class="col s2">
+                            <button disabled.bind="account.updating" type="button" class="btn btn-flat accent-text refresh-button" click.trigger="refresh()">
+                                <i class="fa fa-refresh"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="tab-content col s12">
+                            <router-view></router-view>
+                            <spinner-overlay size="2x" show.bind="router.isNavigating || currentViewModel.refreshing" min-height.bind="150"></spinner-overlay>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>

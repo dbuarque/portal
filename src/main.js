@@ -9,7 +9,7 @@ import thunk from 'redux-thunk';
 
 import * as Bluebird from 'bluebird';
 Bluebird.config({
-    warnings: { wForgottenReturn: false }
+    warnings: false
 });
 
 import './third-party';

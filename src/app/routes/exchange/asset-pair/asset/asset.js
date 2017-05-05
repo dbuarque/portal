@@ -2,7 +2,7 @@
  * Created by istrauss on 3/17/2017.
  */
 
-import _find from 'lodash/find';
+import _find from 'lodash.find';
 import {inject, bindable, bindingMode} from 'aurelia-framework';
 import {ValidationManager, StellarServer} from 'global-resources';
 import {AssetResource} from 'app-resources';
@@ -26,7 +26,10 @@ export class AssetCustomElement {
     }
 
     async codeChanged() {
-        this.issuer = null;
+        this.codes = this.code ? [{
+            value: this.code,
+            label: this.code
+        }] : [];
 
         if (!this.code) {
             this.issuers = [];
@@ -42,12 +45,18 @@ export class AssetCustomElement {
             };
         });
 
+        const issuer = _find(this.issuers, {value: this.issuer});
+
+        if (!issuer) {
+            this.issuer = null;
+        }
+
         this.loading--;
     }
 
     issuerChanged() {
         this.findIssuerAccount();
-        this.validateCodeIssuerCombo();
+        //this.validateCodeIssuerCombo();
     }
 
     async findIssuerAccount() {
@@ -69,23 +78,23 @@ export class AssetCustomElement {
         }
     }
 
-    async validateCodeIssuerCombo() {
-        if (this.issuer && this.code) {
-            this.loading++;
-            try {
-                this.orderbook = await this.stellarServer.orderbook(
-                    new this.stellarServer.sdk.Asset(this.code, this.issuer),
-                    this.stellarServer.sdk.Asset.native()
-                );
-                this.loading--;
-            }
-            catch (e) {
-                this.infoClass = 'error';
-                this.info = 'Sorry, it looks like that issuer does not exist or that issuer has not issued an asset with that code.';
-                this.loading--;
-            }
-        }
-    }
+    //async validateCodeIssuerCombo() {
+    //    if (this.issuer && this.code) {
+    //        this.loading++;
+    //        try {
+    //            this.orderbook = await this.stellarServer.orderbook(
+    //                new this.stellarServer.sdk.Asset(this.code, this.issuer),
+    //                this.stellarServer.sdk.Asset.native()
+    //            );
+    //            this.loading--;
+    //        }
+    //        catch (e) {
+    //            this.infoClass = 'error';
+    //            this.info = 'Sorry, it looks like that issuer does not exist or that issuer has not issued an asset with that code.';
+    //            this.loading--;
+    //        }
+    //    }
+    //}
 
     validate() {
         return this.validationManager.validate();

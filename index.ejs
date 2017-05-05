@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <base href="<%- htmlWebpackPlugin.options.metadata.baseUrl %>">
 
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/stellar-sdk/0.7.3/stellar-sdk.min.js"></script>
-    <!--<script src="/stellar-sdk.js"></script>-->
+    <!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/stellar-sdk/0.7.3/stellar-sdk.min.js"></script>-->
+    <script src="/stellar-sdk.min.js"></script>
 
     <style>
         .splash {
@@ -33,11 +33,16 @@
 
     <!-- imported CSS are concatenated and added automatically -->
 
-    <% if (!htmlWebpackPlugin.options.metadata.production) { %>
+    <% if (!htmlWebpackPlugin.options.metadata.development) { %>
     <script>
+        //lupoex = {
+        //    env: 'development',
+        //    api: 'http://localhost:1337',
+        //    horizon: 'https://horizon-testnet.stellar.org/'
+        //};
         lupoex = {
             env: 'development',
-            api: 'http://localhost:1337',
+            api: 'http://api.lupoex.com',
             horizon: 'https://horizon.stellar.org'
         };
     </script>

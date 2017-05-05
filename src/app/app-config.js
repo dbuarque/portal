@@ -20,14 +20,14 @@ export class AppConfig {
                     name: 'exchange',
                     moduleId: PLATFORM.moduleName('./routes/exchange/exchange'),
                     title: 'Exchange',
-                    breadcrumb: true
+                    //breadcrumb: true
                 },
                 {
                     route: ['login'],
                     name: 'login',
                     moduleId: PLATFORM.moduleName('./routes/login/login'),
                     title: 'Login',
-                    breadcrumb: true
+                    //breadcrumb: true
                 },
                 {
                     route: ['account'],

@@ -4,7 +4,7 @@
 
 import {inject, bindable, customElement} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
-import _findIndex from 'lodash/findIndex';
+import _findIndex from 'lodash.findindex';
 import ModalService from './modal-service';
 
 @customElement('modal-anchor')

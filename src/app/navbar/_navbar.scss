@@ -30,6 +30,10 @@ nav .nav-wrapper i {
 .navbar-fixed {
     nav {
         background-color: $accent;
+
+        .dropdown-content {
+            margin-top: 55px;
+        }
     }
 }
 

@@ -1,0 +1,4 @@
+<template>
+    <i if.bind="!offers || offers.length === 0">There are no open offers for account: ${account.id}</i>
+    <jquery-data-table if.bind="offers && offers.length > 0" config.bind="config.table" list.bind="offers"></jquery-data-table>
+</template>
