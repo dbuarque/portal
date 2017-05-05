@@ -1,31 +1,32 @@
 .account {
-  margin: 0 -2px;
-  padding: 2px;
+    margin: 0 -2px;
+    padding: 2px;
 
-  > .card > .card-content {
+    > .card > .card-content {
 
-    > .card-heading {
-      padding: 0;
+        > .card-heading {
+            padding: 0;
+            overflow: hidden;
 
-      .col.s1 {
-        padding-top: 10px;
-      }
+            .col.s1 {
+                padding-top: 10px;
+            }
+        }
+
+        .card-body {
+
+            .card-heading {
+                background: $light-gray;
+            }
+
+            .collection {
+                margin: -10px;
+                border: none;
+            }
+        }
     }
 
-    .card-body {
-
-      .card-heading {
-        background: $light-gray;
-      }
-
-      .collection {
-        margin: -10px;
-        border: none;
-      }
+    .refresh-button {
+        padding: 0 1rem;
     }
-  }
-
-  .refresh-button {
-    padding: 0 1rem;
-  }
 }
