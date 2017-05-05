@@ -8,7 +8,7 @@ import Config from './asset-balances-config';
 import {AppActionCreators} from '../../../../app-action-creators';
 
 @inject(Config, AppStore, AppActionCreators)
-export class AssetBalancesCustomElement {
+export class AssetBalances {
 
     constructor(config, appStore, appActionCreators) {
         this.config = config;
