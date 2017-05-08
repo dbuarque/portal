@@ -60,10 +60,11 @@ export class IdentifyUserCustomElement {
             return;
         }
 
-        this.loading++;
-
-        const keyPair = this.stellarServer.sdk.Keypair.fromPublicKey(this.publicKey);
-
-        this.loading--;
+        EventHelper.emitEvent(this.element, 'secret', {
+            detail: {
+                secret: this.secret,
+                remember: this.remember
+            }
+        });
     }
 }

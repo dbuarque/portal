@@ -1,0 +1,33 @@
+<template>
+    <require from="./memo-select/memo-select"></require>
+
+    <div class="row">
+        <div class="col s12">
+            <label>Code</label>
+            <input type="text" value.bind="code" disabled.bind="lockCode" required
+            tt-validate="manager.bind:validationManager">
+        </div>
+        <div class="col s12" if.bind="code !=== 'XLM'">
+            <label>Issuer</label>
+            <input type="text" value.bind="issuer" disabled.bind="lockIssuer" required
+                   tt-validate="manager.bind:validationManager">
+        </div>
+        <div class="col s12">
+            <label>Amount</label>
+            <input type="number" value.bind="amount" required
+                   tt-validate="manager.bind:validationManager">
+        </div>
+        <div class="col s12">
+            <label>Destination Account</label>
+            <input type="text" value.bind="destination" required
+                   tt-validate="manager.bind:validationManager">
+        </div>
+        <memo-select repeat.for="memo of memos" validation-manager.bind="validationManager" type.bind="memo.type" value.bind="memo.value"></memo-select>
+        <button type="button" class="btn accent" click.trigger="addMemo()">
+            Add Memo
+        </button>
+    </div>
+    <button class="btn btn-large primary" click.delegate="submit()">
+        <i class="fa fa-paper-plane-o"></i>&nbsp;Submit Payment
+    </button>
+</template>

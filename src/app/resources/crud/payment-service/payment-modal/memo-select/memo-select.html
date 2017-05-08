@@ -1,0 +1,22 @@
+<template>
+    <div class="row">
+        <div class="col s6">
+            <label>Type</label>
+            <select md-select value.two-way="type" change.trigger="onTypeChange()" required title="Type"
+                    tt-validate="manager.bind: validationManager; key.bind: formField.formKey; element-selector: select">
+                <option repeat.for="memoType of memoTypes" model.bind="memoType">${memoType}</option>
+            </select>
+        </div>
+        <div class="col s6" show.bind="type">
+            <label>Value</label>
+            <input type="number" if.bind="type === 'Id'" value.bind="value" required maxlength="64" title="Id"
+                tt-validate="manager.bind:validationManager">
+            <input type="text" if.bind="type === 'Text'" value.bind="value" required maxlength="28" title="Text"
+                   tt-validate="manager.bind:validationManager">
+            <input type="text" if.bind="type === 'Hash'" value.bind="value" required maxlength="64" title="Hash"
+                   tt-validate="manager.bind:validationManager">
+            <input type="text" if.bind="type === 'Return'" value.bind="value" required maxlength="64" title="Return"
+                   tt-validate="manager.bind:validationManager">
+        </div>
+    </div>
+</template>
