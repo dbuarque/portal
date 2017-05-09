@@ -22,6 +22,9 @@ export class SecretStore {
                 const result = await this.modalService.open('app/resources/auth/identify-user/identify-user');
                 keypair = result.remember ? this.remember(result.secret) : this.stellarServer.sdk.Keypair.fromSecret(result.secret);
             }
+            catch(e) {
+                throw e;
+            }
         }
 
         transaction.sign(keypair);
@@ -44,6 +47,7 @@ export class SecretStore {
                 //If the modal does not throw then that means the user selected not to forget the secret.
                 return;
             }
+            catch(e) {}
         }
         this._secret = undefined;
         this.unsubscribeFromInactivityTracker();
