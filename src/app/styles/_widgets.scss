@@ -1,5 +1,16 @@
 .jquery-data-table {
 
+    select {
+        display: inline-block;
+        background-color: #fff;
+        width: auto;
+        padding: 2px;
+        border: 1px solid $gray;
+        color: $accent;
+        border-radius: 0;
+        height: auto;
+    }
+
   button {
     margin-right: 5px;
   }
