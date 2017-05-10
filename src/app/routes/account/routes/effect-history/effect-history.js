@@ -8,9 +8,10 @@ import {EffectResource} from 'app-resources';
 import Config from './effect-history-config';
 
 @inject(Config, StellarServer, AppStore, EffectResource)
-export class TransactionCustomElement {
+export class EffectHistory {
 
     loading = 0;
+    additionalFilterParams = {};
 
     constructor(config, stellarServer, appStore, effectResource) {
         this.config = config;
@@ -19,9 +20,13 @@ export class TransactionCustomElement {
         this.effectResource = effectResource;
     }
 
-    activate() {
+    activate(params) {
         this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
         this.updateFromStore();
+
+        if (params.operationId) {
+            this.additionalFilterParams['operation.id'] = params.operationId;
+        }
     }
 
     unbind() {
@@ -36,6 +41,7 @@ export class TransactionCustomElement {
         this.account = state.account;
 
         if (this.account.id !== oldAccountId) {
+            this.additionalFilterParams['historyAccount.address'] = this.account.id;
             this.refresh();
         }
     }

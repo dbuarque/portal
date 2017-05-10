@@ -10,6 +10,8 @@
         .card-heading {
             padding: 10px;
             padding-bottom: 5px;
+            border-top: 1px solid $light-gray;
+            border-bottom: 1px solid $light-gray;
 
             .card-heading-right {
                 display: inline-block;
@@ -27,7 +29,6 @@
     }
 
     .card-body {
-        border-top: 1px solid $light-gray;
         padding: 10px;
     }
 }

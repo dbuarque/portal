@@ -6,3 +6,4 @@ export {default as BaseResource} from './base-resource';
 export {default as AssetResource} from './asset-resource';
 export {default as TickerResource} from './ticker-resource';
 export {default as EffectResource} from './effect-resource';
+export {default as OperationResource} from './operation-resource';
