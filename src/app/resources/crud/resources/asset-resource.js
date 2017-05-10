@@ -2,18 +2,14 @@
  * Created by istrauss on 5/11/2016.
  */
 
-import {inject, Container} from 'aurelia-dependency-injection';
+import {inject} from 'aurelia-dependency-injection';
 import {ModalService} from 'global-resources';
-import JsonClient from '../clients/json-client';
 import BaseResource from './base-resource';
 
-@inject(Container, ModalService)
+@inject(ModalService)
 export default class AssetResource extends BaseResource {
-    constructor(container, modalService) {
-        super(container, {
-            resourceUrl: '/Asset',
-            client: container.get(JsonClient)
-        });
+    constructor(modalService) {
+        super('/Asset');
 
         this.modalService = modalService;
     }

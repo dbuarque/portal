@@ -4,17 +4,19 @@
 
 import {inject} from 'aurelia-framework';
 import {StellarServer, AppStore} from 'global-resources';
+import {EffectResource} from 'app-resources';
 import Config from './effect-history-config';
 
-@inject(Config, StellarServer, AppStore)
+@inject(Config, StellarServer, AppStore, EffectResource)
 export class TransactionCustomElement {
 
     loading = 0;
 
-    constructor(config, stellarServer, appStore) {
+    constructor(config, stellarServer, appStore, effectResource) {
         this.config = config;
         this.stellarServer = stellarServer;
         this.appStore = appStore;
+        this.effectResource = effectResource;
     }
 
     activate() {
@@ -39,7 +41,9 @@ export class TransactionCustomElement {
     }
 
     refresh() {
-        this.effectCallBuilder = this.account ? this.stellarServer.effects().order('desc').forAccount(this.account.id) : undefined;
+        if (this.jqdt) {
+            this.jqdt.refresh();
+        }
     }
 
     get refreshing() {

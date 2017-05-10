@@ -4,7 +4,7 @@
     
 import {inject, bindable} from 'aurelia-framework';
 
-export class StellarEntitiesJqdt {
+export class StellarEntitiesJqdtCustomElement {
 
     @bindable config = {};
     @bindable callBuilder;

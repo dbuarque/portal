@@ -33,7 +33,7 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
             app: path.resolve( __dirname, 'src', 'app'),
             //'resources': path.resolve( __dirname, 'src', 'resources'),
             'global-resources': path.resolve( __dirname, 'src', 'resources', 'index'),
-            'app-resources': path.resolve( __dirname, 'src', 'app', 'resources', 'resources'),
+            'app-resources': path.resolve( __dirname, 'src', 'app', 'resources', 'index'),
             '$': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.js'),
             'jquery': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.js')
         }
