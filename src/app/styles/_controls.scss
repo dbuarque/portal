@@ -123,3 +123,7 @@ input:not([type]):focus:not([readonly]), input[type=text]:focus:not([readonly]),
     border-bottom: 1px solid $gray;
     box-shadow: none;
 }
+
+button.btn-small {
+    padding: 4px;
+}

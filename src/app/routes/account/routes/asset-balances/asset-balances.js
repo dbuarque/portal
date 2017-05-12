@@ -14,6 +14,8 @@ export class AssetBalances {
         this.config = config;
         this.appStore = appStore;
         this.appActionCreators = appActionCreators;
+
+        this.updateTableConfig();
     }
 
     activate() {
@@ -36,5 +38,18 @@ export class AssetBalances {
 
     get refreshing() {
         return this.account.updating;
+    }
+
+    updateTableConfig() {
+        let vm = this;
+
+        vm.config.table.columns[3].cellCallback = (cell, rowData) => {
+            cell.empty();
+            $('<button class="btn accent btn-small btn-flat" type="button"><i class="fa fa-paper-plane-o"></i>&nbsp;Pay</button>')
+                .click(() => {
+                    vm.router.navigateToRoute('effect-history', {operationId: rowData.id}); //rowData.transactionTypeName.toLowerCase()
+                })
+                .appendTo(cell);
+        };
     }
 }
