@@ -31,13 +31,13 @@ export default class AssetBalancesConfig {
                             return rowData.asset_type === 'native' ? '' : rowData.asset_issuer;
                         },
                         searchable: true
-                    }//,
-                    //{
-                    //    title: '',
-                    //    defaultContent: '',
-                    //    searchable: false,
-                    //    orderable: false
-                    //}
+                    },
+                    {
+                        title: '',
+                        defaultContent: '',
+                        searchable: false,
+                        orderable: false
+                    }
                 ]
             }
         };

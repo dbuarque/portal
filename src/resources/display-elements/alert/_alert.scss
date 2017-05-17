@@ -1,14 +1,16 @@
 .card.alert {
     padding: 5px;
+    padding-top: 15px;
+    position: relative;
 
-    td {
-        padding: 10px;
-
-        button {
-            border: none;
-            background-color: transparent;
-            font-weight: bold;
-            font-size: 20px;
-        }
+    button {
+        border: none;
+        background-color: transparent;
+        font-weight: bold;
+        font-size: 14px;
+        position: absolute;
+        top: 0;
+        right: 4px;
+        padding: 0;
     }
 }

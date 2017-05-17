@@ -6,6 +6,7 @@ export class IdentifyUserModal {
 
     activate(params) {
         this.modalVM = params.modalVM;
+        this.action = params.passedInfo.action;
     }
 
     secretCollected(event) {

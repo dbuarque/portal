@@ -52,6 +52,8 @@ export class AppActionCreators {
                     account
                 }
             });
+
+            return account;
         };
     }
 
@@ -63,7 +65,7 @@ export class AppActionCreators {
                 return;
             }
 
-            dispatch(this.setAccount(account.id));
+            return dispatch(this.setAccount(account.id));
         }
     }
 }

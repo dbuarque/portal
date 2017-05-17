@@ -62,7 +62,7 @@ export class OperationHistory {
 
         vm.config.table.columns[3].cellCallback = (cell, rowData) => {
             cell.empty();
-            $('<button class="btn accent btn-flat" type="button">Effects</button>')
+            $('<button class="btn accent btn-flat btn-small" type="button"><i class="fa fa-share-alt"></i>&nbsp;Effects</button>')
                 .click(() => {
                     vm.router.navigateToRoute('effect-history', {operationId: rowData.id}); //rowData.transactionTypeName.toLowerCase()
                 })

@@ -33,11 +33,11 @@ export class ModalCustomElement {
         
         self.$modal = self.$modalWrapper.find('.modal');
 
-        let options = Object.assign({}, defaultOptions, self.instruction.options);
-        let userDefinedReady = options.ready;
-        let userDefinedComplete = options.complete;
+        self.options = Object.assign({}, defaultOptions, self.instruction.options);
+        let userDefinedReady = self.options.ready;
+        let userDefinedComplete = self.options.complete;
 
-        options.ready = () => {
+        self.options.ready = () => {
             $(self).trigger('modal.ready');
             self.ready = true;
 
@@ -46,7 +46,7 @@ export class ModalCustomElement {
             }
         };
 
-        options.complete = data => {            
+        self.options.complete = data => {
             if (userDefinedComplete) {
                 userDefinedComplete();
             }
@@ -58,15 +58,13 @@ export class ModalCustomElement {
             });
         };
 
-        self.$modal.modal(options);
+        self.$modal.modal(self.options);
 
-        if (options.dismissible) {
-            self.$modalWrapper.click(function(e) {
-                if( e.target === this ) {
-                    self.dismiss();
-                }
-            });
-        }
+        self.$modalWrapper.click(function(e) {
+            if (self.options.dismissible && e.target === this ) {
+                self.dismiss();
+            }
+        });
 
         self.$modal.modal('open');
 

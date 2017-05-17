@@ -75,11 +75,26 @@
     }
 }
 
+.modal-wrapper .modal .modal-content {
+    padding: 10px;
+}
+
 .row {
     .col {
         width: 100%;
     }
 }
+
+.material-tooltip {
+    border: 1px solid $primary;
+    color: $primary;
+    max-width: 300px;
+
+    .backdrop {
+        background-color: #fff;
+    }
+}
+
 
 @media only screen and (min-width: 993px) {
     #toast-container {

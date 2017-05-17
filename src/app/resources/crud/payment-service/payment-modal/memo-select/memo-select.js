@@ -2,12 +2,12 @@
  * Created by istrauss on 5/8/2017.
  */
 
-import {bindable} from 'aurelia-framework';
+import {bindable, bindingMode} from 'aurelia-framework';
 
 export class MemoSelectCustomElement {
 
-    @bindable type;
-    @bindable value;
+    @bindable({defaultBindingMode: bindingMode.twoWay}) type;
+    @bindable({defaultBindingMode: bindingMode.twoWay}) value;
     @bindable validationManager;
 
     memoTypes = [

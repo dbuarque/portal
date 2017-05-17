@@ -21,7 +21,7 @@ export default class ApiClient extends HttpClient {
         super.configure(config => {
             config
                 .useStandardConfiguration()
-                .withBaseUrl(window.lupoex.api);
+                .withBaseUrl(window.lupoex.urls.api);
 
             configurationFn(config);
         });

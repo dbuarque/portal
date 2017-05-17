@@ -43,6 +43,12 @@ export default class ValidationInstruction {
         this.participants.splice(participantIndex, 1);
     }
 
+    clear() {
+        this.participants.forEach(p => {
+            p.clear();
+        });
+    }
+
     validate() {
         if (this.participants.length === 0) {
             return true;

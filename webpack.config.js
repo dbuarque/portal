@@ -127,6 +127,7 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
         })),
         new ModuleDependenciesPlugin({
             "aurelia-materialize-bridge": [
+                "./checkbox/checkbox",
                 "./dropdown/dropdown",
                 "./progress/progress",
                 "./radio/radio",

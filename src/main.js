@@ -22,10 +22,12 @@ if (Waves) {
 export async function configure(aurelia) {
     aurelia.use
         .standardConfiguration()
+        .plugin(PLATFORM.moduleName('aurelia-animator-velocity'))
         .plugin(PLATFORM.moduleName('aurelia-flatpickr'))
         .plugin(PLATFORM.moduleName('aurelia-crumbs'))
         .plugin(PLATFORM.moduleName('aurelia-materialize-bridge'), bridge => {
             return bridge
+                .useCheckbox()
                 .useDropdown()
                 .useProgress()
                 .useRadio()
