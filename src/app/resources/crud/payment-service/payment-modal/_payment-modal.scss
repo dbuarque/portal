@@ -1,13 +1,18 @@
 .payment-modal {
 
-    .confirm {
+    .form-container {
+        padding: 2px;
+    }
+
+    .confirm-step {
         table {
+            display: inline-block;
             td {
-                font-size: 20px;
                 font-weight: bold;
+                padding: 5px;
 
                 &.label {
-                    text-align: right;
+                    text-align: left;
                 }
 
                 &.value {

@@ -125,5 +125,31 @@ input:not([type]):focus:not([readonly]), input[type=text]:focus:not([readonly]),
 }
 
 button.btn-small {
-    padding: 4px;
+    padding: 0 5px;
+    line-height: 1rem;
+    font-size: 1rem;
+    height: 30px;
+
+    i {
+        line-height: 1rem;
+        font-size: 1rem;
+    }
+}
+
+.btn {
+    padding: 0 1rem;
+}
+
+/* buttons */
+.btn.gray, .btn-flat.gray, .btn-large.gray {
+    background-color: $gray;
+    transition: .2s ease-out;
+}
+.btn.gray:hover, .btn-flat.gray:hover, .btn-large.gray:hover {
+    background-color: lighten($gray, 10%);
+    transition: .2s ease-out;
+}
+.btn.gray:focus, .btn-flat.gray:focus, .btn-large.gray:focus {
+    background-color: lighten($gray, 5%);
+    transition: .2s ease-out;
 }

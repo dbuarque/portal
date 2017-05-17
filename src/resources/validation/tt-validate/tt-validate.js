@@ -122,31 +122,56 @@ export class TtValidateCustomAttribute {
             this.validate();
         });
 
+        this.clear();
+    }
+
+    clear() {
         this.$validatedElement.removeClass('touched');
         this.$validatedElement.removeClass('valid');
         this.$validatedElement.removeClass('invalid');
+
+        this.justCleared = true;
     }
 
     participateInValidation() {
-        this.keys.forEach(key => {
-            let validationInstruction = this.manager.getInstruction(key);
+        const self = this;
+        
+        self.keys.forEach(key => {
+            let validationInstruction = self.manager.getInstruction(key);
 
             if (!validationInstruction) {
                 return;
             }
 
-            this.boundValidate = this.validateOnObserverChange.bind(this);
+            self.boundValidate = self.validateOnObserverChange.bind(self);
 
-            let participant = validationInstruction.addParticipant(this.observer.getValue.bind(this.observer), this.onValidated.bind(this));
-            this.validationParticipants.push(participant);
+            let participant = validationInstruction.addParticipant(self.observer.getValue.bind(self.observer));
+            participant.subscribe((name, args) => {
+                switch(name) {
+                    case 'validated':
+                        self.onValidated(args);
+                        break;
+                    case 'cleared':
+                        self.clear();
+                        break;
+                    default:
+                        break;
+                }
+            });
+            self.validationParticipants.push(participant);
 
-            this.observer.subscribe(this.boundValidate);
+            self.observer.subscribe(self.boundValidate);
         });
     }
 
     validateOnObserverChange(newValue, oldValue) {
         //Need to return here to avoid times when inital value binding is actually done after this (sometimes happens).
         if (!newValue && !oldValue) {
+            return;
+        }
+
+        if (this.justCleared) {
+            this.justCleared = false;
             return;
         }
 
@@ -162,7 +187,7 @@ export class TtValidateCustomAttribute {
         }
     }
 
-    onValidated(result, message, manuallyTriggered = null, participant) {
+    onValidated({result, message, manuallyTriggered = null, participant}) {
         if (manuallyTriggered) {
             this.$validatedElement.addClass('validated');
         }

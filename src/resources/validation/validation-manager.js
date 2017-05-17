@@ -83,4 +83,10 @@ export default class ValidationManager {
                 return this.instructionMap[key].validate() && instructionsResult;
             }, true);
     }
+
+    clear() {
+        Object.values(this.instructionMap).forEach(i => {
+            i.clear();
+        });
+    }
 }

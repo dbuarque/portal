@@ -3,6 +3,14 @@
         color: $error;
     }
 
+    &.alert-warning {
+        color: $warning;
+    }
+
+    &.alert-success {
+        color: $success;
+    }
+
     &.alert-primary {
         color: $primary;
     }

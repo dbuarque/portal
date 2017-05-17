@@ -17,9 +17,9 @@
                        value.bind="formField.model[formField.property]" config.bind="formField.control" options.bind="formField.control.options"
                        if.one-time="formField.control.type === 'select2'" disabled.bind="formField.control.state === 'disabled'"></select2>
 
-            <select-dd tt-validate="manager.bind: validationManager; key.bind: formField.formKey; element-selector: select"
+            <selectc-dd tt-validate="manager.bind: validationManager; key.bind: formField.formKey; element-selector: select"
                        value.bind="formField.model[formField.property]" config.bind="formField.control" options.bind="formField.control.options"
-                       if.one-time="formField.control.type === 'select'" disabled.bind="formField.control.state === 'disabled'"></select-dd>
+                       if.one-time="formField.control.type === 'select'" disabled.bind="formField.control.state === 'disabled'"></selectc-dd>
 
             <state-select tt-validate="manager.bind: validationManager; key.bind: formField.formKey; element-selector: select"
                           value.bind="formField.model[formField.property]" config.bind="formField.control"
