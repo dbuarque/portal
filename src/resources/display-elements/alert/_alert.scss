@@ -1,6 +1,5 @@
 .card.alert {
     padding: 5px;
-    padding-top: 15px;
     position: relative;
 
     button {
@@ -12,5 +11,9 @@
         top: 0;
         right: 4px;
         padding: 0;
+    }
+
+    &.dismissible {
+        padding-top: 15px;
     }
 }

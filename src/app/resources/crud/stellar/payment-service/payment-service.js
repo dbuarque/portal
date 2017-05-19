@@ -5,14 +5,16 @@
 import {PLATFORM} from 'aurelia-pal';
 import {inject} from 'aurelia-framework';
 import {ModalService, AppStore, AlertToaster} from 'global-resources';
+import {TransactionService} from '../transaction-service/transaction-service';
 
-@inject(ModalService, AppStore, AlertToaster)
+@inject(ModalService, AppStore, AlertToaster, TransactionService)
 export class PaymentService {
 
-    constructor(modalService, appStore, alertToaster) {
+    constructor(modalService, appStore, alertToaster, transactionService) {
         this.modalService = modalService;
         this.appStore = appStore;
         this.alertToaster = alertToaster;
+        this.transactionService = transactionService;
     }
 
     /**
@@ -24,17 +26,30 @@ export class PaymentService {
      * @param [passedInfo.lockIssuer] Disables the ability of the user to change the issuer
      * @returns {*}
      */
-    initiatePayment(passedInfo) {
+    async initiatePayment(passedInfo) {
         if (!this.appStore.getState().account) {
             const errorMessage = 'You must be logged in to send a payment. Please log in and try again.';
             this.alertToaster.error(errorMessage);
             throw new Error(errorMessage);
         }
-        return this.modalService.open(PLATFORM.moduleName('app/resources/crud/payment-service/payment-modal/payment-modal'),
-            {
-                ...passedInfo,
-                title: 'Send Payment'
-            }
-        );
+
+        try {
+            const transaction = await this.modalService.open(PLATFORM.moduleName('app/resources/crud/payment-service/payment-modal/payment-modal'),
+                {
+                    ...passedInfo,
+                    title: 'Send Payment'
+                }
+            );
+
+            await this.transactionService.submitTransaction(transaction, {
+                tryAgain: {
+                    text: 'Try Again',
+                    callback() {
+
+                    }
+                }
+            });
+        }
+        catch(e) {}
     }
 }

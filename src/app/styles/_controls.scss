@@ -153,3 +153,20 @@ button.btn-small {
     background-color: lighten($gray, 5%);
     transition: .2s ease-out;
 }
+
+
+/* buttons */
+.btn.error, .btn-flat.error, .btn-large.error {
+    color: #fff;
+    background-color: $error;
+    transition: .2s ease-out;
+}
+.btn.error:hover, .btn-flat.error:hover, .btn-large.error:hover {
+    background-color: lighten($error, 10%);
+    transition: .2s ease-out;
+}
+.btn.error:focus, .btn-flat.error:focus, .btn-large.error:focus {
+    background-color: lighten($error, 5%);
+    transition: .2s ease-out;
+}
+

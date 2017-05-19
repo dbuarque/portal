@@ -31,8 +31,16 @@ export class AppConfig {
                     route: ['account'],
                     name: 'account',
                     moduleId: PLATFORM.moduleName('./routes/account/account'),
+                    accountRequired: true,
                     title: 'Account',
                     breadcrumb: true
+                },
+                {
+                    route: ['send-payment'],
+                    name: 'send-payment',
+                    moduleId: PLATFORM.moduleName('./routes/send-payment/send-payment'),
+                    accountRequired: true,
+                    title: 'Send Payment'
                 }
             ]
         };

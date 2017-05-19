@@ -1,13 +1,15 @@
 <template>
-    <div style="text-align: center" class="alert-modal-text alert">
+    <div class="timeout-modal center-text">
         <strong>
-            <i class="fa fa-lg fa-exclamation-triangle text-danger"></i>
+            <i class="fa fa-lg fa-exclamation-triangle error-text"></i>
         </strong>
         &nbsp;
-        Due to inactivity, your secret key will be forgotten in: <strong style="font-size: 50px" class="text-primary">${counter}</strong>
-        <br><br>
-        <div class="text-center">
-            <button class="btn btn-default" type="button" click.trigger="noDontDoThat()">Keep my secret key for now.</button>
+        Due to inactivity, your secret key will be forgotten in:
+        <br>
+        <strong style="font-size: 60px" class="primary-text">${counter}</strong>
+        <br>
+        <div>
+            <button class="btn btn-flat accent" type="button" click.trigger="noDontDoThat()">Keep my secret key for now.</button>
         </div>
     </div>
 </template>

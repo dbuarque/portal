@@ -40,7 +40,14 @@ export class AppActionCreators {
                 }
             });
 
-            account = await this.stellarServer.loadAccount(publicKey);
+            try {
+                account = await this.stellarServer.loadAccount(publicKey);
+            }
+            catch(e) {
+                //Couldn't find account, let's logout.
+                dispatch(this.setAccount());
+                throw e;
+            }
 
             if (account) {
                 account.updating = false;

@@ -4,22 +4,19 @@
 
 import {inject} from 'aurelia-framework'
 import {StellarServer, ValidationManager, AppStore, AlertToaster} from 'global-resources';
-import {SecretStore} from '../../../auth/secret-store/secret-store';
-import {AppActionCreators} from '../../../../app-action-creators';
+import {AppActionCreators} from '../../../../../app-action-creators';
 
-@inject(StellarServer, ValidationManager, AppStore, AlertToaster, SecretStore, AppActionCreators)
+@inject(StellarServer, ValidationManager, AppStore, AlertToaster, AppActionCreators)
 export class PaymentModal {
 
     loading = 0;
-    memos = [];
     step = 'input';
 
-    constructor(stellarServer, validationManager, appStore, alertToaster, secretStore, appActionCreators) {
+    constructor(stellarServer, validationManager, appStore, alertToaster, appActionCreators) {
         this.stellarServer = stellarServer;
         this.validationManager = validationManager;
         this.appStore = appStore;
         this.alertToaster = alertToaster;
-        this.secretStore = secretStore;
         this.appActionCreators = appActionCreators
     }
 
@@ -28,6 +25,7 @@ export class PaymentModal {
         this.modalVM = params.modalVM;
         this.code = params.passedInfo.code;
         this.issuer = params.passedInfo.issuer;
+        this.memos = params.passedInfo.memos || [];
         this.lockCode = params.passedInfo.lockCode;
         this.lockIssuer = params.passedInfo.lockIssuer;
     }
@@ -125,37 +123,10 @@ export class PaymentModal {
 
             const transaction = transactionBuilder.build();
 
-            try {
-                await this.secretStore.sign(transaction);
-            }
-            catch(e) {
-                //A rejection means that the user dismissed the authentication modal. Just return because we can't sign the transaction.
-                this.loading--;
-                return;
-            }
-
-            await this.stellarServer.submitTransaction(transaction);
-
-            //If the destination account didn't exist before this operation:
-            if (!destinationAccount) {
-                this.amount = parseInt(this.amount, 10) + 20;
-            }
-
-            this.step = 'success';
-            this.loading--;
-            this.modalVM.options.dismissible = true;
+            this.modalVM.close(transaction);
         }
         catch(e) {
-            if (e.message) {
-                this.errorMessage = e.message;
-            }
-            else if (e.extras) {
-                this.errorMessage = Object.values(e.extras.result_codes).join(', ');
-            }
-            else {
-                this.errorMessage = 'An error has occured in sending your payment.';
-            }
-            this.step = 'failure';
+            this.alertToaster.error(e.message || 'Something is wrong!');
             this.loading--;
             this.modalVM.options.dismissible = true;
         }
@@ -166,7 +137,7 @@ export class PaymentModal {
             case 'Id':
                 return 'id';
             case 'Text':
-                return 'test';
+                return 'text';
             case 'Hash':
                 return 'hash';
             case 'Return':

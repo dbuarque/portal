@@ -16,19 +16,25 @@ export class AccountSyncer {
         this.syncToLocalStorage = _throttle(this._syncToLocalStorage.bind(this), 1000);
     }
 
-    init() {
-        this.syncToStore();
+    async init() {
+        if (this.initialized) {
+            return;
+        }
+
         window.addEventListener('storage', this.syncToStore.bind(this));
         this.appStore.subscribe(this.syncToLocalStorage.bind(this));
+        await this.syncToStore();
+
+        this.initialized = true;
     }
 
-    syncToStore() {
+    async syncToStore() {
         const localAccountId = localStorage.getItem('account-id');
         const storedAccount = this.appStore.getState().account;
         const storedAccountId = storedAccount ? storedAccount.id : undefined;
 
         if (storedAccountId !== localAccountId) {
-            this.appStore.dispatch(this.appActionCreators.setAccount(localAccountId));
+            await this.appStore.dispatch(this.appActionCreators.setAccount(localAccountId));
         }
     }
 

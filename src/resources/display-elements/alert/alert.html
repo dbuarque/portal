@@ -1,5 +1,5 @@
 <template>
-    <div if.bind="config.message && !closed" class="card alert alert-${config.type}">
+    <div if.bind="config.message && !closed" class="card alert alert-${config.type} ${config.dismissible !== false ? 'dismissible' : ''}">
         <strong>
             <i class.bind="'fa ' + (config.type === 'error' ? 'fa-exclamation-triangle text-danger' : config.type === 'warning' ? 'fa-exclamation-circle text-warning' : config.type === 'success' ? 'fa-check-square-o text-primary' : 'fa-info-circle')"></i>
         </strong>

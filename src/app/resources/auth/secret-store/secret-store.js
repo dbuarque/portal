@@ -25,6 +25,9 @@ export class SecretStore {
                 {
                     title: 'Authenticate',
                     action: 'authenticate'
+                },
+                {
+                    modalClass: 'md'
                 }
             );
 
@@ -63,7 +66,7 @@ export class SecretStore {
     async forget(pastDue) {
         if (!pastDue) {
             try {
-                await this.modalService.open('app/resources/auth/secret-store/timeout-modal/timeout-modal');
+                await this.modalService.open(PLATFORM.moduleName('app/resources/auth/secret-store/timeout-modal/timeout-modal'));
                 //If the modal does not throw then that means the user selected not to forget the secret.
                 return;
             }

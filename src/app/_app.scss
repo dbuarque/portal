@@ -1,9 +1,5 @@
 @import "styles/styles";
 @import 'resources/resources';
-@import "routes/login/login";
-@import "routes/exchange/exchange";
-@import "routes/account/account";
-@import "navbar/navbar";
 
 html, body {
   background-color: $background;
@@ -24,3 +20,9 @@ html, body {
     font-size: 30px;
   }
 }
+
+@import "routes/login/login";
+@import "routes/exchange/exchange";
+@import "routes/account/account";
+@import "routes/send-payment/send-payment";
+@import "navbar/navbar";

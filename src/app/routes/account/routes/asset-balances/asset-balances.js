@@ -3,18 +3,18 @@
  */
 
 import {inject, bindable} from 'aurelia-framework';
+import {Router} from 'aurelia-router';
 import {AppStore} from 'global-resources';
-import {PaymentService} from 'app-resources';
 import Config from './asset-balances-config';
 import {AppActionCreators} from '../../../../app-action-creators';
 
-@inject(Config, AppStore, PaymentService, AppActionCreators)
+@inject(Config, Router, AppStore, AppActionCreators)
 export class AssetBalances {
 
-    constructor(config, appStore, paymentService, appActionCreators) {
+    constructor(config, router, appStore, appActionCreators) {
         this.config = config;
+        this.router = router;
         this.appStore = appStore;
-        this.paymentService = paymentService;
         this.appActionCreators = appActionCreators;
 
         this.updateTableConfig();
@@ -49,13 +49,10 @@ export class AssetBalances {
             cell.empty();
             $('<button class="btn accent btn-small btn-flat" type="button"><i class="fa fa-paper-plane-o"></i>&nbsp;Pay</button>')
                 .click(() => {
-                    vm.paymentService.initiatePayment({
+                    vm.router.parent.navigateToRoute('send-payment', {
                         code: rowData.asset_type === 'native' ? window.lupoex.stellar.nativeAssetCode : rowData.asset_code,
-                        issuer: rowData.asset_issuer,
-                        lockCode: true,
-                        lockIssuer: true
-                    })
-                        .catch(e => {});
+                        issuer: rowData.asset_issuer
+                    });
                 })
                 .appendTo(cell);
         };

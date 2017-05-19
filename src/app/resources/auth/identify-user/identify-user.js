@@ -58,14 +58,24 @@ export class IdentifyUserCustomElement {
         this.account = this.appStore.getState().account;
     }
 
-    login() {
+    async login() {
         if (!this.validationManager.validate()) {
             return;
         }
 
         this.loading++;
 
-        this.appStore.dispatch(this.appActionCreators.setAccount(this.publicKey));
+        try {
+            await this.appStore.dispatch(this.appActionCreators.setAccount(this.publicKey));
+
+            EventHelper.emitEvent(this.element, 'login');
+        }
+        catch(e) {
+            this.alertConfig = {
+                type: 'error',
+                message: 'That account could not be found on the stellar network. Are you sure the account exists?'
+            };
+        }
 
         this.loading--;
     }

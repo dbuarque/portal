@@ -68,7 +68,7 @@ export class InactivityTracker {
     determineInactivityStatus() {
         if (this._isInactiveForDuration(this.allowedInactiveMinutes)) {
             //if user sleeps machine and comes back, set pastDue variable (because the user has been inactive for longer than the allowedInactiveMinues).
-            this.notifySubscribers(this._isInactiveForDuration(this.allowedInactiveMinutes + 2));
+            this.notifySubscribers(this._isInactiveForDuration(10000000));
             this.restart();
         }
     }
@@ -80,7 +80,7 @@ export class InactivityTracker {
     _isInactiveForDuration(minutes) {
         let now = moment();
         let lastUserAction = moment(window.localStorage.lastUserAction);
-        let difference = moment.duration(now.diff(lastUserAction)).asMinutes();
+        let difference = moment.duration(now.diff(lastUserAction)).asSeconds();
         return difference > minutes;
     }
 }
