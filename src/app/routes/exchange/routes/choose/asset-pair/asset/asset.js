@@ -23,6 +23,7 @@ export class AssetCustomElement {
         this.validationManager = validationManager;
         this.stellarServer = stellarServer;
         this.assetResource = assetResource;
+        this.nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
     }
 
     async codeChanged() {

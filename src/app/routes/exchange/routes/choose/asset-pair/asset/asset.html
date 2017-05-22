@@ -6,7 +6,7 @@
                          tt-validate="manager.bind: validationManager; key: code; element-selector: .select2-custom-element" required></select2>
             </div>
             <div class="col s12 form-field">
-                <select2 value.bind="issuer" config.bind="config.issuerSelect" options.bind="issuers" disabled.bind="loading > 0" if.bind="!code || code !== 'XLM'"
+                <select2 value.bind="issuer" config.bind="config.issuerSelect" options.bind="issuers" disabled.bind="loading > 0" if.bind="!code || code !== nativeAssetCode"
                          tt-validate="manager.bind: validationManager; key: issuer; element-selector: .select2-custom-element" required></select2>
             </div>
         </div>

@@ -4,15 +4,16 @@
 
 import _cloneDeep from 'lodash.clonedeep';
 import {inject} from 'aurelia-framework';
-import {AppStore} from 'global-resources';
-import {ExchangeActionCreators} from '../exchange-action-creators';
+import {AppStore, EventHelper} from 'global-resources';
+import {ExchangeActionCreators} from '../../../exchange-action-creators';
 
-@inject(AppStore, ExchangeActionCreators)
+@inject(Element, AppStore, ExchangeActionCreators)
 export class AssetPairCustomElement {
 
     size = 16;
 
-    constructor(appStore, exchangeActionCreators) {
+    constructor(element, appStore, exchangeActionCreators) {
+        this.element = element;
         this.appStore = appStore;
         this.exchangeActionCreators = exchangeActionCreators;
     }
@@ -54,5 +55,7 @@ export class AssetPairCustomElement {
         }
 
         this.appStore.dispatch(this.exchangeActionCreators.updateAssetPair(this.assetPair));
+
+        EventHelper.emitEvent(this.element, 'load');
     }
 }

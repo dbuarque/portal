@@ -30,6 +30,10 @@ export class App {
         this.jsonClient.configure();
     }
 
+    attached() {
+        const i = this.router;
+    }
+
     registerNavigationSteps(routerConfig) {
         routerConfig.addPipelineStep('authorize', AuthenticateStep);
     }

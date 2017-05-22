@@ -10,6 +10,16 @@ html, body {
       margin: 0 auto;
       overflow-x: auto;
   }
+
+    .home-link {
+        a {
+            color: #757575 !important;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
 }
 
 .splash {

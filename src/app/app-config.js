@@ -25,7 +25,8 @@ export class AppConfig {
                     route: ['login'],
                     name: 'login',
                     moduleId: PLATFORM.moduleName('./routes/login/login'),
-                    title: 'Login'
+                    title: 'Login',
+                    breadcrumb: true
                 },
                 {
                     route: ['account'],
