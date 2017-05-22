@@ -66,13 +66,14 @@ export class SecretStore {
     async forget(pastDue) {
         if (!pastDue) {
             try {
-                await this.modalService.open(PLATFORM.moduleName('app/resources/auth/secret-store/timeout-modal/timeout-modal'));
+                await this.modalService.open(PLATFORM.moduleName('app/resources/auth/secret-store/timeout-modal/timeout-modal'), {}, {modalClass: 'sm'});
                 //If the modal does not throw then that means the user selected not to forget the secret.
                 return;
             }
             catch(e) {}
         }
         this._secret = undefined;
+        this.alertToaster.primary('Secret key has been removed from memory.');
         this.unsubscribeFromInactivityTracker();
     }
 }

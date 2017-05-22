@@ -37,11 +37,15 @@
         background-color: $success;
     }
 
+    &.warning {
+        background-color: $warning;
+    }
+
     &.primary {
         background-color: $primary;
     }
 
-    &.alert-info {
+    &.info {
         background-color: $accent;
     }
 }

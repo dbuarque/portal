@@ -4,12 +4,14 @@
             <i class="fa fa-lg fa-exclamation-triangle error-text"></i>
         </strong>
         &nbsp;
-        Due to inactivity, your secret key will be forgotten in:
+        Due to inactivity, your secret key will be removed from memory in:
         <br>
         <strong style="font-size: 60px" class="primary-text">${counter}</strong>
         <br>
         <div>
-            <button class="btn btn-flat accent" type="button" click.trigger="noDontDoThat()">Keep my secret key for now.</button>
+            <button class="btn btn-flat btn-small accent" type="button" click.trigger="thatsFine()">Fine, Forget It</button>
+            <br><br>
+            <button class="btn btn-small primary" type="button" click.trigger="noDontDoThat()">Remember For Now</button>
         </div>
     </div>
 </template>
