@@ -1,20 +1,22 @@
 .brush-chart {
-    margin-top: -4px;
     overflow-x: hidden;
+    border: 1px solid $gray;
+    border-top: none;
+    position: relative;
+
+    .axis-line {
+        position: absolute;
+        top: 50px;
+        height: 0;
+        border-top: 1px solid $gray;
+        width: 100%;
+    }
 
     .chart {
-        border: 1px solid $gray;
         border-top: none;
-        overflow-x: hidden !important;
 
         svg {
             overflow: visible;
-
-            .brush {
-                x: 0;
-                y: 0;
-                width: 100%;
-            }
         }
     }
 
@@ -25,10 +27,6 @@
     }
 
     g.axis {
-        /*path.domain {
-            display: none;
-        }*/
-
         path.domain {
             display: none;
         }
@@ -45,21 +43,16 @@
     }
 
     rect.selection {
-        height: 49px;
         opacity: 0.5;
         fill: $success;
         stroke: none;
     }
 
     rect.overlay {
-        fill: none;
-        opacity: 0.5;
-        width: 100%;
+        display: none;
     }
 
     .handle {
-
-
         &.handle--w, &.handle--e {
             stroke-width: 0;
             fill: $gray;

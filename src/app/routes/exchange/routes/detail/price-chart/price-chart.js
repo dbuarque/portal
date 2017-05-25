@@ -9,33 +9,6 @@ import {PriceChartActionCreators} from './price-chart-action-creators';
 @inject(AppStore, PriceChartActionCreators)
 export class PriceChart {
 
-    intervalOptions  = [
-        {
-            interval: 60,
-            label: '1m'
-        },
-        {
-            interval: 5 * 60,
-            label: '5m'
-        },
-        {
-            interval: 15 * 60,
-            label: '15m'
-        },
-        {
-            interval: 60 * 60,
-            label: '1h'
-        },
-        {
-            interval: 4 * 60 * 60,
-            label: '4h'
-        },
-        {
-            interval: 24 * 60 * 60,
-            label: '1d'
-        }
-    ];
-
     constructor(appStore, priceChartActionCreators) {
         this.appStore = appStore;
         this.priceChartActionCreators = priceChartActionCreators;
@@ -59,13 +32,16 @@ export class PriceChart {
         this.interval = priceChart.interval;
         this.start = priceChart.start;
         this.end = priceChart.end;
+        this.intervalOptions = priceChart.intervalOptions;
+        this.rangeOptions = priceChart.rangeOptions;
+        this.presetRangeIndex = priceChart.presetRangeIndex;
     }
 
     setInterval(interval) {
-        this.appStore.dispatch(this.priceChartActionCreators.updateData({interval}));
+        this.appStore.dispatch(this.priceChartActionCreators.updateInterval(interval));
     }
 
-    setRange(rangeOption) {
-
+    setRange(rangeIndex) {
+        this.appStore.dispatch(this.priceChartActionCreators.presetRange(rangeIndex));
     }
 }

@@ -10,7 +10,8 @@ export const namespace = detailNamespace + '_PRICE_CHART';
 export const priceChartActionTypes = ActionTypeHelper.createNamespace(
     [
         'UPDATE_INTERVAL',
-        'UPDATE_RANGE'
+        'UPDATE_RANGE',
+        'PRESET_RANGE'
     ],
     namespace
 );

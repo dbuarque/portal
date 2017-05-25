@@ -5,16 +5,15 @@
 export class DataProcessor {
 
     fillInData(rawData, options) {
-        let {lastPreviousRawDatum, start, end, interval} = options;
+        let {lastPreviousDatum, start, end, interval} = options;
 
         start = new Date(start || rawData[0].begin_ts);
         end = end ? new Date(end) : new Date();
 
         const data = [];
-        let lastPreviousDatum;
 
-        if (lastPreviousRawDatum) {
-            lastPreviousDatum = this.lastPreviousDatum(lastPreviousRawDatum);
+        if (lastPreviousDatum) {
+            lastPreviousDatum = this.lastPreviousDatum(lastPreviousDatum);
         }
 
         let i = 0;

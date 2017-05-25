@@ -7,54 +7,22 @@
                 <div class="card-title">
                     Chart
                 </div>
-                <i class="fa fa-refresh right" no-collapse click.trigger="refresh()"></i>
+                <i style="font-size: 15px;" class="fa fa-refresh right" no-collapse click.trigger="refresh()"></i>
             </div>
             <div class="card-body">
                 <i if.bind="!assetPair">Select an asset pair to get started.</i>
                 <div if.bind="assetPair">
                     <div class="filters">
-                        <!--<div class="form-field col m4">-->
-                            <!--<label>From</label>-->
-                            <!--<aurelia-flatpickr config.bind="{wrap:true}" value.bind="start">-->
-                                <!--<div class="input-group aurelia-flatpickr">-->
-                                    <!--<input type="text" class="form-control" placeholder="Select date" data-input>-->
-                                    <!--<div class="btn-group">-->
-                                        <!--<button class="btn btn-flat" type="button" data-clear><i class="fa fa-times"></i></button>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</aurelia-flatpickr>-->
-                        <!--</div>-->
-                        <!--<div class="form-field col m4">-->
-                            <!--<label>To</label>-->
-                            <!--<aurelia-flatpickr config.bind="{wrap:true}" value.bind="end">-->
-                                <!--<div class="input-group aurelia-flatpickr">-->
-                                    <!--<input type="text" class="form-control" placeholder="Select date" data-input>-->
-                                    <!--<div class="btn-group">-->
-                                        <!--<button class="btn btn-flat" type="button" data-clear><i class="fa fa-times"></i></button>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</aurelia-flatpickr>-->
-                        <!--</div>-->
-                        <!--<div class="form-field col m4">-->
-                            <!--<label>Interval</label>-->
-                            <!--<select md-select="disabled.bind:disabled" value.two-way="interval" change.trigger="refresh()">-->
-                                <!--<option value="300">5 Minutes</option>-->
-                                <!--<option value="900">15 Minutes</option>-->
-                                <!--<option value="1800">30 Minutes</option>-->
-                                <!--<option value="3600">1 Hour</option>-->
-                                <!--<option value="14400">4 Hours</option>-->
-                                <!--<option value="86400" selected>1 Day</option>-->
-                            <!--</select>-->
-                        <!--</div>-->
                         <div class="btn-group">
                             Range:&nbsp;
-                            <button class="btn btn-small btn-flat accent" click.trigger="setRange(option)" repeat.for="option of rangeOptions">
-                                ${option.amount + options.unit}
+                            <button class="btn btn-small btn-flat accent ${$index === presetRangeIndex ? 'active' : ''}" click.trigger="setRange($index)" repeat.for="option of rangeOptions">
+                                ${option.amount}&nbsp;${option.unit}
                             </button>
                         </div>
                         <div class="btn-group right">
                             Interval:&nbsp;
-                            <button class="btn btn-small btn-flat accent ${interval === option.interval ? 'active' : ''}" click.trigger="setInterval(option.interval)" repeat.for="option of intervalOptions">
+                            <button class="btn btn-small btn-flat accent ${interval === option.interval ? 'active' : ''}" disabled.bind="option.disabled"
+                                    click.trigger="setInterval(option.interval)" repeat.for="option of intervalOptions">
                                 ${option.label}
                             </button>
                         </div>

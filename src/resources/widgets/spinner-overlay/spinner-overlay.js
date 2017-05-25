@@ -11,6 +11,7 @@ export class SpinnerOverlayCustomElement {
     @bindable minHeight = 350;
     @bindable size = '3x';
     @bindable transparent = false;
+    @bindable top = 75;
 
     constructor(element, observerManager) {
         this.element = element;
@@ -25,6 +26,8 @@ export class SpinnerOverlayCustomElement {
         if (parentPosition !== 'fixed' && parentPosition !== 'absolute') {
             this.parent.css('position', 'relative');
         }
+
+        $(this.element).find('.spinner-overlay').css('padding-top', parseInt(this.top, 10));
 
         this.subscribeObservers();
         this.toggled();

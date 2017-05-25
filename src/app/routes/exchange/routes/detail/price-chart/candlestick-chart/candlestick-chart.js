@@ -6,28 +6,27 @@ import _throttle from 'lodash.throttle';
 import _find from 'lodash.find';
 import {inject} from 'aurelia-framework';
 import techan from 'techan';
-import {StellarServer, AppStore, ObserverManager, ObservationInstruction} from 'global-resources';
+import {StellarServer, AppStore, ObservationInstruction} from 'global-resources';
 import {TickerResource, FormatNumberValueConverter} from 'app-resources';
 import {DataProcessor} from '../data-processor';
 
-@inject(Element, StellarServer, AppStore, ObserverManager, TickerResource, FormatNumberValueConverter, DataProcessor)
+@inject(Element, StellarServer, AppStore, TickerResource, FormatNumberValueConverter, DataProcessor)
 export class CandlestickChartCustomElement {
 
     loading = 0;
     numRefreshes = 0;
-    interval = "86400";
     noData = false;
 
-    constructor(element, stellarServer, appStore, observerManager, tickerResource, formatNumber, dataProcessor) {
+    constructor(element, stellarServer, appStore, tickerResource, formatNumber, dataProcessor) {
         this.element = element;
         this.stellarServer = stellarServer;
         this.appStore = appStore;
-        this.observerManager = observerManager;
         this.tickerResource = tickerResource;
         this.formatNumber = formatNumber;
         this.dataProcessor = dataProcessor;
 
         this.move = _throttle(this._move.bind(this), 100);
+        this.refresh = _throttle(this._refresh.bind(this), 250);
     }
 
     attached() {
@@ -36,9 +35,9 @@ export class CandlestickChartCustomElement {
         this.$element = $(this.element);
         this.$chart = this.$element.find('.chart');
 
-        this.margin = {top: 0, right: 100, bottom: 25, left: 100};
-        const chartWidth = this.$element.parent().parent().width();
-        this.width = Math.max(this.$element.parent().parent().width() - this.margin.left - this.margin.right, 900 - this.margin.left - this.margin.right);
+        this.margin = {top: 0, right: 100, bottom: 20, left: 100};
+        const chartWidth = this.$element.parent().width();
+        this.width = Math.max(this.$element.parent().width() - this.margin.left - this.margin.right, 900 - this.margin.left - this.margin.right);
         this.height = this.width * 0.4 - this.margin.top - this.margin.bottom;
 
         this.x = techan.scale.financetime()
@@ -113,34 +112,31 @@ export class CandlestickChartCustomElement {
         this.accessor = this.candlestick.accessor();
 
         this.updateFromStore();
-        this.subscribeObservers();
     }
 
     unbind() {
         this.unsubscribeFromStore();
-        this.observerManager.unsubscribe();
-    }
-
-    subscribeObservers() {
-        const instructions = [
-            new ObservationInstruction(this, 'start', this.refresh.bind(this)),
-            new ObservationInstruction(this, 'end', this.refresh.bind(this))
-        ];
-
-        this.observerManager.subscribe(instructions);
     }
 
     updateFromStore() {
         const newState = this.appStore.getState();
         const exchange = newState.exchange;
+        const priceChart = exchange.detail.priceChart;
 
-        if (this.assetPair !== exchange.assetPair) {
+        if (this.assetPair !== exchange.assetPair ||
+            this.start !== priceChart.start ||
+            this.end !== priceChart.end ||
+            this.interval !== priceChart.interval
+        ) {
             this.assetPair = exchange.assetPair;
+            this.start = priceChart.start;
+            this.end = priceChart.end;
+            this.interval = priceChart.interval;
             this.refresh();
         }
     }
 
-    async refresh() {
+    async _refresh() {
         if (!this.assetPair) {
             return;
         }
@@ -208,12 +204,15 @@ export class CandlestickChartCustomElement {
             });
 
         const xDomain = data.map(self.accessor.d);
-        const yDomain = this.ensureNoEmptyDomain(techan.scale.plot.ohlc(data, self.accessor).domain());
-        const yVolumeDomain = this.ensureNoEmptyDomain(techan.scale.plot.volume(data).domain());
+        const yDomain = this.normalizeDomain(techan.scale.plot.ohlc(data, self.accessor).domain());
+        const yVolumeDomain = this.normalizeDomain(techan.scale.plot.volume(data).domain());
 
         //expand yDomains to make room for currentData table in top right
         yDomain[1] = yDomain[1] * (1 + 50/self.height);
         yVolumeDomain[1] = yVolumeDomain[1] * (1 + 50/self.height);
+
+        yDomain[0] = yDomain[0] > 0 ? 0 : yDomain[0];
+        yVolumeDomain[0] = yVolumeDomain[0] > 0 ? 0 : yVolumeDomain[0];
 
         self.x.domain(xDomain);
         self.y.domain(yDomain);
@@ -269,7 +268,7 @@ export class CandlestickChartCustomElement {
 
         yAxisSvg.append("path")
             .attr("class", "axis-line")
-            .attr("d", "M 0," + (self.height + self.margin.bottom - 1) + " H -0.5 V -0.5 H 0");
+            .attr("d", "M 0," + (self.height + self.margin.bottom + 5) + " H -0.5 V -0.5 H 0");
 
         self.svg.append("g")
             .attr("class", "volume")
@@ -282,7 +281,7 @@ export class CandlestickChartCustomElement {
 
         volumeAxisSvg.append("path")
             .attr("class", "axis-line")
-            .attr("d", "M 0," + (self.height + self.margin.bottom - 1) + " H -0.5 V -0.5 H 0");
+            .attr("d", "M 0," + (self.height + self.margin.bottom + 5) + " H -0.5 V -0.5 H 0");
 
         self.svg.append('g')
             .attr("class", "crosshair")
@@ -300,17 +299,19 @@ export class CandlestickChartCustomElement {
         return data;
     }
 
-    ensureNoEmptyDomain(domainArr) {
+    normalizeDomain(domainArr) {
         if (domainArr.length === 0) {
             return domainArr;
         }
 
+        //Make sure that there is more than one number in the domain
         for(let i = 0; i < domainArr.length; i++) {
             if (i - 1 > -1 && domainArr[i] !== domainArr[i - 1]) {
                 return domainArr;
             }
         }
 
+        //If there is only one number in the domain,
         return domainArr[0] === 0 ?
             [0, 1] :
             [domainArr[0] * 0.5, domainArr[0] * 1.5];

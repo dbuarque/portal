@@ -5,7 +5,7 @@
 
 import {namespace, priceChartActionTypes} from './price-chart-action-types';
 
-const {UPDATE_INTERVAL, UPDATE_RANGE} = priceChartActionTypes;
+const {UPDATE_INTERVAL, UPDATE_RANGE, PRESET_RANGE} = priceChartActionTypes;
 
 export class PriceChartActionCreators {
     updateInterval(interval) {
@@ -22,6 +22,15 @@ export class PriceChartActionCreators {
             type: UPDATE_RANGE,
             payload: {
                 ...data
+            }
+        };
+    }
+
+    presetRange(rangeIndex) {
+        return {
+            type: PRESET_RANGE,
+            payload: {
+                rangeIndex
             }
         };
     }

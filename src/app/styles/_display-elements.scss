@@ -102,8 +102,8 @@
         border-left: none !important;
 
         &:first-child {
-            border-top-left-radius: 3px !important;
-            border-bottom-left-radius: 3px !important;
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
             border-left: 1px solid $primary !important;
         }
 
