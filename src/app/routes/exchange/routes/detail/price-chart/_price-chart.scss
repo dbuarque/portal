@@ -1,0 +1,15 @@
+.price-chart {
+
+    .btn-container {
+        display: inline-block;
+    }
+
+    .chart-scroll {
+        width: 100%;
+        overflow-y: auto;
+        position: relative;
+    }
+}
+
+@import "candlestick-chart/candlestick-chart";
+@import "brush-chart/brush-chart";

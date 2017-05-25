@@ -95,6 +95,30 @@
     }
 }
 
+.btn-group {
+    button.btn {
+        border-radius: 0;
+        border: 1px solid $primary !important;
+        border-left: none !important;
+
+        &:first-child {
+            border-top-left-radius: 3px !important;
+            border-bottom-left-radius: 3px !important;
+            border-left: 1px solid $primary !important;
+        }
+
+        &:last-child {
+            border-top-right-radius: 3px;
+            border-bottom-right-radius: 3px;
+        }
+
+        &.active {
+            color: $accent;
+            background-color: $background;
+        }
+    }
+}
+
 
 @media only screen and (min-width: 993px) {
     #toast-container {

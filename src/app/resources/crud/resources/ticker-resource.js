@@ -36,6 +36,20 @@ export default class TickerResource extends BaseResource {
 
     /**
      * Gets a list of ticker data.
+     * @param assetPair
+     * @returns {*}
+     */
+    closeHistory(assetPair) {
+        return this.get('/CloseHistory', {
+            boughtAssetCode: assetPair.buying.code,
+            boughtAssetIssuer: assetPair.buying.issuer || undefined,
+            soldAssetCode: assetPair.selling.code,
+            soldAssetIssuer: assetPair.selling.issuer || undefined
+        });
+    }
+
+    /**
+     * Gets a list of ticker data.
      * @param interval
      * @param assetPair
      * @param before

@@ -1,0 +1,27 @@
+<template>
+    <div class="candlestick-chart">
+        <div>
+            <div show.bind="noData">
+                <br>
+                <i>There is no trade data for the chosen asset pair.</i>
+            </div>
+            <div show.bind="!noData">
+                <table class="current-data" show.bind="currentData">
+                    <tr>
+                        <td>Open: ${currentData.open}</td>
+                        <td>Close: ${currentData.close}</td>
+                        <td>High: ${currentData.high}</td>
+                        <td>Low: ${currentData.low}</td>
+                    </tr>
+                    <tr>
+                        <td>Vol (${assetPair.buying.code}): ${currentData.buyingVolume}</td>
+                        <td>Vol (${assetPair.selling.code}): ${currentData.sellingVolume}</td>
+                        <td colspan="2">Date: ${currentData.date | formatDateTime}</td>
+                    </tr>
+                </table>
+                <div class="chart"></div>
+            </div>
+            <spinner-overlay show.bind="loading > 0" size="2x"></spinner-overlay>
+        </div>
+    </div>
+</template>

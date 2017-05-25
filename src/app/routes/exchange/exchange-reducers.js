@@ -4,11 +4,13 @@
 
 import {ReducerHelper} from 'global-resources';
 import {namespace, exchangeActionTypes} from './exchange-action-types';
+import {detail} from './routes/detail/detail-reducers';
 
 const {UPDATE_ASSET_PAIR} = exchangeActionTypes;
 
 let _exchange = ReducerHelper.combineReducersProvideRootState({
-    assetPair
+    assetPair,
+    detail
 });
 
 export const exchange = ReducerHelper.restrictReducerToNamespace(_exchange, namespace);
