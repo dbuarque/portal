@@ -57,6 +57,9 @@ export class BrushChartCustomElement {
             this.$chart.append($('<div class="axis-line"></div>'));
 
             this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
+
+            this.isAttached = true;
+
             this.updateFromStore();
         });
     }
@@ -66,6 +69,10 @@ export class BrushChartCustomElement {
     }
 
     updateFromStore() {
+        if (!this.isAttached) {
+            return;
+        }
+
         const newState = this.appStore.getState();
         const exchange = newState.exchange;
         const priceChart = exchange.detail.priceChart;
@@ -88,6 +95,10 @@ export class BrushChartCustomElement {
             await this.loadData();
         }
 
+        if (!this.data) {
+            return;
+        }
+
         this.adjustBrush();
     }
 
@@ -95,6 +106,11 @@ export class BrushChartCustomElement {
         this.loading++;
 
         let rawData = await this.tickerResource.closeHistory(this.assetPair);
+
+        if (rawData.length === 0) {
+            this.loading--;
+            return;
+        }
 
         rawData = rawData.map(d => {
             d.begin_ts = new Date(d.begin_ts).toISOString().split('T')[0] + 'T00:00:00.000Z';

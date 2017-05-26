@@ -110,6 +110,8 @@ export class CandlestickChartCustomElement {
 
         this.accessor = this.candlestick.accessor();
 
+        this.isAttached = true;
+
         this.updateFromStore();
     }
 
@@ -118,6 +120,10 @@ export class CandlestickChartCustomElement {
     }
 
     updateFromStore() {
+        if (!this.isAttached) {
+            return;
+        }
+
         const newState = this.appStore.getState();
         const exchange = newState.exchange;
         const priceChart = exchange.detail.priceChart;

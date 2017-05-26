@@ -8,11 +8,11 @@
                 <i style="font-size: 15px;" class="fa fa-refresh right" no-collapse click.trigger="refresh()"></i>
             </div>
             <div class="card-body">
-                <i if.bind="!orderbook.bids && !orderbook.asks">There are no orders for this asset pair.</i>
-                <div if.bind="orderbook.bids || orderbook.asks">
+                <i show.bind="orderbook.bids.length === 0 && orderbook.asks.length === 0">There are currently no orders for this asset pair.</i>
+                <div show.bind="orderbook.bids.length > 0 || orderbook.asks.length > 0">
                     <div class="chart"></div>
-                    <spinner-overlay show.bind="orderbook.loading"></spinner-overlay>
                 </div>
+                <spinner-overlay show.bind="orderbook.loading"></spinner-overlay>
             </div>
         </div>
     </div>

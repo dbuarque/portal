@@ -19,7 +19,6 @@ export class OrderbookChartCustomElement {
 
     bind() {
         this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
-        this.updateFromStore();
     }
 
     unbind() {
@@ -30,15 +29,24 @@ export class OrderbookChartCustomElement {
         this.$element = $(this.element);
         this.$chart = this.$element.find('.chart');
 
+        this.margin ={ top: 20, right: 20, bottom: 30, left: 40 };
         this.width = Math.max(this.$element.parent().width(), 900);
         this.height = this.width * 0.4;
 
         this.svg = d3.select(this.$chart[0]).append("svg")
             .attr("width", this.width)
             .attr("height", this.height);
+
+        this.isAttached = true;
+
+        this.updateFromStore();
     }
 
     updateFromStore() {
+        if (!this.isAttached) {
+            return;
+        }
+
         const newState = this.appStore.getState();
         const exchange = newState.exchange;
 
@@ -46,29 +54,7 @@ export class OrderbookChartCustomElement {
             this.orderbook = exchange.orderbook;
 
             if (this.orderbook.bids) {
-                this.svg.selectAll('*').remove();
-                const orders = this.orderbook.bids
-                    .map(b => {
-                        const converted = this.orderAmount.toView(b, false, false);
-                        return {
-                            type: 'bid',
-                            total: converted.amount,
-                            price: b.price
-                        };
-                    })
-                    .concat(
-                        this.orderbook.asks
-                            .map(a => {
-                                const converted = this.orderAmount.toView(a, true, false);
-                                return {
-                                    type: 'ask',
-                                    total: converted.amount,
-                                    price: a.price
-                                };
-                            })
-                    );
-
-                this.draw(orders, this.svg);
+                this.draw();
             }
         }
     }
@@ -77,35 +63,80 @@ export class OrderbookChartCustomElement {
         this.appStore.dispatch(this.exchangeActionCreators.refreshOrderbook());
     }
 
-    draw(unsortedData, target) {
-        const margin = { top: 20, right: 20, bottom: 30, left: 40 };
-        const width = target.node().clientWidth - margin.left - margin.right;
-        const height = target.node().clientHeight - margin.top - margin.bottom;
-        const x = d3.scaleLinear().range([0, width]);
-        const y = d3.scaleLinear().range([height, 0]);
+    draw() {
+        const self = this;
+        if (self.orderbook.bids.length === 0 && self.orderbook.asks.length === 0) {
+            return;
+        }
 
-        const g = target.append('g')
+        const target = self.svg;
+        const middleMarket = self.orderbook.bids.length > 0 && self.orderbook.asks.length > 0 ?
+            parseFloat(self.orderbook.bids[0].price, 10) / parseFloat(self.orderbook.asks[0].price, 10) :
+            self.orderbook.bids.length > 0 ?
+                parseFloat(self.orderbook.bids[0].price, 10) :
+                parseFloat(self.orderbook.asks[0].price, 10);
+        const orders = self.orderbook.bids
+            .map(b => {
+                return {
+                    type: 'bid',
+                    total: self.orderAmount.toView(b, false, true),
+                    price: parseFloat(b.price, 10)
+                };
+            })
+            .concat(
+                self.orderbook.asks
+                    .map(a => {
+                        return {
+                            type: 'ask',
+                            total: self.orderAmount.toView(a, true, true),
+                            price: parseFloat(a.price, 10)
+                        };
+                    })
+            );
+        const margin = self.margin;
+        const width = self.width - margin.left - margin.right;
+        const height = self.height - margin.top - margin.bottom;
+        self.x = d3.scaleLinear().range([0, width]);
+        self.y = d3.scaleLinear().range([height, 0]);
+        const zoom = d3.zoom()
+            .scaleExtent([1, Infinity])
+            .translateExtent([[0, 0], [width, height]])
+            .extent([[0, 0], [width, height]])
+            .on("zoom", self.zoomed.bind(self));
+
+        target.selectAll('*').remove();
+
+        self.context = target.append('g')
             .attr('transform', `translate(${margin.left},${margin.top})`);
+        
+        self.data = orders.sort((a, b) => (a.price > b.price ? 1 : -1));
 
-        const data = unsortedData.sort((a, b) => (a.price > b.price ? 1 : -1));
-
-        x.domain([
-            d3.min(data, d => d.price),
-            d3.max(data, d => d.price) + 1
+        self.x.domain([
+            d3.min(self.data, d => d.price),
+            d3.max(self.data, d => d.price) + 1
         ]);
-        y.domain([0, d3.max(data, d => d.total)]);
+        self.y.domain([0, d3.max(self.data, d => d.total)]);
 
-        g.append('g')
+        self.xAxis = d3.axisBottom(self.x);
+
+        self.context.append('g')
             .attr('class', 'axis axis--x')
             .attr('transform', `translate(0,${height})`)
-            .call(d3.axisBottom(x));
+            .call(self.xAxis);
 
-        g.append('g')
+        self.context.append('g')
             .attr('class', 'axis axis--y')
-            .call(d3.axisLeft(y));
+            .call(d3.axisLeft(self.y));
+
+        target.append("rect")
+            .attr("class", "zoom")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+            .call(zoom);
 
         // Define the div for the tooltip
-        const tooltip = d3.select('body').append('div')
+        self.tooltip = d3.select('body').append('div')
             .attr('class', 'orderbook-visualisation-tooltip')
             .style('position', 'absolute')
             .style('top', `${target.node().parentNode.offsetTop}px`)
@@ -113,29 +144,37 @@ export class OrderbookChartCustomElement {
             .style('width', '200px')
             .style('opacity', 0)
             .html('');
+        
+        self.renderBars(self.data);
+    }
+    
+    renderBars(data) {
+        const self = this;
 
-        g.selectAll('.bar')
+        self.context.selectAll('.bar').remove();
+
+        self.context.selectAll('.bar')
             .data(data)
             .enter().append('rect')
             .attr('class', d => `bar ${d.type}`)
-            .attr('x', d => x(d.price))
-            .attr('y', d => y(d.total))
+            .attr('x', d => self.x(d.price))
+            .attr('y', d => self.y(d.total))
             .attr('width', (d, i) => {
                 // is there a next element and do they have the same type:
                 // fill until the next order
                 if (data[i + 1] && data[i + 1].type === d.type) {
-                    return x(data[i + 1].price) - x(d.price);
+                    return self.x(data[i + 1].price) - self.x(d.price);
                     // is there a next element and they don't have the same type:
                     // market price valley
                 } else if (data[i + 1]) {
-                    return (x.range()[1] - x.range()[0]) / data.length;
+                    return (self.x.range()[1] - self.x.range()[0]) / data.length;
                 }
-                // this is the last element: fill until the end of the graph
-                return x.range()[1] - x(d.price);
+                // self is the last element: fill until the end of the graph
+                return self.x.range()[1] - self.x(d.price);
             })
-            .attr('height', d => height - y(d.total))
+            .attr('height', d => self.height - self.margin.top - self.margin.bottom - self.y(d.total))
             .on('mouseover', (d) => {
-                tooltip.transition()
+                self.tooltip.transition()
                     .duration(500)
                     .style('opacity', 1);
 
@@ -147,10 +186,22 @@ export class OrderbookChartCustomElement {
 
                 html += '</table>';
 
-                tooltip.html(html);
+                self.tooltip.html(html);
             })
             .on('mouseout', () =>
-                tooltip.transition().duration(500).style('opacity', 0)
+                self.tooltip.transition().duration(500).style('opacity', 0)
             );
-    };
+    }
+
+    zoomed() {
+        if (d3.event.sourceEvent && d3.event.sourceEvent.type === "brush") return; // ignore zoom-by-brush
+        const t = d3.event.transform;
+        //this.x.domain(t.rescaleX(this.x).domain());
+        //focus.select(".area").attr("d", area);
+        this.context.select(".axis--x").call(this.xAxis);
+
+        const xDomain = this.x.domain();
+        this.renderBars(this.data.filter(d => d.price >= xDomain[0] && d.price <= xDomain[1]));
+        //context.select(".brush").call(brush.move, this.x.range().map(t.invertX, t));
+    }
 }

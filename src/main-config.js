@@ -24,8 +24,8 @@ const config = {
     development: {
         urls: {
             api: 'http://localhost:1337',
-            //horizon: 'https://horizon.stellar.org'
-            horizon: 'https://horizon-testnet.stellar.org/'
+            horizon: 'https://horizon.stellar.org'
+            //horizon: 'https://horizon-testnet.stellar.org/'
         }
     },
     test: {
