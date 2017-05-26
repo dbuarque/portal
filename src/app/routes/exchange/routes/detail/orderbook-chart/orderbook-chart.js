@@ -71,11 +71,12 @@ export class OrderbookChartCustomElement {
 
         const target = self.svg;
         const middleMarket = self.orderbook.bids.length > 0 && self.orderbook.asks.length > 0 ?
-            parseFloat(self.orderbook.bids[0].price, 10) / parseFloat(self.orderbook.asks[0].price, 10) :
+            (parseFloat(self.orderbook.bids[0].price, 10) + parseFloat(self.orderbook.asks[0].price, 10)) / 2 :
             self.orderbook.bids.length > 0 ?
                 parseFloat(self.orderbook.bids[0].price, 10) :
                 parseFloat(self.orderbook.asks[0].price, 10);
         const orders = self.orderbook.bids
+            .filter(b => parseFloat(b.price, 10) >= middleMarket * 0.75)
             .map(b => {
                 return {
                     type: 'bid',
@@ -85,6 +86,7 @@ export class OrderbookChartCustomElement {
             })
             .concat(
                 self.orderbook.asks
+                    .filter(a => parseFloat(a.price, 10) <= middleMarket * 1.25)
                     .map(a => {
                         return {
                             type: 'ask',
@@ -98,11 +100,6 @@ export class OrderbookChartCustomElement {
         const height = self.height - margin.top - margin.bottom;
         self.x = d3.scaleLinear().range([0, width]);
         self.y = d3.scaleLinear().range([height, 0]);
-        const zoom = d3.zoom()
-            .scaleExtent([1, Infinity])
-            .translateExtent([[0, 0], [width, height]])
-            .extent([[0, 0], [width, height]])
-            .on("zoom", self.zoomed.bind(self));
 
         target.selectAll('*').remove();
 
@@ -127,13 +124,6 @@ export class OrderbookChartCustomElement {
         self.context.append('g')
             .attr('class', 'axis axis--y')
             .call(d3.axisLeft(self.y));
-
-        target.append("rect")
-            .attr("class", "zoom")
-            .attr("width", width)
-            .attr("height", height)
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-            .call(zoom);
 
         // Define the div for the tooltip
         self.tooltip = d3.select('body').append('div')
@@ -191,17 +181,5 @@ export class OrderbookChartCustomElement {
             .on('mouseout', () =>
                 self.tooltip.transition().duration(500).style('opacity', 0)
             );
-    }
-
-    zoomed() {
-        if (d3.event.sourceEvent && d3.event.sourceEvent.type === "brush") return; // ignore zoom-by-brush
-        const t = d3.event.transform;
-        //this.x.domain(t.rescaleX(this.x).domain());
-        //focus.select(".area").attr("d", area);
-        this.context.select(".axis--x").call(this.xAxis);
-
-        const xDomain = this.x.domain();
-        this.renderBars(this.data.filter(d => d.price >= xDomain[0] && d.price <= xDomain[1]));
-        //context.select(".brush").call(brush.move, this.x.range().map(t.invertX, t));
     }
 }
