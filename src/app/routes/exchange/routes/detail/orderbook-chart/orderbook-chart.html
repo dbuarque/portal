@@ -1,0 +1,19 @@
+<template>
+    <div class="card orderbook-chart" collapsible-card="is-open:true">
+        <div class="card-content">
+            <div class="card-heading">
+                <div class="card-title">
+                    Orderbook Chart
+                </div>
+                <i style="font-size: 15px;" class="fa fa-refresh right" no-collapse click.trigger="refresh()"></i>
+            </div>
+            <div class="card-body">
+                <i if.bind="!orderbook.bids && !orderbook.asks">There are no orders for this asset pair.</i>
+                <div if.bind="orderbook.bids || orderbook.asks">
+                    <div class="chart"></div>
+                    <spinner-overlay show.bind="orderbook.loading"></spinner-overlay>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

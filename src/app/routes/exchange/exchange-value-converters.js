@@ -5,7 +5,16 @@
 import {inject} from 'aurelia-framework'
 import {FormatNumberValueConverter} from 'app-resources';
 
+
 export class OrderAmountValueConverter {
+
+    /**
+     *
+     * @param o - The order (bid or ask)
+     * @param selling - Is this a an order to sell (i.e. an ask)
+     * @param flip - Do you want the amount in buying asset (i.e. flip the amount)
+     * @returns {*}
+     */
     toView(o, selling, flip) {
         const amount = parseFloat(o.amount, 10);
         const ratio = flip ? o.price_r.d / o.price_r.n : o.price_r.n / o.price_r.d;

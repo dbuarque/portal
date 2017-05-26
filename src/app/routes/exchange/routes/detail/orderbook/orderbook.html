@@ -10,21 +10,21 @@
             </div>
             <div class="card-body">
                 <i if.bind="!assetPair">Select an asset pair to get started.</i>
-                <i if.bind="bids.length === 0 && asks.length === 0">There are currently no orders for this asset pair.</i>
-                <div class="row" if.bind="assetPair && (bids.length > 0 || asks.length > 0)">
+                <i if.bind="orderbook.bids.length === 0 && orderbook.asks.length === 0">There are currently no orders for this asset pair.</i>
+                <div class="row" if.bind="assetPair && (orderbook.bids.length > 0 || orderbook.asks.length > 0)">
                     <div class="col m6">
                         <h6 class="center primary-text"><strong>Sell Orders</strong></h6>
-                        <orders-table selling.bind="true" orders.bind="asks" asset-pair.bind="assetPair"></orders-table>
+                        <orders-table selling.bind="true" orders.bind="orderbook.asks" asset-pair.bind="assetPair"></orders-table>
                     </div>
                     <div class="col m6">
                         <div class="hide-on-med-and-up">
                             <br>
                         </div>
                         <h6 class="center primary-text"><strong>Buy Orders</strong></h6>
-                        <orders-table selling.bind="false" orders.bind="bids" asset-pair.bind="assetPair"></orders-table>
+                        <orders-table selling.bind="false" orders.bind="orderbook.bids" asset-pair.bind="assetPair"></orders-table>
                     </div>
                 </div>
-                <spinner-overlay show.bind="loading > 0"></spinner-overlay>
+                <spinner-overlay show.bind="orderbook.loading"></spinner-overlay>
             </div>
         </div>
     </div>
