@@ -193,12 +193,8 @@ export class BrushChartCustomElement {
         const start = this.start || moment(this.x.invert(brushExtent[0][0])).toISOString();
         const end = this.end || moment(this.x.invert(brushExtent[1][0])).toISOString();
 
-        const validTimes = this.xDomain.filter(x => {
-            return !moment(x).isBefore(moment(start)) && !moment(x).isAfter(moment(end));
-        });
-
-        let selectStart = this.x(new Date(validTimes[0]));
-        let selectEnd = this.x(new Date(validTimes[validTimes.length - 1]));
+        let selectStart = this.x(new Date(start));
+        let selectEnd = this.x(new Date(end));
 
         if (selectStart > brushExtent[1][0]) {
             selectStart = brushExtent[1][0];

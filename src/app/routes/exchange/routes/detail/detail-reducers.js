@@ -5,9 +5,11 @@
 import {ReducerHelper} from 'global-resources';
 import {namespace} from './detail-action-types';
 import {priceChart} from './price-chart/price-chart-reducers'
+import {orderbookChart} from './orderbook-chart/orderbook-chart-reducers'
 
 let _detail = ReducerHelper.combineReducersProvideRootState({
-    priceChart
+    priceChart,
+    orderbookChart
 });
 
 export const detail = ReducerHelper.restrictReducerToNamespace(_detail, namespace);

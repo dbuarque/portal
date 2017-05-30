@@ -1,0 +1,29 @@
+.orderbook-chart {
+    font-size: 12px;
+
+    .bar.bid {
+        fill: rgba(40, 193, 44, 0.3);
+    }
+
+    .bar.ask {
+        fill: rgba(255, 0, 0, 0.4);
+    }
+
+    .bar:hover {
+        fill: #337ab7;
+    }
+
+    .axis--x path {
+        display: none;
+    }
+
+    .axis--y path {
+        display: none;
+    }
+
+    .zoom {
+        cursor: move;
+        fill: none;
+        pointer-events: all;
+    }
+}

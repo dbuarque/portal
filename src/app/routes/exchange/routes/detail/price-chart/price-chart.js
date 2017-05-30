@@ -23,6 +23,10 @@ export class PriceChart {
         this.unsubscribeFromStore();
     }
 
+    async refresh() {
+        await this.candlestickChart.refresh();
+    }
+
     updateFromStore() {
         const newState = this.appStore.getState();
         const exchange = newState.exchange;

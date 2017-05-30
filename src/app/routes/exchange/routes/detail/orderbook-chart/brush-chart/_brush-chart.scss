@@ -20,10 +20,18 @@
         }
     }
 
-    path.line {
-        fill: none;
-        stroke: $primary;
-        stroke-width: 1;
+    .bid-area {
+        stroke: $success;
+        fill: $success;
+        fill-opacity: 0.1;
+        clip-path: url(#clip);
+    }
+
+    .ask-area {
+        stroke: $error;
+        fill: $error;
+        fill-opacity: 0.1;
+        clip-path: url(#clip);
     }
 
     g.axis {
