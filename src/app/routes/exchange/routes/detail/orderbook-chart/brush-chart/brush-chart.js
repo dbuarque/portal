@@ -27,12 +27,12 @@ export class BrushChartCustomElement {
             this.$element = $(this.element);
             this.$chart = this.$element.find('.chart');
 
-            this.margin = {top: 0, right: 1, bottom: 20, left: 1};
+            this.margin = {top: 0, right: 4, bottom: 20, left: 3};
             this.width = Math.max(this.$element.parent().width() - this.margin.left - this.margin.right, 900 - this.margin.left - this.margin.right);
             this.height = 50;
 
             this.brush = d3.brushX()
-                .extent([[this.margin.left, 0], [this.width - this.margin.right, this.height]])
+                .extent([[0, 0], [this.width, this.height]])
                 .on("end", this.brushed.bind(this));
 
             this.x = d3.scaleLog()

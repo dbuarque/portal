@@ -1,4 +1,4 @@
-.candlestick-chart {
+.area-chart {
     overflow-x: hidden;
     margin-top: 5px;
     border: 1px solid $gray;
@@ -7,7 +7,7 @@
         padding: 0;
         position: absolute;
         top: 0;
-        right: 95px;
+        right: 5px;
         margin: 5px;
         font-size: 10px;
         width: 500px;

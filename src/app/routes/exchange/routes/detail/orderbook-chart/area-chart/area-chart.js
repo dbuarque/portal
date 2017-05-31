@@ -10,7 +10,7 @@ import {AppStore, ObservationInstruction} from 'global-resources';
 import {FormatNumberValueConverter} from 'app-resources';
 
 @inject(Element, AppStore, FormatNumberValueConverter)
-export class CandlestickChartCustomElement {
+export class AreaChartCustomElement {
 
     loading = 0;
     numRefreshes = 0;
@@ -135,7 +135,7 @@ export class CandlestickChartCustomElement {
     }
 
     draw() {
-        const xDomain = [parseFloat(this.orderbook.bids[this.orderbook.bids.length - 1].price, 10), parseFloat(this.orderbook.asks[this.orderbook.asks.length - 1].price, 10)];
+        const xDomain = [parseFloat(this.bids[this.bids.length - 1].price, 10), parseFloat(this.asks[this.asks.length - 1].price, 10)];
         const yDomain = [0, 0];
 
         yDomain[1] = Math.max.apply(
@@ -221,10 +221,33 @@ export class CandlestickChartCustomElement {
     }
 
     _move(coords) {
-        //const currentData = _find(this.data, {date: coords.x});
-        //this.currentData = currentData ? Object.keys(currentData).reduce((_currentData, key) => {
-        //    _currentData[key] = key !== 'date' ? this.formatNumber.toView(currentData[key]) : currentData[key];
-        //    return _currentData;
-        //}, {}) : undefined;
+        this.currentData = this.findLastGreaterThanOrEqual(coords.x, this.bids, b => parseFloat(b.price, 10));
+
+        if (this.currentData) {
+            this.currentData.type = 'Bidding';
+        }
+        else {
+            this.currentData = this.findLastLessThanOrEqual(coords.x, this.asks, a => parseFloat(a.price, 10));
+
+            if (this.currentData) {
+                this.currentData.type = 'Asking';
+            }
+        }
+    }
+
+    findLastGreaterThanOrEqual(point, array, comparer) {
+        for (let i = array.length - 1; i >= 0; i--) {
+            if (comparer(array[i]) >= point) {
+                return array[i];
+            }
+        }
+    }
+
+    findLastLessThanOrEqual(point, array, comparer) {
+        for (let i = array.length - 1; i >= 0; i--) {
+            if (comparer(array[i]) <= point) {
+                return array[i];
+            }
+        }
     }
 }

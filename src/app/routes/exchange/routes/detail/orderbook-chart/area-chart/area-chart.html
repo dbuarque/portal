@@ -1,0 +1,21 @@
+<template>
+    <div class="area-chart">
+        <div>
+            <div show.bind="noData" style="padding: 10px;">
+                <i>There is no trade data for the chosen asset pair.</i>
+            </div>
+            <div show.bind="!noData">
+                <table class="current-data" show.bind="currentData">
+                    <tr>
+                        <td>Price: ${currentData.price}</td>
+                        <td>Type: ${currentData.type}</td>
+                        <td>Depth (${assetPair.selling.code}): ${currentData.selling_depth}</td>
+                        <td>Depth (${assetPair.buying.code}): ${currentData.buying_depth}</td>
+                    </tr>
+                </table>
+                <div class="chart"></div>
+                <spinner-overlay min-height="390" show.bind="orderbook.loading" size="2x"></spinner-overlay>
+            </div>
+        </div>
+    </div>
+</template>

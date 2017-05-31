@@ -4,12 +4,14 @@
 
 import {inject} from 'aurelia-framework';
 import {AppStore} from 'global-resources';
+import {ExchangeActionCreators} from '../../../exchange-action-creators';
 
-@inject(AppStore)
+@inject(AppStore, ExchangeActionCreators)
 export class OrderbookChart {
 
-    constructor(appStore) {
+    constructor(appStore, exchangeActionCreators) {
         this.appStore = appStore;
+        this.exchangeActionCreators = exchangeActionCreators;
     }
 
     bind() {
@@ -19,6 +21,10 @@ export class OrderbookChart {
 
     unbind() {
         this.unsubscribeFromStore();
+    }
+
+    async refresh() {
+        this.appStore.dispatch(this.exchangeActionCreators.refreshOrderbook());
     }
 
     updateFromStore() {

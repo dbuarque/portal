@@ -29,7 +29,7 @@ export class BrushChartCustomElement {
             this.$element = $(this.element);
             this.$chart = this.$element.find('.chart');
 
-            this.margin = {top: 0, right: 1, bottom: 20, left: 1};
+            this.margin = {top: 0, right: 2, bottom: 20, left: 1};
             this.width = Math.max(this.$element.parent().width() - this.margin.left - this.margin.right, 900 - this.margin.left - this.margin.right);
             this.height = 50;
 
@@ -141,9 +141,6 @@ export class BrushChartCustomElement {
         this.y.domain(this.yDomain);
 
         this.svg.selectAll('*').remove();
-
-        this.svg.append("g")
-            .attr("class", "close");
 
         const xAxisSvg = this.svg.append("g")
             .attr("class", "x axis")

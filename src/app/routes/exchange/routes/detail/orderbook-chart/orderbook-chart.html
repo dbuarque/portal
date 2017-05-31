@@ -1,5 +1,5 @@
 <template>
-    <require from="./candlestick-chart/candlestick-chart"></require>
+    <require from="./area-chart/area-chart"></require>
     <require from="./brush-chart/brush-chart"></require>
     <div class="card orderbook-chart" collapsible-card="is-open:true">
         <div class="card-content">
@@ -13,8 +13,8 @@
                 <i if.bind="!assetPair">Select an asset pair to get started.</i>
                 <div if.bind="assetPair">
                     <div class="chart-scroll">
-                        <candlestick-chart view-model.bind="candlestickChart"></candlestick-chart>
-                        <brush-chart view-model.bind="brushChart"></brush-chart>
+                        <area-chart></area-chart>
+                        <brush-chart></brush-chart>
                     </div>
                 </div>
             </div>
