@@ -1,4 +1,4 @@
-.candlestick-chart {
+.area-chart {
     overflow-x: hidden;
     margin-top: 5px;
     border: 1px solid $gray;
@@ -7,7 +7,7 @@
         padding: 0;
         position: absolute;
         top: 0;
-        right: 95px;
+        right: 5px;
         margin: 5px;
         font-size: 10px;
         width: 500px;
@@ -25,26 +25,23 @@
             overflow: visible;
         }
 
-        path.candle {
-            stroke: #000000;
+        .bid-area {
+            stroke: $success;
+            stroke-width: 2;
+            fill: $success;
+            fill-opacity: 0.5;
+            clip-path: url(#clip);
         }
 
-        path.candle.up {
-            fill: #00AA00;
-            stroke: #00AA00;
+        .ask-area {
+            stroke: $error;
+            stroke-width: 2;
+            fill: $error;
+            fill-opacity: 0.5;
         }
 
-        path.candle.down {
-            fill: #FF0000;
-            stroke: #FF0000;
-        }
 
-        path.volume {
-            fill: $primary;
-            opacity: 0.25;
-        }
-
-        g.axis {
+            g.axis {
             /*path.domain {
                 display: none;
             }*/

@@ -81,8 +81,8 @@ export class CandlestickChartCustomElement {
         this.timeAnnotation = techan.plot.axisannotation()
             .axis(this.xAxis)
             .orient('bottom')
-            .format(d3.timeFormat('%Y-%m-%d'))
-            .width(65)
+            .format(d3.timeFormat('%Y-%m-%d %H:%M %p'))
+            .width(130)
             .translate([0, this.height]);
 
         this.volumeAnnotation = techan.plot.axisannotation()

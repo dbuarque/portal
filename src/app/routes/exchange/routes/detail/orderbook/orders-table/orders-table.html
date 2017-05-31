@@ -14,10 +14,10 @@
                     ${assetPair.buying.code & oneTime}
                 </th>
                 <th>
-                    Sum (${assetPair.selling.code & oneTime})
+                    Depth (${assetPair.selling.code & oneTime})
                 </th>
                 <th>
-                    Sum (${assetPair.buying.code & oneTime})
+                    Depth (${assetPair.buying.code & oneTime})
                 </th>
             </tr>
             </thead>
@@ -27,16 +27,16 @@
                     ${order.price | toPrecision:7 & oneTime} ${assetPair.buying.code & oneTime}/${assetPair.selling.code & oneTime}
                 </td>
                 <td>
-                    ${order | orderAmount:selling:true | toPrecision:7 & oneTime}
+                    ${order.selling_amount | toPrecision:7 & oneTime}
                 </td>
                 <td>
-                    ${order | orderAmount:selling:false | toPrecision:7 & oneTime}
+                    ${order.buying_amount | toPrecision:7 & oneTime}
                 </td>
                 <td>
-                    ${orders | sumOrdersAmount:$index:selling:true | toPrecision:7 & oneTime}
+                    ${order.selling_depth | toPrecision:7 & oneTime}
                 </td>
                 <td>
-                    ${orders | sumOrdersAmount:$index:selling:false | toPrecision:7 & oneTime}
+                    ${order.buying_depth | toPrecision:7 & oneTime}
                 </td>
             </tr>
             </tbody>

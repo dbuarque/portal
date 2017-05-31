@@ -44,7 +44,7 @@ export class DataProcessor {
             low: rawDatum.low,
             close: rawDatum.close,
             volume: rawDatum.sold_vol,
-            buyingVolume: rawDatum.sold_vol,
+            buyingVolume: rawDatum.bought_vol,
             sellingVolume: rawDatum.sold_vol
         };
     }

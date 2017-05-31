@@ -6,14 +6,17 @@
 import {inject} from 'aurelia-framework';
 import {namespace, exchangeActionTypes} from './exchange-action-types';
 import {StellarServer} from 'global-resources';
+import {OrderAmountValueConverter, SumOrdersAmountValueConverter} from './exchange-value-converters';
 
 const {UPDATE_ASSET_PAIR, REFRESH_ORDERBOOK} = exchangeActionTypes;
 
-@inject(StellarServer)
+@inject(StellarServer, OrderAmountValueConverter, SumOrdersAmountValueConverter)
 export class ExchangeActionCreators {
 
-    constructor(stellarServer) {
+    constructor(stellarServer, orderAmount, sumOrdersAmount) {
         this.stellarServer = stellarServer;
+        this.orderAmount = orderAmount;
+        this.sumOrdersAmount = sumOrdersAmount;
     }
 
     updateAssetPair(assetPair) {
@@ -41,6 +44,26 @@ export class ExchangeActionCreators {
                     assetPair.buying.code === 'XLM' ? this.stellarServer.sdk.Asset.native() : new this.stellarServer.sdk.Asset(assetPair.buying.code, assetPair.buying.issuer)
                 )
                 .call();
+
+            orderbook.asks = orderbook.asks.map((a, index) => {
+                return {
+                    ...a,
+                    buying_amount: this.orderAmount.toView(a, true, false),
+                    selling_amount: this.orderAmount.toView(a, true, true),
+                    buying_depth: this.sumOrdersAmount.toView(orderbook.asks, index, true, false),
+                    selling_depth: this.sumOrdersAmount.toView(orderbook.asks, index, true, true)
+                };
+            });
+
+            orderbook.bids = orderbook.bids.map((b, index) => {
+                return {
+                    ...b,
+                    buying_amount: this.orderAmount.toView(b, false, false),
+                    selling_amount: this.orderAmount.toView(b, false, true),
+                    buying_depth: this.sumOrdersAmount.toView(orderbook.bids, index, false, false),
+                    selling_depth: this.sumOrdersAmount.toView(orderbook.bids, index, false, true)
+                };
+            });
 
            dispatch({
                type: REFRESH_ORDERBOOK,
