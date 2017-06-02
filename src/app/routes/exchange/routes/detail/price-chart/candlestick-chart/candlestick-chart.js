@@ -16,6 +16,16 @@ export class CandlestickChartCustomElement {
     loading = 0;
     numRefreshes = 0;
     noData = false;
+    numTicks = 8;
+
+    formatMillisecond = d3.timeFormat(".%L");
+    formatSecond = d3.timeFormat("%M:%S");
+    formatMinute = d3.timeFormat("%I:%M");
+    formatHour = d3.timeFormat("%I %p");
+    formatDay = d3.timeFormat("%a %d");
+    formatWeek = d3.timeFormat("%b %d");
+    formatMonth = d3.timeFormat("%B");
+    formatYear = d3.timeFormat("%Y");
 
     constructor(element, stellarServer, appStore, tickerResource, formatNumber, dataProcessor) {
         this.element = element;
@@ -65,6 +75,10 @@ export class CandlestickChartCustomElement {
             .yScale(this.yVolume);
 
         this.xAxis = d3.axisBottom(this.x);
+
+        this.defaultXAxisTickFormat = this.xAxis.tickFormat();
+        this.defaultXAxisTicks = this.xAxis.ticks();
+            //.tickFormat(this._multiFormat.bind(this));
 
         this.yAxis = d3.axisLeft(this.y)
             .tickFormat(num => this.formatNumber.toView(num, 3));
@@ -223,6 +237,37 @@ export class CandlestickChartCustomElement {
         self.y.domain(yDomain);
         self.yVolume.domain(yVolumeDomain);
 
+        const domainHours = moment.duration(moment(data[data.length - 1].date).diff(moment(data[0].date))).asHours();
+
+        if (domainHours < 24 * 4 && domainHours > 23) {
+            self.xAxis
+                .ticks(
+                    d3.timeHour,
+                    domainHours / 10
+                )
+                .tickFormat(d3.timeFormat('%m/%d-%H:%M'))
+        }
+        else if (domainHours < 24) {
+            self.xAxis
+                .ticks(
+                    d3.timeMinute,
+                    domainHours * 60 / 10
+                )
+                .tickFormat(d3.timeFormat('%H:%M'))
+        }
+        else {
+            self.xAxis.ticks()
+                .tickFormat(this.x.tickFormat());
+        }
+        //self.xAxis
+        //    .ticks(
+        //        d3.timeHour,
+        //        this.numTicks
+        //    );
+        //self.xAxis
+        //    .ticks(this._tickInterval(data), this.numTicks);
+
+
         //Calculate how far away the y axis labels need to be.
         const yDomainWidth = this.calculateAxisWidth(yDomain);
         const yVolumeDomainWidth = this.calculateAxisWidth(yVolumeDomain);
@@ -344,6 +389,41 @@ export class CandlestickChartCustomElement {
 
     out() {
         this.currentData = undefined;
+    }
+
+    _formatTicks(data) {
+
+    }
+
+    _tickInterval(data) {
+        const seconds = moment.duration(moment(data[data.length - 1].date).diff(moment(data[0].date))).asSeconds() / this.numTicks;
+        const secondsInterval = d3.timeSecond.every(seconds);
+
+        return new d3.timeInterval(
+            date => {
+                return
+            },
+            secondsInterval.offset.bind(secondsInterval),
+            (start, end) => {
+                start = moment(start);
+                start = start.seconds(start.seconds() + 1);
+                end = moment(end);
+
+                let num = moment.duration(end.diff(start)).asSeconds() / seconds;
+
+                return num.toFixed(0);
+            }
+        );
+    }
+
+    _multiFormat(date) {
+        return (d3.timeSecond(date) < date ? this.formatMillisecond
+            : d3.timeMinute(date) < date ? this.formatSecond
+            : d3.timeHour(date) < date ? this.formatMinute
+            : d3.timeDay(date) < date ? this.formatHour
+            : d3.timeMonth(date) < date ? (d3.timeWeek(date) < date ? this.formatDay : this.formatWeek)
+            : d3.timeYear(date) < date ? this.formatMonth
+            : this.formatYear)(date);
     }
 
     _move(coords) {
