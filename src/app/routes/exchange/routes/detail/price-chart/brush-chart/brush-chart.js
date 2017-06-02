@@ -30,7 +30,7 @@ export class BrushChartCustomElement {
             this.$chart = this.$element.find('.chart');
 
             this.margin = {top: 0, right: 2, bottom: 20, left: 1};
-            this.width = Math.max(this.$element.parent().width() - this.margin.left - this.margin.right, 900 - this.margin.left - this.margin.right);
+            this.width = this.$element.parent().width() - this.margin.left - this.margin.right;
             this.height = 50;
 
             this.brush = d3.brushX()

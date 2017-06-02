@@ -1,10 +1,17 @@
 <template>
     <require from="./price-chart/price-chart"></require>
     <require from="./orderbook-chart/orderbook-chart"></require>
-    <require from="./orderbook/orderbook"></require>
+    <require from="./offers/offers"></require>
     <div>
-        <price-chart></price-chart>
-        <orderbook-chart></orderbook-chart>
-        <orderbook></orderbook>
+        <price-chart if.one-time="!isMobile"></price-chart>
+        <orderbook-chart if.one-time="!isMobile"></orderbook-chart>
+        <div class="row">
+            <div class="col m6">
+                <offers type="Bids"></offers>
+            </div>
+            <div class="col m6">
+                <offers type="Asks"></offers>
+            </div>
+        </div>
     </div>
 </template>

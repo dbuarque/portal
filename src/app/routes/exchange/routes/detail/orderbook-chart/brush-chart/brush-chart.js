@@ -28,7 +28,7 @@ export class BrushChartCustomElement {
             this.$chart = this.$element.find('.chart');
 
             this.margin = {top: 0, right: 4, bottom: 20, left: 3};
-            this.width = Math.max(this.$element.parent().width() - this.margin.left - this.margin.right, 900 - this.margin.left - this.margin.right);
+            this.width = this.$element.parent().width() - this.margin.left - this.margin.right;
             this.height = 50;
 
             this.brush = d3.brushX()
@@ -45,13 +45,13 @@ export class BrushChartCustomElement {
                 .tickFormat(num => this.formatNumber.toView(num, 2));
 
             this.askArea = d3.area()
-                .curve(d3.curveStepAfter)
+                .curve(d3.curveStepBefore)
                 .x(d => this.x(parseFloat(d.price, 10)))
                 .y0(this.height)
                 .y1(d => this.y(d.selling_depth));
 
             this.bidArea = d3.area()
-                .curve(d3.curveStepBefore)
+                .curve(d3.curveStepAfter)
                 .x(d => this.x(parseFloat(d.price, 10)))
                 .y0(this.height)
                 .y1(d => this.y(d.selling_depth));
@@ -105,7 +105,7 @@ export class BrushChartCustomElement {
     }
 
     draw() {
-        const xDomain = [parseFloat(this.orderbook.bids[this.orderbook.bids.length - 1].price, 10), parseFloat(this.orderbook.asks[this.orderbook.asks.length - 1].price, 10)];
+        const xDomain = [parseFloat(this.orderbook.bids[this.orderbook.bids.length - 1].price, 10) , parseFloat(this.orderbook.asks[this.orderbook.asks.length - 1].price, 10)];
         const yDomain = [0, 0];
 
         yDomain[1] = Math.max.apply(

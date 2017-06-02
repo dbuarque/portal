@@ -8,7 +8,7 @@ import {ModalService, AppStore, AlertToaster} from 'global-resources';
 import {TransactionService} from '../transaction-service/transaction-service';
 
 @inject(ModalService, AppStore, AlertToaster, TransactionService)
-export class PaymentService {
+export class OfferService {
 
     constructor(modalService, appStore, alertToaster, transactionService) {
         this.modalService = modalService;
@@ -20,13 +20,14 @@ export class PaymentService {
     /**
      * Initiates a payment
      * @param [passedInfo]
-     * @param [passedInfo.code]
+     * @param [passedInfo.sellingCode]
+     * @param [passedInfo.buyingCode]
+     * @param [passedInfo.sellingAmount]
+     * @param [passedInfo.price]
      * @param [passedInfo.issuer]
-     * @param [passedInfo.lockCode] Disables the ability of the user to change the code
-     * @param [passedInfo.lockIssuer] Disables the ability of the user to change the issuer
      * @returns {*}
      */
-    async initiatePayment(passedInfo) {
+    async createOffer(passedInfo) {
         if (!this.appStore.getState().account) {
             const errorMessage = 'You must be logged in to send a payment. Please log in and try again.';
             this.alertToaster.error(errorMessage);
@@ -34,21 +35,14 @@ export class PaymentService {
         }
 
         try {
-            const transaction = await this.modalService.open(PLATFORM.moduleName('app/resources/crud/payment-service/payment-modal/payment-modal'),
+            const transaction = await this.modalService.open(PLATFORM.moduleName('app/resources/crud/offer-service/offer-modal/offer-modal'),
                 {
                     ...passedInfo,
-                    title: 'Send Payment'
+                    title: 'Create Offer'
                 }
             );
 
-            await this.transactionService.submitTransaction(transaction, {
-                tryAgain: {
-                    text: 'Try Again',
-                    callback() {
-
-                    }
-                }
-            });
+            await this.transactionService.submitTransaction(transaction);
         }
         catch(e) {}
     }

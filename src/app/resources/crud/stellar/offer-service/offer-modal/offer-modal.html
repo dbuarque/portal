@@ -1,0 +1,17 @@
+<template>
+    <div class="offer-modal">
+        <table>
+            Are you sure you would like to:
+            <br>
+            buy ${sellingAmount} ${sellingCode}(${sellingIssuer || 'Native'}) for ${sellingAmount * price} ${buyingCode}(${buyingIssuer || 'Native'})?
+            <br>
+            If you are sure you would like to place this offer, confirm using the button below.
+        </table>
+        <div class="center-text">
+            <button class="btn btn-primary" click.delegate="confirm()">
+                <i class="fa fa-check"></i>&nbsp;Confirm
+            </button>
+        </div>
+        <spinner-overlay show.bind="loading > 0"></spinner-overlay>
+    </div>
+</template>

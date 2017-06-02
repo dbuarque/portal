@@ -5,7 +5,7 @@
             <thead>
             <tr>
                 <th>
-                    Price
+                    Price ${assetPair.buying.code & oneTime}/${assetPair.selling.code & oneTime}
                 </th>
                 <th>
                     ${assetPair.selling.code & oneTime}
@@ -24,7 +24,7 @@
             <tbody>
             <tr repeat.for="order of orders">
                 <td>
-                    ${order.price | toPrecision:7 & oneTime} ${assetPair.buying.code & oneTime}/${assetPair.selling.code & oneTime}
+                    ${order.price | toPrecision:7 & oneTime}
                 </td>
                 <td>
                     ${order.selling_amount | toPrecision:7 & oneTime}

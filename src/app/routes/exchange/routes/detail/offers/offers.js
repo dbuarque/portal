@@ -2,12 +2,14 @@
  * Created by istrauss on 3/27/2017.
  */
 
-import {inject} from 'aurelia-framework';
+import {inject, bindable} from 'aurelia-framework';
 import {AppStore} from 'global-resources';
 import {ExchangeActionCreators} from '../../../exchange-action-creators';
 
 @inject(AppStore, ExchangeActionCreators)
-export class OrderbookCustomElement {
+export class OffersCustomElement {
+
+    @bindable type;
 
     constructor(appStore, exchangeActionCreators) {
         this.appStore = appStore;

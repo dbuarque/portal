@@ -14,6 +14,8 @@ export class Detail {
         this.router = router;
         this.appStore = appStore;
         this.exchangeActionCreators = exchangeActionCreators;
+
+        this.isMobile = window.innerWidth < 500 ? true : false;
     }
     
     activate(params) {

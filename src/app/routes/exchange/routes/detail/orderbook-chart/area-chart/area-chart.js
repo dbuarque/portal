@@ -32,7 +32,7 @@ export class AreaChartCustomElement {
         this.$chart = this.$element.find('.chart');
 
         this.margin = {top: 0, right: 3, bottom: 20, left: 100};
-        this.width = Math.max(this.$element.parent().width() - this.margin.left - this.margin.right, 900 - this.margin.left - this.margin.right);
+        this.width = this.$element.parent().width() - this.margin.left - this.margin.right;
         this.height = this.width * 0.4 - this.margin.top - this.margin.bottom;
 
         this.x = d3.scaleLog()
@@ -48,13 +48,13 @@ export class AreaChartCustomElement {
             .tickFormat(num => this.formatNumber.toView(num, 3));
 
         this.askArea = d3.area()
-            .curve(d3.curveStepAfter)
+            .curve(d3.curveStepBefore)
             .x(d => this.x(parseFloat(d.price, 10)))
             .y0(this.height - 2)
             .y1(d => this.y(d.selling_depth));
 
         this.bidArea = d3.area()
-            .curve(d3.curveStepBefore)
+            .curve(d3.curveStepAfter)
             .x(d => this.x(parseFloat(d.price, 10)))
             .y0(this.height - 2)
             .y1(d => this.y(d.selling_depth));

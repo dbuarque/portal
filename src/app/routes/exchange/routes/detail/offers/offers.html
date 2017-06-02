@@ -1,0 +1,21 @@
+<template>
+    <require from="./offers-table/offers-table"></require>
+    <div class="card offers" collapsible-card="is-open:true">
+        <div class="card-content">
+            <div class="card-heading">
+                <div class="card-title">
+                    ${type}
+                </div>
+                <i style="font-size: 15px;" class="fa fa-refresh right" no-collapse click.trigger="refresh()"></i>
+            </div>
+            <div class="card-body">
+                <i if.bind="!assetPair">Select an asset pair to get started.</i>
+                <i if.bind="orderbook.bids.length === 0 && orderbook.asks.length === 0">There are currently no orders for this asset pair.</i>
+                <div if.bind="assetPair && (orderbook.bids.length > 0 || orderbook.asks.length > 0)">
+                    <offers-table selling.bind="type === 'Asks'" orders.bind="orderbook[type.toLowerCase()]" asset-pair.bind="assetPair"></offers-table>
+                </div>
+                <spinner-overlay show.bind="orderbook.loading" size="2x"></spinner-overlay>
+            </div>
+        </div>
+    </div>
+</template>
