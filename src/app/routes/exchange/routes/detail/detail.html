@@ -2,9 +2,21 @@
     <require from="./price-chart/price-chart"></require>
     <require from="./orderbook-chart/orderbook-chart"></require>
     <require from="./offers/offers"></require>
+    <require from="./create-offer/create-bid"></require>
+    <require from="./create-offer/create-ask"></require>
+    <require from="./my-offers/my-offers"></require>
     <div>
         <price-chart if.one-time="!isMobile"></price-chart>
         <orderbook-chart if.one-time="!isMobile"></orderbook-chart>
+        <my-offers></my-offers>
+        <div class="row">
+            <div class="col m6">
+                <create-bid></create-bid>
+            </div>
+            <div class="col m6">
+                <create-ask></create-ask>
+            </div>
+        </div>
         <div class="row">
             <div class="col m6">
                 <offers type="Bids"></offers>

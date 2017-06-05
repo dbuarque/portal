@@ -6,7 +6,7 @@
 import {inject} from 'aurelia-framework';
 import {namespace, exchangeActionTypes} from './exchange-action-types';
 import {StellarServer} from 'global-resources';
-import {OrderAmountValueConverter, SumOrdersAmountValueConverter} from './exchange-value-converters';
+import {OrderAmountValueConverter, SumOrdersAmountValueConverter} from 'app-resources';
 
 const {UPDATE_ASSET_PAIR, REFRESH_ORDERBOOK} = exchangeActionTypes;
 

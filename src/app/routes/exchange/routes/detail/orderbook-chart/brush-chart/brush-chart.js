@@ -45,7 +45,7 @@ export class BrushChartCustomElement {
                 .tickFormat(num => this.formatNumber.toView(num, 2));
 
             this.askArea = d3.area()
-                .curve(d3.curveStepBefore)
+                .curve(d3.curveStepAfter)
                 .x(d => this.x(parseFloat(d.price, 10)))
                 .y0(this.height)
                 .y1(d => this.y(d.selling_depth));
@@ -105,7 +105,9 @@ export class BrushChartCustomElement {
     }
 
     draw() {
-        const xDomain = [parseFloat(this.orderbook.bids[this.orderbook.bids.length - 1].price, 10) , parseFloat(this.orderbook.asks[this.orderbook.asks.length - 1].price, 10)];
+        const xStart = this.orderbook.bids.length > 0 ? this.orderbook.bids[this.orderbook.bids.length - 1].price : this.orderbook.asks[0].price;
+        const xEnd = this.orderbook.asks.length > 0 ? this.orderbook.asks[this.orderbook.asks.length - 1].price : this.orderbook.bids[0].price;
+        const xDomain = [xStart, xEnd];
         const yDomain = [0, 0];
 
         yDomain[1] = Math.max.apply(

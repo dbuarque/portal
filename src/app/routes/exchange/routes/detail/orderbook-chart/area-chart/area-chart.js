@@ -48,7 +48,7 @@ export class AreaChartCustomElement {
             .tickFormat(num => this.formatNumber.toView(num, 3));
 
         this.askArea = d3.area()
-            .curve(d3.curveStepBefore)
+            .curve(d3.curveStepAfter)
             .x(d => this.x(parseFloat(d.price, 10)))
             .y0(this.height - 2)
             .y1(d => this.y(d.selling_depth));
@@ -135,7 +135,9 @@ export class AreaChartCustomElement {
     }
 
     draw() {
-        const xDomain = [parseFloat(this.bids[this.bids.length - 1].price, 10), parseFloat(this.asks[this.asks.length - 1].price, 10)];
+        const xStart = this.bids.length > 0 ? this.bids[this.bids.length - 1].price : this.asks[0].price;
+        const xEnd = this.asks.length > 0 ? this.asks[this.asks.length - 1].price : this.bids[0].price;
+        const xDomain = [xStart, xEnd];
         const yDomain = [0, 0];
 
         yDomain[1] = Math.max.apply(

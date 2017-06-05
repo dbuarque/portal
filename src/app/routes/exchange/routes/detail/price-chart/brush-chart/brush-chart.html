@@ -1,5 +1,5 @@
 <template>
-    <div class="brush-chart">
+    <div class="brush-chart" show.bind="data">
         <div class="chart"></div>
         <spinner-overlay show.bind="loading > 0" size="lg" min-height="75" top="25"></spinner-overlay>
     </div>

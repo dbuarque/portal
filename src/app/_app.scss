@@ -2,14 +2,24 @@
 @import 'resources/resources';
 
 html, body {
-  background-color: $background;
+    background-color: $background;
 
-  .page-wrapper {
-      padding: 20px 2px;
-      max-width: 1200px;
-      margin: 0 auto;
-      overflow-x: auto;
-  }
+    .toast-container-wrapper {
+        position: fixed;
+        max-width: 1200px;
+        top: 70px;
+        width: 100%;
+        right: 50%;
+        margin-right: -600px;
+        z-index: 99999;
+    }
+
+    .page-wrapper {
+        padding: 20px 2px;
+        max-width: 1200px;
+        margin: 0 auto;
+        overflow-x: hidden;
+    }
 
     .home-link {
         a {
@@ -23,12 +33,21 @@ html, body {
 }
 
 .splash {
-  width: 100%;
-  text-align: center;
+    width: 100%;
+    text-align: center;
 
-  .message {
-    font-size: 30px;
-  }
+    .message {
+        font-size: 30px;
+    }
+}
+
+@media all and (max-width: 1200px) {
+    body {
+        .toast-container-wrapper {
+            right: 0;
+            margin-right: 0;
+        }
+    }
 }
 
 @import "routes/login/login";

@@ -3,12 +3,32 @@
         <table>
             Are you sure you would like to:
             <br>
-            buy ${sellingAmount} ${sellingCode}(${sellingIssuer || 'Native'}) for ${sellingAmount * price} ${buyingCode}(${buyingIssuer || 'Native'})?
+            <br>
+
+            <div show.bind="type === 'Bid'">
+                <strong>
+                    <span class="success-text">Buy</span>
+                    ${buyingAmount} ${buyingCode}(${buyingIssuer || 'Native'})
+                </strong>
+                for
+                <strong>${sellingAmount} ${sellingCode}(${sellingIssuer || 'Native'})</strong>
+            </div>
+
+            <div show.bind="type === 'Ask'">
+                <strong>
+                    <span class="error-text">Sell</span>
+                    ${sellingAmount} ${sellingCode}(${sellingIssuer || 'Native'})
+                </strong>
+                for
+                <strong>${buyingAmount} ${buyingCode}(${buyingIssuer || 'Native'})</strong>
+            </div>
+
             <br>
             If you are sure you would like to place this offer, confirm using the button below.
         </table>
+        <br>
         <div class="center-text">
-            <button class="btn btn-primary" click.delegate="confirm()">
+            <button class="btn primary" click.delegate="confirm()">
                 <i class="fa fa-check"></i>&nbsp;Confirm
             </button>
         </div>

@@ -5,6 +5,10 @@
 
     <navbar router.bind="router"></navbar>
 
+    <div class="toast-container-wrapper">
+        <div id="toast-container"></div>
+    </div>
+
     <div class="page-wrapper" style="min-height: 400px;">
         <div show.bind="router.currentInstruction.fragment !== '/exchange/choose'">
             <span class="home-link">
@@ -12,7 +16,6 @@
             </span>
             <aurelia-crumbs></aurelia-crumbs>
         </div>
-        <div id="toast-container"></div>
         <router-view></router-view>
         <spinner-overlay show.bind="router.isNavigating" transparent.bind="true"></spinner-overlay>
     </div>

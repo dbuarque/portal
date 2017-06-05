@@ -23,6 +23,7 @@ export class SubmitTransactionModal {
         this.submitAnother = params.passedInfo.submitAnother;
         this.finish = params.passedInfo.finish;
         this.onSuccess = params.passedInfo.onSuccess;
+        this.onFailure = params.passedInfo.onFailure;
 
         this.submitTransaction();
     }
@@ -36,7 +37,19 @@ export class SubmitTransactionModal {
             transactionResponse = await this.stellarServer.submitTransaction(this.transaction);
         }
         catch(e) {
-            if (e.message) {
+            if (this.onSuccess) {
+                try {
+                    this.errorMessage = await this.onFailure(e)
+                }
+                catch(e) {}
+
+                if (this.errorMessage === false) {
+                    this.modalVM.dismiss(e);
+                    return;
+                }
+            }
+
+            else if (e.message) {
                 this.errorMessage = e.message;
             }
             else if (e.extras) {
@@ -58,6 +71,11 @@ export class SubmitTransactionModal {
                 this.successMessage = await this.onSuccess(transactionResponse)
             }
             catch(e) {}
+
+            if (this.successMessage === false) {
+                this.modalVM.close();
+                return;
+            }
         }
 
         this.successMessage = this.successMessage || defaultSuccessMessage;

@@ -5,13 +5,15 @@
 import {inject} from 'aurelia-framework';
 import {appActionTypes} from './app-action-types';
 import {StellarServer} from 'global-resources';
+import {OfferService} from './resources/crud/stellar/offer-service/offer-service';
 
-const {UPDATE_ACCOUNT} = appActionTypes;
+const {UPDATE_ACCOUNT, UPDATE_OFFERS} = appActionTypes;
 
-@inject(StellarServer)
+@inject(StellarServer, OfferService)
 export class AppActionCreators {
-    constructor(stellarServer) {
+    constructor(stellarServer, offerService) {
         this.stellarServer = stellarServer;
+        this.offerService = offerService;
     }
 
     setAccount(publicKey) {
@@ -73,6 +75,17 @@ export class AppActionCreators {
             }
 
             return dispatch(this.setAccount(account.id));
+        }
+    }
+
+    updateOffers(accountId) {
+        return async (dispatch, getState) => {
+            const offers = await this.offerService.allOffers(accountId);
+
+            return dispatch({
+                type: UPDATE_OFFERS,
+                payload: offers
+            });
         }
     }
 }
