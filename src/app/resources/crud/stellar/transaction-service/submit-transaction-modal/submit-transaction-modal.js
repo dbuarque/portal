@@ -19,9 +19,6 @@ export class SubmitTransactionModal {
     activate(params) {
         this.modalVM = params.modalVM;
         this.transaction = params.passedInfo.transaction;
-        this.tryAgain = params.passedInfo.tryAgain;
-        this.submitAnother = params.passedInfo.submitAnother;
-        this.finish = params.passedInfo.finish;
         this.onSuccess = params.passedInfo.onSuccess;
         this.onFailure = params.passedInfo.onFailure;
 
@@ -29,15 +26,13 @@ export class SubmitTransactionModal {
     }
 
     async submitTransaction() {
-        this.modalVM.options.dismissible = false;
-
         let transactionResponse;
 
         try {
             transactionResponse = await this.stellarServer.submitTransaction(this.transaction);
         }
         catch(e) {
-            if (this.onSuccess) {
+            if (this.onFailure) {
                 try {
                     this.errorMessage = await this.onFailure(e)
                 }
@@ -82,21 +77,9 @@ export class SubmitTransactionModal {
 
         this.step = 'success';
         this.loading--;
-        this.modalVM.options.dismissible = true;
     }
 
-    _finish() {
+    finish() {
         this.modalVM.close();
-        this.finish.callback();
-    }
-
-    _tryAgain() {
-        this.modalVM.close();
-        this.tryAgain.callback();
-    }
-
-    _submitAnother() {
-        this.modalVM.close();
-        this.submitAnother.callback();
     }
 }

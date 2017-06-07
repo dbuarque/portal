@@ -30,12 +30,15 @@ export class SendPayment {
         this.transactionService = transactionService;
         this.stellarServer = stellarServer;
         this.appActionCreators = appActionCreators;
+
+        this.lupoexPublicKey = window.lupoex.publicKey;
     }
 
     activate(params) {
         this.nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
         this.code = params.code;
         this.issuer = params.issuer;
+        this.destination = params.destination;
         this.memos = [];
     }
 
@@ -65,7 +68,6 @@ export class SendPayment {
     }
 
     refresh() {
-        this.destination = undefined;
         this.amount = undefined;
         this.memos = [];
         this.validationManager.clear();
@@ -97,15 +99,6 @@ export class SendPayment {
         this.loading++;
 
         try {
-            //We need to update the account prior to creating the transaction in order to ensure that the account.sequence is updated.
-            await this.appStore.dispatch(this.appActionCreators.updateAccount());
-
-            const account = this.appStore.getState().account;
-
-            const transactionBuilder = new this.stellarServer.sdk.TransactionBuilder(
-                new this.stellarServer.sdk.Account(account.id, account.sequence)
-            );
-
             //Let's check if the destinationAccount exists.
             let destinationAccount;
 
@@ -115,14 +108,17 @@ export class SendPayment {
                 //Rejection means that account does not exist
             catch(e) {}
 
+            let operations = [];
+
             //Destination account doest exist? Let's try to create it (if the user is sending native asset).
             if (!destinationAccount) {
                 if (this.code === this.nativeAssetCode) {
-                    transactionBuilder
-                        .addOperation(this.stellarServer.sdk.Operation.createAccount({
+                    operations.push(
+                        this.stellarServer.sdk.Operation.createAccount({
                             destination: this.destination,
-                            startingBalance: "20"
-                        }));
+                            startingBalance: window.lupoex.stellar.minimumNativeBalance.toString()
+                        })
+                    );
 
                     this.amount = parseInt(this.amount, 10) - 20;
                 }
@@ -135,40 +131,30 @@ export class SendPayment {
                 }
             }
 
-            //Add the payment operation
-            transactionBuilder
-                .addOperation(
-                    this.stellarServer.sdk.Operation.payment({
-                        destination: this.destination,
-                        amount: this.amount.toString(),
-                        asset: this.code === this.nativeAssetCode ?
-                            this.stellarServer.sdk.Asset.native() :
-                            new this.stellarServer.sdk.Asset(this.code, this.issuer)
-                    })
-                );
+            operations.push(
+                this.stellarServer.sdk.Operation.payment({
+                    destination: this.destination,
+                    amount: this.amount.toString(),
+                    asset: this.code === this.nativeAssetCode ?
+                        this.stellarServer.sdk.Asset.native() :
+                        new this.stellarServer.sdk.Asset(this.code, this.issuer)
+                })
+            );
 
-            //Attach the memos
-            this.memos.forEach(m => {
-                transactionBuilder.addMemo(this.stellarServer.sdk.Memo[this.memoMethodFromType(m.type)](m.value))
-            });
+            const memos = this.memos.map( m => this.stellarServer.sdk.Memo[this.memoMethodFromType(m.type)](m.value));
 
-            const transaction = transactionBuilder.build();
 
             try {
-                await this.transactionService.submit(transaction, {
-                    tryAgain: {
-                        text: 'Try Again',
-                        callback: this.tryAgain.bind(this)
-                    },
-                    submitAnother: {
-                        text: 'Send Another Payment',
-                        callback: this.refresh.bind(this)
-                    },
+                await this.transactionService.submit(operations, {
+                    memos,
                     onSuccess: this.generateSuccessMessage.bind(this)
                 });
+
+                this.appStore.dispatch(this.appActionCreators.updateAccount());
+                this.refresh();
             }
             catch(e) {
-                this.finish();
+                this.tryAgain();
             }
         }
         catch(e) {

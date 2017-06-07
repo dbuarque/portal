@@ -1,5 +1,6 @@
 <template>
     <require from="./navbar/navbar"></require>
+    <require from="./footer/footer"></require>
 
     <modal-anchor></modal-anchor>
 
@@ -19,4 +20,5 @@
         <router-view></router-view>
         <spinner-overlay show.bind="router.isNavigating" transparent.bind="true"></spinner-overlay>
     </div>
+    <footer></footer>
 </template>

@@ -35,43 +35,27 @@ export class BaseOfferService {
             throw new Error(errorMessage);
         }
 
-        try {
-            const transaction = await this.modalService.open(PLATFORM.moduleName('app/resources/crud/stellar/offer-service/offer-modal/offer-modal'),
-                {
-                    ...passedInfo,
-                    title: 'Create Offer'
-                }
-            );
+        const operations = await this.modalService.open(PLATFORM.moduleName('app/resources/crud/stellar/offer-service/offer-modal/offer-modal'),
+            {
+                ...passedInfo,
+                title: 'Create Offer'
+            }
+        );
 
-            await this.transactionService.submit(transaction);
-        }
-        catch(e) {}
+        await this.transactionService.submit(operations);
     }
 
     //Make sure account.sequence is updated before calling this method
     //or just call this method from the OfferService instead.
     async cancelOffer(offerId) {
-        const account = this.appStore.getState().account;
+        const operations = [
+            this.stellarServer.sdk.Operation.manageOffer({
+                amount: 0,
+                offerId
+            })
+        ];
 
-        const transactionBuilder = new this.stellarServer.sdk.TransactionBuilder(
-            new this.stellarServer.sdk.Account(account.id, account.sequence)
-        );
-
-        transactionBuilder
-            .addOperation(
-                this.stellarServer.sdk.Operation.manageOffer({
-                    amount: 0,
-                    source: account.id,
-                    offerId
-                })
-            );
-
-        const transaction = transactionBuilder.build();
-
-        try {
-            await this.transactionService.submit(transaction);
-        }
-        catch(e) {}
+        await this.transactionService.submit(operations);
     }
 
     async allOffers(accountId, page) {

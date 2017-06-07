@@ -42,8 +42,10 @@ const config = {
     },
     all: {
         stellar: {
-            nativeAssetCode: 'XLM'
-        }
+            nativeAssetCode: 'XLM',
+            minimumNativeBalance: 20
+        },
+        publicKey: 'GACGNVW44F7GNUVALL2YFEHAVBVWO7WQROZ2ZRSYVL3H7UB4QPEUVJSN'
     }
 };
 

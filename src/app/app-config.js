@@ -41,7 +41,8 @@ export class AppConfig {
                     name: 'send-payment',
                     moduleId: PLATFORM.moduleName('./routes/send-payment/send-payment'),
                     accountRequired: true,
-                    title: 'Send Payment'
+                    title: 'Send Payment',
+                    breadcrumb: true
                 }
             ]
         };

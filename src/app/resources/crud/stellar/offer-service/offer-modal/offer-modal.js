@@ -3,17 +3,16 @@
  */
 
 import {inject} from 'aurelia-framework'
-import {StellarServer, AppStore} from 'global-resources';
+import {StellarServer, AppStore, AlertToaster} from 'global-resources';
 import {AppActionCreators} from '../../../../../app-action-creators';
 
-@inject(StellarServer, AppStore, AppActionCreators)
+@inject(StellarServer, AppStore, AlertToaster, AppActionCreators)
 export class OfferModal {
 
-    loading = 0;
-
-    constructor(stellarServer, appStore, appActionCreators) {
+    constructor(stellarServer, appStore, alertToaster, appActionCreators) {
         this.stellarServer = stellarServer;
         this.appStore = appStore;
+        this.alertToaster = alertToaster;
         this.appActionCreators = appActionCreators;
     }
 
@@ -28,38 +27,21 @@ export class OfferModal {
         this.buyingCode = params.passedInfo.buyingCode;
         this.buyingIssuer = params.passedInfo.buyingIssuer;
         this.buyingAmount = parseFloat(params.passedInfo.sellingAmount, 10) * parseFloat(params.passedInfo.price, 10);
-        this.trustline = params.passedInfo.trustline;
         this.price = params.passedInfo.price;
     }
 
     async confirm() {
         this.modalVM.dismissible = false;
-        this.loading++;
 
-        //We need to update the account prior to creating the transaction in order to ensure that the account.sequence is updated.
-        await this.appStore.dispatch(this.appActionCreators.updateAccount());
-
-        const account = this.appStore.getState().account;
-
-        const transactionBuilder = new this.stellarServer.sdk.TransactionBuilder(
-            new this.stellarServer.sdk.Account(account.id, account.sequence)
-        );
-
-        if (this.trustline) {
-            transactionBuilder
-                .addOperation(
-                    this.stellarServer.sdk.Operation.changeTrust({
-                        asset: this.buyingCode === this.nativeAssetCode ?
-                            this.stellarServer.sdk.Asset.native() :
-                            new this.stellarServer.sdk.Asset(this.buyingCode, this.buyingIssuer),
-                        limit: this.trustline,
-                        source: account.id
-                    })
-                )
+        const sellingAmountSplit = this.sellingAmount.split('.');
+        if (sellingAmountSplit.length > 1 && sellingAmountSplit[1].length > 7) {
+            this.alertToaster.error('Currency amounts cannot have more than 7 decimal places.');
+            this.modalVM.dismiss();
+            return;
         }
 
-        transactionBuilder
-            .addOperation(
+        try {
+            const operations = [
                 this.stellarServer.sdk.Operation.manageOffer({
                     selling: this.sellingCode === this.nativeAssetCode ?
                         this.stellarServer.sdk.Asset.native() :
@@ -67,15 +49,18 @@ export class OfferModal {
                     buying: this.buyingCode === this.nativeAssetCode ?
                         this.stellarServer.sdk.Asset.native() :
                         new this.stellarServer.sdk.Asset(this.buyingCode, this.buyingIssuer),
-                    amount: this.sellingAmount.slice(0, 15),
-                    price: this.price.toString().slice(0, 15),
-                    source: account.id
+                    amount: this.sellingAmount,
+                    price: this.price
                 })
-            );
+            ];
 
-        const transaction = transactionBuilder.build();
+            this.modalVM.close(operations);
+        }
+        catch(e) {
+            this.alertToaster.error('Unexpected error occured. Please check your inputs. Your offer was NOT submitted to the network.');
+            this.modalVM.dismiss();
+        }
 
-        this.modalVM.close(transaction);
     }
 
     cancel() {

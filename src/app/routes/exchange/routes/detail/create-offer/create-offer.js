@@ -3,23 +3,21 @@
  */
 
 import _debounce from 'lodash.debounce';
-import {bindable, inject} from 'aurelia-framework';
+import {bindable} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {AppStore} from 'global-resources';
+import {TrustService} from 'app-resources';
 
 export class CreateOffer {
-
-    trustlineExplanation = 'The stellar network will only allow you to create an offer for an asset if you first enable a trustline for it. ' +
-        'This prevents users from inadvertently trading an asset that they do not trust. Your trustline must be equal to or greater than your current balance plus any active offers you have for an asset.';
     
     constructor(container) {
         this.router = container.get(Router);
         this.appStore = container.get(AppStore);
+        this.trustService = container.get(TrustService);
 
         this.priceChanged = _debounce(this._priceChanged.bind(this), 250);
         this.buyingAmountChanged = _debounce(this._buyingAmountChanged.bind(this), 250);
         this.sellingAmountChanged = _debounce(this._sellingAmountChanged.bind(this), 250);
-        this.trustlineChanged = _debounce(this._trustlineChanged.bind(this), 250);
     }
 
     bind() {
@@ -34,17 +32,34 @@ export class CreateOffer {
     updateFromStore() {
         const state = this.appStore.getState();
 
-        this.account = state.account;
-        this.assetPair = state.exchange.assetPair;
+        if (this.assetPair !== state.exchange.assetPair || this.account !== state.account) {
+            this.account = state.account;
+            this.assetPair = state.exchange.assetPair;
+            this.buyingAssetBalance = this.trustService.balance(this.buyingAsset.code, this.buyingAsset.issuer) || {limit: 0, balance: 0};
+            this.sellingAssetBalance = this.trustService.balance(this.sellingAsset.code, this.sellingAsset.issuer) || {limit: 0, balance: 0};
 
-        if (this.allOffers !== state.offers && this.filterOffers) {
-            this.allOffers = state.offers;
-            this.offers = this.filterOffers(this.allOffers);
+            this.buyingAssetBalance.balance = parseFloat(this.buyingAssetBalance.balance, 10);
+            this.buyingAssetBalance.limit = parseFloat(this.buyingAssetBalance.limit, 10);
+            this.sellingAssetBalance.balance = parseFloat(this.sellingAssetBalance.balance, 10);
+            this.sellingAssetBalance.limit = parseFloat(this.sellingAssetBalance.limit, 10);
+
+            this.autoCalculateTrustline();
         }
+    }
+
+    get needsTrustline() {
+        return this.buyingAsset.code !== window.lupoex.stellar.nativeAssetCode;
     }
 
     goToLogin() {
         this.router.parent.navigateToRoute('login');
+    }
+
+    async modifyLimit() {
+        try {
+            this.trustService.modifyLimit(this.buyingAsset.code, this.buyingAsset.issuer);
+        }
+        catch(e) {}
     }
 
     validate() {
@@ -58,7 +73,7 @@ export class CreateOffer {
         else if (!this.sellingAmount) {
             alertMessage = this.assetPair.selling.code +  ' is required';
         }
-        else if (parseFloat(this.price, 10) * parseFloat(this.sellingAmount, 10) - parseFloat(this.buyingAmount, 10) > 0.00000001) {
+        else if (parseFloat(this.price, 10) * parseFloat(this.sellingAmount, 10) - parseFloat(this.buyingAmount, 10) > 0.00000009) {
             alertMessage = this.assetPair.buying.code +  ' must equal '  + this.assetPair.selling.code + ' multiplied by the price';
         }
         else if (parseFloat(this.price, 10) <= 0 || parseFloat(this.buyingAmount, 10) <= 0 || parseFloat(this.sellingAmount, 10) <= 0) {
@@ -89,9 +104,11 @@ export class CreateOffer {
 
         if (this.buyingAmount) {
             this.sellingAmount = parseFloat(this.buyingAmount, 10) / parseFloat(this.price, 10);
+            this.sellingAmount = this.sellingAmount.toFixed(7);
         }
         else if (this.sellingAmount) {
             this.buyingAmount = parseFloat(this.price, 10) * parseFloat(this.sellingAmount, 10);
+            this.buyingAmount = this.buyingAmount.toFixed(7);
         }
 
         this.autoCalculateTrustline();
@@ -104,6 +121,7 @@ export class CreateOffer {
 
         if (this.price) {
             this.sellingAmount = parseFloat(this.buyingAmount, 10) / parseFloat(this.price, 10);
+            this.sellingAmount = this.sellingAmount.toFixed(7);
         }
         else if (this.sellingAmount) {
             this.price = parseFloat(this.buyingAmount, 10) / parseFloat(this.sellingAmount, 10);
@@ -118,6 +136,7 @@ export class CreateOffer {
         
         if (this.price) {
             this.buyingAmount = parseFloat(this.price, 10) * parseFloat(this.sellingAmount, 10);
+            this.buyingAmount = this.buyingAmount.toFixed(7);
         }
         else if (this.buyingAmount) {
             this.price = parseFloat(this.buyingAmount, 10) / parseFloat(this.sellingAmount, 10);
@@ -126,30 +145,17 @@ export class CreateOffer {
         this.autoCalculateTrustline();
     }
 
-    get buyingAssetOffersAmount() {
-        return this.offers ? this.offers.reduce((result, o) => {
-            const add = this.compareAssets(this.buyingAsset, o.buying) ?
-                parseFloat(o.amount, 10) * parseFloat(o.price, 10) :
-                parseFloat(o.amount, 10);
-
-            return result + add;
-        }, 0) : 0;
-    }
-
     autoCalculateTrustline() {
-        if (this.trustlineManuallySet || !this.needsTrustline) {
+        if (!this.needsTrustline) {
             return;
         }
 
-        this.trustline = this.minimumTrustline();
+        this.minTrustLine = this.minimumTrustline();
     }
 
     minimumTrustline() {
-        if (!this.buyingAmount || !this.sellingAmount || !this.price) {
-            return;
-        }
-
-        return Math.ceil(parseFloat(this.buyingAssetBalance, 10) + parseFloat(this.buyingAmount, 10) + this.buyingAssetOffersAmount);
+        const minTrust = this.buyingAssetBalance.balance + parseFloat(this.buyingAmount || 0, 10);
+        return minTrust.toFixed(7);
     }
 
     refresh() {
@@ -157,14 +163,5 @@ export class CreateOffer {
         this.sellingAmount = undefined;
         this.buyingAmount = undefined;
         this.trustline = undefined;
-    }
-
-    compareAssets(asset1, asset2) {
-        return (asset1.asset_type === 'native' && asset2.code === window.lupoex.stellar.nativeAssetCode) ||
-            (asset1.asset_code === asset2.code && asset1.asset_issuer === asset2.issuer);
-    }
-
-    _trustlineChanged() {
-        this.trustlineManuallySet = true;
     }
 }

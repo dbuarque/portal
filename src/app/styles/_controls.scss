@@ -142,6 +142,7 @@ button.btn-small {
 
 /* buttons */
 .btn.gray, .btn-flat.gray, .btn-large.gray {
+    color: #fff !important;
     background-color: $gray;
     transition: .2s ease-out;
 }
@@ -170,3 +171,18 @@ button.btn-small {
     transition: .2s ease-out;
 }
 
+
+/* buttons */
+.btn.warning, .btn-flat.warning, .btn-large.warning {
+    color: #fff;
+    background-color: $warning;
+    transition: .2s ease-out;
+}
+.btn.warning:hover, .btn-flat.warning:hover, .btn-large.warning:hover {
+    background-color: lighten($warning, 10%);
+    transition: .2s ease-out;
+}
+.btn.warning:focus, .btn-flat.warning:focus, .btn-large.warning:focus {
+    background-color: lighten($warning, 5%);
+    transition: .2s ease-out;
+}

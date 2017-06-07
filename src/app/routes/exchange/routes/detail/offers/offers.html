@@ -14,7 +14,7 @@
                 <div if.bind="assetPair && (orderbook.bids.length > 0 || orderbook.asks.length > 0)">
                     <offers-table selling.bind="type === 'Asks'" orders.bind="orderbook[type.toLowerCase()]" asset-pair.bind="assetPair"></offers-table>
                 </div>
-                <spinner-overlay show.bind="orderbook.loading" size="2x"></spinner-overlay>
+                <spinner-overlay show.bind="loading > 0" size="2x"></spinner-overlay>
             </div>
         </div>
     </div>

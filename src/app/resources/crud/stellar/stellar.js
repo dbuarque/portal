@@ -4,3 +4,4 @@
 
 export * from './transaction-service/transaction-service';
 export * from './offer-service/offer-service';
+export * from './trust-service/trust-service';

@@ -11,6 +11,8 @@ export class OffersCustomElement {
 
     @bindable type;
 
+    loading = 0;
+
     constructor(appStore, exchangeActionCreators) {
         this.appStore = appStore;
         this.exchangeActionCreators = exchangeActionCreators;
@@ -34,6 +36,10 @@ export class OffersCustomElement {
     }
 
     async refresh() {
-        this.appStore.dispatch(this.exchangeActionCreators.refreshOrderbook());
+        this.loading++;
+
+        await this.appStore.dispatch(this.exchangeActionCreators.refreshOrderbook());
+
+        this.loading--;
     }
 }

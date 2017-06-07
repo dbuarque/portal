@@ -45,10 +45,12 @@ export class Detail {
 
     updateFromStore() {
         const state = this.appStore.getState();
-        if (this.account !== state.account) {
-            this.account = state.account;
-            this.appStore.dispatch(this.appActionCreators.updateOffers(state.account.id));
+
+        if (state.offers) {
+            return;
         }
+
+        this.appStore.dispatch(this.appActionCreators.updateOffers());
     }
 
     attached() {

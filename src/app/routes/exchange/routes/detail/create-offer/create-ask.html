@@ -19,7 +19,7 @@
                         <form submit.trigger="submit()" novalidate>
                             <div class="form-field">
                                 <label>Price (${assetPair.buying.code}/${assetPair.selling.code})</label>
-                                <input stellar-compliant-float type="number" class="form-control" value.bind="price" keyup.trigger="priceChanged()">
+                                <input type="number" class="form-control" value.bind="price" keyup.trigger="priceChanged()">
                             </div>
                             <div class="form-field">
                                 <label>${assetPair.selling.code}</label>
@@ -29,10 +29,11 @@
                                 <label>${assetPair.buying.code}</label>
                                 <input stellar-compliant-float type="number" class="form-control" value.bind="buyingAmount" keyup.trigger="buyingAmountChanged()">
                             </div>
-                            <div class="form-field" if.bind="needsTrustline">
-                                <label>Trustline (${buyingAsset.code})</label>
-                                <input type="number" class="form-control" value.bind="trustline" keyup.trigger="trustlineChanged()">
-                                <span class="primary-text" style="cursor: default;" md-tooltip="text.bind: trustlineExplanation;">What's a trustline?</span>
+                            <div if.bind="needsTrustline">
+                                <div class="form-field">
+                                    <span class.bind="minTrustLine <= buyingAssetBalance.limit ? 'success-text' : 'error-text'">${minTrustLine}/${buyingAssetBalance.limit.toFixed(7)} Limit</span>
+                                </div>
+                                <a href="javascript:void(0)" class="primary-text" click.trigger="modifyLimit()">Learn More/Modify Limit.</a>
                             </div>
                             <div class="center-align form-field">
                                 <button md-waves type="submit" class="btn primary btn-small">

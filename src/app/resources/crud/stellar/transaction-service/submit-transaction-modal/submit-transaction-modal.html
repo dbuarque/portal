@@ -10,11 +10,8 @@
                 <div innerhtml.bind="successMessage"></div>
                 <br>
                 <div class="center-text">
-                    <button md-waves class="btn gray" click.delegate="_finish()" if.bind="finish">
+                    <button md-waves class="btn gray btn-small btn-flat" click.delegate="finish()" style="margin-top: 10px;">
                         Finish
-                    </button>
-                    <button md-waves type="button" class="btn primary" click.delegate="_submitAnother()" if.bind="submitAnother">
-                        <i class="fa fa-paper-plane-o"></i>&nbsp;${submitAnother.text || 'Submit Another Transction'}
                     </button>
                 </div>
             </div>
@@ -25,15 +22,6 @@
                 <br>
                 <br>
                 <div>There was an error in submitting the transaction to the stellar network. The transaction failed with the following code(s):<br>${errorMessage}</div>
-                <br>
-                <div class="center-text">
-                    <button md-waves class="btn gray" click.delegate="_finish()" if.bind="finish">
-                        Finish
-                    </button>
-                    <button md-waves type="button" class="btn primary" click.delegate="_tryAgain()" if.bind="tryAgain">
-                        <i class="fa fa-refresh"></i>&nbsp;${tryAgain.text || 'Try Again'}
-                    </button>
-                </div>
             </div>
         </div>
         <div show.bind="loading > 0" class="rocket-overlay center-text">

@@ -3,26 +3,35 @@
  */
 
 import {inject} from 'aurelia-framework';
+import {AppStore} from 'global-resources';
 import {BaseOfferService} from './base-offer-service';
 import {AppActionCreators} from '../../../../app-action-creators';
 
-@inject(BaseOfferService, AppActionCreators)
+@inject(AppStore, BaseOfferService, AppActionCreators)
 export class OfferService {
 
-    constructor(baseOfferService, appActionCreators) {
+    constructor(appStore, baseOfferService, appActionCreators) {
+        this.appStore = appStore;
         this.baseOfferService = baseOfferService;
         this.appActionCreators = appActionCreators;
     }
 
-    createOffer(passedInfo) {
-        return this.baseOfferService.createOffer(passedInfo);
+    async createOffer(passedInfo) {
+        await this.baseOfferService.createOffer(passedInfo);
+
+        await Promise.all([
+            this.appStore.dispatch(this.appActionCreators.updateAccount()),
+            this.appStore.dispatch(this.appActionCreators.updateOffers())
+        ]);
     }
 
     async cancelOffer(offerId) {
-        //We need to update the account prior to creating the transaction in order to ensure that the account.sequence is updated.
-        await this.appStore.dispatch(this.appActionCreators.updateAccount());
-
         await this.baseOfferService.cancelOffer(offerId);
+
+        await Promise.all([
+            this.appStore.dispatch(this.appActionCreators.updateAccount()),
+            this.appStore.dispatch(this.appActionCreators.updateOffers())
+        ]);
     }
 
     allOffers(accountId, page) {

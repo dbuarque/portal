@@ -9,6 +9,8 @@ import {AppActionCreators} from '../../../../../app-action-creators';
 @inject(AppStore, AppActionCreators)
 export class MyOffersCustomElement {
 
+    loading = 0;
+
     constructor(appStore, appActionCreators) {
         this.appStore = appStore;
         this.appActionCreators = appActionCreators;
@@ -46,8 +48,12 @@ export class MyOffersCustomElement {
             (asset1.asset_code === asset2.code && asset1.asset_issuer === asset2.issuer);
     }
 
-    refresh() {
-        this.appStore.dispatch(this.appActionCreators.updateOffers(this.account.id));
+    async refresh() {
+        this.loading++;
+
+        await this.appStore.dispatch(this.appActionCreators.updateOffers());
+
+        this.loading--;
     }
 
     cancel() {

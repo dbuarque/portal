@@ -80,7 +80,7 @@ export class InactivityTracker {
     _isInactiveForDuration(minutes) {
         let now = moment();
         let lastUserAction = moment(window.localStorage.lastUserAction);
-        let difference = moment.duration(now.diff(lastUserAction)).asSeconds();
+        let difference = moment.duration(now.diff(lastUserAction)).asMinutes();
         return difference > minutes;
     }
 }

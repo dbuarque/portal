@@ -2,7 +2,7 @@
  * Created by Ishai on 4/27/2017.
  */
 
-import {transient} from 'aurelia-framework';
+import {transient, inject} from 'aurelia-framework';
 
 @transient()
 export default class AssetBalancesConfig {
@@ -26,9 +26,15 @@ export default class AssetBalancesConfig {
                     },
                     {
                         title: 'Issuer',
-                        data: 'asset_issuer',
                         render(cellData, type, rowData) {
                             return rowData.asset_type === 'native' ? '' : rowData.asset_issuer;
+                        },
+                        searchable: true
+                    },
+                    {
+                        title: 'Trust Limit',
+                        render(cellData, type, rowData) {
+                            return rowData.asset_type === 'native' ? '' : rowData.limit;
                         },
                         searchable: true
                     },

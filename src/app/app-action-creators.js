@@ -78,9 +78,15 @@ export class AppActionCreators {
         }
     }
 
-    updateOffers(accountId) {
+    updateOffers() {
         return async (dispatch, getState) => {
-            const offers = await this.offerService.allOffers(accountId);
+            const account = getState().account;
+
+            if (!account) {
+                return;
+            }
+
+            const offers = await this.offerService.allOffers(account.id);
 
             return dispatch({
                 type: UPDATE_OFFERS,
