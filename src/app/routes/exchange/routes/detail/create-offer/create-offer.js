@@ -86,12 +86,12 @@ export class CreateOffer {
         if (!this.price) {
             return;
         }
-        
-        if (this.sellingAmount) {
-            this.buyingAmount = parseFloat(this.price, 10) * parseFloat(this.sellingAmount, 10);
-        }
-        else if (this.buyingAmount) {
+
+        if (this.buyingAmount) {
             this.sellingAmount = parseFloat(this.buyingAmount, 10) / parseFloat(this.price, 10);
+        }
+        else if (this.sellingAmount) {
+            this.buyingAmount = parseFloat(this.price, 10) * parseFloat(this.sellingAmount, 10);
         }
 
         this.autoCalculateTrustline();
@@ -101,7 +101,7 @@ export class CreateOffer {
         if (!this.buyingAmount) {
             return;
         }
-        
+
         if (this.price) {
             this.sellingAmount = parseFloat(this.buyingAmount, 10) / parseFloat(this.price, 10);
         }

@@ -1,5 +1,4 @@
 <template>
-    <require from="./bid-price-value-converter"></require>
     <div class="create-offer">
         <div class="card offers" collapsible-card="is-open:true">
             <div class="card-content">
@@ -20,15 +19,16 @@
                         <form submit.trigger="submit()" novalidate>
                             <div class="form-field">
                                 <label>Price (${assetPair.buying.code}/${assetPair.selling.code})</label>
-                                <input type="number" class="form-control" value.bind="price | bidPrice" keyup.trigger="priceChanged()">
+                                <input stellar-compliant-float type="number" class="form-control" value.bind="displayPrice" keyup.trigger="priceChanged()" change.trigger="priceChanged()">
                             </div>
+                            ${price}
                             <div class="form-field">
                                 <label>${assetPair.selling.code}</label>
-                                <input type="number" class="form-control" value.bind="buyingAmount" keyup.trigger="buyingAmountChanged()">
+                                <input stellar-compliant-float type="number" class="form-control" value.bind="buyingAmount" keyup.trigger="buyingAmountChanged()" change.trigger="buyingAmountChanged()">
                             </div>
                             <div class="form-field">
                                 <label>${assetPair.buying.code}</label>
-                                <input type="number" class="form-control" value.bind="sellingAmount" keyup.trigger="sellingAmountChanged()">
+                                <input stellar-compliant-float type="number" class="form-control" value.bind="sellingAmount" keyup.trigger="sellingAmountChanged()" change.trigger="sellingAmountChanged()">
                             </div>
                             <div class="form-field" if.bind="needsTrustline">
                                 <label>Trustline (${buyingAsset.code})</label>

@@ -19,15 +19,15 @@
                         <form submit.trigger="submit()" novalidate>
                             <div class="form-field">
                                 <label>Price (${assetPair.buying.code}/${assetPair.selling.code})</label>
-                                <input type="number" class="form-control" value.bind="price" keyup.trigger="priceChanged()">
+                                <input stellar-compliant-float type="number" class="form-control" value.bind="price" keyup.trigger="priceChanged()">
                             </div>
                             <div class="form-field">
                                 <label>${assetPair.selling.code}</label>
-                                <input type="number" class="form-control" value.bind="sellingAmount" keyup.trigger="sellingAmountChanged()">
+                                <input stellar-compliant-float type="number" class="form-control" value.bind="sellingAmount" keyup.trigger="sellingAmountChanged()">
                             </div>
                             <div class="form-field">
                                 <label>${assetPair.buying.code}</label>
-                                <input type="number" class="form-control" value.bind="buyingAmount" keyup.trigger="buyingAmountChanged()">
+                                <input stellar-compliant-float type="number" class="form-control" value.bind="buyingAmount" keyup.trigger="buyingAmountChanged()">
                             </div>
                             <div class="form-field" if.bind="needsTrustline">
                                 <label>Trustline (${buyingAsset.code})</label>

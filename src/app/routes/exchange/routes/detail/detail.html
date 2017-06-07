@@ -8,7 +8,7 @@
     <div>
         <price-chart if.one-time="!isMobile"></price-chart>
         <orderbook-chart if.one-time="!isMobile"></orderbook-chart>
-        <my-offers></my-offers>
+        <my-offers if.bind="account"></my-offers>
         <div class="row">
             <div class="col m6">
                 <create-bid></create-bid>

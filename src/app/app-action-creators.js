@@ -5,11 +5,11 @@
 import {inject} from 'aurelia-framework';
 import {appActionTypes} from './app-action-types';
 import {StellarServer} from 'global-resources';
-import {OfferService} from './resources/crud/stellar/offer-service/offer-service';
+import {BaseOfferService} from './resources/crud/stellar/offer-service/base-offer-service';
 
 const {UPDATE_ACCOUNT, UPDATE_OFFERS} = appActionTypes;
 
-@inject(StellarServer, OfferService)
+@inject(StellarServer, BaseOfferService)
 export class AppActionCreators {
     constructor(stellarServer, offerService) {
         this.stellarServer = stellarServer;

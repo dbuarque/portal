@@ -2,18 +2,41 @@
  * Created by istrauss on 6/2/2017.
  */
 
+import _debounce from 'lodash.debounce';
 import _find from 'lodash.find';
 import {bindable, inject, Container} from 'aurelia-framework';
 import {OfferService} from 'app-resources';
 import {CreateOffer} from './create-offer';
+import {AppActionCreators} from '../../../../../app-action-creators';
 
-@inject(Container, OfferService)
+@inject(Container, OfferService, AppActionCreators)
 export class CreateBidCustomElement extends CreateOffer {
     
-    constructor(container, offerService) {
+    constructor(container, offerService, appActionCreators) {
         super(container);
 
         this.offerService = offerService;
+        this.appActionCreators = appActionCreators;
+
+        this.priceChanged = _debounce(() => {
+            this.price = this.displayPrice ? 1 / parseFloat(this.displayPrice, 10) : this.displayPrice;
+            this.price = this.price ? this.price.toFixed(7) : this.price;
+            this._priceChanged();
+        }, 250);
+
+        this.buyingAmountChanged = _debounce(() => {
+            this._buyingAmountChanged();
+
+            this.displayPrice = this.price ? 1 / parseFloat(this.price, 10) : this.price;
+            this.displayPrice = this.displayPrice ? this.displayPrice.toFixed(7) : this.displayPrice;
+        }, 250);
+
+        this.sellingAmountChanged = _debounce(() => {
+            this._sellingAmountChanged();
+
+            this.displayPrice = this.price ? 1 / parseFloat(this.price, 10) : this.price;
+            this.displayPrice = this.displayPrice ? this.displayPrice.toFixed(7) : this.displayPrice;
+        }, 250);
     }
 
     filterOffers(allOffers) {
@@ -66,6 +89,8 @@ export class CreateBidCustomElement extends CreateOffer {
                 trustline: this.trustline,
                 price: parseFloat(this.buyingAmount, 10) / parseFloat(this.sellingAmount, 10)
             });
+
+            this.appStore.dispatch(this.appActionCreators.updateOffers());
         }
         catch(e) {}
     }

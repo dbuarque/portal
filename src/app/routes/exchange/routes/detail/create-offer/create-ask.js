@@ -6,14 +6,16 @@ import _find from 'lodash.find';
 import {bindable, inject, Container} from 'aurelia-framework';
 import {OfferService} from 'app-resources';
 import {CreateOffer} from './create-offer';
+import {AppActionCreators} from '../../../../../app-action-creators';
 
-@inject(Container, OfferService)
+@inject(Container, OfferService, AppActionCreators)
 export class CreateAskCustomElement extends CreateOffer {
     
-    constructor(container, offerService) {
+    constructor(container, offerService, appActionCreators) {
         super(container);
 
         this.offerService = offerService;
+        this.appActionCreators = appActionCreators;
     }
 
     filterOffers(allOffers) {
@@ -52,7 +54,7 @@ export class CreateAskCustomElement extends CreateOffer {
 
     async submit() {
         if (!this.validate()) {
-            return
+            return;
         }
 
         try {
@@ -66,6 +68,8 @@ export class CreateAskCustomElement extends CreateOffer {
                 trustline: this.trustline,
                 price: parseFloat(this.buyingAmount, 10) / parseFloat(this.sellingAmount, 10)
             });
+
+            this.appStore.dispatch(this.appActionCreators.updateOffers());
         }
         catch(e) {}
     }
