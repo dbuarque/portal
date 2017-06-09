@@ -39,15 +39,14 @@ export class SendPayment {
         this.code = params.code;
         this.issuer = params.issuer;
         this.destination = params.destination;
-        this.memos = [];
     }
 
     addMemo() {
-        this.memos.push({});
+        this.memo = {};
     }
 
     removeMemo(index) {
-        this.memos.splice(index, 1);
+        this.memo = undefined;
     }
 
     submitInput() {
@@ -141,12 +140,12 @@ export class SendPayment {
                 })
             );
 
-            const memos = this.memos.map( m => this.stellarServer.sdk.Memo[this.memoMethodFromType(m.type)](m.value));
+            const memo = this.stellarServer.sdk.Memo[this.memoMethodFromType(this.memo.type)](this.memo.value)
 
 
             try {
                 await this.transactionService.submit(operations, {
-                    memos,
+                    memo,
                     onSuccess: this.generateSuccessMessage.bind(this)
                 });
 
