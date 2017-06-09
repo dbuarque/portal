@@ -40,26 +40,26 @@
                                            tt-validate="manager.bind: validationManager; key: destination;">
                                 </div>
                             </div>
-                            <div class="row" show.bind="memos.length > 0">
+                            <div class="row" if.bind="memo">
                                 <br>
                                 <div class="col s12">
-                                    <h6>Memos:</h6>
+                                    <h6>Memo:</h6>
                                 </div>
                                 <div class="col s12">
-                                    <div class="row" repeat.for="memo of memos">
+                                    <div class="row">
                                         <div class="col s10">
                                             <memo-select validation-manager.bind="validationManager" type.bind="memo.type" value.bind="memo.value"></memo-select>
                                         </div>
                                         <div class="col s2" style="padding-top: 20px;">
                                             <button class="btn btn-small error">
-                                                <i class="fa fa-2x fa-trash-o" click.trigger="removeMemo($index)"></i>
+                                                <i class="fa fa-2x fa-trash-o" click.trigger="removeMemo()"></i>
                                             </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <br>
-                            <button md-waves type="button" class="btn btn-flat accent btn-small" click.trigger="addMemo()">
+                            <button md-waves type="button" class="btn btn-flat accent btn-small" click.trigger="addMemo()" if.bind="!memo">
                                 <i class="fa fa-plus"></i>&nbsp;Add Memo
                             </button>
                             <br>
