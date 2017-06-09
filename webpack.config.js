@@ -32,8 +32,8 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
         alias: {
             app: path.resolve( __dirname, 'src', 'app'),
             //'resources': path.resolve( __dirname, 'src', 'resources'),
-            'global-resources': path.resolve( __dirname, 'src', 'resources', 'resources'),
-            'app-resources': path.resolve( __dirname, 'src', 'app', 'resources', 'resources'),
+            'global-resources': path.resolve( __dirname, 'src', 'resources', 'index'),
+            'app-resources': path.resolve( __dirname, 'src', 'app', 'resources', 'index'),
             '$': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.js'),
             'jquery': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.js')
         }
@@ -127,6 +127,7 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
         })),
         new ModuleDependenciesPlugin({
             "aurelia-materialize-bridge": [
+                "./checkbox/checkbox",
                 "./dropdown/dropdown",
                 "./progress/progress",
                 "./radio/radio",

@@ -4,22 +4,29 @@
 
 import {inject} from 'aurelia-framework';
 import {StellarServer, AppStore} from 'global-resources';
+import {EffectResource} from 'app-resources';
 import Config from './effect-history-config';
 
-@inject(Config, StellarServer, AppStore)
-export class TransactionCustomElement {
+@inject(Config, StellarServer, AppStore, EffectResource)
+export class EffectHistory {
 
     loading = 0;
+    additionalFilterParams = {};
 
-    constructor(config, stellarServer, appStore) {
+    constructor(config, stellarServer, appStore, effectResource) {
         this.config = config;
         this.stellarServer = stellarServer;
         this.appStore = appStore;
+        this.effectResource = effectResource;
     }
 
-    activate() {
+    activate(params) {
         this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
         this.updateFromStore();
+
+        if (params.operationId) {
+            this.additionalFilterParams['operation.id'] = params.operationId;
+        }
     }
 
     unbind() {
@@ -34,12 +41,15 @@ export class TransactionCustomElement {
         this.account = state.account;
 
         if (this.account.id !== oldAccountId) {
+            this.additionalFilterParams['historyAccount.address'] = this.account.id;
             this.refresh();
         }
     }
 
     refresh() {
-        this.effectCallBuilder = this.account ? this.stellarServer.effects().order('desc').forAccount(this.account.id) : undefined;
+        if (this.jqdt) {
+            this.jqdt.refresh();
+        }
     }
 
     get refreshing() {

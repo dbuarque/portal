@@ -5,13 +5,15 @@
 import {inject} from 'aurelia-framework';
 import {appActionTypes} from './app-action-types';
 import {StellarServer} from 'global-resources';
+import {BaseOfferService} from './resources/crud/stellar/offer-service/base-offer-service';
 
-const {UPDATE_ACCOUNT} = appActionTypes;
+const {UPDATE_ACCOUNT, UPDATE_OFFERS} = appActionTypes;
 
-@inject(StellarServer)
+@inject(StellarServer, BaseOfferService)
 export class AppActionCreators {
-    constructor(stellarServer) {
+    constructor(stellarServer, offerService) {
         this.stellarServer = stellarServer;
+        this.offerService = offerService;
     }
 
     setAccount(publicKey) {
@@ -40,7 +42,14 @@ export class AppActionCreators {
                 }
             });
 
-            account = await this.stellarServer.loadAccount(publicKey);
+            try {
+                account = await this.stellarServer.loadAccount(publicKey);
+            }
+            catch(e) {
+                //Couldn't find account, let's logout.
+                dispatch(this.setAccount());
+                throw e;
+            }
 
             if (account) {
                 account.updating = false;
@@ -52,6 +61,8 @@ export class AppActionCreators {
                     account
                 }
             });
+
+            return account;
         };
     }
 
@@ -63,7 +74,24 @@ export class AppActionCreators {
                 return;
             }
 
-            dispatch(this.setAccount(account.id));
+            return dispatch(this.setAccount(account.id));
+        }
+    }
+
+    updateOffers() {
+        return async (dispatch, getState) => {
+            const account = getState().account;
+
+            if (!account) {
+                return;
+            }
+
+            const offers = await this.offerService.allOffers(account.id);
+
+            return dispatch({
+                type: UPDATE_OFFERS,
+                payload: offers
+            });
         }
     }
 }

@@ -39,7 +39,7 @@ export class Navbar {
     }
 
     logout() {
-        this.toaster.success('Logged out successfully.');
+        this.toaster.primary('Logged out successfully.');
         this.appStore.dispatch(this.appActionCreators.setAccount());
     }
 

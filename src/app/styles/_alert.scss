@@ -3,6 +3,14 @@
         color: $error;
     }
 
+    &.alert-warning {
+        color: $warning;
+    }
+
+    &.alert-success {
+        color: $success;
+    }
+
     &.alert-primary {
         color: $primary;
     }
@@ -14,6 +22,10 @@
             color: $primary;
         }
     }
+
+    button {
+        color: $accent !important;
+    }
 }
 
 .toast {
@@ -21,11 +33,19 @@
         background-color: $error;
     }
 
-    &.primary, &.success {
+    &.success {
+        background-color: $success;
+    }
+
+    &.warning {
+        background-color: $warning;
+    }
+
+    &.primary {
         background-color: $primary;
     }
 
-    &.alert-info {
+    &.info {
         background-color: $accent;
     }
 }

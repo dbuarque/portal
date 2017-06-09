@@ -17,8 +17,7 @@ export class Login {
     }
 
     onLoginSuccess() {
-        this.router.navigateToRoute('exchange');
-        //this.router.parent.navigateToRoute(this.redirect.route, this.redirect.params);
+        this.router.navigateToRoute('account');
     }
 
     canActivate() {
@@ -33,23 +32,8 @@ export class Login {
         if (window.lupoex.env === 'development') {
             this.devAlertConfig = {
                 type: 'info',
-                message: 'Hey, we noticed you are running in development mode. This site connects to the testnet in development mode. If you have a testnet stellar account, you can use that to login. Otherwise, you can use the following to login <br><ul><li>Public Key: GDH5E3PIYCHMUQHWJBUYM3BDO37FEBUIKSNEXDGNEGZ3KO5WIX4C2Z7K</li><li>Secret Key: SAFO66G2WUOEL6ES6J7Q773R7Y57YQPK544C44HUHRS2MJ5PRS3MZNSD</li></ul>'
+                message: 'Hey, we noticed you are running in development mode. This site connects to the testnet in development mode. If you have a testnet stellar account, you can use that to login. Otherwise, you can use the following to login <br><ul><li>Public Key: GBLRBO6JT6KKZQ4DGJABW7YPAPTHXWUH5WOU3NPDD4ZPDGTDPAH6ZDQA</li><li>Secret Key: SCLXBMQT3O4NHUQAPTYFQU3KFMO736O2T2ZUSGKYRNX7EBJTSB76E2NC</li></ul>'
             };
-        }
-
-        this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
-        this.updateFromStore();
-    }
-
-    deactivate() {
-        this.unsubscribeFromStore();
-    }
-
-    updateFromStore() {
-        this.account = this.appStore.getState().account;
-
-        if (this.account) {
-            this.onLoginSuccess();
         }
     }
 }

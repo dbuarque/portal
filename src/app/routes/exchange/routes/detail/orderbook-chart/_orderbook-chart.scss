@@ -1,0 +1,12 @@
+.orderbook-chart {
+    font-size: 12px;
+
+    .chart-scroll {
+        width: 100%;
+        overflow-y: auto;
+        position: relative;
+    }
+
+    @import "area-chart/area-chart";
+    @import "brush-chart/brush-chart";
+}

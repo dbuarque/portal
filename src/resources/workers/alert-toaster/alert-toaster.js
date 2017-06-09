@@ -26,6 +26,11 @@ export class AlertToaster {
         this.toast(text, options);
     }
 
+    primary(text, options = {}) {
+        options.type = 'primary';
+        this.toast(text, options);
+    }
+
     info(text, options = {}) {
         options.type = 'info';
         this.toast(text, options);

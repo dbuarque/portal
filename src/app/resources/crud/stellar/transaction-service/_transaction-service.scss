@@ -1,0 +1,27 @@
+.modal.submit-transaction {
+    font-size: 14px;
+
+    .modal-content {
+        padding: 5px;
+
+        .modal-body {
+
+            .form-container {
+                padding: 5px;
+            }
+
+            .rocket-overlay {
+
+                h5 {
+                    margin-bottom: 5px;
+                }
+
+                img {
+                    border: 1px solid $primary;
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+    }
+}

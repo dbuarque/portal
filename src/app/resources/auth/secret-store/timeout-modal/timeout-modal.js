@@ -24,6 +24,11 @@ export class TimeoutModal {
         this.modalVM.dismiss();
     }
 
+    thatsFine() {
+        window.clearInterval(this.intervalId);
+        this.modalVM.dismiss();
+    }
+
     noDontDoThat() {
         window.clearInterval(this.intervalId);
         this.modalVM.close();

@@ -1,3 +1,5 @@
 <template>
-    <router-view></router-view>
+    <div class="operation-history">
+        <lupoex-jqdt config.bind="config.table" resource.bind="operationResource" additional-filter-params.bind="additionalFilterParams" view-model.ref="jqdt"></lupoex-jqdt>
+    </div>
 </template>

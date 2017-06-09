@@ -3,19 +3,20 @@
  */
 
 import {inject} from 'aurelia-framework';
-import {StellarServer, AppStore} from 'global-resources';
+import {AppStore} from 'global-resources';
+import {AppActionCreators} from '../../../../app-action-creators';
 import Config from './open-offers-config';
 
-@inject(Config, StellarServer, AppStore)
+@inject(Config, AppStore, AppActionCreators)
 export class OpenOffers {
 
     loading = 0;
     offers = [];
 
-    constructor(config, stellarServer, appStore) {
+    constructor(config, appStore, appActionCreators) {
         this.config = config;
-        this.stellarServer = stellarServer;
         this.appStore = appStore;
+        this.appActionCreators = appActionCreators;
     }
 
     bind() {
@@ -33,6 +34,7 @@ export class OpenOffers {
         const oldAccountId = this.account ? this.account.id : undefined;
 
         this.account = state.account;
+        this.offers = state.offers;
 
         if (this.account.id !== oldAccountId) {
             this.refresh();
@@ -42,19 +44,9 @@ export class OpenOffers {
     async refresh() {
         this.loading++;
 
-        this.page = undefined;
-        await this.getMoreOffers();
+        this.appStore.dispatch(this.appActionCreators.updateOffers());
 
         this.loading--;
-    }
-
-    async getMoreOffers() {
-        this.page = this.page ? await this.page.next() : await this.stellarServer.offers('accounts', this.account.id).limit(100).call();
-        this.offers = this.offers.concat(this.page.records);
-
-        if (this.page.records === 100) {
-            return this.getMoreOffers();
-        }
     }
 
     get refreshing() {

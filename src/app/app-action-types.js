@@ -3,6 +3,7 @@
  */
 
 export const appActionTypes = {
-    UPDATE_ACCOUNT: 'UPDATE_ACCOUNT'
+    UPDATE_ACCOUNT: 'UPDATE_ACCOUNT',
+    UPDATE_OFFERS: 'UPDATE_OFFERS'
 };
 

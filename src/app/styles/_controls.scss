@@ -123,3 +123,66 @@ input:not([type]):focus:not([readonly]), input[type=text]:focus:not([readonly]),
     border-bottom: 1px solid $gray;
     box-shadow: none;
 }
+
+button.btn-small {
+    padding: 0 5px;
+    line-height: 1rem;
+    font-size: 1rem;
+    height: 30px;
+
+    i {
+        line-height: 1rem;
+        font-size: 1rem;
+    }
+}
+
+.btn {
+    padding: 0 1rem;
+}
+
+/* buttons */
+.btn.gray, .btn-flat.gray, .btn-large.gray {
+    color: #fff !important;
+    background-color: $gray;
+    transition: .2s ease-out;
+}
+.btn.gray:hover, .btn-flat.gray:hover, .btn-large.gray:hover {
+    background-color: lighten($gray, 10%);
+    transition: .2s ease-out;
+}
+.btn.gray:focus, .btn-flat.gray:focus, .btn-large.gray:focus {
+    background-color: lighten($gray, 5%);
+    transition: .2s ease-out;
+}
+
+
+/* buttons */
+.btn.error, .btn-flat.error, .btn-large.error {
+    color: #fff;
+    background-color: $error;
+    transition: .2s ease-out;
+}
+.btn.error:hover, .btn-flat.error:hover, .btn-large.error:hover {
+    background-color: lighten($error, 10%);
+    transition: .2s ease-out;
+}
+.btn.error:focus, .btn-flat.error:focus, .btn-large.error:focus {
+    background-color: lighten($error, 5%);
+    transition: .2s ease-out;
+}
+
+
+/* buttons */
+.btn.warning, .btn-flat.warning, .btn-large.warning {
+    color: #fff;
+    background-color: $warning;
+    transition: .2s ease-out;
+}
+.btn.warning:hover, .btn-flat.warning:hover, .btn-large.warning:hover {
+    background-color: lighten($warning, 10%);
+    transition: .2s ease-out;
+}
+.btn.warning:focus, .btn-flat.warning:focus, .btn-large.warning:focus {
+    background-color: lighten($warning, 5%);
+    transition: .2s ease-out;
+}

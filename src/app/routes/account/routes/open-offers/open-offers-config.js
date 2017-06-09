@@ -3,13 +3,13 @@
  */
 
 import {transient, inject} from 'aurelia-framework';
-import {FormatNumberValueConverter} from 'app-resources';
+import {FormatNumberValueConverter, OrderAmountValueConverter} from 'app-resources';
 
 @transient()
-@inject(FormatNumberValueConverter)
+@inject(FormatNumberValueConverter, OrderAmountValueConverter)
 export default class AssetBalancesConfig {
 
-    constructor(formatNumber) {
+    constructor(formatNumber, orderAmount) {
         return {
             table: {
                 columns: [
@@ -17,7 +17,7 @@ export default class AssetBalancesConfig {
                         title: 'Selling',
                         data: 'selling',
                         render(cellData, type, rowData) {
-                            return rowData.amount + ' ' + rowData.selling.code + ' (' + rowData.selling.issuer + ')';
+                            return rowData.amount + ' ' + assetLabel(rowData.selling);
                         },
                         searchable: true
                     },
@@ -25,7 +25,7 @@ export default class AssetBalancesConfig {
                         title: 'Buying',
                         data: 'buying',
                         render(cellData, type, rowData) {
-                            return (rowData.amount * rowData.price_r) + ' ' + rowData.buying.code + ' (' + rowData.buying.issuer + ')';
+                            return orderAmount.toView(rowData, true, false) + ' ' + assetLabel(rowData.buying);
                         },
                         searchable: true
                     },
@@ -33,7 +33,7 @@ export default class AssetBalancesConfig {
                         title: 'Price',
                         data: 'price',
                         render(cellData, type, rowData) {
-                            return formatNumber(rowData.price) + ' ' + rowData.buying.code + ' ' + rowData.selling.code;
+                            return formatNumber.toView(parseFloat(rowData.price, 10)) + ' ' + assetCode(rowData.selling) + '/' + assetCode(rowData.buying);
                         },
                         searchable: true
                     },
@@ -48,3 +48,12 @@ export default class AssetBalancesConfig {
         };
     }
 }
+
+function assetLabel (asset) {
+    return asset.asset_type === 'native' ? window.lupoex.stellar.nativeAssetCode + '(Native)' : asset.asset_code + '(' + asset.asset_issuer + ')';
+}
+
+function assetCode(asset) {
+    return asset.asset_type === 'native' ? window.lupoex.stellar.nativeAssetCode : asset.asset_code ;
+}
+

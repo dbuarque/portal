@@ -10,6 +10,8 @@
         .card-heading {
             padding: 10px;
             padding-bottom: 5px;
+            border-top: 1px solid $light-gray;
+            border-bottom: 1px solid $light-gray;
 
             .card-heading-right {
                 display: inline-block;
@@ -27,7 +29,6 @@
     }
 
     .card-body {
-        border-top: 1px solid $light-gray;
         padding: 10px;
     }
 }
@@ -74,11 +75,50 @@
     }
 }
 
+.modal-wrapper .modal .modal-content {
+    padding: 10px;
+}
+
 .row {
     .col {
         width: 100%;
     }
 }
+
+.material-tooltip {
+    border: 1px solid $primary;
+    color: $primary;
+    max-width: 300px;
+
+    .backdrop {
+        background-color: #fff;
+    }
+}
+
+.btn-group {
+    button.btn {
+        border-radius: 0;
+        border: 1px solid $primary !important;
+        border-left: none !important;
+
+        &:first-child {
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
+            border-left: 1px solid $primary !important;
+        }
+
+        &:last-child {
+            border-top-right-radius: 3px;
+            border-bottom-right-radius: 3px;
+        }
+
+        &.active {
+            color: $accent;
+            background-color: $background;
+        }
+    }
+}
+
 
 @media only screen and (min-width: 993px) {
     #toast-container {

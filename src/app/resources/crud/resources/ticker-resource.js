@@ -2,18 +2,14 @@
  * Created by istrauss on 5/11/2016.
  */
 
-import {inject, Container} from 'aurelia-dependency-injection';
+import {inject} from 'aurelia-dependency-injection';
 import {ModalService} from 'global-resources';
-import JsonClient from '../clients/json-client';
 import BaseResource from './base-resource';
 
-@inject(Container, ModalService)
-export default class AssetResource extends BaseResource {
-    constructor(container, modalService) {
-        super(container, {
-            resourceUrl: '/Ticker',
-            client: container.get(JsonClient)
-        });
+@inject(ModalService)
+export default class TickerResource extends BaseResource {
+    constructor(modalService) {
+        super('/Ticker');
 
         this.modalService = modalService;
     }
@@ -35,6 +31,20 @@ export default class AssetResource extends BaseResource {
             soldAssetIssuer: assetPair.selling.issuer || undefined,
             start,
             end
+        });
+    }
+
+    /**
+     * Gets a list of ticker data.
+     * @param assetPair
+     * @returns {*}
+     */
+    closeHistory(assetPair) {
+        return this.get('/CloseHistory', {
+            boughtAssetCode: assetPair.buying.code,
+            boughtAssetIssuer: assetPair.buying.issuer || undefined,
+            soldAssetCode: assetPair.selling.code,
+            soldAssetIssuer: assetPair.selling.issuer || undefined
         });
     }
 
