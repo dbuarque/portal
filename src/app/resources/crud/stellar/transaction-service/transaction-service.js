@@ -25,7 +25,7 @@ export class TransactionService {
      *
      * @param operations
      * @param [options]
-     * @param [options.memos]
+     * @param [options.memo]
      * @returns {*}
      */
     async submit(operations, options = {}) {
@@ -56,10 +56,8 @@ export class TransactionService {
                 transactionBuilder.addOperation(o);
             });
 
-            if (options.memos) {
-                options.memos.forEach(m => {
-                    transactionBuilder.addMemo(m);
-                });
+            if (options.memo) {
+                transactionBuilder.addMemo(options.memo);
             }
 
             transaction = transactionBuilder.build();

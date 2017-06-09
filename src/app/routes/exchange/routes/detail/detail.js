@@ -46,6 +46,8 @@ export class Detail {
     updateFromStore() {
         const state = this.appStore.getState();
 
+        this.account = state.account;
+
         if (state.offers) {
             return;
         }
