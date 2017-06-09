@@ -36,6 +36,8 @@ export class TransactionService {
             throw new Error('You cannot submit a transaction to the network without being logged in. Please log in and try again.');
         }
 
+        let transaction;
+
         try {
             account = await this.stellarServer.loadAccount(account.id);
 
@@ -60,7 +62,7 @@ export class TransactionService {
                 });
             }
 
-            const transaction = transactionBuilder.build();
+            transaction = transactionBuilder.build();
 
             await this.secretStore.sign(transaction);
         }

@@ -105,6 +105,10 @@ export class BrushChartCustomElement {
     }
 
     draw() {
+        if (this.orderbook.bids.length === 0 && this.orderbook.asks.length === 0) {
+            return;
+        }
+
         const xStart = this.orderbook.bids.length > 0 ? this.orderbook.bids[this.orderbook.bids.length - 1].price : this.orderbook.asks[0].price;
         const xEnd = this.orderbook.asks.length > 0 ? this.orderbook.asks[this.orderbook.asks.length - 1].price : this.orderbook.bids[0].price;
         const xDomain = [xStart, xEnd];

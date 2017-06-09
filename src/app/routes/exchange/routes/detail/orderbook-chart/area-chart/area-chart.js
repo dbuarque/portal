@@ -135,6 +135,10 @@ export class AreaChartCustomElement {
     }
 
     draw() {
+        if (this.bids.length === 0 && this.asks.length === 0) {
+            return;
+        }
+
         const xStart = this.bids.length > 0 ? this.bids[this.bids.length - 1].price : this.asks[0].price;
         const xEnd = this.asks.length > 0 ? this.asks[this.asks.length - 1].price : this.bids[0].price;
         const xDomain = [xStart, xEnd];

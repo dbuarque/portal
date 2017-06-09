@@ -1,10 +1,10 @@
 <template>
     <div class="area-chart">
         <div>
-            <div show.bind="noData" style="padding: 10px;">
-                <i>There is no trade data for the chosen asset pair.</i>
+            <div show.bind="bids.length === 0 && asks.length === 0" style="padding: 10px;">
+                <i>There is no orderbook data for the chosen asset pair.</i>
             </div>
-            <div show.bind="!noData">
+            <div show.bind="bids.length > 0 || asks.length > 0">
                 <table class="current-data" show.bind="currentData">
                     <tr>
                         <td>Price: ${currentData.price}</td>
@@ -14,8 +14,8 @@
                     </tr>
                 </table>
                 <div class="chart"></div>
-                <spinner-overlay min-height="390" show.bind="orderbook.loading" size="2x"></spinner-overlay>
             </div>
+            <spinner-overlay min-height="390" show.bind="orderbook.loading" size="2x"></spinner-overlay>
         </div>
     </div>
 </template>

@@ -32,5 +32,6 @@ export class OrderbookChart {
         const exchange = newState.exchange;
 
         this.assetPair = exchange.assetPair;
+        this.orderbook = exchange.orderbook
     }
 }

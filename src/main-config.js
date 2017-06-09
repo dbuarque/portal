@@ -36,7 +36,7 @@ const config = {
     },
     production: {
         urls: {
-            api: 'http://api.lupoex.com',
+            api: 'https://api.lupoex.com',
             horizon: 'https://horizon.stellar.org'
         }
     },

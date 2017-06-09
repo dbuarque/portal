@@ -14,7 +14,7 @@
                 <div if.bind="assetPair">
                     <div class="chart-scroll">
                         <area-chart></area-chart>
-                        <brush-chart></brush-chart>
+                        <brush-chart show.bind="orderbook.bids.length > 0 || orderbook.bids.length > 0"></brush-chart>
                     </div>
                 </div>
             </div>
