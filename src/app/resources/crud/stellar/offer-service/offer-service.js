@@ -25,8 +25,8 @@ export class OfferService {
         ]);
     }
 
-    async cancelOffer(offerId) {
-        await this.baseOfferService.cancelOffer(offerId);
+    async cancelOffer(offer) {
+        await this.baseOfferService.cancelOffer(offer);
 
         await Promise.all([
             this.appStore.dispatch(this.appActionCreators.updateAccount()),

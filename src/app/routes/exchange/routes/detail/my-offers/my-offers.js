@@ -4,15 +4,17 @@
 
 import {inject} from 'aurelia-framework';
 import {AppStore} from 'global-resources';
+import {OfferService} from 'app-resources';
 import {AppActionCreators} from '../../../../../app-action-creators';
 
-@inject(AppStore, AppActionCreators)
+@inject(AppStore, OfferService, AppActionCreators)
 export class MyOffersCustomElement {
 
     loading = 0;
 
-    constructor(appStore, appActionCreators) {
+    constructor(appStore, offerService, appActionCreators) {
         this.appStore = appStore;
+        this.offerService = offerService;
         this.appActionCreators = appActionCreators;
     }
 
@@ -56,7 +58,7 @@ export class MyOffersCustomElement {
         this.loading--;
     }
 
-    cancel() {
-
+    async cancel(bid) {
+        await this.offerService.cancelOffer(bid);
     }
 }

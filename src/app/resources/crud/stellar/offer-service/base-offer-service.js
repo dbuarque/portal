@@ -47,11 +47,14 @@ export class BaseOfferService {
 
     //Make sure account.sequence is updated before calling this method
     //or just call this method from the OfferService instead.
-    async cancelOffer(offerId) {
+    async cancelOffer(offer) {
         const operations = [
             this.stellarServer.sdk.Operation.manageOffer({
-                amount: 0,
-                offerId
+                buying: offer.buying.asset_type === 'native' ? this.stellarServer.sdk.Asset.native() : new this.stellarServer.sdk.Asset(offer.buying.asset_code, offer.buying.asset_issuer),
+                selling: offer.selling.asset_type === 'native' ? this.stellarServer.sdk.Asset.native() : new this.stellarServer.sdk.Asset(offer.selling.asset_code, offer.selling.asset_issuer),
+                amount: '0',
+                price: offer.price,
+                offerId: offer.id
             })
         ];
 
