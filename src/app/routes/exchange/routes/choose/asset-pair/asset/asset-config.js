@@ -40,12 +40,15 @@ export default class AssetConfig {
                 getText: c => c.label
             },
             issuerSelect: {
-                idProp: 'value',
-                textProp: 'label',
+                idProp: 'accountid',
                 placeholder: 'Select Issuer',
                 placeholderValue: null,
                 allowClear: true,
-                getText: i => i.label
+                getText: i => {
+                    const domain = i.homedomain ? '<span class="primary-text" style="font-size: 20px;">' + i.homedomain + '</span>' : '<span class="accent-text" style="font-size: 20px;">unknown</span>';
+                    return domain + '<br>' + '<span class="accent-text">' + i.accountid + '</span>';
+                },
+                escapeMarkup: m => m
             }
         };
     }

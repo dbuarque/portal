@@ -1,6 +1,6 @@
 {
   "name": "lupoex-client",
-  "version": "1.3.0",
+  "version": "1.3.2",
   "dependencies": {
     "@types/debug": {
       "version": "0.0.29",
@@ -317,11 +317,6 @@
       "resolved": "https://registry.npmjs.org/asynckit/-/asynckit-0.4.0.tgz",
       "dev": true
     },
-    "aurelia-animator-velocity": {
-      "version": "1.1.0",
-      "from": "aurelia-animator-velocity@latest",
-      "resolved": "https://registry.npmjs.org/aurelia-animator-velocity/-/aurelia-animator-velocity-1.1.0.tgz"
-    },
     "aurelia-binding": {
       "version": "1.2.1",
       "from": "aurelia-binding@>=1.0.0 <2.0.0",
@@ -351,11 +346,6 @@
       "version": "1.1.2",
       "from": "aurelia-fetch-client@>=1.1.2 <2.0.0",
       "resolved": "https://registry.npmjs.org/aurelia-fetch-client/-/aurelia-fetch-client-1.1.2.tgz"
-    },
-    "aurelia-flatpickr": {
-      "version": "1.2.4",
-      "from": "aurelia-flatpickr@1.2.4",
-      "resolved": "https://registry.npmjs.org/aurelia-flatpickr/-/aurelia-flatpickr-1.2.4.tgz"
     },
     "aurelia-framework": {
       "version": "1.1.2",
@@ -7218,6 +7208,11 @@
       "resolved": "https://registry.npmjs.org/to-fast-properties/-/to-fast-properties-1.0.2.tgz",
       "dev": true
     },
+    "toml": {
+      "version": "2.3.2",
+      "from": "toml@latest",
+      "resolved": "https://registry.npmjs.org/toml/-/toml-2.3.2.tgz"
+    },
     "tooltipster": {
       "version": "4.2.3",
       "from": "tooltipster@>=4.2.2 <5.0.0",
@@ -7505,11 +7500,6 @@
       "from": "vary@>=1.1.0 <1.2.0",
       "resolved": "https://registry.npmjs.org/vary/-/vary-1.1.1.tgz",
       "dev": true
-    },
-    "velocity-animate": {
-      "version": "1.5.0",
-      "from": "velocity-animate@>=1.2.3 <2.0.0",
-      "resolved": "https://registry.npmjs.org/velocity-animate/-/velocity-animate-1.5.0.tgz"
     },
     "vendors": {
       "version": "1.0.1",

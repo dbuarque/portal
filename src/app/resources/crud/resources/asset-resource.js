@@ -21,4 +21,8 @@ export default class AssetResource extends BaseResource {
     issuersByCode(code) {
         return this.get('/IssuersByCode', {code});
     }
+
+    codeIssuers(code) {
+        return this.get('/CodeIssuers', {code});
+    }
 }

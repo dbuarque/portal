@@ -2,13 +2,15 @@
  * Created by istrauss on 3/17/2017.
  */
 
+import toml from 'toml';
 import _find from 'lodash.find';
 import {inject, bindable, bindingMode} from 'aurelia-framework';
+import {HttpClient} from 'aurelia-fetch-client';
 import {ValidationManager, StellarServer} from 'global-resources';
 import {AssetResource} from 'app-resources';
 import Config from './asset-config';
 
-@inject(Config, ValidationManager, StellarServer, AssetResource)
+@inject(Config, HttpClient, ValidationManager, StellarServer, AssetResource)
 export class AssetCustomElement {
 
     @bindable({defaultBindingMode: bindingMode.twoWay}) issuer;
@@ -18,8 +20,9 @@ export class AssetCustomElement {
     info = '';
     issuers = [];
 
-    constructor(config, validationManager, stellarServer, assetResource) {
+    constructor(config, httpClient, validationManager, stellarServer, assetResource) {
         this.config = config;
+        this.httpClient = httpClient;
         this.validationManager = validationManager;
         this.stellarServer = stellarServer;
         this.assetResource = assetResource;
@@ -38,45 +41,63 @@ export class AssetCustomElement {
         }
 
         this.loading++;
-        const issuers = await this.assetResource.issuersByCode(this.code);
-        this.issuers = issuers.map(i => {
-            return {
-                value: i,
-                label: i
-            };
-        });
 
-        const issuer = _find(this.issuers, {value: this.issuer});
+        this.issuers = await this.assetResource.codeIssuers(this.code);
+
+        const issuer = _find(this.issuers, {accountid: this.issuer});
 
         if (!issuer) {
             this.issuer = null;
+        }
+
+        if (this.issuer) {
+            this.issuerToml();
         }
 
         this.loading--;
     }
 
     issuerChanged() {
-        this.findIssuerAccount();
+        this.issuerToml();
         //this.validateCodeIssuerCombo();
     }
 
-    async findIssuerAccount() {
-        if (this.issuer) {
-            this.loading++;
-            try {
-                this.account = await this.stellarServer.accounts().accountId(this.issuer).call();
-                this.infoClass = 'info';
-                this.info = this.account.home_domain ?
-                    'You can find more info on this issuer at: <a target="_blank" href="' + (this.account.home_domain.indexOf('http') > -1 ? '' : 'http://') + this.account.home_domain + '">' + this.account.home_domain + '</a>' :
-                    'This issuer does not have a home domain.';
-                this.loading--;
-            }
-            catch(e) {
-                this.infoClass = 'error';
-                this.info = 'Sorry, we could not find this issuer account. Please check the spelling and try again.';
-                this.loading--;
-            }
+    async issuerToml() {
+        if (!this.issuer || this.issuers.length === 0) {
+            return;
         }
+
+        const issuer = _find(this.issuers, {accountid: this.issuer});
+
+        if (!issuer.homedomain) {
+            this.verified = false;
+            return;
+        }
+
+        this.loading++;
+
+        try {
+            const host = issuer.homedomain.indexOf('http') > -1 ? issuer.homedomain : 'http://' + issuer.homedomain;
+            const tomlResponse = await this.httpClient.fetch(host + '/.well-known/stellar.toml');
+            const tomlString = await tomlResponse.blob()
+                .then(blob => {
+                    return new Promise((resolve, reject) => {
+                        var reader = new window.FileReader();
+                        reader.readAsText(blob);
+                        reader.onloadend = function () {
+                            resolve(reader.result);
+                        };
+                    });
+                });
+
+            const tomlObj = toml.parse(tomlString);
+            this.verified = !!_find(tomlObj.CURRENCIES, currency => currency.issuer === this.issuer && currency.code === this.code);
+        }
+        catch(e) {
+            this.verified = false;
+        }
+
+        this.loading--;
     }
 
     //async validateCodeIssuerCombo() {
@@ -99,5 +120,10 @@ export class AssetCustomElement {
 
     validate() {
         return this.validationManager.validate();
+    }
+
+    get issuerHomeDomain() {
+        const issuer = _find(this.issuers, {accountid: this.issuer});
+        return issuer ? issuer.homedomain : '';
     }
 }

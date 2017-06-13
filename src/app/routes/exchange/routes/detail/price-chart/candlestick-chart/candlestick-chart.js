@@ -47,7 +47,7 @@ export class CandlestickChartCustomElement {
 
         this.margin = {top: 0, right: 100, bottom: 20, left: 100};
         this.width = this.$element.parent().width() - this.margin.left - this.margin.right;
-        this.height = this.width * 0.4 - this.margin.top - this.margin.bottom;
+        this.height = 300 - 21;
 
         this.x = techan.scale.financetime()
             .range([0, this.width]);
