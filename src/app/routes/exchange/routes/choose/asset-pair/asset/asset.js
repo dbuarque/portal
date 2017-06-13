@@ -4,7 +4,7 @@
 
 import toml from 'toml';
 import _find from 'lodash.find';
-import {inject, bindable, bindingMode} from 'aurelia-framework';
+import {inject, bindable, bindingMode, computedFrom} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-fetch-client';
 import {ValidationManager, StellarServer} from 'global-resources';
 import {AssetResource} from 'app-resources';
@@ -77,7 +77,7 @@ export class AssetCustomElement {
         this.loading++;
 
         try {
-            const host = issuer.homedomain.indexOf('http') > -1 ? issuer.homedomain : 'http://' + issuer.homedomain;
+            const host = issuer.homedomain.indexOf('http') > -1 ? issuer.homedomain : 'https://' + issuer.homedomain;
             const tomlResponse = await this.httpClient.fetch(host + '/.well-known/stellar.toml');
             const tomlString = await tomlResponse.blob()
                 .then(blob => {
@@ -125,5 +125,17 @@ export class AssetCustomElement {
     get issuerHomeDomain() {
         const issuer = _find(this.issuers, {accountid: this.issuer});
         return issuer ? issuer.homedomain : '';
+    }
+
+    @computedFrom('issuer')
+    get verifiedExplanation() {
+        return 'This asset code/issuer combination was verified by the owner of ' + this.issuerHomeDomain;
+    }
+
+    get notVerifiedExplanation() {
+        return this.issuerHomeDomain ?
+            'Anyone can publish an asset claiming to be from any domain on the stellar network. The owner of ' + this.issuerHomeDomain +
+            ' has not verified this asset code/issuer combination. Use caution when trading this asset.' :
+            'There is no verifiable issuing home domain included with this asset.';
     }
 }

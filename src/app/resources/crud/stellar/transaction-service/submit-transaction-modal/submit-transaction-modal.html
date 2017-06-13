@@ -4,7 +4,7 @@
             <div show.bind="step==='success'" class="success-step center-text">
                 <br>
                 <br>
-                <i anim-enter="fadeIn;{duration:3000}" class="fa fa-check-circle-o fa-5x success-text"></i>
+                <i class="fa fa-check-circle-o fa-5x success-text"></i>
                 <br>
                 <br>
                 <div innerhtml.bind="successMessage"></div>
@@ -18,7 +18,7 @@
             <div show.bind="step==='failure'" class="failure-step center-text">
                 <br>
                 <br>
-                <i anim-enter="fadeIn;{duration:3000}" class="fa fa-times-circle-o fa-5x error-text"></i>
+                <i class="fa fa-times-circle-o fa-5x error-text"></i>
                 <br>
                 <br>
                 <div>There was an error in submitting the transaction to the stellar network. The transaction failed with the following code(s):<br>${errorMessage}</div>
