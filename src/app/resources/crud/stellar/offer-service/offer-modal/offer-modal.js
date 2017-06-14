@@ -40,19 +40,36 @@ export class OfferModal {
             return;
         }
 
+        let sellingAmount = parseFloat(this.sellingAmount);
+        const fee = this.calculateFee(sellingAmount);
+        sellingAmount = sellingAmount - fee;
+        sellingAmount = sellingAmount.toFixed(7);
+
+        const sellingAsset = this.sellingCode === this.nativeAssetCode ?
+            this.stellarServer.sdk.Asset.native() :
+            new this.stellarServer.sdk.Asset(this.sellingCode, this.sellingIssuer);
+
         try {
             const operations = [
                 this.stellarServer.sdk.Operation.manageOffer({
-                    selling: this.sellingCode === this.nativeAssetCode ?
-                        this.stellarServer.sdk.Asset.native() :
-                        new this.stellarServer.sdk.Asset(this.sellingCode, this.sellingIssuer),
+                    selling: sellingAsset,
                     buying: this.buyingCode === this.nativeAssetCode ?
                         this.stellarServer.sdk.Asset.native() :
                         new this.stellarServer.sdk.Asset(this.buyingCode, this.buyingIssuer),
-                    amount: this.sellingAmount,
+                    amount: sellingAmount,
                     price: this.price.toPrecision(15)
                 })
             ];
+
+            if (fee) {
+                operations.push(
+                    this.stellarServer.sdk.Operation.payment({
+                        destination: window.lupoex.publicKey,
+                        asset: sellingAsset,
+                        amount: fee
+                    })
+                );
+            }
 
             this.modalVM.close(operations);
         }
@@ -61,6 +78,12 @@ export class OfferModal {
             this.modalVM.dismiss();
         }
 
+    }
+
+    calculateFee(sellingAmount) {
+        let fee = sellingAmount * window.lupoex.offerFeeFactor;
+        fee = fee.toFixed(7);
+        return parseFloat(fee, 10);
     }
 
     cancel() {
