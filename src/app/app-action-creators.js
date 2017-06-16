@@ -4,15 +4,16 @@
 
 import {inject} from 'aurelia-framework';
 import {appActionTypes} from './app-action-types';
-import {StellarServer} from 'global-resources';
+import {StellarServer, AlertToaster} from 'global-resources';
 import {BaseOfferService} from './resources/crud/stellar/offer-service/base-offer-service';
 
-const {UPDATE_ACCOUNT, UPDATE_OFFERS} = appActionTypes;
+const {UPDATE_ACCOUNT, UPDATE_LUPOEX_ACCOUNT, UPDATE_OFFERS} = appActionTypes;
 
-@inject(StellarServer, BaseOfferService)
+@inject(StellarServer, AlertToaster, BaseOfferService)
 export class AppActionCreators {
-    constructor(stellarServer, offerService) {
+    constructor(stellarServer, alertToaster, offerService) {
         this.stellarServer = stellarServer;
+        this.alertToaster = alertToaster;
         this.offerService = offerService;
     }
 
@@ -93,5 +94,27 @@ export class AppActionCreators {
                 payload: offers
             });
         }
+    }
+
+    updateLupoexAccount() {
+        return async (dispatch, getState) => {
+            let account;
+            try {
+                account = await this.stellarServer.loadAccount(window.lupoex.publicKey);
+            }
+            catch(e) {
+                this.alertToaster.error('Something is wrong. Do you have an internet connection?');
+                throw e;
+            }
+
+            dispatch({
+                type: UPDATE_LUPOEX_ACCOUNT,
+                payload: {
+                    account
+                }
+            });
+
+            return account;
+        };
     }
 }

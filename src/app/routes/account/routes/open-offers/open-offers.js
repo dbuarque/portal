@@ -48,7 +48,7 @@ export class OpenOffers {
     async refresh() {
         this.loading++;
 
-        this.appStore.dispatch(this.appActionCreators.updateOffers());
+        await this.appStore.dispatch(this.appActionCreators.updateOffers());
 
         this.loading--;
     }

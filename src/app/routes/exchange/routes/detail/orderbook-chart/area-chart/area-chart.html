@@ -7,10 +7,10 @@
             <div show.bind="bids.length > 0 || asks.length > 0">
                 <table class="current-data" show.bind="currentData">
                     <tr>
-                        <td>Price: ${currentData.price}</td>
-                        <td>Type: ${currentData.type}</td>
-                        <td>Depth (${assetPair.selling.code}): ${currentData.selling_depth}</td>
-                        <td>Depth (${assetPair.buying.code}): ${currentData.buying_depth}</td>
+                        <td>Price:<br>${currentData.price}</td>
+                        <td>Type:<br>${currentData.type}</td>
+                        <td>Depth<br>(${assetPair.selling.code}): ${currentData.selling_depth}</td>
+                        <td>Depth<br>(${assetPair.buying.code}): ${currentData.buying_depth}</td>
                     </tr>
                 </table>
                 <div class="chart"></div>

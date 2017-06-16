@@ -16,7 +16,7 @@ export class CandlestickChartCustomElement {
     loading = 0;
     numRefreshes = 0;
     noData = false;
-    numTicks = 8;
+    numTicks = 6;
 
     formatMillisecond = d3.timeFormat(".%L");
     formatSecond = d3.timeFormat("%M:%S");
@@ -243,7 +243,7 @@ export class CandlestickChartCustomElement {
             self.xAxis
                 .ticks(
                     d3.timeHour,
-                    domainHours / 10
+                    domainHours / this.numTicks
                 )
                 .tickFormat(d3.timeFormat('%m/%d-%H:%M'))
         }
@@ -251,7 +251,7 @@ export class CandlestickChartCustomElement {
             self.xAxis
                 .ticks(
                     d3.timeMinute,
-                    domainHours * 60 / 10
+                    domainHours * 60 / this.numTicks
                 )
                 .tickFormat(d3.timeFormat('%H:%M'))
         }

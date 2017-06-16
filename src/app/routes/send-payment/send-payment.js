@@ -140,12 +140,10 @@ export class SendPayment {
                 })
             );
 
-            const memo = this.stellarServer.sdk.Memo[this.memoMethodFromType(this.memo.type)](this.memo.value)
-
 
             try {
                 await this.transactionService.submit(operations, {
-                    memo,
+                    memo: this.memo ? this.stellarServer.sdk.Memo[this.memoMethodFromType(this.memo.type)](this.memo.value) : undefined,
                     onSuccess: this.generateSuccessMessage.bind(this)
                 });
 
