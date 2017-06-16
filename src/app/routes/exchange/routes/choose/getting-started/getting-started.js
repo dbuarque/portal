@@ -4,10 +4,10 @@
 
 export class GettingStartedCustomElement {
 
-    //hidden = localStorage.getItem('getting-started-hidden');
+    hidden = localStorage.getItem('getting-started-hidden');
 
     hide() {
-        //localStorage.setItem('getting-started-hidden', true);
+        localStorage.setItem('getting-started-hidden', true);
         this.hidden = true;
     }
 }

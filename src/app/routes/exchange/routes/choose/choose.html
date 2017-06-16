@@ -1,11 +1,15 @@
 <template>
     <require from="./asset-pair/asset-pair"></require>
     <require from="./getting-started/getting-started"></require>
+    <require from="./top-ten-markets/top-ten-markets"></require>
     <div class="choose">
         <div class="row">
             <div class="col l6">
                 <getting-started></getting-started>
                 <asset-pair load.trigger="load()"></asset-pair>
+            </div>
+            <div class="col l6">
+                <top-ten-markets load.trigger="load()"></top-ten-markets>
             </div>
         </div>
     </div>

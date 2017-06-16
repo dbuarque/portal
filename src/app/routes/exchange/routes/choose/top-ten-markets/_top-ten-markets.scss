@@ -1,0 +1,9 @@
+.top-ten-markets {
+  tr {
+    cursor: pointer;
+
+    &:hover {
+      background-color: $background;
+    }
+  }
+}
