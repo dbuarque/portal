@@ -2,7 +2,7 @@
  * Created by ISHAI-NOTEBOOK on 7/14/2016.
  */
 
-import {inject, bindable, bindingMode} from 'aurelia-framework';
+import {inject, bindable, bindingMode, computedFrom} from 'aurelia-framework';
 import {EventHelper, ValidationManager, StellarServer, AppStore} from 'global-resources';
 import {AppActionCreators} from '../../../app-action-creators';
 
@@ -17,6 +17,13 @@ export class IdentifyUserCustomElement {
         'Checking "Remember Secret" will allow us to store your secret in the browser\'s memory ' +
         'so you can create additional transactions without authenticating again. Even when you select this option, ' +
         'we do not store it anywhere but in the memory of the browser. As soon as you refresh this tab, the secret will be forgotten.';
+
+    changellyAlertConfig = {
+        type: 'info',
+        message: 'After you record the keypair above (ensuring that the secret is stored securely), you can use our partners at Changelly to fund your new stellar account.' +
+            ' Stellar will not actually create your account until you fund it with ' + window.lupoex.stellar.nativeAssetCode + '. To fund your stellar account, use the button below.',
+        dismissible: false
+    };
 
     alertConfig = {
         dismissible: false
@@ -80,6 +87,12 @@ export class IdentifyUserCustomElement {
         this.loading--;
     }
 
+    generateKeypair() {
+        this.newKeypair = this.stellarServer.sdk.Keypair.random();
+        this.newPublicKey = this.newKeypair.publicKey();
+        this.newSecret = this.newKeypair.secret();
+    }
+
     authenticate() {
         if (!this.validationManager.validate()) {
             return;
@@ -91,5 +104,10 @@ export class IdentifyUserCustomElement {
                 remember: this.remember
             }
         });
+    }
+
+    @computedFrom('newSecret')
+    get hiddenNewSecret() {
+        return this.newSecret ? this.newSecret.split('').map(l => 'x').join('') : '';
     }
 }
