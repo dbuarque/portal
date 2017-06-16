@@ -1,9 +1,10 @@
 const path = require('path');
+const CompressionPlugin = require('compression-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const { AureliaPlugin, ModuleDependenciesPlugin  } = require('aurelia-webpack-plugin');
-const { optimize: { CommonsChunkPlugin }, ProvidePlugin } = require('webpack');
+const { optimize: { CommonsChunkPlugin }, ProvidePlugin, IgnorePlugin } = require('webpack');
 
 // config helpers:
 const ensureArray = (config) => config && (Array.isArray(config) ? config : [config]) || [];
@@ -118,6 +119,9 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
                 title, server, baseUrl, production
             }
         }),
+        new IgnorePlugin(
+            /^\.\/locale$/, /moment$/
+        ),
         ...when(extractCss, new ExtractTextPlugin({
             filename: production ? '[contenthash].css' : '[id].css',
             allChunks: true
@@ -125,19 +129,26 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
         ...when(production, new CommonsChunkPlugin({
             name: ['common']
         })),
-        new ModuleDependenciesPlugin({
-            "aurelia-materialize-bridge": [
-                "./checkbox/checkbox",
-                "./dropdown/dropdown",
-                "./progress/progress",
-                "./radio/radio",
-                "./select/select",
-                "./switch/switch",
-                "./tabs/tabs",
-                "./tooltip/tooltip",
-                "./waves/waves"
-            ]
-        }),
+        ...when(production, new CompressionPlugin({
+            asset: "[path].gz[query]",
+            algorithm: "gzip",
+            test: /\.js$|\.css$|\.html$/,
+            threshold: 10240,
+            minRatio: 0.8
+        })),
+        //new ModuleDependenciesPlugin({
+        //    "aurelia-materialize-bridge": [
+        //        "./checkbox/checkbox",
+        //        "./dropdown/dropdown",
+        //        "./progress/progress",
+        //        "./radio/radio",
+        //        "./select/select",
+        //        "./switch/switch",
+        //        "./tabs/tabs",
+        //        "./tooltip/tooltip",
+        //        "./waves/waves"
+        //    ]
+        //}),
         new CopyWebpackPlugin([
             { from: 'favicon.ico', to: 'favicon.ico' },
             { from: 'assets', to: 'assets'},

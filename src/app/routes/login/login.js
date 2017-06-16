@@ -2,7 +2,6 @@
  * Created by Ishai on 3/31/2016.
  */
 
-//import URI from 'urijs';
 import {inject} from 'aurelia-framework';
 import {Router, Redirect} from 'aurelia-router';
 import {AppStore} from 'global-resources';

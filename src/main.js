@@ -15,13 +15,18 @@ Bluebird.config({
 
 import './third-party';
 
-if (Waves) {
+try {
     Waves.displayEffect = function() {};
 }
+catch(e) {}
 
 export async function configure(aurelia) {
     aurelia.use
-        .standardConfiguration()
+        .defaultBindingLanguage()
+        .defaultResources()
+        .history()
+        .router()
+        .eventAggregator()
         .plugin(PLATFORM.moduleName('aurelia-crumbs'))
         .plugin(PLATFORM.moduleName('aurelia-materialize-bridge'), bridge => {
             return bridge

@@ -112,14 +112,20 @@ export class SendPayment {
             //Destination account doest exist? Let's try to create it (if the user is sending native asset).
             if (!destinationAccount) {
                 if (this.code === this.nativeAssetCode) {
+                    if (parseInt(this.amount, 10) < 20) {
+                        this.alertConfig = {
+                            type: 'error',
+                            message: 'That destination account does not exist. We cannot create the account with less than ' + window.lupoex.stellar.minimumNativeBalance.toString() + ' ' + window.lupoex.stellar.nativeAssetCode + '.'
+                        };
+                        return;
+                    }
+
                     operations.push(
                         this.stellarServer.sdk.Operation.createAccount({
                             destination: this.destination,
-                            startingBalance: window.lupoex.stellar.minimumNativeBalance.toString()
+                            startingBalance: this.amount.toString()
                         })
                     );
-
-                    this.amount = parseInt(this.amount, 10) - 20;
                 }
                 else {
                     this.alertConfig = {
@@ -129,17 +135,17 @@ export class SendPayment {
                     return;
                 }
             }
-
-            operations.push(
-                this.stellarServer.sdk.Operation.payment({
-                    destination: this.destination,
-                    amount: this.amount.toString(),
-                    asset: this.code === this.nativeAssetCode ?
-                        this.stellarServer.sdk.Asset.native() :
-                        new this.stellarServer.sdk.Asset(this.code, this.issuer)
-                })
-            );
-
+            else {
+                operations.push(
+                    this.stellarServer.sdk.Operation.payment({
+                        destination: this.destination,
+                        amount: this.amount.toString(),
+                        asset: this.code === this.nativeAssetCode ?
+                            this.stellarServer.sdk.Asset.native() :
+                            new this.stellarServer.sdk.Asset(this.code, this.issuer)
+                    })
+                );
+            }
 
             try {
                 await this.transactionService.submit(operations, {

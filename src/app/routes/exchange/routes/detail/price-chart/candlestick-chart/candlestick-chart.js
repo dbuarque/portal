@@ -2,6 +2,7 @@
  * Created by istrauss on 3/19/2017.
  */
 
+import moment from 'moment';
 import _throttle from 'lodash.throttle';
 import _find from 'lodash.find';
 import {inject} from 'aurelia-framework';
