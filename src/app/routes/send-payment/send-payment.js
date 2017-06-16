@@ -104,8 +104,18 @@ export class SendPayment {
             try {
                 destinationAccount = await this.stellarServer.loadAccount(this.destination);
             }
-                //Rejection means that account does not exist
-            catch(e) {}
+
+            catch(e) {
+                //404 means that account does not exist
+                if (e.data.status !== 404) {
+                    this.alertConfig = {
+                        type: 'error',
+                        message: 'Something is wrong. Your payment could not be sent.'
+                    };
+                    this.loading--;
+                    return;
+                }
+            }
 
             let operations = [];
 
@@ -117,6 +127,7 @@ export class SendPayment {
                             type: 'error',
                             message: 'That destination account does not exist. We cannot create the account with less than ' + window.lupoex.stellar.minimumNativeBalance.toString() + ' ' + window.lupoex.stellar.nativeAssetCode + '.'
                         };
+                        this.loading--;
                         return;
                     }
 
@@ -132,6 +143,7 @@ export class SendPayment {
                         type: 'error',
                         message: 'That destination account does not exist on the stellar network. Please ensure that you are sending this payment to an existing account.'
                     };
+                    this.loading--;
                     return;
                 }
             }
