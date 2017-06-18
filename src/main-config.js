@@ -45,7 +45,8 @@ const config = {
             nativeAssetCode: 'XLM',
             minimumNativeBalance: 20
         },
-        publicKey: 'GACGNVW44F7GNUVALL2YFEHAVBVWO7WQROZ2ZRSYVL3H7UB4QPEUVJSN'
+        publicKey: 'GACGNVW44F7GNUVALL2YFEHAVBVWO7WQROZ2ZRSYVL3H7UB4QPEUVJSN',
+        offerFeeFactor: 0.00025
     }
 };
 

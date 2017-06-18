@@ -2,7 +2,6 @@
  * Created by istrauss on 5/31/2016.
  */
 
-import URI from 'urijs';
 import _find from 'lodash.find';
 import {inject, Container} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-fetch-client';
@@ -60,8 +59,6 @@ export default class ApiClient extends HttpClient {
 }
 
 function _createQueryString(params = {}) {
-    let uri = URI('?');
-
     Object.keys(params).forEach(key => {
         if (params[key] === undefined) {
             delete params[key];
@@ -71,5 +68,5 @@ function _createQueryString(params = {}) {
         }
     });
 
-    return uri.setSearch(params).toString();
+    return Object.keys(params).length > 0 ? '?' + Object.keys(params).map(k => k + '=' + params[k]).join('&') : '';
 }

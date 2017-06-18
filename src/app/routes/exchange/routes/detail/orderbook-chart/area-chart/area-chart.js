@@ -32,8 +32,9 @@ export class AreaChartCustomElement {
         this.$chart = this.$element.find('.chart');
 
         this.margin = {top: 0, right: 3, bottom: 20, left: 100};
+        const parentHeight = this.$element.parent().width();
         this.width = this.$element.parent().width() - this.margin.left - this.margin.right;
-        this.height = this.width * 0.4 - this.margin.top - this.margin.bottom;
+        this.height = 300;
 
         this.x = d3.scaleLog()
             .base(Math.E)
@@ -220,13 +221,19 @@ export class AreaChartCustomElement {
 
     enter() {
         this.currentData = undefined;
+        this.mouseInside = true;
     }
 
     out() {
         this.currentData = undefined;
+        this.mouseInside = false;
     }
 
     _move(coords) {
+        if (!this.mouseInside) {
+            return;
+        }
+
         this.currentData = this.findLastGreaterThanOrEqual(coords.x, this.bids, b => parseFloat(b.price, 10));
 
         if (this.currentData) {

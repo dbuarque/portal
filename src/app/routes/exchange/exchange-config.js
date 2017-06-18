@@ -24,7 +24,7 @@ export default class Config {
                 {
                     route: [':buyingCode/:buyingIssuer/:sellingCode/:sellingIssuer'],
                     name: 'detail',
-                    moduleId: PLATFORM.moduleName('./routes/detail/detail'),
+                    moduleId: PLATFORM.moduleName('./routes/detail/detail', 'exchange-detail'),
                     title: 'Detail',
                     breadcrumb: true
                 }

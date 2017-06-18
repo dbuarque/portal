@@ -10,6 +10,15 @@
                          tt-validate="manager.bind: validationManager; key: issuer; element-selector: .select2-custom-element" required></select2>
             </div>
         </div>
-        <h6 show.bind="loading === 0 && issuer" innerhtml.bind="info"></h6>
+        <h6 show.bind="loading === 0 && issuer">
+            <span class="success-text" show.bind="verified">
+                <i class="fa fa-check-circle-o"></i>&nbsp;Asset is verified by ${issuerHomeDomain}
+                <i class="primary-text fa fa-question-circle-o" style="cursor: default;" md-tooltip="text.bind: verifiedExplanation;"></i>
+            </span>
+            <span class="error-text" show.bind="!verified">
+                <i class="fa fa-exclamation-circle"></i>&nbsp;We could not verify this asset
+                <i class="primary-text fa fa-question-circle-o" style="cursor: default;" md-tooltip="text.bind: notVerifiedExplanation;"></i>
+            </span>
+        </h6>
     </div>
 </template>

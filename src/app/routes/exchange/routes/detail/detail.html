@@ -6,23 +6,42 @@
     <require from="./create-offer/create-ask"></require>
     <require from="./my-offers/my-offers"></require>
     <div>
-        <price-chart if.one-time="!isMobile"></price-chart>
-        <orderbook-chart if.one-time="!isMobile"></orderbook-chart>
-        <my-offers if.bind="account"></my-offers>
         <div class="row">
-            <div class="col m6">
-                <create-bid></create-bid>
+            <div class="col l6">
+                <price-chart if.one-time="!isMobile"></price-chart>
+                <div class="hide-on-med-and-down">
+                    <my-offers if.bind="account"></my-offers>
+                    <div class="row">
+                        <div class="col l6">
+                            <create-bid></create-bid>
+                        </div>
+                        <div class="col l6">
+                            <create-ask></create-ask>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col m6">
-                <create-ask></create-ask>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col m6">
-                <offers type="Bids"></offers>
-            </div>
-            <div class="col m6">
-                <offers type="Asks"></offers>
+            <div class="col l6">
+                <orderbook-chart if.one-time="!isMobile"></orderbook-chart>
+                <div class="hide-on-large-only">
+                    <my-offers if.bind="account"></my-offers>
+                    <div class="row">
+                        <div class="col l6">
+                            <create-bid></create-bid>
+                        </div>
+                        <div class="col l6">
+                            <create-ask></create-ask>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col l6">
+                        <offers type="Bids"></offers>
+                    </div>
+                    <div class="col l6">
+                        <offers type="Asks"></offers>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

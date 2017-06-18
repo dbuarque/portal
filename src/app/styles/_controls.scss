@@ -10,7 +10,23 @@ input:not([type]), input[type=text], input[type=password], input[type=email], in
 
 .select2-custom-element {
     border-bottom: 1px solid $gray;
-    height: 34px;
+    min-height: 34px;
+
+    .select2-container .select2-selection--single {
+        height: auto!important;
+        padding: 5px 0;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: normal!important;
+    }
+    .select2-container .select2-selection--single .select2-selection__rendered {
+        white-space: normal!important;
+    }
+
+    .select2-results__option--highlighted[aria-selected] {
+        background-color: $background;
+        color: $accent;
+    }
 
     &.disabled {
         background: #fdfdfd;

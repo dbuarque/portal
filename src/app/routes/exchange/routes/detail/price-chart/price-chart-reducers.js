@@ -2,6 +2,7 @@
  * Created by istrauss on 1/4/2017.
  */
 
+import moment from 'moment';
 import _find from 'lodash.find';
 import {ReducerHelper} from 'global-resources';
 import {namespace, priceChartActionTypes} from './price-chart-action-types';

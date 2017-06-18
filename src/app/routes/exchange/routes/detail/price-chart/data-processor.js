@@ -2,6 +2,8 @@
  * Created by istrauss on 5/23/2017.
  */
 
+import moment from 'moment';
+
 export class DataProcessor {
 
     fillInData(rawData, options) {

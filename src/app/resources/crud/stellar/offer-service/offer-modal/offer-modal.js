@@ -2,17 +2,22 @@
  * Created by istrauss on 5/8/2017.
  */
 
+import _find from 'lodash.find';
 import {inject} from 'aurelia-framework'
 import {StellarServer, AppStore, AlertToaster} from 'global-resources';
+import {LupoexResource} from 'app-resources';
 import {AppActionCreators} from '../../../../../app-action-creators';
 
-@inject(StellarServer, AppStore, AlertToaster, AppActionCreators)
+@inject(StellarServer, AppStore, AlertToaster, LupoexResource, AppActionCreators)
 export class OfferModal {
 
-    constructor(stellarServer, appStore, alertToaster, appActionCreators) {
+    loading = 0;
+
+    constructor(stellarServer, appStore, alertToaster, lupoexResource, appActionCreators) {
         this.stellarServer = stellarServer;
         this.appStore = appStore;
         this.alertToaster = alertToaster;
+        this.lupoexResource = lupoexResource;
         this.appActionCreators = appActionCreators;
     }
 
@@ -40,19 +45,47 @@ export class OfferModal {
             return;
         }
 
+        let sellingAmount = parseFloat(this.sellingAmount);
+        const fee = this.calculateFee(sellingAmount);
+        sellingAmount = sellingAmount - fee;
+        sellingAmount = sellingAmount.toFixed(7);
+
+        const sellingAsset = this.sellingCode === this.nativeAssetCode ?
+            this.stellarServer.sdk.Asset.native() :
+            new this.stellarServer.sdk.Asset(this.sellingCode, this.sellingIssuer);
+
         try {
             const operations = [
                 this.stellarServer.sdk.Operation.manageOffer({
-                    selling: this.sellingCode === this.nativeAssetCode ?
-                        this.stellarServer.sdk.Asset.native() :
-                        new this.stellarServer.sdk.Asset(this.sellingCode, this.sellingIssuer),
+                    selling: sellingAsset,
                     buying: this.buyingCode === this.nativeAssetCode ?
                         this.stellarServer.sdk.Asset.native() :
                         new this.stellarServer.sdk.Asset(this.buyingCode, this.buyingIssuer),
-                    amount: this.sellingAmount,
+                    amount: sellingAmount,
                     price: this.price.toPrecision(15)
                 })
             ];
+
+            if (fee) {
+                const lupoexAccount = this.appStore.getState().lupoexAccount;
+                const lupoexHasTrust = sellingAsset.isNative() || _find(lupoexAccount.balances, b => b.asset_code === sellingAsset.getCode() && b.asset_issuer === sellingAsset.getIssuer());
+
+                if (!lupoexHasTrust) {
+                    this.loading++;
+
+                    await this.lupoexResource.trust(sellingAsset.getCode(), sellingAsset.getIssuer());
+
+                    this.loading--;
+                }
+
+                operations.push(
+                    this.stellarServer.sdk.Operation.payment({
+                        destination: window.lupoex.publicKey,
+                        asset: sellingAsset,
+                        amount: fee.toString()
+                    })
+                );
+            }
 
             this.modalVM.close(operations);
         }
@@ -61,6 +94,12 @@ export class OfferModal {
             this.modalVM.dismiss();
         }
 
+    }
+
+    calculateFee(sellingAmount) {
+        let fee = sellingAmount * window.lupoex.offerFeeFactor;
+        fee = fee.toFixed(7);
+        return parseFloat(fee, 10);
     }
 
     cancel() {

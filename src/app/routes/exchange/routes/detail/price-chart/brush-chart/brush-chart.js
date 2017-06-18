@@ -2,6 +2,7 @@
  * Created by istrauss on 5/23/2017.
  */
 
+import moment from 'moment';
 import {inject, TaskQueue} from 'aurelia-framework';
 import techan from 'techan';
 import {AppStore} from 'global-resources';

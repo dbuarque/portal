@@ -2,6 +2,7 @@
  * Created by istrauss on 3/19/2017.
  */
 
+import moment from 'moment';
 import _throttle from 'lodash.throttle';
 import _find from 'lodash.find';
 import {inject} from 'aurelia-framework';
@@ -16,7 +17,7 @@ export class CandlestickChartCustomElement {
     loading = 0;
     numRefreshes = 0;
     noData = false;
-    numTicks = 8;
+    numTicks = 6;
 
     formatMillisecond = d3.timeFormat(".%L");
     formatSecond = d3.timeFormat("%M:%S");
@@ -47,7 +48,7 @@ export class CandlestickChartCustomElement {
 
         this.margin = {top: 0, right: 100, bottom: 20, left: 100};
         this.width = this.$element.parent().width() - this.margin.left - this.margin.right;
-        this.height = this.width * 0.4 - this.margin.top - this.margin.bottom;
+        this.height = 300 - 21;
 
         this.x = techan.scale.financetime()
             .range([0, this.width]);
@@ -243,7 +244,7 @@ export class CandlestickChartCustomElement {
             self.xAxis
                 .ticks(
                     d3.timeHour,
-                    domainHours / 10
+                    domainHours / this.numTicks
                 )
                 .tickFormat(d3.timeFormat('%m/%d-%H:%M'))
         }
@@ -251,7 +252,7 @@ export class CandlestickChartCustomElement {
             self.xAxis
                 .ticks(
                     d3.timeMinute,
-                    domainHours * 60 / 10
+                    domainHours * 60 / this.numTicks
                 )
                 .tickFormat(d3.timeFormat('%H:%M'))
         }

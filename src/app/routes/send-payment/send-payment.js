@@ -104,48 +104,64 @@ export class SendPayment {
             try {
                 destinationAccount = await this.stellarServer.loadAccount(this.destination);
             }
-                //Rejection means that account does not exist
-            catch(e) {}
+
+            catch(e) {
+                //404 means that account does not exist
+                if (e.data.status !== 404) {
+                    this.alertConfig = {
+                        type: 'error',
+                        message: 'Something is wrong. Your payment could not be sent.'
+                    };
+                    this.loading--;
+                    return;
+                }
+            }
 
             let operations = [];
 
             //Destination account doest exist? Let's try to create it (if the user is sending native asset).
             if (!destinationAccount) {
                 if (this.code === this.nativeAssetCode) {
+                    if (parseInt(this.amount, 10) < 20) {
+                        this.alertConfig = {
+                            type: 'error',
+                            message: 'That destination account does not exist. We cannot create the account with less than ' + window.lupoex.stellar.minimumNativeBalance.toString() + ' ' + window.lupoex.stellar.nativeAssetCode + '.'
+                        };
+                        this.loading--;
+                        return;
+                    }
+
                     operations.push(
                         this.stellarServer.sdk.Operation.createAccount({
                             destination: this.destination,
-                            startingBalance: window.lupoex.stellar.minimumNativeBalance.toString()
+                            startingBalance: this.amount.toString()
                         })
                     );
-
-                    this.amount = parseInt(this.amount, 10) - 20;
                 }
                 else {
                     this.alertConfig = {
                         type: 'error',
                         message: 'That destination account does not exist on the stellar network. Please ensure that you are sending this payment to an existing account.'
                     };
+                    this.loading--;
                     return;
                 }
             }
-
-            operations.push(
-                this.stellarServer.sdk.Operation.payment({
-                    destination: this.destination,
-                    amount: this.amount.toString(),
-                    asset: this.code === this.nativeAssetCode ?
-                        this.stellarServer.sdk.Asset.native() :
-                        new this.stellarServer.sdk.Asset(this.code, this.issuer)
-                })
-            );
-
-            const memo = this.stellarServer.sdk.Memo[this.memoMethodFromType(this.memo.type)](this.memo.value)
-
+            else {
+                operations.push(
+                    this.stellarServer.sdk.Operation.payment({
+                        destination: this.destination,
+                        amount: this.amount.toString(),
+                        asset: this.code === this.nativeAssetCode ?
+                            this.stellarServer.sdk.Asset.native() :
+                            new this.stellarServer.sdk.Asset(this.code, this.issuer)
+                    })
+                );
+            }
 
             try {
                 await this.transactionService.submit(operations, {
-                    memo,
+                    memo: this.memo ? this.stellarServer.sdk.Memo[this.memoMethodFromType(this.memo.type)](this.memo.value) : undefined,
                     onSuccess: this.generateSuccessMessage.bind(this)
                 });
 
