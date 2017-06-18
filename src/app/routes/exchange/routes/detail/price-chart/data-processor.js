@@ -9,8 +9,8 @@ export class DataProcessor {
     fillInData(rawData, options) {
         let {lastPreviousDatum, start, end, interval} = options;
 
-        start = new Date(start || rawData[0].begin_ts);
-        end = end ? new Date(end) : new Date();
+        start = moment(start || rawData[0].begin_ts);
+        end = moment(end);
 
         const data = [];
 
@@ -21,7 +21,7 @@ export class DataProcessor {
         let i = 0;
         let d = start;
         while(moment(d).isSameOrBefore(end)) {
-            if (i < rawData.length && moment(d).isSameOrAfter(rawData[i].begin_ts)) {
+            if (i < rawData.length && moment(d).isSameOrAfter(moment(rawData[i].begin_ts))) {
                 data.push(this.mapDatumForGraph(rawData[i]));
                 lastPreviousDatum = this.lastPreviousDatum(rawData[i]);
                 i++;
@@ -32,7 +32,7 @@ export class DataProcessor {
                     date: new Date(d.valueOf())
                 })
             }
-            d = this.addSeconds(d, parseInt(interval, 10));
+            d = d.add(parseInt(interval, 10), 'seconds');
         }
 
         return data;

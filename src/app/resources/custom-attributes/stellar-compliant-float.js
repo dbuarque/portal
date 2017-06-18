@@ -25,7 +25,7 @@ export class StellarCompliantFloatCustomAttribute {
             return;
         }
 
-        const val = this.$element.val();
+        let val = this.$element.val();
 
         if (!val) {
             return;
@@ -33,19 +33,23 @@ export class StellarCompliantFloatCustomAttribute {
 
         //This number is too big for javascript to handle.
         if (val.length > 17) {
-            this.$element.val(val.slice(0, 17)).trigger('change');
-            return;
+            val = val.slice(0, 17);
         }
 
-        const float = parseFloat(val);
-        const parsed = float.toString();
+        let float = parseFloat(val);
+
+        if (float > 922337203685.4775807) {
+            float = 922337203685.4775807;
+        }
+
+        let parsed = float.toString();
         const fixed = float.toFixed(this.fixedLimit);
 
         //Ensure that there are not too many decimal places on the number (stellar only allows 7)
-        if (parsed.length <= fixed.length) {
-            return;
+        if (parsed.length > fixed.length) {
+            parsed = fixed;
         }
 
-        this.$element.val(fixed).trigger('change');
+        this.$element.val(parsed).trigger('change');
     }
 }

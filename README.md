@@ -117,3 +117,9 @@ To run all the unit test suites and the E2E tests, you may simply run:
 ```shell
 npm start -- test.all
 ```
+
+## Running the docker container
+
+```shell
+docker run -d -p 8080:80 --name lupoex-client lupoex-client
+```
