@@ -39,10 +39,10 @@
                             <div class="tabs">
                                 <ul md-tabs="fixed: true;" md-tabs.ref="offerTabs" class="z-depth-1">
                                     <li>
-                                        <a class="${offerType === 'ask' ? 'active' : '' & oneTime}" click.trigger="changeOfferType('ask')" href="ask-tab">Sell ${assetPair.selling.code}</a>
+                                        <a class="${offerType === 'ask' ? 'active' : '' & oneTime}" click.trigger="changeOfferType('ask')" href="#ask-tab">Sell ${assetPair.selling.code}</a>
                                     </li>
                                     <li>
-                                        <a class="${offerType === 'bid' ? 'active' : '' & oneTime}" click.trigger="changeOfferType('bid')" href="bid-tab">Buy ${assetPair.selling.code}</a>
+                                        <a class="${offerType === 'bid' ? 'active' : '' & oneTime}" click.trigger="changeOfferType('bid')" href="#bid-tab">Buy ${assetPair.selling.code}</a>
                                     </li>
                                 </ul>
                             </div>

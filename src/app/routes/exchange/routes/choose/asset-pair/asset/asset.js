@@ -68,6 +68,10 @@ export class AssetCustomElement {
 
         const issuer = _find(this.issuers, {accountid: this.issuer});
 
+        if (!issuer) {
+            return;
+        }
+
         if (!issuer.homedomain) {
             this.verified = false;
             return;

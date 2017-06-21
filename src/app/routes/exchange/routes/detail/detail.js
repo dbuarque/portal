@@ -65,7 +65,7 @@ export class Detail {
 
     changeOfferType(newOfferType) {
         this.offerType = newOfferType;
-        this.offerTabs.selectTab('tab-' + newOfferType);
+        //this.offerTabs.selectTab('tab-' + newOfferType);
     }
 
 
