@@ -21,6 +21,8 @@ export class Exchange {
         routerConfig.map(this.config.routes);
 
         this.router = router;
+
+        this.router.transformTitle = title => false;
     }
 
     bind() {

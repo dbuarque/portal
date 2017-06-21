@@ -1,9 +1,21 @@
 .top-ten-markets {
-  tr {
-    cursor: pointer;
+  .card-body {
+    padding: 0;
+  }
 
-    &:hover {
-      background-color: $background;
+  table {
+    tbody {
+      tr {
+        cursor: pointer;
+
+        &:hover {
+          background-color: $background;
+        }
+
+        &:last-child {
+          border-bottom-width: 0;
+        }
+      }
     }
   }
 }

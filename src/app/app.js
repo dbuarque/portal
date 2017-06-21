@@ -29,15 +29,13 @@ export class App {
         this.registerNavigationSteps(routerConfig);
 
         this.router = router;
+
+        this.router.transformTitle = title => 'LuPoEx';
     }
 
     activate() {
         this.appStore.dispatch(this.appActionCreators.updateLupoexAccount());
         this.jsonClient.configure();
-    }
-
-    attached() {
-        const i = this.router;
     }
 
     registerNavigationSteps(routerConfig) {

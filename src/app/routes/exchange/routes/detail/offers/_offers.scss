@@ -1,7 +1,18 @@
 .offers {
     font-size: 12px;
 
-    td {
-        padding: 5px;
+    .card-body {
+        padding: 0;
+    }
+
+    table {
+
+        tr:last-child {
+            border-bottom-width: 0;
+        }
+
+        td {
+            padding: 5px;
+        }
     }
 }

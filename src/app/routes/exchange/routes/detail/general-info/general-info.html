@@ -1,0 +1,60 @@
+<template>
+    <require from="./general-info-value-converters"></require>
+    <div class="card general-info" collapsible-card="is-open:true">
+        <div class="card-content">
+            <div class="card-heading">
+                <div class="card-title">
+                    General Info
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="highlight bordered">
+                    <tbody>
+                        <tr>
+                            <td>Selling</td>
+                            <td>
+                                <div>${assetPair.selling.code}</div>
+                                <div style="word-break: break-all">${assetPair.selling.issuer}</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Buying</td>
+                            <td>
+                                <div>${assetPair.buying.code}</div>
+                                <div style="word-break: break-all">${assetPair.buying.issuer}</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Change</td>
+                            <td innerhtml.bind="market.percent_gain | percentGain"></td>
+                        </tr>
+                        <tr>
+                            <td>Low</td>
+                            <td>
+                                ${market.low}&nbsp;${assetPair.buying.code}/${assetPair.selling.code}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>High</td>
+                            <td>
+                                ${market.high}&nbsp;${assetPair.buying.code}/${assetPair.selling.code}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Sold Volume</td>
+                            <td>
+                                ${market.sold_vol}&nbsp;${assetPair.selling.code}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Bought Volume</td>
+                            <td>
+                                ${market.bought_vol}&nbsp;${assetPair.buying.code}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</template>

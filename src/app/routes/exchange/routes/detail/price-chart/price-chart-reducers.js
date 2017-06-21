@@ -101,11 +101,11 @@ let _priceChart = (state, action) => {
         default:
             return state || {
                     interval: 60 * 60,
-                    start: timesFromRangeOption(rangeOptions[3]).start,
+                    start: timesFromRangeOption(rangeOptions[1]).start,
                     end: moment.utc().toISOString(),
                     intervalOptions,
                     rangeOptions,
-                    presetRangeIndex: 3
+                    presetRangeIndex: 1
                 };
     }
 

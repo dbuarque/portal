@@ -2,7 +2,6 @@
  * Created by istrauss on 3/17/2017.
  */
 
-import toml from 'toml';
 import _find from 'lodash.find';
 import {inject, bindable, bindingMode, computedFrom} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-fetch-client';
@@ -77,20 +76,7 @@ export class AssetCustomElement {
         this.loading++;
 
         try {
-            const host = issuer.homedomain.indexOf('http') > -1 ? issuer.homedomain : 'https://' + issuer.homedomain;
-            const tomlResponse = await this.httpClient.fetch(host + '/.well-known/stellar.toml');
-            const tomlString = await tomlResponse.blob()
-                .then(blob => {
-                    return new Promise((resolve, reject) => {
-                        var reader = new window.FileReader();
-                        reader.readAsText(blob);
-                        reader.onloadend = function () {
-                            resolve(reader.result);
-                        };
-                    });
-                });
-
-            const tomlObj = toml.parse(tomlString);
+            const tomlObj = await this.stellarServer.sdk.StellarTomlResolver.resolve(issuer.homedomain);
             this.verified = !!_find(tomlObj.CURRENCIES, currency => currency.issuer === this.issuer && currency.code === this.code);
         }
         catch(e) {
@@ -127,7 +113,7 @@ export class AssetCustomElement {
         return issuer ? issuer.homedomain : '';
     }
 
-    @computedFrom('issuer')
+    @computedFrom('issuer', 'issuers')
     get verifiedExplanation() {
         return 'This asset code/issuer combination was verified by the owner of ' + this.issuerHomeDomain;
     }
