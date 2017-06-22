@@ -13,7 +13,8 @@ export function configure(config) {
         PLATFORM.moduleName('./value-converters'),
         PLATFORM.moduleName('./widgets/stellar-entities-jqdt/stellar-entities-jqdt'),
         PLATFORM.moduleName('./widgets/lupoex-jqdt/lupoex-jqdt'),
-        PLATFORM.moduleName('./custom-attributes/stellar-compliant-float')
+        PLATFORM.moduleName('./custom-attributes/stellar-compliant-float'),
+        PLATFORM.moduleName('./dom-controls/stellar-address-input/stellar-address-input')
     );
 }
 

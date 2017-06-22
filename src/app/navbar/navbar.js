@@ -1,7 +1,7 @@
 /**
  * Created by Ishai on 3/27/2016.
  */
-import {bindable, inject} from 'aurelia-framework';
+import {bindable, inject, computedFrom} from 'aurelia-framework';
 import {AppStore, AlertToaster} from 'global-resources';
 import {AppActionCreators} from '../app-action-creators';
 
@@ -27,7 +27,6 @@ export class Navbar {
     updateFromStore() {
         const newState = this.appStore.getState();
         this.account = newState.account;
-        this.firstFive = this.account && this.account.id ? this.account.id.slice(0, 5) : null;
     }
 
     goToExchange() {
@@ -45,5 +44,10 @@ export class Navbar {
 
     goToAccount() {
         this.router.navigateToRoute('account');
+    }
+
+    @computedFrom('account')
+    get firstFive() {
+        return this.account && this.account.id ? this.account.id.slice(0, 5) : null;
     }
 }

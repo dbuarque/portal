@@ -6,9 +6,9 @@
                 <div class="row">
                     <div class="col s12">
                         <div class="form-field">
-                            <label>Public Key</label>
-                            <input tt-validate="manager.bind: validationManager; key: publicKey"
-                                   type="text" class="form-control" value.bind="publicKey" required title="Public Key">
+                            <label>Account Address</label>
+                            <stellar-address-input public-key.bind="publicKey" required title="Account Address" federated-address.bind="federatedAddress"
+                                                   tt-validate="manager.bind: validationManager; key: publicKey; element-selector: :input; value-prop: publicKey"></stellar-address-input>
                         </div>
                         <div class="cols center-align form-field">
                             <button md-waves type="submit" class="btn primary">

@@ -54,6 +54,13 @@ export class SendPayment {
             return;
         }
 
+        if (this.requiredMemo) {
+            this.memo = {
+                type: this.memoTypeTitle(this.requiredMemoType),
+                value: this.requiredMemo
+            }
+        }
+
         this.step = 'confirm';
     }
 
@@ -192,6 +199,21 @@ export class SendPayment {
                 return 'hash';
             case 'Return':
                 return 'returnHash';
+            default:
+                throw new Error('Unrecognized Memo Type.');
+        }
+    }
+
+    memoTypeTitle(memoType) {
+        switch (memoType) {
+            case 'id':
+                return 'Id';
+            case 'text':
+                return 'Text';
+            case 'hash':
+                return 'Hash';
+            case 'returnHash':
+                return 'Return';
             default:
                 throw new Error('Unrecognized Memo Type.');
         }
