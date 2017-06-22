@@ -4,6 +4,12 @@
   }
 
   table {
+    thead {
+      th.sortable {
+        cursor: pointer;
+      }
+    }
+
     tbody {
       tr {
         cursor: pointer;

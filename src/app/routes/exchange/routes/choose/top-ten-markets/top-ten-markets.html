@@ -20,13 +20,13 @@
                                     <th>
                                         Market
                                     </th>
-                                    <th click.delegate="changeOrder('trade_count')">
+                                    <th click.delegate="changeOrder('trade_count')" class.bind="order !== 'trade_count' ? 'sortable' : ''">
                                         Volume (#Trades)
-                                        <span show.bind="order === 'trade_count'">&nbsp;<i class="fa fa-caret-square-o-down primary-text"></i></span>
+                                        <span show.bind="order === 'trade_count'">&nbsp;<i class="fa fa-caret-down primary-text"></i></span>
                                     </th>
-                                    <th click.delegate="changeOrder('percent_gain')">
+                                    <th click.delegate="changeOrder('percent_gain')" class.bind="order !== 'percent_gain' ? 'sortable' : ''">
                                         Change (%)
-                                        <span show.bind="order === 'percent_gain'">&nbsp;<i class="fa fa-caret-square-o-down primary-text"></i></span>
+                                        <span show.bind="order === 'percent_gain'">&nbsp;<i class="fa fa-caret-down primary-text"></i></span>
                                     </th>
                                 </tr>
                             </thead>
