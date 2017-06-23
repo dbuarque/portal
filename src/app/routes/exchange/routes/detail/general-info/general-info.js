@@ -71,12 +71,17 @@ export class GeneralInfoCustomElement {
         const issuer =  this.stellarServer.loadAccount(asset.issuer);
         let verified;
 
-        try {
-            const tomlObj = await this.stellarServer.sdk.StellarTomlResolver.resolve(issuer.home_domain);
-            verified = !!_find(tomlObj.CURRENCIES, currency => currency.issuer === this.issuer && currency.code === this.code);
-        }
-        catch(e) {
+        if (!issuer.home_domain) {
             verified = false;
+        }
+        else {
+            try {
+                const tomlObj = await this.stellarServer.sdk.StellarTomlResolver.resolve(issuer.home_domain);
+                verified = !!_find(tomlObj.CURRENCIES, currency => currency.issuer === this.issuer && currency.code === this.code);
+            }
+            catch(e) {
+                verified = false;
+            }
         }
 
         this.loading--;
