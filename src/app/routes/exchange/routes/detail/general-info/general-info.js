@@ -72,7 +72,7 @@ export class GeneralInfoCustomElement {
         let verified;
 
         try {
-            const tomlObj = await this.stellarServer.sdk.StellarTomlResolver.resolve(issuer.homedomain);
+            const tomlObj = await this.stellarServer.sdk.StellarTomlResolver.resolve(issuer.home_domain);
             verified = !!_find(tomlObj.CURRENCIES, currency => currency.issuer === this.issuer && currency.code === this.code);
         }
         catch(e) {
