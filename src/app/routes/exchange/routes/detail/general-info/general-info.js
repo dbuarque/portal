@@ -68,7 +68,7 @@ export class GeneralInfoCustomElement {
     async verifyAsset(asset) {
         this.loading++;
 
-        const issuer =  this.stellarServer.loadAccount(asset.issuer);
+        const issuer =  await this.stellarServer.loadAccount(asset.issuer);
         let verified;
 
         if (!issuer.home_domain) {
