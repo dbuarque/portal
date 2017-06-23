@@ -9,6 +9,9 @@ import {AppActionCreators} from '../../app-action-creators';
 
 @inject(Router, AppStore, AppActionCreators)
 export class Login {
+
+    action = 'login';
+
     constructor(router, appStore, appActionCreators) {
         this.router = router;
         this.appStore = appStore;
@@ -25,6 +28,11 @@ export class Login {
         if (account && account.id) {
             return new Redirect('exchange');
         }
+    }
+
+    changeAction(newAction) {
+        this.action = newAction;
+        this.loginTabs.selectTab('tab-' + newAction);
     }
 }
 
