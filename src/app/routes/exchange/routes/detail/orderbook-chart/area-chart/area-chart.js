@@ -36,8 +36,7 @@ export class AreaChartCustomElement {
         this.width = this.$element.parent().width() - this.margin.left - this.margin.right;
         this.height = 300;
 
-        this.x = d3.scaleLog()
-            .base(Math.E)
+        this.x = d3.scaleLinear()
             .range([0, this.width]);
 
         this.y = d3.scaleLinear().range([this.height, 0]);

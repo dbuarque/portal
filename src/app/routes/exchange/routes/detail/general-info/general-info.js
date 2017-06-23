@@ -2,17 +2,19 @@
  * Created by istrauss on 6/20/2017.
  */
 
+import _find from 'lodash.find';
 import {inject} from 'aurelia-framework';
-import {AppStore} from 'global-resources';
+import {AppStore, StellarServer} from 'global-resources';
 import {MarketResource} from 'app-resources';
 
-@inject(AppStore, MarketResource)
+@inject(AppStore, StellarServer, MarketResource)
 export class GeneralInfoCustomElement {
 
     loading = 0;
 
-    constructor(appStore, marketResource) {
+    constructor(appStore, stellarServer, marketResource) {
         this.appStore = appStore;
+        this.stellarServer = stellarServer;
         this.marketResource = marketResource;
     }
 
@@ -39,6 +41,18 @@ export class GeneralInfoCustomElement {
             return;
         }
 
+        this.findMarket();
+
+        this.sellingAssetVerified = this.assetPair.selling.code !== window.lupoex.stellar.nativeAssetCode ?
+            await this.verifyAsset(this.assetPair.selling) :
+            true;
+
+        this.buyingAssetVerified = this.assetPair.buying.code !== window.lupoex.stellar.nativeAssetCode ?
+            await this.verifyAsset(this.assetPair.buying) :
+            true;
+    }
+
+    async findMarket() {
         this.loading++;
 
         this.market = await this.marketResource.findOne(
@@ -49,5 +63,24 @@ export class GeneralInfoCustomElement {
         );
 
         this.loading--;
+    }
+
+    async verifyAsset(asset) {
+        this.loading++;
+
+        const issuer =  this.stellarServer.loadAccount(asset.issuer);
+        let verified;
+
+        try {
+            const tomlObj = await this.stellarServer.sdk.StellarTomlResolver.resolve(issuer.homedomain);
+            verified = !!_find(tomlObj.CURRENCIES, currency => currency.issuer === this.issuer && currency.code === this.code);
+        }
+        catch(e) {
+            verified = false;
+        }
+
+        this.loading--;
+
+        return verified;
     }
 }

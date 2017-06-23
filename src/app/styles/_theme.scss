@@ -33,6 +33,13 @@
 .success-text {
     color: $success;
 }
+.warning {
+    background-color: $warning;
+    color: white;
+}
+.warning-text {
+    color: $warning;
+}
 /* buttons */
 .btn.primary, .btn-flat.primary, .btn-large.primary {
     transition: .2s ease-out;

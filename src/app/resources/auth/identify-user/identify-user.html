@@ -21,7 +21,7 @@
             <div if.bind="action==='createAccount'">
                 <div class="row">
                     <div class="col s12">
-                        <br>
+                        <alert config.bind="createAccountHelpAlertConfig"></alert>
                         <div class="cols center-align form-field">
                             <button md-waves class="btn primary" click.delegate="generateKeypair()" >
                                 <i class="fa fa-refresh"></i>&nbsp;Generate Key Pair

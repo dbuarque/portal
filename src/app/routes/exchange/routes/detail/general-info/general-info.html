@@ -11,14 +11,22 @@
                 <table class="highlight bordered">
                     <tbody>
                         <tr>
-                            <td>Selling</td>
+                            <td>
+                                Selling&nbsp;
+                                <i class="fa fa-exclamation-triangle warning-text" show.bind="!sellingAssetVerified" title="This asset is not verified."></i>
+                                <i class="fa fa-check-circle success-text" show.bind="sellingAssetVerified" title="This asset is verified."></i>
+                            </td>
                             <td>
                                 <div>${assetPair.selling.code}</div>
                                 <div style="word-break: break-all">${assetPair.selling.issuer}</div>
                             </td>
                         </tr>
                         <tr>
-                            <td>Buying</td>
+                            <td>
+                                Buying&nbsp;
+                                <i class="fa fa-exclamation-triangle warning-text" show.bind="!buyingAssetVerified" title="This asset is not verified."></i>
+                                <i class="fa fa-check-circle-o success-text" show.bind="buyingAssetVerified" title="This asset is verified."></i>
+                            </td>
                             <td>
                                 <div>${assetPair.buying.code}</div>
                                 <div style="word-break: break-all">${assetPair.buying.issuer}</div>
