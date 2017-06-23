@@ -1,4 +1,4 @@
-/**
+ /**
  * Created by ISHAI-NOTEBOOK on 7/6/2016.
  */
 
@@ -20,10 +20,6 @@ export class Select2CustomElement {
         this.taskQueue = taskQueue;
     }
 
-    bind() {
-        this.config.defaultValue = this.config.defaultValue === undefined ? null : this.config.defaultValue;
-    }
-
     attached() {
         const vm = this;
 
@@ -42,11 +38,14 @@ export class Select2CustomElement {
 
         vm.$select
             .on('change', (event) => {
-                if (vm.value !== event.target.value) {
-                    vm.value = event.target.value || this.config.placeholderValue;
-                    EventHelper.emitEvent(vm.element, 'change', {
+                const selectValue = this.$select.val() || this.config.placeholderValue;
+                const modelValue = this.value;
+
+                if (modelValue !== selectValue) {
+                    this.value = selectValue;
+                    EventHelper.emitEvent(vm.element, 'choose', {
                         detail: {
-                            value: event.target.value
+                            value: selectValue
                         },
                         bubbles: true
                     });
@@ -95,9 +94,28 @@ export class Select2CustomElement {
         }
 
         const selectValue = this.$select.val();
+        const modelValue = this.value || "";
 
-        if (selectValue !== this.value && this.options && this.options.length > 0) {
-            this.$select.val(this.value).trigger('change');
+        if (selectValue !== modelValue && this.options && this.options.length > 0) {
+            this.$select.val(modelValue);
+
+            //Value wasn't set because option does not exist
+            if (this.$select.val() !== modelValue) {
+                this.formattedOptions = modelValue ? [
+                    {
+                        id: modelValue,
+                        text: modelValue
+                    }
+                ] : [];
+
+                this.taskQueue.queueTask(() => {
+                    this.$select.val(modelValue);
+                });
+            }
+
+            this.taskQueue.queueTask(() => {
+                this.$select.trigger('change');
+            });
         }
     }
 }

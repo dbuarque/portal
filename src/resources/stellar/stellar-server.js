@@ -7,7 +7,7 @@ export class StellarServer {
         const server = new StellarSdk.Server(window.lupoex.urls.horizon);
         server.sdk = StellarSdk;
 
-        if (window.lupoex.env === 'production') {
+        if (window.lupoex.networkMode === 'public') {
             server.sdk.Network.usePublicNetwork();
         }
         else {

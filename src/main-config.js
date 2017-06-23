@@ -24,21 +24,24 @@ const config = {
     development: {
         urls: {
             api: 'http://localhost:1337',
-            //horizon: 'https://horizon.stellar.org'
-            horizon: 'https://horizon-testnet.stellar.org/'
-        }
+            horizon: 'https://horizon.stellar.org'
+            //horizon: 'https://horizon-testnet.stellar.org/'
+        },
+        networkMode: 'public'
     },
     test: {
         urls: {
             api: 'http://test.api.lupoex.com',
             horizon: 'https://horizon-testnet.stellar.org/'
-        }
+        },
+        networkMode: 'public'
     },
     production: {
         urls: {
             api: 'https://api.lupoex.com',
             horizon: 'https://horizon.stellar.org'
-        }
+        },
+        networkMode: 'public'
     },
     all: {
         stellar: {

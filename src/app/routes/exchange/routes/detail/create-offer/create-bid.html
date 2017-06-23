@@ -1,49 +1,37 @@
 <template>
     <div class="create-offer">
-        <div class="card offers" collapsible-card="is-open:true">
-            <div class="card-content">
-                <div class="card-heading">
-                    <div class="card-title">
-                        Buy ${assetPair.selling.code}
-                    </div>
-                    <i style="font-size: 15px;" class="fa fa-refresh right" no-collapse click.trigger="refresh()"></i>
+        <alert if.bind="alertConfig" config.bind="alertConfig"></alert>
+        <div show.bind="!account">
+            <i>
+                You must <a href="javascript:void(0)" click.trigger="goToLogin()">login</a> to create offers.
+            </i>
+        </div>
+        <div show.bind="account">
+            <form submit.trigger="submit()" novalidate>
+                <div class="form-field">
+                    <label>Price (${assetPair.buying.code}/${assetPair.selling.code})</label>
+                    <input type="number" class="form-control" value.bind="displayPrice" keyup.trigger="priceChanged()">
                 </div>
-                <div class="card-body">
-                    <alert if.bind="alertConfig" config.bind="alertConfig"></alert>
-                    <div show.bind="!account">
-                        <i>
-                            You must <a href="javascript:void(0)" click.trigger="goToLogin()">login</a> to create offers.
-                        </i>
-                    </div>
-                    <div show.bind="account">
-                        <form submit.trigger="submit()" novalidate>
-                            <div class="form-field">
-                                <label>Price (${assetPair.buying.code}/${assetPair.selling.code})</label>
-                                <input type="number" class="form-control" value.bind="displayPrice" keyup.trigger="priceChanged()">
-                            </div>
-                            <div class="form-field">
-                                <label>${assetPair.selling.code}</label>
-                                <input stellar-compliant-float type="number" class="form-control" value.bind="buyingAmount" keyup.trigger="buyingAmountChanged()">
-                            </div>
-                            <div class="form-field">
-                                <label>${assetPair.buying.code}</label>
-                                <input stellar-compliant-float type="number" class="form-control" value.bind="sellingAmount" keyup.trigger="sellingAmountChanged()">
-                            </div>
-                            <div if.bind="needsTrustline">
-                                <div class="form-field">
-                                    <span class.bind="minTrustLine <= buyingAssetBalance.limit ? 'success-text' : 'error-text'">${minTrustLine}/${buyingAssetBalance.limit.toFixed(7)} Limit</span>
-                                </div>
-                                <a href="javascript:void(0)" class="primary-text" click.trigger="modifyLimit()">Learn More/Modify Limit.</a>
-                            </div>
-                            <div class="center-align form-field">
-                                <button md-waves type="submit" class="btn primary btn-small">
-                                    &nbsp;Create Bid
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+                <div class="form-field">
+                    <label>${assetPair.selling.code}</label>
+                    <input stellar-compliant-float type="number" class="form-control" value.bind="buyingAmount" keyup.trigger="buyingAmountChanged()">
                 </div>
-            </div>
+                <div class="form-field">
+                    <label>${assetPair.buying.code}</label>
+                    <input stellar-compliant-float type="number" class="form-control" value.bind="sellingAmount" keyup.trigger="sellingAmountChanged()">
+                </div>
+                <div if.bind="needsTrustline">
+                    <div class="form-field">
+                        <span class.bind="minTrustLine <= buyingAssetBalance.limit ? 'success-text' : 'error-text'">${minTrustLine}/${buyingAssetBalance.limit.toFixed(7)} Limit</span>
+                    </div>
+                    <a href="javascript:void(0)" class="primary-text" click.trigger="modifyLimit()">Learn More/Modify Limit.</a>
+                </div>
+                <div class="center-align form-field">
+                    <button md-waves type="submit" class="btn primary btn-small">
+                        &nbsp;Create Bid
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </template>

@@ -1,0 +1,75 @@
+<template>
+    <require from="./general-info-value-converters"></require>
+    <div class="card general-info" collapsible-card="is-open:true">
+        <div class="card-content">
+            <div class="card-heading">
+                <div class="card-title">
+                    General Info
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="highlight bordered">
+                    <tbody>
+                        <tr>
+                            <td>
+                                Selling&nbsp;
+                                <i class="fa fa-exclamation-triangle warning-text" show.bind="!sellingAssetVerified" title="This asset is not verified."></i>
+                                <i class="fa fa-check-circle success-text" show.bind="sellingAssetVerified" title="This asset is verified."></i>
+                            </td>
+                            <td>
+                                <div>${assetPair.selling.code}</div>
+                                <div style="word-break: break-all">${assetPair.selling.issuer}</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Buying&nbsp;
+                                <i class="fa fa-exclamation-triangle warning-text" show.bind="!buyingAssetVerified" title="This asset is not verified."></i>
+                                <i class="fa fa-check-circle-o success-text" show.bind="buyingAssetVerified" title="This asset is verified."></i>
+                            </td>
+                            <td>
+                                <div>${assetPair.buying.code}</div>
+                                <div style="word-break: break-all">${assetPair.buying.issuer}</div>
+                            </td>
+                        </tr>
+                        <tr show.bind="market">
+                            <td>Change</td>
+                            <td innerhtml.bind="market.percent_gain | percentGain"></td>
+                        </tr>
+                        <tr show.bind="market">
+                            <td>Low</td>
+                            <td>
+                                ${market.low}&nbsp;${assetPair.buying.code}/${assetPair.selling.code}
+                            </td>
+                        </tr>
+                        <tr show.bind="market">
+                            <td>High</td>
+                            <td>
+                                ${market.high}&nbsp;${assetPair.buying.code}/${assetPair.selling.code}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td># Trades</td>
+                            <td>
+                                ${market ? market.trade_count : 0}
+                            </td>
+                        </tr>
+                        <tr show.bind="market">
+                            <td>Sold Volume</td>
+                            <td>
+                                ${market.sold_vol}&nbsp;${assetPair.selling.code}
+                            </td>
+                        </tr>
+                        <tr show.bind="market">
+                            <td>Bought Volume</td>
+                            <td>
+                                ${market.bought_vol}&nbsp;${assetPair.buying.code}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <spinner-overlay show.bind="loading > 0" size="2x" min-height="200"></spinner-overlay>
+            </div>
+        </div>
+    </div>
+</template>

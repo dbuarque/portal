@@ -83,7 +83,7 @@ export class CreateOffer {
             alertMessage = 'Numbers with more than 15 digits are not allowed.';
         }
         else if (this.needsTrustline && parseFloat(this.trustline, 10) < this.minimumTrustline()) {
-            alertMessage = 'Trustline is too small. It must be at least ' + this.minimumTrustline() + ' to cover your balance, current offers and this new offer.';
+            alertMessage = 'Trustline is too small. It must be at least ' + this.minimumTrustline() + ' to cover your balance and this new offer.';
         }
         else if (parseFloat(this.sellingAssetBalance, 10) < parseFloat(this.sellingAmount, 10)) {
             alertMessage = 'You cannot spend ' + this.sellingAmount + ' ' + this.sellingAsset.code + ' as you only have ' + this.sellingAssetBalance + ' ' + this.sellingAsset.code + ' in your account.';

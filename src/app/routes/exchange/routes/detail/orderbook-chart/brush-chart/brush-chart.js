@@ -35,8 +35,7 @@ export class BrushChartCustomElement {
                 .extent([[0, 0], [this.width, this.height]])
                 .on("end", this.brushed.bind(this));
 
-            this.x = d3.scaleLog()
-                .base(Math.E)
+            this.x = d3.scaleLinear()
                 .range([0, this.width]);
 
             this.y = d3.scaleLinear().range([this.height, 0]);

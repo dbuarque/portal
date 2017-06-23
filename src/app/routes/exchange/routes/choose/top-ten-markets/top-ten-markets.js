@@ -47,12 +47,12 @@ export class TopTenMarkets {
 
         this.appStore.dispatch(this.exchangeActionCreators.updateAssetPair({
             buying: {
-                code: market.sold_asset_type === 'native' ? nativeAssetCode : market.sold_asset_code,
-                issuer: market.sold_asset_type === 'native' ? undefined : market.sold_asset_issuer
-            },
-            selling: {
                 code:  market.bought_asset_type === 'native' ? nativeAssetCode : market.bought_asset_code,
                 issuer: market.bought_asset_type === 'native' ? undefined : market.bought_asset_issuer
+            },
+            selling: {
+                code: market.sold_asset_type === 'native' ? nativeAssetCode : market.sold_asset_code,
+                issuer: market.sold_asset_type === 'native' ? undefined : market.sold_asset_issuer
             }
         }));
 

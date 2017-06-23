@@ -11,6 +11,8 @@ import {AppActionCreators} from '../../../../app-action-creators';
     
 @inject(Router, AppStore, ExchangeActionCreators, AppActionCreators)
 export class Detail {
+
+    offerType = 'bid';
     
     constructor(router, appStore, exchangeActionCreators, appActionCreators) {
         this.router = router;
@@ -48,6 +50,7 @@ export class Detail {
         const state = this.appStore.getState();
 
         this.account = state.account;
+        this.assetPair = state.exchange.assetPair;
 
         if (state.offers) {
             return;
@@ -59,6 +62,12 @@ export class Detail {
     attached() {
         this.updateRouteTitle();
     }
+
+    changeOfferType(newOfferType) {
+        this.offerType = newOfferType;
+        //this.offerTabs.selectTab('tab-' + newOfferType);
+    }
+
 
     updateRouteTitle() {
         this.router.currentInstruction.config.title = this.assetPair.buying.code + '/' + this.assetPair.selling.code;

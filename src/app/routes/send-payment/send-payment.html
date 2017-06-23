@@ -36,32 +36,53 @@
                                 </div>
                                 <div class="col s12">
                                     <label>Destination Account</label>
-                                    <input type="text" value.bind="destination" required title="Destination"
-                                           tt-validate="manager.bind: validationManager; key: destination;">
+                                    <stellar-address-input public-key.bind="destination" required title="Destination Account" memo.bind="requiredMemo" memo-type.bind="requiredMemoType"
+                                                           tt-validate="manager.bind: validationManager; key: destination; element-selector: :input; value-prop: publicKey"></stellar-address-input>
                                 </div>
                             </div>
-                            <div class="row" if.bind="memo">
-                                <br>
-                                <div class="col s12">
-                                    <h6>Memo:</h6>
+
+                            <div class="accent-text" show.bind="requiredMemo">
+                                <div class="card alert alert-info">
+                                    <strong>
+                                        <i class="fa fa-info-circle primary-text"></i>
+                                    </strong>
+                                    <span>
+                                        You entered a federated destination address which requires a specific memo to be submitted along with the transaction.
+                                        <br>
+                                        When you submit your payment, the memo:
+                                        <br>
+                                        <strong>${requiredMemo} (type ${requiredMemoType})</strong>
+                                        <br>
+                                        will be included automatically.
+                                    </span>
                                 </div>
-                                <div class="col s12">
-                                    <div class="row">
-                                        <div class="col s10">
-                                            <memo-select validation-manager.bind="validationManager" type.bind="memo.type" value.bind="memo.value"></memo-select>
-                                        </div>
-                                        <div class="col s2" style="padding-top: 20px;">
-                                            <button class="btn btn-small error">
-                                                <i class="fa fa-2x fa-trash-o" click.trigger="removeMemo()"></i>
-                                            </button>
+                            </div>
+
+                            <div show.bind="!requiredMemo">
+                                <div class="row" if.bind="memo">
+                                    <br>
+                                    <div class="col s12">
+                                        <h6>Memo:</h6>
+                                    </div>
+                                    <div class="col s12">
+                                        <div class="row">
+                                            <div class="col s10">
+                                                <memo-select validation-manager.bind="validationManager" type.bind="memo.type" value.bind="memo.value"></memo-select>
+                                            </div>
+                                            <div class="col s2" style="padding-top: 20px;">
+                                                <button class="btn btn-small error">
+                                                    <i class="fa fa-2x fa-trash-o" click.trigger="removeMemo()"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <br>
+                                <button md-waves type="button" class="btn btn-flat accent btn-small" click.trigger="addMemo()" if.bind="!memo">
+                                    <i class="fa fa-plus"></i>&nbsp;Add Memo
+                                </button>
                             </div>
-                            <br>
-                            <button md-waves type="button" class="btn btn-flat accent btn-small" click.trigger="addMemo()" if.bind="!memo">
-                                <i class="fa fa-plus"></i>&nbsp;Add Memo
-                            </button>
+
                             <br>
                             <br>
                             <div class="center-text">
@@ -90,15 +111,15 @@
                                     <td class="value">${destination}</td>
                                 </tr>
                             </table>
-                            <div class="row" show.bind="memos.length > 0">
+                            <div class="row" show.bind="memo">
                                 <br>
                                 <div class="col s12">
-                                    <h6>Memos:</h6>
+                                    <h6>Memo:</h6>
                                 </div>
 
                                 <div class="col s12">
                                     <table>
-                                        <tr repeat.for="memo of memos">
+                                        <tr>
                                             <td class="label">${memo.type}</td>
                                             <td class="value">${memo.value}</td>
                                         </tr>

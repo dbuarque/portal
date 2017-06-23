@@ -23,6 +23,8 @@ export class Account {
         routerConfig.map(this.config.routes);
 
         this.router = router;
+
+        this.router.transformTitle = title => false;
     }
 
     canActivate() {

@@ -50,6 +50,8 @@ export class StellarCompliantFloatCustomAttribute {
             parsed = fixed;
         }
 
-        this.$element.val(parsed).trigger('change');
+        if (this.$element.val() !== parsed) {
+            this.$element.val(parsed).trigger('change');
+        }
     }
 }

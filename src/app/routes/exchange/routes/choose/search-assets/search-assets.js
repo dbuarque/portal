@@ -8,7 +8,7 @@ import {AppStore, EventHelper} from 'global-resources';
 import {ExchangeActionCreators} from '../../../exchange-action-creators';
 
 @inject(Element, AppStore, ExchangeActionCreators)
-export class AssetPairCustomElement {
+export class SearchAssetsCustomElement {
 
     size = 16;
 

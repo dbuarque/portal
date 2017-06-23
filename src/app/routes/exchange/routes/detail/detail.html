@@ -5,41 +5,52 @@
     <require from="./create-offer/create-bid"></require>
     <require from="./create-offer/create-ask"></require>
     <require from="./my-offers/my-offers"></require>
+    <require from="./general-info/general-info"></require>
     <div>
         <div class="row">
-            <div class="col l6">
-                <price-chart if.one-time="!isMobile"></price-chart>
-                <div class="hide-on-med-and-down">
-                    <my-offers if.bind="account"></my-offers>
-                    <div class="row">
-                        <div class="col l6">
-                            <create-bid></create-bid>
-                        </div>
-                        <div class="col l6">
-                            <create-ask></create-ask>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col l6">
-                <orderbook-chart if.one-time="!isMobile"></orderbook-chart>
+            <div class="col l8">
                 <div class="hide-on-large-only">
-                    <my-offers if.bind="account"></my-offers>
-                    <div class="row">
-                        <div class="col l6">
-                            <create-bid></create-bid>
-                        </div>
-                        <div class="col l6">
-                            <create-ask></create-ask>
-                        </div>
-                    </div>
+                    <general-info></general-info>
                 </div>
+
+                <price-chart if.one-time="!isMobile"></price-chart>
+
+                <orderbook-chart if.one-time="!isMobile"></orderbook-chart>
+
                 <div class="row">
                     <div class="col l6">
                         <offers type="Bids"></offers>
                     </div>
                     <div class="col l6">
                         <offers type="Asks"></offers>
+                    </div>
+                </div>
+            </div>
+            <div class="col l4">
+                <div class="hide-on-med-and-down">
+                    <general-info></general-info>
+                </div>
+
+                <my-offers if.bind="account"></my-offers>
+
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-heading">
+                            <div class="tabs">
+                                <ul md-tabs="fixed: true;" md-tabs.ref="offerTabs" class="z-depth-1">
+                                    <li>
+                                        <a class="${offerType === 'ask' ? 'active' : '' & oneTime}" click.trigger="changeOfferType('ask')" href="#ask-tab">Sell ${assetPair.selling.code}</a>
+                                    </li>
+                                    <li>
+                                        <a class="${offerType === 'bid' ? 'active' : '' & oneTime}" click.trigger="changeOfferType('bid')" href="#bid-tab">Buy ${assetPair.selling.code}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <create-ask show.bind="offerType === 'ask'"></create-ask>
+                            <create-bid show.bind="offerType === 'bid'"></create-bid>
+                        </div>
                     </div>
                 </div>
             </div>
