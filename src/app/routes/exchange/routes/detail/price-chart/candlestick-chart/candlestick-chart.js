@@ -240,19 +240,11 @@ export class CandlestickChartCustomElement {
 
         const domainHours = moment.duration(moment(data[data.length - 1].date).diff(moment(data[0].date))).asHours();
 
-        if (domainHours < 24 * 4 && domainHours > 23) {
+        if (domainHours < 24 * 4) {
             self.xAxis
                 .ticks(
                     d3.timeHour,
                     domainHours / this.numTicks
-                )
-                .tickFormat(d3.timeFormat('%m/%d-%H:%M'))
-        }
-        else if (domainHours < 24) {
-            self.xAxis
-                .ticks(
-                    d3.timeMinute,
-                    domainHours * 60 / this.numTicks
                 )
                 .tickFormat(d3.timeFormat('%H:%M'))
         }

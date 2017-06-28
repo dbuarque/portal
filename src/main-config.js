@@ -34,7 +34,7 @@ const config = {
             api: 'http://test.api.lupoex.com',
             horizon: 'https://horizon-testnet.stellar.org/'
         },
-        networkMode: 'public'
+        networkMode: 'test'
     },
     production: {
         urls: {
