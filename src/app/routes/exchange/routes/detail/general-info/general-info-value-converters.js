@@ -4,6 +4,6 @@
 
 export class PercentGainValueConverter {
     toView(percentGain) {
-        return percentGain ? '<span class="' + (percentGain > 0 ? 'success' : 'error') + '-text">' + (percentGain > 0 ? '+' : '-') + percentGain.toFixed(2) + '%</span>' : '';
+        return percentGain ? '<span class="' + (percentGain > 0 ? 'success' : 'error') + '-text">' + (percentGain > 0 ? '+' : '') + percentGain.toFixed(2) + '%</span>' : '';
     }
 }

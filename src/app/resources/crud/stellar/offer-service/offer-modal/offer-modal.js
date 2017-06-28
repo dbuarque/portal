@@ -46,7 +46,7 @@ export class OfferModal {
         }
 
         let sellingAmount = parseFloat(this.sellingAmount);
-        const fee = this.calculateFee(sellingAmount);
+        const fee = window.lupoex.env === 'production' ? this.calculateFee(sellingAmount) : 0;
         sellingAmount = sellingAmount - fee;
         sellingAmount = sellingAmount.toFixed(7);
 
