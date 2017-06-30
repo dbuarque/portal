@@ -1,0 +1,29 @@
+<template>
+    <alert config.bind="alertConfig"></alert>
+    <div class="authenticate">
+        <form novalidate focus-input submit.trigger="authenticate()">
+            <div class="row">
+                <div class="col s12">
+                    <div class="form-field">
+                        <label>Secret Key</label>
+                        <input tt-validate="manager.bind: validationManager; key: secret"
+                               type="password" class="form-control" value.bind="secret" required title="Secret Key">
+                    </div>
+                    <div class="form-field">
+                        <label>Remember Secret</label>&nbsp;<md-checkbox md-checked.bind="remember"></md-checkbox>
+                        <span class="primary-text" style="cursor: default;" md-tooltip="text.bind: rememberExplanation;">Whats this?</span>
+                    </div>
+                    <br>
+                    <div class="form-field" style="font-size: 11px;">
+                        By clicking the sign button below you agree to our <a href="http://docs.lupoex.com/terms-and-conditions" target="_blank">terms and conditions</a>.
+                    </div>
+                    <div class="cols center-align form-field">
+                        <button md-waves type="submit" class="btn primary">
+                            <i class="fa fa-lock"></i>&nbsp;Sign
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</template>
