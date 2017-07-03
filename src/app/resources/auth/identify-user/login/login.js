@@ -4,20 +4,22 @@
 
 import _throttle from 'lodash.throttle';
 import {bindable, inject} from 'aurelia-framework';
-import {EventHelper, ValidationManager, AppStore, ObserverManager, ObservationInstruction, StellarServer} from 'global-resources';
+import {EventHelper, AppStore, ObserverManager, ObservationInstruction, StellarServer, AlertToaster} from 'global-resources';
 import {SecretStore} from 'app-resources';
 import {AppActionCreators} from '../../../../app-action-creators';
 
-@inject(ValidationManager, AppStore, ObserverManager, StellarServer, SecretStore, AppActionCreators)
+@inject(AppStore, ObserverManager, StellarServer, AlertToaster, SecretStore, AppActionCreators)
 export class LoginCustomElement {
 
     @bindable parentElement;
 
-    constructor(validationManager, appStore, observerManager, stellarServer, secretStore, appActionCreators) {
-        this.validationManager = validationManager;
+    loading = 0;
+
+    constructor(appStore, observerManager, stellarServer, alertToaster, secretStore, appActionCreators) {
         this.appStore = appStore;
         this.observerManager = observerManager;
         this.stellarServer = stellarServer;
+        this.alertToaster = alertToaster;
         this.secretStore = secretStore;
         this.appActionCreators = appActionCreators;
 
@@ -53,8 +55,8 @@ export class LoginCustomElement {
     }
 
     async login() {
-        if (!this.validationManager.validate()) {
-            return;
+        if (!this.publicKey) {
+            this.alertToaster.error('You must enter either a valid account address or valid secret key to login.')
         }
 
         if (this.secret && this.publicKey && !this.secretAndPublicAreEqual) {
