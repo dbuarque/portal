@@ -129,13 +129,6 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
         ...when(production, new CommonsChunkPlugin({
             name: ['common']
         })),
-        ...when(production, new CompressionPlugin({
-            asset: "[path].gz[query]",
-            algorithm: "gzip",
-            test: /\.js$|\.css$|\.html$/,
-            threshold: 10240,
-            minRatio: 0.8
-        })),
         //new ModuleDependenciesPlugin({
         //    "aurelia-materialize-bridge": [
         //        "./checkbox/checkbox",
@@ -153,6 +146,13 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
             { from: 'favicon.ico', to: 'favicon.ico' },
             { from: 'assets', to: 'assets'},
             { from: 'node_modules/js-stellar-sdk/stellar-sdk.min.js', to: 'stellar-sdk.min.js'}
-        ])
+        ]),
+        ...when(production, new CompressionPlugin({
+            asset: "[path].gz[query]",
+            algorithm: "gzip",
+            test: /\.js$|\.css$|\.html$/,
+            threshold: 10240,
+            minRatio: 0.8
+        }))
     ]
 });
