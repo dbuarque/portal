@@ -1,0 +1,38 @@
+<template>
+    <div class="create-account">
+        <div class="row">
+            <div class="col s12">
+                <alert config.bind="createAccountHelpAlertConfig"></alert>
+                <div class="cols center-align form-field">
+                    <button md-waves class="btn primary" click.delegate="generateKeypair()" >
+                        <i class="fa fa-refresh"></i>&nbsp;Generate Key Pair
+                    </button>
+                </div>
+                <div show.bind="newKeypair">
+                    <div class="form-field">
+                        <label>Public Key</label>
+                        <div style="font-size: 12px; word-break: break-all;">
+                            ${newPublicKey}
+                        </div>
+                    </div>
+                    <div class="form-field">
+                        <label>
+                            Secret Key
+                            <i style="cursor: pointer" class="fa fa-lg fa-${displayNewSecret ? 'eye-slash' : 'eye'} primary-text" click.delegate="displayNewSecret = !displayNewSecret"></i>
+                        </label>
+                        <div style="font-size: 12px; word-break: break-all;">
+                            ${displayNewSecret ? newSecret : hiddenNewSecret}
+                        </div>
+                    </div>
+                    <div class="form-field">
+                        <alert config.bind="changellyAlertConfig"></alert>
+                        <div class="center-align">
+                            <a class="btn btn-large" target="_blank" style="width: 100%; max-width: 200px; background: url('/assets/changelly-logo.png'); background-size: 75%; background-position: center; background-repeat: no-repeat"
+                               href="https://changelly.com/exchange/USD/STR/50?ref_id=9e0e0a52f935"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

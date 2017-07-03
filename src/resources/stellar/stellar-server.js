@@ -4,15 +4,16 @@
 
 export class StellarServer {
     constructor() {
-        const server = new StellarSdk.Server(window.lupoex.urls.horizon);
-        server.sdk = StellarSdk;
-
         if (window.lupoex.networkMode === 'public') {
-            server.sdk.Network.usePublicNetwork();
+            StellarSdk.Network.usePublicNetwork();
         }
         else {
-            server.sdk.Network.useTestNetwork();
+            StellarSdk.Config.setAllowHttp(true);
+            StellarSdk.Network.useTestNetwork();
         }
+
+        const server = new StellarSdk.Server(window.lupoex.urls.horizon);
+        server.sdk = StellarSdk;
 
         return server;
     }

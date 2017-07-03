@@ -75,6 +75,7 @@ const rangeOptions = [
 let _priceChart = (state, action) => {
     let interval, start, end, presetRangeIndex;
     let smallestAllowedInterval;
+    let rangeSeconds;
 
     switch(action.type) {
         case UPDATE_INTERVAL:
@@ -117,7 +118,7 @@ let _priceChart = (state, action) => {
             endTime = moment();
         }
 
-        const rangeSeconds = moment.duration(endTime.diff(startTime)).asSeconds();
+        rangeSeconds = moment.duration(endTime.diff(startTime)).asSeconds();
         const numIntervals = rangeSeconds/interval;
         smallestAllowedInterval = getSmallestAllowedInterval(state.intervalOptions, rangeSeconds);
     }
@@ -129,10 +130,14 @@ let _priceChart = (state, action) => {
         interval = smallestAllowedInterval;
     }
 
+    if (rangeSeconds && interval > rangeSeconds) {
+        interval = smallestAllowedInterval;
+    }
+
     const newIntervalOptions = state.intervalOptions.map(o => {
         return {
             ...o,
-            disabled: o.interval < smallestAllowedInterval
+            disabled: o.interval < smallestAllowedInterval || (rangeSeconds && o.interval > rangeSeconds)
         };
     });
 

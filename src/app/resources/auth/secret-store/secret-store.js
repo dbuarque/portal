@@ -21,10 +21,9 @@ export class SecretStore {
     async sign(transaction) {
         let keypair;
         if (!this._keypair) {
-            const result = await this.modalService.open(PLATFORM.moduleName('app/resources/auth/secret-store/identify-user-modal/identify-user-modal'),
+            const result = await this.modalService.open(PLATFORM.moduleName('app/resources/auth/secret-store/authenticate-modal/authenticate-modal'),
                 {
-                    title: 'Authenticate',
-                    action: 'authenticate'
+                    title: 'Authenticate'
                 },
                 {
                     modalClass: 'md'
