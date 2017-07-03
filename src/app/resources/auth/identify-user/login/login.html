@@ -8,8 +8,7 @@
                         <label>Account Address&nbsp;
                             <i class="primary-text fa fa-question-circle-o" md-tooltip="text: Signing in with your account address will allow you to view your account details. However, when executing your first transaction, you will be required to enter your secret key as well.;"></i>
                         </label>
-                        <stellar-address-input public-key.bind="publicKey" required title="Account Address" federated-address.bind="federatedAddress"
-                                               tt-validate="manager.bind: validationManager; key: publicKey; element-selector: :input; value-prop: publicKey"></stellar-address-input>
+                        <stellar-address-input public-key.bind="publicKey" title="Account Address" federated-address.bind="federatedAddress"></stellar-address-input>
                     </div>
                     <br>
                     <h5 class="center">Or</h5>
