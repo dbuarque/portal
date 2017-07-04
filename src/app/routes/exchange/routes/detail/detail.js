@@ -52,6 +52,8 @@ export class Detail {
         this.account = state.account;
         this.assetPair = state.exchange.assetPair;
 
+        this.updateRouteTitle();
+
         if (state.offers) {
             return;
         }
@@ -70,6 +72,10 @@ export class Detail {
 
 
     updateRouteTitle() {
+        if (!this.router.currentInstruction || !this.assetPair) {
+            return;
+        }
+
         this.router.currentInstruction.config.title = this.assetPair.buying.code + '/' + this.assetPair.selling.code;
     }
 }

@@ -5,8 +5,10 @@
 import moment from 'moment';
 import _find from 'lodash.find';
 import {ReducerHelper} from 'global-resources';
-import {namespace, priceChartActionTypes} from './price-chart-action-types';
+import {namespace, exchangeActionTypes} from '../../../exchange-action-types';
+import {priceChartActionTypes} from './price-chart-action-types';
 
+const {UPDATE_ASSET_PAIR} = exchangeActionTypes;
 const {UPDATE_INTERVAL, UPDATE_RANGE, PRESET_RANGE} = priceChartActionTypes;
 
 const intervalOptions = [
@@ -72,7 +74,16 @@ const rangeOptions = [
     }
 ];
 
-let _priceChart = (state, action) => {
+const defaultState = {
+    interval: 60 * 60,
+    start: timesFromRangeOption(rangeOptions[1]).start,
+    end: moment.utc().toISOString(),
+    intervalOptions,
+    rangeOptions,
+    presetRangeIndex: 1
+};
+
+let _priceChart = (state, action, rootState) => {
     let interval, start, end, presetRangeIndex;
     let smallestAllowedInterval;
     let rangeSeconds;
@@ -99,15 +110,10 @@ let _priceChart = (state, action) => {
             end = times.end;
             interval = state.interval;
             break;
+        case UPDATE_ASSET_PAIR:
+            return isNewAssetPair(rootState.exchange.assetPair, action.payload) ? defaultState : state;
         default:
-            return state || {
-                    interval: 60 * 60,
-                    start: timesFromRangeOption(rangeOptions[1]).start,
-                    end: moment.utc().toISOString(),
-                    intervalOptions,
-                    rangeOptions,
-                    presetRangeIndex: 1
-                };
+            return state || defaultState;
     }
 
     if (start && end) {
@@ -152,6 +158,22 @@ let _priceChart = (state, action) => {
 };
 
 export const priceChart = ReducerHelper.restrictReducerToNamespace(_priceChart, namespace);
+
+function isNewAssetPair(oldAssetPair, newAssetPair) {
+    return  oldAssetPair && newAssetPair &&
+            !(
+                oldAssetPair.buying.code === newAssetPair.buying.code &&
+                oldAssetPair.buying.issuer === newAssetPair.buying.issuer &&
+                oldAssetPair.selling.code === newAssetPair.selling.code &&
+                oldAssetPair.selling.issuer === newAssetPair.selling.issuer
+            ) &&
+            !(
+                oldAssetPair.buying.code === newAssetPair.selling.code &&
+                oldAssetPair.buying.issuer === newAssetPair.selling.issuer &&
+                oldAssetPair.selling.code === newAssetPair.buying.code &&
+                oldAssetPair.selling.issuer === newAssetPair.buying.issuer
+            );
+}
 
 function getSmallestAllowedInterval(intervalOptions, rangeSeconds) {
     const smallest = _find(intervalOptions, option => rangeSeconds / option.interval <= 5000) || intervalOptions[intervalOptions.length - 1];

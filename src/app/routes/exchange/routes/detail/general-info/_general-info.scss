@@ -13,6 +13,17 @@
 
     td {
       padding: 5px;
+
+      &.selling-cell {
+        position: relative;
+
+        .fa.fa-exchange {
+          position: absolute;
+          left: 15px;
+          bottom: -8px;
+          cursor: pointer;
+        }
+      }
     }
   }
 }
