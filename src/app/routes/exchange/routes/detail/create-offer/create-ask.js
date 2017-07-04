@@ -26,6 +26,10 @@ export class CreateAskCustomElement extends CreateOffer {
         return this.assetPair.buying;
     }
 
+    get type() {
+        return 'ask';
+    }
+
     async submit() {
         if (!this.validate()) {
             return;

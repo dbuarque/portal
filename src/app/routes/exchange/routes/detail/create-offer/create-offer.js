@@ -45,6 +45,14 @@ export class CreateOffer {
 
             this.autoCalculateTrustline();
         }
+
+        if (!this.price && state.exchange.orderbook) {
+            const oppositeOffers = state.exchange.orderbook[this.type === 'bid' ? 'asks' : 'bids'];
+
+            if (oppositeOffers && oppositeOffers.length > 0) {
+                this.displayPrice = this.price = oppositeOffers[0].price;
+            }
+        }
     }
 
     get needsTrustline() {
