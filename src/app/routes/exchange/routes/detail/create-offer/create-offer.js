@@ -44,6 +44,8 @@ export class CreateOffer {
             this.sellingAssetBalance.limit = parseFloat(this.sellingAssetBalance.limit, 10);
 
             this.autoCalculateTrustline();
+
+            this.price = this.displayPrice = undefined;
         }
 
         if (!this.price && state.exchange.orderbook) {
