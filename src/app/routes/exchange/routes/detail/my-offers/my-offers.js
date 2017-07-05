@@ -32,16 +32,19 @@ export class MyOffersCustomElement {
 
         this.account = state.account;
         this.nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
-        this.assetPair = state.exchange.assetPair;
 
-        if (this.allOffers !== state.offers) {
+        if (this.allOffers !== state.offers || this.assetPair !== state.exchange.assetPair) {
+            this.assetPair = state.exchange.assetPair;
             this.allOffers = state.offers;
-            this.asks = this.allOffers.filter(o => {
-                return this.compareAssets(o.buying, this.assetPair.buying) && this.compareAssets(o.selling, this.assetPair.selling);
-            });
-            this.bids = this.allOffers.filter(o => {
-                return this.compareAssets(o.selling, this.assetPair.buying) && this.compareAssets(o.buying, this.assetPair.selling);
-            });
+
+            if (this.allOffers) {
+                this.asks = this.allOffers.filter(o => {
+                    return this.compareAssets(o.buying, this.assetPair.buying) && this.compareAssets(o.selling, this.assetPair.selling);
+                });
+                this.bids = this.allOffers.filter(o => {
+                    return this.compareAssets(o.selling, this.assetPair.buying) && this.compareAssets(o.buying, this.assetPair.selling);
+                });
+            }
         }
     }
 

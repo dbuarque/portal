@@ -52,6 +52,10 @@ export class CreateBidCustomElement extends CreateOffer {
         return this.assetPair.selling;
     }
 
+    get type() {
+        return 'bid';
+    }
+
     async submit() {
         if (!this.validate()) {
             return

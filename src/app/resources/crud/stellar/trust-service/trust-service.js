@@ -59,7 +59,7 @@ export class TrustService {
             return undefined;
         }
 
-        return _find(account.balances, b => b.asset_code === code && b.asset_issuer === issuer);
+        return _find(account.balances, b => code === window.lupoex.stellar.nativeAssetCode ? b.asset_type === 'native' : b.asset_code === code && b.asset_issuer === issuer);
     }
 
     //buyingAssetOffersAmount() {

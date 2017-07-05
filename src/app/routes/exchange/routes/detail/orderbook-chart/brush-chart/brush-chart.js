@@ -83,8 +83,9 @@ export class BrushChartCustomElement {
         const exchange = newState.exchange;
         const orderbookChart = exchange.detail.orderbookChart;
 
-        if (this.orderbook !== exchange.orderbook) {
+        if (this.orderbook !== exchange.orderbook || this.assetPiar !== exchange.assetPair) {
             this.orderbook = exchange.orderbook;
+            this.assetPiar = exchange.assetPair;
 
             if (this.orderbook.bids) {
                 this.refresh();

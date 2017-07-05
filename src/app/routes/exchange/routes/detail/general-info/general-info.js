@@ -4,18 +4,22 @@
 
 import _find from 'lodash.find';
 import {inject} from 'aurelia-framework';
+import {Router} from 'aurelia-router';
 import {AppStore, StellarServer} from 'global-resources';
 import {MarketResource} from 'app-resources';
+import {ExchangeActionCreators} from '../../../exchange-action-creators';
 
-@inject(AppStore, StellarServer, MarketResource)
+@inject(Router, AppStore, StellarServer, MarketResource, ExchangeActionCreators)
 export class GeneralInfoCustomElement {
 
     loading = 0;
 
-    constructor(appStore, stellarServer, marketResource) {
+    constructor(router, appStore, stellarServer, marketResource, exchangeActionCreators) {
+        this.router = router;
         this.appStore = appStore;
         this.stellarServer = stellarServer;
         this.marketResource = marketResource;
+        this.exchangeActionCreators = exchangeActionCreators;
     }
 
     bind() {
@@ -34,6 +38,16 @@ export class GeneralInfoCustomElement {
             this.assetPair = state.exchange.assetPair;
             this.refresh();
         }
+    }
+
+    invert() {
+        const nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
+        this.router.navigateToRoute('detail', {
+            buyingCode: this.assetPair.selling.code,
+            buyingIssuer: this.assetPair.selling.code === nativeAssetCode ? 'native': this.assetPair.selling.issuer,
+            sellingCode: this.assetPair.buying.code,
+            sellingIssuer: this.assetPair.buying.code === nativeAssetCode ? 'native': this.assetPair.buying.issuer
+        });
     }
 
     async refresh() {
