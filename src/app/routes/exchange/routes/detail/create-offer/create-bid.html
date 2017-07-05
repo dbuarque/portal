@@ -7,6 +7,16 @@
             </i>
         </div>
         <div show.bind="account">
+            <table class="current-balance">
+                <tr>
+                    <td>${assetPair.selling.code} Balance:</td>
+                    <td>${buyingAssetBalance.balance.toFixed(7)}</td>
+                </tr>
+                <tr>
+                    <td>${assetPair.buying.code} Balance:</td>
+                    <td>${sellingAssetBalance.balance.toFixed(7)}</td>
+                </tr>
+            </table>
             <form submit.trigger="submit()" novalidate>
                 <div class="form-field">
                     <label>Price (${assetPair.buying.code}/${assetPair.selling.code})</label>

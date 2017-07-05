@@ -2,14 +2,16 @@
     <require from="./search-assets/search-assets"></require>
     <require from="./getting-started/getting-started"></require>
     <require from="./top-ten-markets/top-ten-markets"></require>
+    <require from="./favorite-markets/favorite-markets"></require>
     <div class="choose">
         <div class="row">
             <div class="col l6">
                 <getting-started></getting-started>
-                <search-assets load.trigger="load()"></search-assets>
+                <top-ten-markets load.trigger="load()"></top-ten-markets>
+                <favorite-markets></favorite-markets>
             </div>
             <div class="col l6">
-                <top-ten-markets load.trigger="load()"></top-ten-markets>
+                <search-assets load.trigger="load()"></search-assets>
             </div>
         </div>
     </div>

@@ -3,7 +3,7 @@
  */
 
 import {ReducerHelper} from 'global-resources';
-import {namespace} from './detail-action-types';
+import {namespace} from '../../exchange-action-types';
 import {priceChart} from './price-chart/price-chart-reducers'
 import {orderbookChart} from './orderbook-chart/orderbook-chart-reducers'
 

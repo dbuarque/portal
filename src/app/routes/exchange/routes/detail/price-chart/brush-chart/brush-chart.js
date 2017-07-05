@@ -85,6 +85,7 @@ export class BrushChartCustomElement {
             this.assetPair = exchange.assetPair;
             this.start = priceChart.start;
             this.end = priceChart.end;
+            this.data = undefined;
             this.refresh();
         }
 

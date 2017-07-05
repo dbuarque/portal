@@ -11,14 +11,15 @@
                 <table class="highlight bordered">
                     <tbody>
                         <tr>
-                            <td>
+                            <td class="selling-cell">
                                 Selling&nbsp;
                                 <i class="fa fa-lg fa-exclamation-triangle warning-text" show.bind="!sellingAssetVerified" title="This asset is not verified."></i>
                                 <i class="fa fa-lg fa-check-circle success-text" show.bind="sellingAssetVerified" title="This asset is verified."></i>
+                                <i style="font-size: 15px;" class="fa fa-exchange fa-rotate-90 primary-text" no-collapse click.trigger="invert()" title="Invert Asset Pair"></i>
                             </td>
                             <td>
                                 <div>${assetPair.selling.code}</div>
-                                <div style="word-break: break-all">${assetPair.selling.issuer}</div>
+                                <div style="word-break: break-all">(${assetPair.selling.issuer || 'NATIVE'})</div>
                             </td>
                         </tr>
                         <tr>
@@ -29,7 +30,7 @@
                             </td>
                             <td>
                                 <div>${assetPair.buying.code}</div>
-                                <div style="word-break: break-all">${assetPair.buying.issuer}</div>
+                                <div style="word-break: break-all">(${assetPair.buying.issuer || 'NATIVE'})</div>
                             </td>
                         </tr>
                         <tr show.bind="market">
