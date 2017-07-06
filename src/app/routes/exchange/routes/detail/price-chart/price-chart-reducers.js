@@ -176,7 +176,7 @@ function isNewAssetPair(oldAssetPair, newAssetPair) {
 }
 
 function getSmallestAllowedInterval(intervalOptions, rangeSeconds) {
-    const smallest = _find(intervalOptions, option => rangeSeconds / option.interval <= 5000) || intervalOptions[intervalOptions.length - 1];
+    const smallest = _find(intervalOptions, option => rangeSeconds / option.interval <= 1000) || intervalOptions[intervalOptions.length - 1];
     return smallest.interval;
 }
 

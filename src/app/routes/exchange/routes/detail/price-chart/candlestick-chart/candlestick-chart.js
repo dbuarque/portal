@@ -231,7 +231,7 @@ export class CandlestickChartCustomElement {
         yDomain[1] = yDomain[1] * (1 + 50/self.height);
         yVolumeDomain[1] = yVolumeDomain[1] * (1 + 50/self.height);
 
-        yDomain[0] = yDomain[0] > 0 ? 0 : yDomain[0];
+        yDomain[0] = yDomain[0] > 0 ? yDomain[0] * 0.9 : yDomain[0] * 1.1;
         yVolumeDomain[0] = yVolumeDomain[0] > 0 ? 0 : yVolumeDomain[0];
 
         self.x.domain(xDomain);
@@ -291,11 +291,6 @@ export class CandlestickChartCustomElement {
             .attr("y", 6)
             .attr("dy", ".71em");
 
-        self.svg.append("g")
-            .datum(data)
-            .attr("class", "candlestick")
-            .call(self.candlestick);
-
         const xAxisSvg = self.svg.append("g")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + self.height + ")")
@@ -326,15 +321,20 @@ export class CandlestickChartCustomElement {
             .attr("class", "axis-line")
             .attr("d", "M 0," + (self.height + self.margin.bottom + 5) + " H -0.5 V -0.5 H 0");
 
-        self.svg.append('g')
-            .attr("class", "crosshair")
-            .call(self.crosshair); // Display the current data
-
         self.svg.select("g.volume")
             .datum(data)
             .call(self.volume);
 
         self.svg.select("g.volume").call(self.volume.refresh);
+
+        self.svg.append("g")
+            .datum(data)
+            .attr("class", "candlestick")
+            .call(self.candlestick);
+
+        self.svg.append('g')
+            .attr("class", "crosshair")
+            .call(self.crosshair); // Display the current data
 
         this.removeZeroTickers(yAxisSvg);
         this.removeZeroTickers(volumeAxisSvg);
