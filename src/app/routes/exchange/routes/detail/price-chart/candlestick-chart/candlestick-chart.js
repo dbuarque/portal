@@ -176,8 +176,19 @@ export class CandlestickChartCustomElement {
             //        issuer: 'GBVAOIACNSB7OVUXJYC5UE2D4YK2F7A24T7EE5YOMN4CE6GCHUTOUQXM'
             //    }
             //}, this.start, this.end),
-            this.tickerResource.list(this.interval, this.assetPair, this.start, this.end),
-            this.start ? this.tickerResource.lastPrevious(this.interval, this.assetPair, this.start) : Promise.resolve([])
+            this.tickerResource.list(
+                this.interval,
+                this.assetPair,
+                //We need to ask the server for one interval less than the start because the server is rounding the times down by interval.
+                moment(this.start).subtract(this.interval, 'seconds').utc().toISOString(),
+                this.end
+            ),
+            this.start ? this.tickerResource.lastPrevious(
+                this.interval,
+                this.assetPair,
+                //We need to ask the server for one interval less than the start because the server is rounding the times down by interval.
+                moment(this.start).subtract(this.interval, 'seconds').utc().toISOString()
+            ) : Promise.resolve([])
         ]);
 
         if (refreshNum !== this.numRefreshes) {

@@ -86,7 +86,7 @@ const defaultState = {
 let _priceChart = (state, action, rootState) => {
     let interval, start, end, presetRangeIndex;
     let smallestAllowedInterval;
-    let rangeSeconds;
+    let largestAllowedInterval;
 
     switch(action.type) {
         case UPDATE_INTERVAL:
@@ -116,7 +116,7 @@ let _priceChart = (state, action, rootState) => {
             return state || defaultState;
     }
 
-    if (start && end) {
+    if (start) {
         let startTime = moment(start);
         let endTime = moment(end);
 
@@ -124,26 +124,27 @@ let _priceChart = (state, action, rootState) => {
             endTime = moment();
         }
 
-        rangeSeconds = moment.duration(endTime.diff(startTime)).asSeconds();
-        const numIntervals = rangeSeconds/interval;
+        const rangeSeconds = moment.duration(endTime.diff(startTime)).asSeconds();
         smallestAllowedInterval = getSmallestAllowedInterval(state.intervalOptions, rangeSeconds);
+        largestAllowedInterval = getLargestAllowedInterval(state.intervalOptions, rangeSeconds);
     }
     else {
         smallestAllowedInterval = 86400;
+        largestAllowedInterval = 86400;
     }
 
     if (interval < smallestAllowedInterval) {
         interval = smallestAllowedInterval;
     }
 
-    if (rangeSeconds && interval > rangeSeconds) {
-        interval = smallestAllowedInterval;
+    if (interval > largestAllowedInterval) {
+        interval = largestAllowedInterval;
     }
 
     const newIntervalOptions = state.intervalOptions.map(o => {
         return {
             ...o,
-            disabled: o.interval < smallestAllowedInterval || (rangeSeconds && o.interval > rangeSeconds)
+            disabled: o.interval < smallestAllowedInterval || o.interval > largestAllowedInterval
         };
     });
 
@@ -176,8 +177,13 @@ function isNewAssetPair(oldAssetPair, newAssetPair) {
 }
 
 function getSmallestAllowedInterval(intervalOptions, rangeSeconds) {
-    const smallest = _find(intervalOptions, option => rangeSeconds / option.interval <= 1000) || intervalOptions[intervalOptions.length - 1];
+    const smallest = _find(intervalOptions, option => rangeSeconds / option.interval <= 500) || intervalOptions[intervalOptions.length - 1];
     return smallest.interval;
+}
+
+function getLargestAllowedInterval(intervalOptions, rangeSeconds) {
+    const largest = _find(intervalOptions.slice().reverse(), option => rangeSeconds / option.interval >= 10) || intervalOptions[0];
+    return largest.interval;
 }
 
 function timesFromRangeOption(rangeOption) {

@@ -19,9 +19,9 @@ export class DataProcessor {
         }
 
         let i = 0;
-        let d = start;
-        while(moment(d).isSameOrBefore(end)) {
-            if (i < rawData.length && moment(d).isSameOrAfter(moment(rawData[i].begin_ts))) {
+        let d = this.calculateFirstDate(start, interval);
+        while(d.isSameOrBefore(end)) {
+            if (i < rawData.length && d.isSameOrAfter(moment(rawData[i].begin_ts))) {
                 data.push(this.mapDatumForGraph(rawData[i]));
                 lastPreviousDatum = this.lastPreviousDatum(rawData[i]);
                 i++;
@@ -36,6 +36,15 @@ export class DataProcessor {
         }
 
         return data;
+    }
+
+    calculateFirstDate(start, interval) {
+        let d = moment(start).startOf('day');
+        while(d.isSameOrBefore(start)) {
+            d = d.add(parseInt(interval, 10), 'seconds');
+        }
+
+        return d;
     }
 
     mapDatumForGraph(rawDatum) {
@@ -61,10 +70,5 @@ export class DataProcessor {
             buyingVolume: 0,
             sellingVolume: 0
         };
-    }
-
-    addSeconds(date, seconds) {
-        date.setSeconds(date.getSeconds() + seconds);
-        return date;
     }
 }
