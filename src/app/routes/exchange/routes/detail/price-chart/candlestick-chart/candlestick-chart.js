@@ -180,7 +180,7 @@ export class CandlestickChartCustomElement {
                 this.interval,
                 this.assetPair,
                 //We need to ask the server for one interval less than the start because the server is rounding the times down by interval.
-                moment(this.start).subtract(this.interval, 'seconds').utc().toISOString(),
+                this.start ? moment(this.start).subtract(this.interval, 'seconds').utc().toISOString() : this.start,
                 this.end
             ),
             this.start ? this.tickerResource.lastPrevious(
