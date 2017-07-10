@@ -30,13 +30,13 @@
         }
 
         path.candle.up {
-            fill: #00AA00;
-            stroke: #00AA00;
+            fill: $success;
+            stroke: $success;
         }
 
         path.candle.down {
-            fill: #FF0000;
-            stroke: #FF0000;
+            fill: $error;
+            stroke: $error;
         }
 
         path.volume {

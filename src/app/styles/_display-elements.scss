@@ -76,7 +76,17 @@
 }
 
 .modal-wrapper .modal .modal-content {
-    padding: 10px;
+    padding: 0;
+
+    .modal-header {
+        //border-bottom: 1px solid $light-gray;
+        background: $accent;
+        color: #fff;
+    }
+
+    .modal-header, .modal-body {
+        padding: 10px;
+    }
 }
 
 .row {
