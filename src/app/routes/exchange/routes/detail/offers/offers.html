@@ -12,7 +12,7 @@
                 <i if.bind="!assetPair">Select an asset pair to get started.</i>
                 <i if.bind="orderbook.bids.length === 0 && orderbook.asks.length === 0">There are currently no orders for this asset pair.</i>
                 <div if.bind="assetPair && (orderbook.bids.length > 0 || orderbook.asks.length > 0)">
-                    <offers-table selling.bind="type === 'Asks'" orders.bind="orderbook[type.toLowerCase()]" asset-pair.bind="assetPair"></offers-table>
+                    <offers-table selling.bind="type === 'Asks'" orders.bind="orderbook[type.toLowerCase()]" asset-pair.bind="assetPair" price.bind="price"></offers-table>
                 </div>
                 <spinner-overlay show.bind="loading > 0" size="2x"></spinner-overlay>
             </div>

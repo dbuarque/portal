@@ -15,9 +15,9 @@ export class CreateOffer {
         this.appStore = container.get(AppStore);
         this.trustService = container.get(TrustService);
 
-        this.priceChanged = _debounce(this._priceChanged.bind(this), 250);
-        this.buyingAmountChanged = _debounce(this._buyingAmountChanged.bind(this), 250);
-        this.sellingAmountChanged = _debounce(this._sellingAmountChanged.bind(this), 250);
+        this.onPriceChanged = _debounce(this.priceChanged.bind(this), 250);
+        this.onBuyingAmountChanged = _debounce(this.buyingAmountChanged.bind(this), 250);
+        this.onSellingAmountChanged = _debounce(this.sellingAmountChanged.bind(this), 250);
     }
 
     bind() {
@@ -45,14 +45,14 @@ export class CreateOffer {
 
             this.autoCalculateTrustline();
 
-            this.price = this.displayPrice = undefined;
+            this.price = undefined;
         }
 
         if (!this.price && state.exchange.orderbook) {
             const oppositeOffers = state.exchange.orderbook[this.type === 'bid' ? 'asks' : 'bids'];
 
             if (oppositeOffers && oppositeOffers.length > 0) {
-                this.displayPrice = this.price = oppositeOffers[0].price;
+                this.price = oppositeOffers[0].price;
             }
         }
     }
@@ -74,7 +74,7 @@ export class CreateOffer {
 
     validate() {
         let alertMessage = undefined;
-        if (!this.price) {
+        if (!this.sellingPrice) {
             alertMessage = 'Price is required';
         }
         else if (!this.buyingAmount) {
@@ -83,14 +83,11 @@ export class CreateOffer {
         else if (!this.sellingAmount) {
             alertMessage = this.assetPair.selling.code +  ' is required';
         }
-        else if (parseFloat(this.price, 10) * parseFloat(this.sellingAmount, 10) - parseFloat(this.buyingAmount, 10) > 0.00000009) {
+        else if (this.sellingPrice * parseFloat(this.sellingAmount, 10) - parseFloat(this.buyingAmount, 10) > 0.00000009) {
             alertMessage = this.assetPair.buying.code +  ' must equal '  + this.assetPair.selling.code + ' multiplied by the price';
         }
-        else if (parseFloat(this.price, 10) <= 0 || parseFloat(this.buyingAmount, 10) <= 0 || parseFloat(this.sellingAmount, 10) <= 0) {
+        else if (this.sellingPrice <= 0 || parseFloat(this.buyingAmount, 10) <= 0 || parseFloat(this.sellingAmount, 10) <= 0) {
             alertMessage = 'Negative numbers are not allowed.';
-        }
-        else if (this.price.length > 15 || this.sellingAmount.length > 15 || this.buyingAmount.length > 15) {
-            alertMessage = 'Numbers with more than 15 digits are not allowed.';
         }
         else if (this.needsTrustline && parseFloat(this.trustline, 10) < this.minimumTrustline()) {
             alertMessage = 'Trustline is too small. It must be at least ' + this.minimumTrustline() + ' to cover your balance and this new offer.';
@@ -106,50 +103,71 @@ export class CreateOffer {
 
         return !this.alertConfig
     }
+
+    async submit() {
+        if (!this.validate()) {
+            return;
+        }
+
+        try {
+            await this.offerService.createOffer({
+                type: this.type,
+                buyingCode: this.buyingAsset.code,
+                buyingIssuer: this.buyingAsset.code === window.lupoex.stellar.nativeAssetCode ? undefined : this.buyingAsset.issuer,
+                sellingCode: this.sellingAsset.code,
+                sellingIssuer: this.sellingAsset.code === window.lupoex.stellar.nativeAssetCode ? undefined : this.sellingAsset.issuer,
+                sellingAmount: this.sellingAmount,
+                price: this.sellingPrice
+            });
+
+            this.appStore.dispatch(this.exchangeActionCreators.refreshOrderbook());
+        }
+        catch(e) {}
+    }
     
-    _priceChanged() {
-        if (!this.price) {
+    priceChanged() {
+        if (!this.sellingPrice) {
             return;
         }
 
         if (this.buyingAmount) {
-            this.sellingAmount = parseFloat(this.buyingAmount, 10) / parseFloat(this.price, 10);
+            this.sellingAmount = parseFloat(this.buyingAmount, 10) / this.sellingPrice;
             this.sellingAmount = this.sellingAmount.toFixed(7);
         }
         else if (this.sellingAmount) {
-            this.buyingAmount = parseFloat(this.price, 10) * parseFloat(this.sellingAmount, 10);
+            this.buyingAmount = this.sellingPrice * parseFloat(this.sellingAmount, 10);
             this.buyingAmount = this.buyingAmount.toFixed(7);
         }
 
         this.autoCalculateTrustline();
     }
     
-    _buyingAmountChanged() {
+    buyingAmountChanged() {
         if (!this.buyingAmount) {
             return;
         }
 
-        if (this.price) {
-            this.sellingAmount = parseFloat(this.buyingAmount, 10) / parseFloat(this.price, 10);
+        if (this.sellingPrice) {
+            this.sellingAmount = parseFloat(this.buyingAmount, 10) / this.sellingPrice;
             this.sellingAmount = this.sellingAmount.toFixed(7);
         }
         else if (this.sellingAmount) {
-            this.price = parseFloat(this.buyingAmount, 10) / parseFloat(this.sellingAmount, 10);
+            this.sellingPrice = parseFloat(this.buyingAmount, 10) / parseFloat(this.sellingAmount, 10);
         }
         this.autoCalculateTrustline();
     }
 
-    _sellingAmountChanged() {
+    sellingAmountChanged() {
         if (!this.sellingAmount) {
             return;
         }
         
-        if (this.price) {
-            this.buyingAmount = parseFloat(this.price, 10) * parseFloat(this.sellingAmount, 10);
+        if (this.sellingPrice) {
+            this.buyingAmount = this.sellingPrice * parseFloat(this.sellingAmount, 10);
             this.buyingAmount = this.buyingAmount.toFixed(7);
         }
         else if (this.buyingAmount) {
-            this.price = parseFloat(this.buyingAmount, 10) / parseFloat(this.sellingAmount, 10);
+            this.sellingPrice = parseFloat(this.buyingAmount, 10) / parseFloat(this.sellingAmount, 10);
         }
 
         this.autoCalculateTrustline();

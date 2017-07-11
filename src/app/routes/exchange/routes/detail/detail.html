@@ -19,10 +19,10 @@
 
                 <div class="row">
                     <div class="col l6">
-                        <offers type="Bids"></offers>
+                        <offers type="Bids" price.bind="askingPrice"></offers>
                     </div>
                     <div class="col l6">
-                        <offers type="Asks"></offers>
+                        <offers type="Asks" price.bind="biddingPrice"></offers>
                     </div>
                 </div>
             </div>
@@ -48,8 +48,8 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <create-ask show.bind="offerType === 'ask'"></create-ask>
-                            <create-bid show.bind="offerType === 'bid'"></create-bid>
+                            <create-ask show.bind="offerType === 'ask'" price.bind="askingPrice"></create-ask>
+                            <create-bid show.bind="offerType === 'bid'" price.bind="biddingPrice"></create-bid>
                         </div>
                     </div>
                 </div>

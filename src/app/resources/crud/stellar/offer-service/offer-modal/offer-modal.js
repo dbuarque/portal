@@ -25,7 +25,7 @@ export class OfferModal {
         this.nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
         this.modalVM = params.modalVM;
         //type should be 'Bid' or 'Ask'
-        this.type = params.passedInfo.type || 'Bid';
+        this.type = params.passedInfo.type || 'bid';
         this.sellingCode = params.passedInfo.sellingCode;
         this.sellingIssuer = params.passedInfo.sellingIssuer;
         this.sellingAmount = params.passedInfo.sellingAmount;
