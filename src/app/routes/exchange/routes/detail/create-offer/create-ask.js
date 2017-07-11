@@ -3,13 +3,15 @@
  */
 
 import _find from 'lodash.find';
-import {bindable, inject, Container} from 'aurelia-framework';
+import {bindable, inject, Container, computedFrom, bindingMode} from 'aurelia-framework';
 import {OfferService} from 'app-resources';
 import {CreateOffer} from './create-offer';
 import {ExchangeActionCreators} from '../../../exchange-action-creators';
 
 @inject(Container, OfferService, ExchangeActionCreators)
 export class CreateAskCustomElement extends CreateOffer {
+
+    @bindable({defaultBindingMode: bindingMode.twoWay}) price;
     
     constructor(container, offerService, exchangeActionCreators) {
         super(container);
@@ -30,24 +32,11 @@ export class CreateAskCustomElement extends CreateOffer {
         return 'ask';
     }
 
-    async submit() {
-        if (!this.validate()) {
-            return;
-        }
+    get sellingPrice() {
+        return parseFloat(this.price, 10);
+    }
 
-        try {
-            await this.offerService.createOffer({
-                type: 'Ask',
-                buyingCode: this.assetPair.buying.code,
-                buyingIssuer: this.assetPair.buying.code === window.lupoex.stellar.nativeAssetCode ? undefined : this.assetPair.buying.issuer,
-                sellingCode: this.assetPair.selling.code,
-                sellingIssuer: this.assetPair.selling.code === window.lupoex.stellar.nativeAssetCode ? undefined : this.assetPair.selling.issuer,
-                sellingAmount: this.sellingAmount,
-                price: parseFloat(this.buyingAmount, 10) / parseFloat(this.sellingAmount, 10)
-            });
-
-            this.appStore.dispatch(this.exchangeActionCreators.refreshOrderbook());
-        }
-        catch(e) {}
+    set sellingPrice(price) {
+        this.price = price;
     }
 }

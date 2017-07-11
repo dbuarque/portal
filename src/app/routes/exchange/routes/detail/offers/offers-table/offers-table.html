@@ -21,7 +21,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr repeat.for="order of orders">
+            <tr repeat.for="order of orders" click.delegate="price = order.price">
                 <td>
                     ${order.price | toPrecision:7 & oneTime}
                 </td>

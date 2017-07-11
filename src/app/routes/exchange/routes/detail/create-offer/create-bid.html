@@ -20,19 +20,19 @@
             <form submit.trigger="submit()" novalidate>
                 <div class="form-field">
                     <label>Price (${assetPair.buying.code}/${assetPair.selling.code})</label>
-                    <input type="number" class="form-control" value.bind="displayPrice" keyup.trigger="priceChanged()">
+                    <input type="number" class="form-control" value.bind="price">
                 </div>
                 <div class="form-field">
                     <label>${assetPair.selling.code}</label>
-                    <input stellar-compliant-float type="number" class="form-control" value.bind="buyingAmount" keyup.trigger="buyingAmountChanged()">
+                    <input stellar-compliant-float type="number" class="form-control" value.bind="buyingAmount" keyup.trigger="onBuyingAmountChanged()">
                 </div>
                 <div class="form-field">
                     <label>${assetPair.buying.code}</label>
-                    <input stellar-compliant-float type="number" class="form-control" value.bind="sellingAmount" keyup.trigger="sellingAmountChanged()">
+                    <input stellar-compliant-float type="number" class="form-control" value.bind="sellingAmount" keyup.trigger="onSellingAmountChanged()">
                 </div>
                 <div if.bind="needsTrustline">
                     <div class="form-field">
-                        <span class.bind="minTrustLine <= buyingAssetBalance.limit ? 'success-text' : 'error-text'">${minTrustLine}/${buyingAssetBalance.limit.toFixed(7)} Limit</span>
+                        <span class.bind="minTrustLine <= buyingAssetBalance.limit ? 'success-text' : 'error-text'">${minTrustLine}/${buyingAssetBalance.limit} Limit</span>
                     </div>
                     <a href="javascript:void(0)" class="primary-text" click.trigger="modifyLimit()">Learn More/Modify Limit.</a>
                 </div>

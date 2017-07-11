@@ -5,7 +5,7 @@
             <br>
             <br>
 
-            <div show.bind="type === 'Bid'">
+            <div show.bind="type === 'bid'">
                 <strong>
                     <span class="success-text">Buy</span>
                     ${buyingAmount} ${buyingCode}(${buyingIssuer || 'Native'})
@@ -14,7 +14,7 @@
                 <strong>${sellingAmount} ${sellingCode}(${sellingIssuer || 'Native'})</strong>
             </div>
 
-            <div show.bind="type === 'Ask'">
+            <div show.bind="type === 'ask'">
                 <strong>
                     <span class="error-text">Sell</span>
                     ${sellingAmount} ${sellingCode}(${sellingIssuer || 'Native'})

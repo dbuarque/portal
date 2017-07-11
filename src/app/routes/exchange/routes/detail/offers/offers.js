@@ -2,13 +2,14 @@
  * Created by istrauss on 3/27/2017.
  */
 
-import {inject, bindable} from 'aurelia-framework';
+import {inject, bindable, bindingMode} from 'aurelia-framework';
 import {AppStore} from 'global-resources';
 import {ExchangeActionCreators} from '../../../exchange-action-creators';
 
 @inject(AppStore, ExchangeActionCreators)
 export class OffersCustomElement {
 
+    @bindable({defaultBindingMode: bindingMode.twoWay}) price;
     @bindable type;
 
     loading = 0;
