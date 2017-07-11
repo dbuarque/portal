@@ -17,7 +17,7 @@ export class CandlestickChartCustomElement {
     loading = 0;
     numRefreshes = 0;
     noData = false;
-    numTicks = 6;
+    numTicks = 12;
 
     formatMillisecond = d3.timeFormat(".%L");
     formatSecond = d3.timeFormat("%M:%S");
@@ -251,25 +251,14 @@ export class CandlestickChartCustomElement {
 
         const domainHours = moment.duration(moment(data[data.length - 1].date).diff(moment(data[0].date))).asHours();
 
-        if (domainHours < 24 * 4) {
+        if (domainHours < 24 * 2) {
             self.xAxis
-                .ticks(
-                    d3.timeHour,
-                    domainHours / this.numTicks
-                )
-                .tickFormat(d3.timeFormat('%H:%M'))
+                .tickFormat(d3.timeFormat('%H:%M'));
         }
         else {
             self.xAxis.ticks()
                 .tickFormat(this.x.tickFormat());
         }
-        //self.xAxis
-        //    .ticks(
-        //        d3.timeHour,
-        //        this.numTicks
-        //    );
-        //self.xAxis
-        //    .ticks(this._tickInterval(data), this.numTicks);
 
 
         //Calculate how far away the y axis labels need to be.
