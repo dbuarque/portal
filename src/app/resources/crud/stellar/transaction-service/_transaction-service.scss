@@ -4,6 +4,10 @@
     .modal-content {
         padding: 5px;
 
+        .modal-header {
+            display: none;
+        }
+
         .modal-body {
 
             .form-container {

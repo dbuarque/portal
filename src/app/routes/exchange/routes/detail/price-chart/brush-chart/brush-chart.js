@@ -167,8 +167,8 @@ export class BrushChartCustomElement {
             return;
         }
 
-        const start = moment(this.x.invert(currentSelection[0])).toISOString();
-        const end = moment(this.x.invert(currentSelection[1])).toISOString();
+        const start = moment(this.x.invert(currentSelection[0])).utc().toISOString();
+        const end = moment(this.x.invert(currentSelection[1])).utc().toISOString();
 
         this.appStore.dispatch(this.priceChartActionCreators.updateRange({
             start: start || undefined,
@@ -190,10 +190,9 @@ export class BrushChartCustomElement {
     calculateBrushSelection() {
         const brushExtent = this.brush.extent()();
         const start = this.start || moment(this.x.invert(brushExtent[0][0])).toISOString();
-        const end = this.end || moment(this.x.invert(brushExtent[1][0])).toISOString();
 
-        let selectStart = this.x(new Date(start));
-        let selectEnd = this.x(new Date(end));
+        let selectStart = this.x(moment(start).toDate());
+        let selectEnd = this.x(moment(this.end).toDate());
 
         if (selectStart > brushExtent[1][0]) {
             selectStart = brushExtent[1][0];

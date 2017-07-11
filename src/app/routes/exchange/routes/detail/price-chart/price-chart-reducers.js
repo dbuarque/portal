@@ -76,86 +76,81 @@ const rangeOptions = [
 
 const defaultState = {
     interval: 60 * 60,
-    start: timesFromRangeOption(rangeOptions[1]).start,
-    end: moment.utc().toISOString(),
+    start: startFromRangeOption(rangeOptions[1]),
+    end: undefined,
     intervalOptions,
     rangeOptions,
     presetRangeIndex: 1
 };
 
 let _priceChart = (state, action, rootState) => {
-    let interval, start, end, presetRangeIndex;
+    let newState = state ? {...state} : {...defaultState};
     let smallestAllowedInterval;
     let largestAllowedInterval;
 
     switch(action.type) {
         case UPDATE_INTERVAL:
-            interval = action.payload.interval;
-            start = state.start;
-            end = state.end;
-            presetRangeIndex = state.presetRangeIndex;
+            newState = {
+                ...newState,
+                interval: action.payload.interval
+            };
             break;
         case UPDATE_RANGE:
-            start = action.payload.start;
-            end = action.payload.end;
-            interval = state.interval;
-            presetRangeIndex = undefined;
+            newState = {
+                ...newState,
+                start: action.payload.start,
+                end: action.payload.end,
+                presetRangeIndex: undefined
+            };
             break;
         case PRESET_RANGE:
-            presetRangeIndex = action.payload.rangeIndex;
-
-            const times = timesFromRangeOption(state.rangeOptions[presetRangeIndex]);
-
-            start = times.start;
-            end = times.end;
-            interval = state.interval;
+            newState = {
+                ...newState,
+                presetRangeIndex: action.payload.rangeIndex,
+                start: startFromRangeOption(state.rangeOptions[action.payload.rangeIndex]),
+                end: undefined
+            };
             break;
         case UPDATE_ASSET_PAIR:
-            return isNewAssetPair(rootState.exchange.assetPair, action.payload) ? defaultState : state;
+            newState = isNewAssetPair(rootState.exchange.assetPair, action.payload) ? {...defaultState} : {...state};
+            break;
         default:
-            return state || defaultState;
+            break;
     }
 
-    if (start) {
-        let startTime = moment(start);
-        let endTime = moment(end);
+    if (newState.start) {
+        let startTime = moment(newState.start);
+        let endTime = moment(newState.end);
 
         if (startTime.isAfter(endTime)) {
             endTime = moment();
         }
 
         const rangeSeconds = moment.duration(endTime.diff(startTime)).asSeconds();
-        smallestAllowedInterval = getSmallestAllowedInterval(state.intervalOptions, rangeSeconds);
-        largestAllowedInterval = getLargestAllowedInterval(state.intervalOptions, rangeSeconds);
+        smallestAllowedInterval = getSmallestAllowedInterval(intervalOptions, rangeSeconds);
+        largestAllowedInterval = getLargestAllowedInterval(intervalOptions, rangeSeconds);
     }
     else {
         smallestAllowedInterval = 86400;
         largestAllowedInterval = 86400;
     }
 
-    if (interval < smallestAllowedInterval) {
-        interval = smallestAllowedInterval;
+    if (newState.interval < smallestAllowedInterval) {
+        newState.interval = smallestAllowedInterval;
     }
 
-    if (interval > largestAllowedInterval) {
-        interval = largestAllowedInterval;
+    if (newState.interval > largestAllowedInterval) {
+        newState.interval = largestAllowedInterval;
     }
 
-    const newIntervalOptions = state.intervalOptions.map(o => {
+    newState.intervalOptions = intervalOptions.map(o => {
         return {
             ...o,
             disabled: o.interval < smallestAllowedInterval || o.interval > largestAllowedInterval
         };
     });
 
-    return {
-        ...state,
-        interval,
-        start,
-        end,
-        intervalOptions: newIntervalOptions,
-        presetRangeIndex
-    };
+    return newState;
 };
 
 export const priceChart = ReducerHelper.restrictReducerToNamespace(_priceChart, namespace);
@@ -186,9 +181,6 @@ function getLargestAllowedInterval(intervalOptions, rangeSeconds) {
     return largest.interval;
 }
 
-function timesFromRangeOption(rangeOption) {
-    return {
-        start: rangeOption.unit === 'all' ? undefined : moment.utc().subtract(rangeOption.amount, rangeOption.unit).toISOString(),
-        end: rangeOption.unit === 'all' ? undefined : moment.utc().toISOString()
-    };
+function startFromRangeOption(rangeOption) {
+    return rangeOption.unit === 'all' ? undefined : moment.utc().subtract(rangeOption.amount, rangeOption.unit).toISOString();
 }

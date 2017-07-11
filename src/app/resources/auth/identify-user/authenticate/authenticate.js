@@ -21,7 +21,8 @@ export class AuthenticateCustomElement {
         message: 'In order to perform any operation (i.e. send a payment, create an offer etc.) on the stellar network, ' +
         'you need to sign with your account\'s secret key. Please provide your secret key below. ' +
         'Have no fear, your secret key will not leave the browser (we just store it in memory for the signing). As soon as you close this tab, ' +
-        'refresh this tab or logout, your secret key will be forgotten from the browser\'s memory.'
+        'refresh this tab or logout, your secret key will be forgotten from the browser\'s memory.',
+        dismissible: false
     };
 
     constructor(validationManager) {
