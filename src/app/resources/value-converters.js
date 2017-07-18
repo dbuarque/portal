@@ -59,6 +59,12 @@ export class SumOrdersAmountValueConverter {
 
 export class ToPrecisionValueConverter {
     toView(num, precision) {
-        return parseFloat(num, 10).toPrecision(precision);
+        let result = parseFloat(num, 10).toPrecision(precision);
+        const resultSplit = result.split('.');
+        if (resultSplit.length > 1 && resultSplit[1].length > 7) {
+            result = parseFloat(result).toFixed(7);
+        }
+
+        return result;
     }
 }

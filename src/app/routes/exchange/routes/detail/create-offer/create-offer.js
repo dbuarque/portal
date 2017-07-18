@@ -44,16 +44,6 @@ export class CreateOffer {
             this.sellingAssetBalance.limit = parseFloat(this.sellingAssetBalance.limit, 10);
 
             this.autoCalculateTrustline();
-
-            this.price = undefined;
-        }
-
-        if (!this.price && state.exchange.orderbook) {
-            const oppositeOffers = state.exchange.orderbook[this.type === 'bid' ? 'asks' : 'bids'];
-
-            if (oppositeOffers && oppositeOffers.length > 0) {
-                this.price = oppositeOffers[0].price;
-            }
         }
     }
 

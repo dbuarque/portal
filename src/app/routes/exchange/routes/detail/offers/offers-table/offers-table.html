@@ -21,9 +21,9 @@
             </tr>
             </thead>
             <tbody>
-            <tr repeat.for="order of orders" click.delegate="price = order.price">
+            <tr repeat.for="order of orders" click.delegate="price = priceFromFraction(order)">
                 <td>
-                    ${order.price | toPrecision:7 & oneTime}
+                    ${priceFromFraction(order) | toPrecision:7 & oneTime}
                 </td>
                 <td>
                     ${order.selling_amount | toPrecision:7 & oneTime}
