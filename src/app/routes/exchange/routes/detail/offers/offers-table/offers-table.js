@@ -9,4 +9,19 @@ export class OffersTableCustomElement {
     @bindable selling;
     @bindable orders = [];
     @bindable({defaultBindingMode: bindingMode.twoWay}) price;
+
+    bind() {
+        this.ordersChanged();
+    }
+
+    priceFromFraction(order) {
+        return order.price_r.n / order.price_r.d;
+    }
+
+    ordersChanged() {
+        if (!this.priceIsSet) {
+            this.price = this.priceFromFraction(this.orders[0]);
+            this.priceIsSet = true;
+        }
+    }
 }

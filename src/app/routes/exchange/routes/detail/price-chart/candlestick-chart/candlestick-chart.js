@@ -180,14 +180,14 @@ export class CandlestickChartCustomElement {
                 this.interval,
                 this.assetPair,
                 //We need to ask the server for one interval less than the start because the server is rounding the times down by interval.
-                this.start ? moment(this.start).subtract(this.interval, 'seconds').utc().toISOString() : this.start,
+                this.start ? moment(this.start).utc().toISOString() : this.start,
                 this.end
             ),
             this.start ? this.tickerResource.lastPrevious(
                 this.interval,
                 this.assetPair,
                 //We need to ask the server for one interval less than the start because the server is rounding the times down by interval.
-                moment(this.start).subtract(this.interval, 'seconds').utc().toISOString()
+                moment(this.start).utc().toISOString()
             ) : Promise.resolve([])
         ]);
 
@@ -251,7 +251,7 @@ export class CandlestickChartCustomElement {
 
         const domainHours = moment.duration(moment(data[data.length - 1].date).diff(moment(data[0].date))).asHours();
 
-        if (domainHours < 24 * 2) {
+        if (domainHours < 24) {
             self.xAxis
                 .tickFormat(d3.timeFormat('%H:%M'));
         }
