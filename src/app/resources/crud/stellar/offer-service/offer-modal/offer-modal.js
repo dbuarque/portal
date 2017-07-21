@@ -62,7 +62,7 @@ export class OfferModal {
                         this.stellarServer.sdk.Asset.native() :
                         new this.stellarServer.sdk.Asset(this.buyingCode, this.buyingIssuer),
                     amount: sellingAmount,
-                    price: this.price.slice(0, 15)
+                    price: this.price.toString().slice(0, 15)
                 })
             ];
 
