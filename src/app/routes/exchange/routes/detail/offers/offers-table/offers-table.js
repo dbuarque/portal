@@ -15,7 +15,7 @@ export class OffersTableCustomElement {
     }
 
     priceFromFraction(order) {
-        return order.price_r.n / order.price_r.d;
+        return order ? order.price_r.n / order.price_r.d : '';
     }
 
     ordersChanged() {
