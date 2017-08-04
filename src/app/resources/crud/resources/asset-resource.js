@@ -25,4 +25,17 @@ export default class AssetResource extends BaseResource {
     codeIssuers(code) {
         return this.get('/CodeIssuers', {code});
     }
+
+    /**
+     * Finds a single market
+     * @param code
+     * @param issuer
+     * @returns {*}
+     */
+    findOne(code, issuer) {
+        return this.get('/FindOne', {
+            code,
+            issuer
+        });
+    }
 }
