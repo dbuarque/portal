@@ -77,19 +77,19 @@ export class TradingviewPriceChartDatafeedAdapter {
     }
 
     async subscribeBars(symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) {
-
+        
     }
 
     calculateHistoryDepth(resolution, resolutionBack, intervalBack) {
-        //Returns undefined because eno override for now.
+        //Returns undefined because no override for now.
     }
 
     getMarks(symbolInfo, startDate, endDate, onDataCallback, resolution) {
-        throw new Error('TradingviewPriceChartDatafeedAdapter.getServerTime() is not implemented.');
+        throw new Error('TradingviewPriceChartDatafeedAdapter.getMarks() is not implemented.');
     }
 
     getTimescaleMarks(symbolInfo, startDate, endDate, onDataCallback, resolution) {
-        throw new Error('TradingviewPriceChartDatafeedAdapter.getServerTime() is not implemented.');
+        throw new Error('TradingviewPriceChartDatafeedAdapter.getTimescaleMarks() is not implemented.');
     }
 
     getServerTime(callback) {
