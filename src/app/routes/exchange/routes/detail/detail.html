@@ -1,5 +1,5 @@
 <template>
-    <require from="./price-chart/price-chart"></require>
+    <require from="./tradingview-price-chart/tradingview-price-chart"></require>
     <require from="./orderbook-chart/orderbook-chart"></require>
     <require from="./offers/offers"></require>
     <require from="./create-offer/create-bid"></require>
@@ -13,7 +13,7 @@
                     <general-info></general-info>
                 </div>
 
-                <price-chart if.one-time="!isMobile"></price-chart>
+                <tradingview-price-chart if.one-time="!isMobile"></tradingview-price-chart>
 
                 <orderbook-chart if.one-time="!isMobile"></orderbook-chart>
 

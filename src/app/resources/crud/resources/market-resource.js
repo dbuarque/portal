@@ -41,4 +41,21 @@ export default class MarketResource extends BaseResource {
             boughtAssetIssuer
         });
     }
+
+    /**
+     * Gets a list of ticker data.
+     * @param resolution
+     * @param assetPair
+     * @param [from]
+     * @param [to]
+     * @returns {*}
+     */
+    bars(resolution, assetPair, from, to) {
+        const action = '/' + assetPair.selling.code + '/' + (assetPair.selling.issuer || 'native') + '/' + assetPair.buying.code + '/' + (assetPair.buying.issuer || 'native') + '/Bars';
+        return this.get(action, {
+            resolution,
+            from,
+            to
+        });
+    }
 }

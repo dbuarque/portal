@@ -30,7 +30,7 @@ export class TradingviewPriceChartSymbolInfo {
     }
 
     get name() {
-        const splitTicker = ticker.split('_');
+        const splitTicker = this.ticker.split('_');
         return splitTicker[0] + '/' + splitTicker[1];
     }
 

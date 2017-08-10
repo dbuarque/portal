@@ -13,15 +13,15 @@ export class TradingviewPriceChartDatafeedAdapter {
     configurationData = {
         exchanges: [],
         symbol_types: [],
-        resolutions: [
-            1,
-            5,
-            15,
-            60,
-            60 * 4,
-            60 * 24,
-            60 * 24 * 7
-        ],
+        //resolutions: [
+        //    1,
+        //    5,
+        //    15,
+        //    60,
+        //    60 * 4,
+        //    60 * 24,
+        //    60 * 24 * 7
+        //],
         supports_marks: false,
         supports_timescale_marks: false,
         supports_time: false
@@ -31,8 +31,10 @@ export class TradingviewPriceChartDatafeedAdapter {
         this.marketResource = marketResource;
     }
 
-    onReady(callback) {
-        callback(this.configurationData);
+    async onReady(callback) {
+        setTimeout(() => {
+            callback(this.configurationData);
+        }, 0);
     }
 
     searchSymbolsByName(userInput, exchange, symbolType, onResultReadyCallback) {
@@ -46,30 +48,31 @@ export class TradingviewPriceChartDatafeedAdapter {
         //    this.assetResource.findOne(splitTicker[0], splitTicker[1]),
         //    this.assetResource.findOne(splitTicker[2], splitTicker[3])
         //]);
-
-        onSymbolResolvedCallback(
-            new TradingviewPriceChartSymbolInfo(ticker, 'TODO')
-        );
+        setTimeout(() => {
+            onSymbolResolvedCallback(
+                new TradingviewPriceChartSymbolInfo(ticker, 'TODO')
+            );
+        }, 0);
     }
 
     async getBars(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest) {
         try {
-            const bars = await this.tickerResource.list(
+            const bars = await this.marketResource.bars(
                 this.resolutionToSeconds(resolution),
                 symbolInfo.assetPair,
-                from,
-                firstDataRequest ? undefined : to
+                moment.unix(from).toISOString(),
+                firstDataRequest ? undefined : moment.unix(to).toISOString()
             );
 
-            onHistoryCallback(
-                bars.map(bar => {
-                    return {
-                        ...bar,
-                        time: moment(bar.begin_ts).unix(),
-                        volume: bar.sold_vol
-                    };
-                })
-            );
+            const interpretedBars = bars.map(bar => {
+                return {
+                    ...bar,
+                    time: moment(bar.begin_ts).unix(),
+                    volume: bar.sold_vol
+                };
+            });
+
+            onHistoryCallback(interpretedBars);
         }
         catch(e) {
             onErrorCallback(e.message);
@@ -93,22 +96,25 @@ export class TradingviewPriceChartDatafeedAdapter {
     }
 
     getServerTime(callback) {
-        throw new Error('TradingviewPriceChartDatafeedAdapter.getServerTime() is not implemented.');
+        //throw new Error('TradingviewPriceChartDatafeedAdapter.getServerTime() is not implemented.');
     }
 
     resolutionToSeconds(resolution) {
         let multiplicationFactor = 1;
 
-        if (resolution.indexOf('D') > -1) {
+        if (resolution.indexOf('M') > -1) {
+            multiplicationFactor = 60;
+        }
+        else if (resolution.indexOf('D') > -1) {
             multiplicationFactor = 60 * 60 * 24;
         }
         else if (resolution.indexOf('W') > -1) {
             multiplicationFactor = 60 * 60 * 24 * 7;
         }
 
-        let result = resolution.replace(/[DW]/, '');
+        let result = resolution.replace(/[DWM]/, '');
 
-        result = parseInt(result, 10);
+        result = parseInt(result || 1, 10);
 
         if (isNaN(result)) {
             throw new Error('Could not convert resolution: ' + resolution + ' to seconds.');

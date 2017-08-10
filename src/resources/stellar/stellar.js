@@ -3,3 +3,4 @@
  */
 
 export * from './stellar-server';
+export * from './stellar-stream-provider';

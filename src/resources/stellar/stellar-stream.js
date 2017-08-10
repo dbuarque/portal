@@ -4,27 +4,18 @@
 
 import _findIndex from 'lodash.findindex';
 import _throttle from 'lodash.throttle';
-import {inject} from 'aurelia-framework';
-import {StellarServer, AppStore, AlertToaster} from 'global-resources';
 
-@inject(StellarServer, AppStore, AlertToaster)
-export class EffectStream {
+export class StellarStream {
 
     subscribers = [];
 
-    constructor(stellarServer, appStore, alertToaster) {
+    constructor(stellarServer, alertToaster, type, options = {}) {
         this.stellarServer = stellarServer;
-        this.appStore = appStore;
         this.alertToaster = alertToaster;
+        this.type = type;
 
-        this.alertUser = _throttle(this._alertUser.bind(this), 60 * 1000);
-    }
+        this.alertUser = _throttle(this._alertUser.bind(this), (options.alertUserFrequency || 60) * 1000);
 
-    updateFromStore() {
-        const newState = this.appStore.getState();
-        const exchange = newState.exchange;
-
-        this.assetPair = exchange.assetPair;
         this.updateStreamState();
     }
 
@@ -43,7 +34,7 @@ export class EffectStream {
     }
 
     updateStreamState() {
-        if (this.subscribers.length === 0 || !this.assetPair) {
+        if (this.subscribers.length === 0) {
             if (this.unsubscribeFromStream) {
                 this.unsubscribeFromStream();
             }
@@ -52,7 +43,7 @@ export class EffectStream {
         }
 
         if (!this.unsubscribeFromStream) {
-            this.unsubscribeFromStream = this.server.effects().stream(
+            this.unsubscribeFromStream = this.server[this.type]().stream(
                 {
                     onmessage: events => {
                         const filteredEvents = events.filter(e => {
