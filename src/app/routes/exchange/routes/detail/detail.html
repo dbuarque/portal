@@ -9,13 +9,11 @@
     <div>
         <div class="row">
             <div class="col l8">
-                <div class="hide-on-large-only">
-                    <general-info></general-info>
-                </div>
+                <!--<div class="hide-on-large-only">-->
+                    <!--<general-info></general-info>-->
+                <!--</div>-->
 
-                <tradingview-price-chart if.one-time="!isMobile"></tradingview-price-chart>
-
-                <orderbook-chart if.one-time="!isMobile"></orderbook-chart>
+                <tradingview-price-chart></tradingview-price-chart>
 
                 <div class="row">
                     <div class="col l6">
@@ -27,9 +25,11 @@
                 </div>
             </div>
             <div class="col l4">
-                <div class="hide-on-med-and-down">
-                    <general-info></general-info>
-                </div>
+                <!--<div class="hide-on-med-and-down">-->
+                    <!--<general-info></general-info>-->
+                <!--</div>-->
+
+                <orderbook-chart if.one-time="!isMobile"></orderbook-chart>
 
                 <my-offers if.bind="account"></my-offers>
 

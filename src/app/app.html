@@ -11,12 +11,12 @@
     </div>
 
     <div class="page-wrapper" style="min-height: 400px;">
-        <div show.bind="router.currentInstruction.fragment !== '/exchange/choose'">
-            <span class="home-link">
-                <a href="javascript:void(0)" click.trigger="router.navigateToRoute('exchange')">Home</a> >
-            </span>
-            <aurelia-crumbs></aurelia-crumbs>
-        </div>
+        <!--<div style="margin-bottom: 5px;" show.bind="router.currentInstruction.fragment !== '/exchange/choose'">-->
+            <!--<span class="home-link">-->
+                <!--<a href="javascript:void(0)" click.trigger="router.navigateToRoute('exchange')">Home</a> >-->
+            <!--</span>-->
+            <!--<aurelia-crumbs></aurelia-crumbs>-->
+        <!--</div>-->
         <router-view></router-view>
         <spinner-overlay show.bind="router.isNavigating" transparent.bind="true"></spinner-overlay>
     </div>

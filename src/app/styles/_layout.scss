@@ -1,5 +1,9 @@
 .row {
-    margin: 0 -0.75rem;
+    margin: 0 -0.5rem;
+
+    .col {
+        padding: 0 0.5rem;
+    }
 }
 
 .form-field {

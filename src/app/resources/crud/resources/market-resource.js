@@ -58,4 +58,19 @@ export default class MarketResource extends BaseResource {
             to
         });
     }
+
+    /**
+     * Gets a list of ticker data.
+     * @param resolution
+     * @param assetPair
+     * @param [priorto]
+     * @returns {*}
+     */
+    lastPriorBar(resolution, assetPair, priorto) {
+        const action = '/' + assetPair.selling.code + '/' + (assetPair.selling.issuer || 'native') + '/' + assetPair.buying.code + '/' + (assetPair.buying.issuer || 'native') + '/LastPriorBar';
+        return this.get(action, {
+            resolution,
+            priorto
+        });
+    }
 }

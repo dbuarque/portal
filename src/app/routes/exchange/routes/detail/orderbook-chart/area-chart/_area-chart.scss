@@ -1,7 +1,6 @@
 .area-chart {
     overflow-x: hidden;
     margin-top: 5px;
-    border: 1px solid $gray;
 
     .current-data {
         padding: 0;
@@ -27,17 +26,17 @@
 
         .bid-area {
             stroke: $success;
-            stroke-width: 2;
+            stroke-width: 1;
             fill: $success;
-            fill-opacity: 0.5;
+            fill-opacity: 0.4;
             clip-path: url(#clip);
         }
 
         .ask-area {
             stroke: $error;
-            stroke-width: 2;
+            stroke-width: 1;
             fill: $error;
-            fill-opacity: 0.5;
+            fill-opacity: 0.4;
         }
 
 
@@ -51,7 +50,7 @@
             }
 
             path.axis-line {
-                stroke: $gray;
+                stroke: $light-gray;
             }
 
             g.tick {

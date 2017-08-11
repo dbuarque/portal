@@ -127,6 +127,7 @@
     "lodash.uniqueid": "^4.0.1",
     "materialize-css": "https://registry.npmjs.org/materialize-css/-/materialize-css-0.98.0.tgz",
     "moment": "^2.14.1",
+    "moment-timezone": "^0.5.13",
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
     "select2": "^4.0.3",

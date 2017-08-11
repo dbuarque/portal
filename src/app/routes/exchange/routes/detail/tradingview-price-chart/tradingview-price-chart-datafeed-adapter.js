@@ -2,7 +2,7 @@
  * Created by istrauss on 8/4/2017.
  */
 
-import moment from 'moment';
+import moment from 'moment-timezone';
 import {inject} from 'aurelia-framework';
 import {TradingviewPriceChartSymbolInfo} from './tradingview-price-chart-symbol-info';
 import {MarketResource} from 'app-resources';
@@ -13,18 +13,19 @@ export class TradingviewPriceChartDatafeedAdapter {
     configurationData = {
         exchanges: [],
         symbol_types: [],
-        //resolutions: [
-        //    1,
-        //    5,
-        //    15,
-        //    60,
-        //    60 * 4,
-        //    60 * 24,
-        //    60 * 24 * 7
-        //],
+        supportedResolutions: [
+            "1",
+            "5",
+            "15",
+            "60",
+            "D",
+            "2D",
+            "4D",
+            "W"
+        ],
         supports_marks: false,
         supports_timescale_marks: false,
-        supports_time: false
+        supports_time: true
     };
 
     constructor(marketResource) {
@@ -67,12 +68,29 @@ export class TradingviewPriceChartDatafeedAdapter {
             const interpretedBars = bars.map(bar => {
                 return {
                     ...bar,
-                    time: moment(bar.begin_ts).unix(),
+                    time: moment(bar.begin_ts).valueOf(),
                     volume: bar.sold_vol
                 };
             });
 
-            onHistoryCallback(interpretedBars);
+            const meta = {};
+
+            if (interpretedBars.length === 0) {
+                const lastPreviousBar = await this.marketResource.lastPriorBar(
+                    this.resolutionToSeconds(resolution),
+                    symbolInfo.assetPair,
+                    moment.unix(from).toISOString()
+                );
+
+                if (lastPreviousBar) {
+                    meta.nextTime = moment(lastPreviousBar.begin_ts).valueOf();
+                }
+                else {
+                    meta.noData = true;
+                }
+            }
+
+            onHistoryCallback(interpretedBars, meta);
         }
         catch(e) {
             onErrorCallback(e.message);
@@ -96,23 +114,20 @@ export class TradingviewPriceChartDatafeedAdapter {
     }
 
     getServerTime(callback) {
-        //throw new Error('TradingviewPriceChartDatafeedAdapter.getServerTime() is not implemented.');
+        return moment.unix();
     }
 
     resolutionToSeconds(resolution) {
-        let multiplicationFactor = 1;
+        let multiplicationFactor = 60;
 
-        if (resolution.indexOf('M') > -1) {
-            multiplicationFactor = 60;
-        }
-        else if (resolution.indexOf('D') > -1) {
+        if (resolution.indexOf('D') > -1) {
             multiplicationFactor = 60 * 60 * 24;
         }
         else if (resolution.indexOf('W') > -1) {
             multiplicationFactor = 60 * 60 * 24 * 7;
         }
 
-        let result = resolution.replace(/[DWM]/, '');
+        let result = resolution.replace(/[DW]/, '');
 
         result = parseInt(result || 1, 10);
 

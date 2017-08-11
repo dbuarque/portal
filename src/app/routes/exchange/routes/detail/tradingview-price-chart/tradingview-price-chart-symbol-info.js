@@ -2,15 +2,17 @@
  * Created by istrauss on 8/4/2017.
  */
 
+import moment from 'moment-timezone';
+
 export class TradingviewPriceChartSymbolInfo {
 
     type = 'bitcoin';
     session = '24x7';
     exchange = 'Stellar';
     listed_exchange = 'Stellar';
-    timezone = 'UTC';
-    minmov = 0;
-    pricescale = 1;
+    timezone = moment.tz.guess();
+    minmov = 1;
+    pricescale = 1000000;
     fractional = false;
     minmove2 = 0;
     has_intraday = true;
@@ -24,14 +26,21 @@ export class TradingviewPriceChartSymbolInfo {
     data_status = 'streaming';
     expired = false;
 
-    constructor(ticker, description) {
+    constructor(ticker) {
         this.ticker = ticker;
-        this.description = description;
     }
 
     get name() {
         const splitTicker = this.ticker.split('_');
-        return splitTicker[0] + '/' + splitTicker[1];
+        return splitTicker[0] + '/' + splitTicker[2];
+    }
+
+    get full_name() {
+        return this.name;
+    }
+
+    get description() {
+        return this.full_name;
     }
 
     get assetPair() {

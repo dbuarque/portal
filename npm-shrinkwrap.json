@@ -1,6 +1,6 @@
 {
   "name": "lupoex-client",
-  "version": "1.7.0",
+  "version": "2.1.3",
   "lockfileVersion": 1,
   "requires": true,
   "dependencies": {
@@ -2369,7 +2369,6 @@
     },
     "babel7-jest": {
       "version": "git://github.com/niieani/babel7-jest.git#c92f639bd11c1a3ee399897cdfa71f4d542cd9a8",
-      "integrity": "sha1-sxzrIKNM5v93Ui7Y5+W95gOscGI=",
       "dev": true
     },
     "babylon": {
@@ -6900,6 +6899,14 @@
     "moment": {
       "version": "https://registry.npmjs.org/moment/-/moment-2.18.1.tgz",
       "integrity": "sha1-w2GT3Tzhwu7SrbfIAtu8d6gbHA8="
+    },
+    "moment-timezone": {
+      "version": "0.5.13",
+      "resolved": "https://registry.npmjs.org/moment-timezone/-/moment-timezone-0.5.13.tgz",
+      "integrity": "sha1-mc5cfYJyYusPH3AgRBd/YHRde5A=",
+      "requires": {
+        "moment": "https://registry.npmjs.org/moment/-/moment-2.18.1.tgz"
+      }
     },
     "ms": {
       "version": "https://registry.npmjs.org/ms/-/ms-0.7.3.tgz",

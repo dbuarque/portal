@@ -9,12 +9,12 @@
                 </div>
                 <i style="font-size: 15px;" class="fa fa-refresh right" no-collapse click.trigger="refresh()"></i>
             </div>
-            <div class="card-body">
+            <div class="card-body no-padding">
                 <i if.bind="!assetPair">Select an asset pair to get started.</i>
                 <div if.bind="assetPair">
                     <div class="chart-scroll">
                         <area-chart></area-chart>
-                        <brush-chart show.bind="orderbook.bids.length > 0 || orderbook.bids.length > 0"></brush-chart>
+                        <!--<brush-chart show.bind="orderbook.bids.length > 0 || orderbook.bids.length > 0"></brush-chart>-->
                     </div>
                 </div>
             </div>
