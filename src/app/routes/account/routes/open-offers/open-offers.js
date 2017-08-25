@@ -3,20 +3,20 @@
  */
 
 import {inject} from 'aurelia-framework';
-import {AppStore} from 'global-resources';
+ import {Store} from 'au-redux';
 import {OfferService} from 'app-resources';
 import {AppActionCreators} from '../../../../app-action-creators';
 import Config from './open-offers-config';
 
-@inject(Config, AppStore, OfferService, AppActionCreators)
+@inject(Config, Store, OfferService, AppActionCreators)
 export class OpenOffers {
 
     loading = 0;
     offers = [];
 
-    constructor(config, appStore, offerService, appActionCreators) {
+    constructor(config, store, offerService, appActionCreators) {
         this.config = config;
-        this.appStore = appStore;
+        this.store = store;
         this.offerService = offerService;
         this.appActionCreators = appActionCreators;
 
@@ -24,7 +24,7 @@ export class OpenOffers {
     }
 
     bind() {
-        this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
+        this.unsubscribeFromStore = this.store.subscribe(this.updateFromStore.bind(this));
         this.updateFromStore();
     }
 
@@ -33,7 +33,7 @@ export class OpenOffers {
     }
 
     updateFromStore() {
-        const state = this.appStore.getState();
+        const state = this.store.getState();
 
         const oldAccountId = this.account ? this.account.id : undefined;
 
@@ -48,7 +48,7 @@ export class OpenOffers {
     async refresh() {
         this.loading++;
 
-        await this.appStore.dispatch(this.appActionCreators.updateOffers());
+        await this.store.dispatch(this.appActionCreators.updateOffers());
 
         this.loading--;
     }

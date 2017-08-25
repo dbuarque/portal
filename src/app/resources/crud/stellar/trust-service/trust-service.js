@@ -5,17 +5,18 @@
 import _find from 'lodash.find';
 import {PLATFORM} from 'aurelia-pal';
 import {inject} from 'aurelia-framework';
-import {StellarServer, ModalService, AppStore, AlertToaster} from 'global-resources';
+import {Store} from 'au-redux';
+import {StellarServer, ModalService, AlertToaster} from 'global-resources';
 import {TransactionService} from '../transaction-service/transaction-service';
 import {AppActionCreators} from '../../../../app-action-creators';
 
-@inject(StellarServer, ModalService, AppStore, AlertToaster, TransactionService, AppActionCreators)
+@inject(StellarServer, ModalService, Store, AlertToaster, TransactionService, AppActionCreators)
 export class TrustService {
 
-    constructor(stellarServer, modalService, appStore, alertToaster, transactionService, appActionCreators) {
+    constructor(stellarServer, modalService, store, alertToaster, transactionService, appActionCreators) {
         this.stellarServer = stellarServer;
         this.modalService = modalService;
-        this.appStore = appStore;
+        this.store = store;
         this.alertToaster = alertToaster;
         this.transactionService = transactionService;
         this.appActionCreators = appActionCreators;
@@ -28,7 +29,7 @@ export class TrustService {
      * @returns {*}
      */
     async modifyLimit(code, issuer) {
-        if (!this.appStore.getState().account) {
+        if (!this.store.getState().account) {
             const errorMessage = 'You must be logged in to send a payment. Please log in and try again.';
             this.alertToaster.error(errorMessage);
             throw new Error(errorMessage);
@@ -44,7 +45,7 @@ export class TrustService {
 
         await this.transactionService.submit(operations);
 
-        await this.appStore.dispatch(this.appActionCreators.updateAccount());
+        await this.store.dispatch(this.appActionCreators.updateAccount());
     }
 
     //minimumTrustLimit(code, issuer) {
@@ -53,7 +54,7 @@ export class TrustService {
     //}
 
     balance(code, issuer) {
-        const account = this.appStore.getState().account;
+        const account = this.store.getState().account;
 
         if (!account || !account.balances) {
             return undefined;
@@ -63,7 +64,7 @@ export class TrustService {
     }
 
     //buyingAssetOffersAmount() {
-    //    const offers = this.appStore.getState().offers;
+    //    const offers = this.store.getState().offers;
     //
     //    if (!offers) {
     //        return 0;

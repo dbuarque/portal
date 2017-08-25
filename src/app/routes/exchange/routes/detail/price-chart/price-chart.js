@@ -3,19 +3,19 @@
  */
 
 import {inject} from 'aurelia-framework';
-import {AppStore} from 'global-resources';
+ import {Store} from 'au-redux';
 import {PriceChartActionCreators} from './price-chart-action-creators';
 
-@inject(AppStore, PriceChartActionCreators)
+@inject(Store, PriceChartActionCreators)
 export class PriceChart {
 
-    constructor(appStore, priceChartActionCreators) {
-        this.appStore = appStore;
+    constructor(store, priceChartActionCreators) {
+        this.store = store;
         this.priceChartActionCreators = priceChartActionCreators;
     }
 
     bind() {
-        this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
+        this.unsubscribeFromStore = this.store.subscribe(this.updateFromStore.bind(this));
         this.updateFromStore();
     }
 
@@ -28,7 +28,7 @@ export class PriceChart {
     }
 
     updateFromStore() {
-        const newState = this.appStore.getState();
+        const newState = this.store.getState();
         const exchange = newState.exchange;
         const priceChart = exchange.detail.priceChart;
 
@@ -42,10 +42,10 @@ export class PriceChart {
     }
 
     setInterval(interval) {
-        this.appStore.dispatch(this.priceChartActionCreators.updateInterval(interval));
+        this.store.dispatch(this.priceChartActionCreators.updateInterval(interval));
     }
 
     setRange(rangeIndex) {
-        this.appStore.dispatch(this.priceChartActionCreators.presetRange(rangeIndex));
+        this.store.dispatch(this.priceChartActionCreators.presetRange(rangeIndex));
     }
 }

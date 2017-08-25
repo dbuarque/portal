@@ -3,7 +3,7 @@ import {PLATFORM} from 'aurelia-pal';
 import 'font-awesome/css/font-awesome.css';
 import './third-party-css';
 import '!style-loader!css-loader!sass-loader!./main.scss';
-import {AppStore} from 'global-resources';
+import {Store} from 'au-redux';
 import {app as rootReducer} from './app/app-reducers';
 import {applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
@@ -65,7 +65,7 @@ export async function configure(aurelia) {
         // other store enhancers if any
     );
 
-    AppStore.createAndRegister(rootReducer, enhancer);
+    Store.createAndRegister(rootReducer, enhancer);
 
     await aurelia.setRoot(PLATFORM.moduleName('app/app'));
 }

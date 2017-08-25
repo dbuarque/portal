@@ -2,21 +2,22 @@
  * Created by Ishai on 3/27/2016.
  */
 import {bindable, inject, computedFrom} from 'aurelia-framework';
-import {AppStore, AlertToaster} from 'global-resources';
+import {Store} from 'au-redux';
+import {AlertToaster} from 'global-resources';
 import {AppActionCreators} from '../app-action-creators';
 
-@inject(AppStore, AppActionCreators, AlertToaster)
+@inject(Store, AppActionCreators, AlertToaster)
 export class Navbar {
     @bindable router;
 
-    constructor(appStore, appActionCreators, toaster) {
-        this.appStore = appStore;
+    constructor(store, appActionCreators, toaster) {
+        this.store = store;
         this.appActionCreators = appActionCreators;
         this.toaster = toaster;
     }
 
     bind() {
-        this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
+        this.unsubscribeFromStore = this.store.subscribe(this.updateFromStore.bind(this));
         this.updateFromStore();
     }
 
@@ -25,7 +26,7 @@ export class Navbar {
     }
 
     updateFromStore() {
-        const newState = this.appStore.getState();
+        const newState = this.store.getState();
         this.account = newState.account;
     }
 
@@ -39,7 +40,7 @@ export class Navbar {
 
     logout() {
         this.toaster.primary('Logged out successfully.');
-        this.appStore.dispatch(this.appActionCreators.setAccount());
+        this.store.dispatch(this.appActionCreators.setAccount());
     }
 
     goToAccount() {

@@ -3,19 +3,19 @@
  */
 
 import {inject, bindable} from 'aurelia-framework';
-import {AppStore} from 'global-resources';
+ import {Store} from 'au-redux';
 import {AppActionCreators} from '../../../../app-action-creators';
 
-@inject(AppStore, AppActionCreators)
+@inject(Store, AppActionCreators)
 export class Profile {
 
-    constructor(appStore, appActionCreators) {
-        this.appStore = appStore;
+    constructor(store, appActionCreators) {
+        this.store = store;
         this.appActionCreators = appActionCreators;
     }
 
     activate() {
-        this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
+        this.unsubscribeFromStore = this.store.subscribe(this.updateFromStore.bind(this));
         this.updateFromStore();
     }
 
@@ -24,12 +24,12 @@ export class Profile {
     }
 
     updateFromStore() {
-        const state = this.appStore.getState();
+        const state = this.store.getState();
         this.account = state.account;
     }
 
     refresh() {
-        this.appStore.dispatch(this.appActionCreators.updateAccount());
+        this.store.dispatch(this.appActionCreators.updateAccount());
     }
 
     get refreshing() {

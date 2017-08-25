@@ -4,19 +4,19 @@
 
 import {inject, TaskQueue} from 'aurelia-framework';
 import techan from 'techan';
-import {AppStore} from 'global-resources';
+ import {Store} from 'au-redux';
 import {FormatNumberValueConverter} from 'app-resources';
 import {OrderbookChartActionCreators} from '../orderbook-chart-action-creators';
 
-@inject(Element, TaskQueue, AppStore, FormatNumberValueConverter, OrderbookChartActionCreators)
+@inject(Element, TaskQueue, Store, FormatNumberValueConverter, OrderbookChartActionCreators)
 export class BrushChartCustomElement {
 
     loading = 0;
 
-    constructor(element, taskQueue, appStore, formatNumber, orderbookChartActionCreators) {
+    constructor(element, taskQueue, store, formatNumber, orderbookChartActionCreators) {
         this.element = element;
         this. taskQueue = taskQueue;
-        this.appStore = appStore;
+        this.store = store;
         this.formatNumber = formatNumber;
         this.orderbookChartActionCreators = orderbookChartActionCreators;
     }
@@ -62,7 +62,7 @@ export class BrushChartCustomElement {
 
             this.$chart.append($('<div class="axis-line"></div>'));
 
-            this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
+            this.unsubscribeFromStore = this.store.subscribe(this.updateFromStore.bind(this));
 
             this.isAttached = true;
 
@@ -79,7 +79,7 @@ export class BrushChartCustomElement {
             return;
         }
 
-        const newState = this.appStore.getState();
+        const newState = this.store.getState();
         const exchange = newState.exchange;
         const orderbookChart = exchange.detail.orderbookChart;
 
@@ -172,7 +172,7 @@ export class BrushChartCustomElement {
         const start = this.x.invert(currentSelection[0]);
         const end = this.x.invert(currentSelection[1]);
 
-        this.appStore.dispatch(this.orderbookChartActionCreators.updateRange({
+        this.store.dispatch(this.orderbookChartActionCreators.updateRange({
             start: start || undefined,
             end: end || undefined
         }));

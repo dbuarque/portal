@@ -3,16 +3,16 @@ import {HttpClient} from 'aurelia-fetch-client';
 import {Router} from 'aurelia-router';
 import {AppConfig} from './app-config';
 import {inject} from 'aurelia-framework';
-import {AppStore} from 'global-resources';
+ import {Store} from 'au-redux';
 import {JsonClient, AuthenticateStep} from 'app-resources';
 import {AppActionCreators} from './app-action-creators';
 
-@inject(AppConfig, HttpClient, Router, AppStore, JsonClient, AppActionCreators)
+@inject(AppConfig, HttpClient, Router, Store, JsonClient, AppActionCreators)
 export class App {
 
-    constructor(appConfig, httpClient, router, appStore, jsonClient, appActionCreators) {
+    constructor(appConfig, httpClient, router, store, jsonClient, appActionCreators) {
         this.config = appConfig;
-        this.appStore = appStore;
+        this.store = store;
         this.jsonClient = jsonClient;
         this.router = router;
         this.appActionCreators = appActionCreators;
@@ -34,7 +34,7 @@ export class App {
     }
 
     activate() {
-        this.appStore.dispatch(this.appActionCreators.updateLupoexAccount());
+        this.store.dispatch(this.appActionCreators.updateLupoexAccount());
         this.jsonClient.configure();
     }
 

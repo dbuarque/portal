@@ -3,10 +3,10 @@
  */
 
 import {inject, bindable, bindingMode} from 'aurelia-framework';
-import {AppStore} from 'global-resources';
+import {Store} from 'au-redux';
 import {ExchangeActionCreators} from '../../../exchange-action-creators';
 
-@inject(AppStore, ExchangeActionCreators)
+@inject(Store, ExchangeActionCreators)
 export class OffersCustomElement {
 
     @bindable({defaultBindingMode: bindingMode.twoWay}) price;
@@ -14,13 +14,13 @@ export class OffersCustomElement {
 
     loading = 0;
 
-    constructor(appStore, exchangeActionCreators) {
-        this.appStore = appStore;
+    constructor(store, exchangeActionCreators) {
+        this.store = store;
         this.exchangeActionCreators = exchangeActionCreators;
     }
 
     bind() {
-        this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
+        this.unsubscribeFromStore = this.store.subscribe(this.updateFromStore.bind(this));
         this.updateFromStore();
     }
 
@@ -29,7 +29,7 @@ export class OffersCustomElement {
     }
 
     updateFromStore() {
-        const newState = this.appStore.getState();
+        const newState = this.store.getState();
         const exchange = newState.exchange;
 
         this.assetPair = exchange.assetPair;
@@ -39,7 +39,7 @@ export class OffersCustomElement {
     async refresh() {
         this.loading++;
 
-        await this.appStore.dispatch(this.exchangeActionCreators.refreshOrderbook());
+        await this.store.dispatch(this.exchangeActionCreators.refreshOrderbook());
 
         this.loading--;
     }

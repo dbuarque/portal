@@ -7,11 +7,12 @@ import _throttle from 'lodash.throttle';
 import _find from 'lodash.find';
 import {inject} from 'aurelia-framework';
 import techan from 'techan';
-import {StellarServer, AppStore, ObservationInstruction} from 'global-resources';
+import {Store} from 'au-redux';
+import {StellarServer, ObservationInstruction} from 'global-resources';
 import {TickerResource, FormatNumberValueConverter} from 'app-resources';
 import {DataProcessor} from '../data-processor';
 
-@inject(Element, StellarServer, AppStore, TickerResource, FormatNumberValueConverter, DataProcessor)
+@inject(Element, StellarServer, Store, TickerResource, FormatNumberValueConverter, DataProcessor)
 export class CandlestickChartCustomElement {
 
     loading = 0;
@@ -28,10 +29,10 @@ export class CandlestickChartCustomElement {
     formatMonth = d3.timeFormat("%B");
     formatYear = d3.timeFormat("%Y");
 
-    constructor(element, stellarServer, appStore, tickerResource, formatNumber, dataProcessor) {
+    constructor(element, stellarServer, store, tickerResource, formatNumber, dataProcessor) {
         this.element = element;
         this.stellarServer = stellarServer;
-        this.appStore = appStore;
+        this.store = store;
         this.tickerResource = tickerResource;
         this.formatNumber = formatNumber;
         this.dataProcessor = dataProcessor;
@@ -41,7 +42,7 @@ export class CandlestickChartCustomElement {
     }
 
     attached() {
-        this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
+        this.unsubscribeFromStore = this.store.subscribe(this.updateFromStore.bind(this));
 
         this.$element = $(this.element);
         this.$chart = this.$element.find('.chart');
@@ -139,7 +140,7 @@ export class CandlestickChartCustomElement {
             return;
         }
 
-        const newState = this.appStore.getState();
+        const newState = this.store.getState();
         const exchange = newState.exchange;
         const priceChart = exchange.detail.priceChart;
 

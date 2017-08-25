@@ -4,14 +4,14 @@
 
 import _throttle from 'lodash.throttle';
 import {inject} from 'aurelia-framework';
-import {AppStore} from 'global-resources';
+ import {Store} from 'au-redux';
 import {AppActionCreators} from '../../../app-action-creators';
 
-@inject(AppStore, AppActionCreators)
+@inject(Store, AppActionCreators)
 export class AccountSyncer {
 
-    constructor(appStore, appActionCreators) {
-        this.appStore = appStore;
+    constructor(store, appActionCreators) {
+        this.store = store;
         this.appActionCreators = appActionCreators;
         this.syncToLocalStorage = _throttle(this._syncToLocalStorage.bind(this), 1000);
     }
@@ -22,7 +22,7 @@ export class AccountSyncer {
         }
 
         window.addEventListener('storage', this.syncToStore.bind(this));
-        this.appStore.subscribe(this.syncToLocalStorage.bind(this));
+        this.store.subscribe(this.syncToLocalStorage.bind(this));
         await this.syncToStore();
 
         this.initialized = true;
@@ -30,17 +30,17 @@ export class AccountSyncer {
 
     async syncToStore() {
         const localAccountId = localStorage.getItem('account-id');
-        const storedAccount = this.appStore.getState().account;
+        const storedAccount = this.store.getState().account;
         const storedAccountId = storedAccount ? storedAccount.id : undefined;
 
         if (storedAccountId !== localAccountId) {
-            await this.appStore.dispatch(this.appActionCreators.setAccount(localAccountId));
+            await this.store.dispatch(this.appActionCreators.setAccount(localAccountId));
         }
     }
 
     _syncToLocalStorage() {
         const localAccountId = localStorage.getItem('account-id');
-        const storedAccount = this.appStore.getState().account;
+        const storedAccount = this.store.getState().account;
         const storedAccountId = storedAccount ? storedAccount.id : undefined;
 
         if (storedAccountId !== localAccountId) {

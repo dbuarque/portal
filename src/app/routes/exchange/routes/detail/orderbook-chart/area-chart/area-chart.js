@@ -6,19 +6,19 @@ import _throttle from 'lodash.throttle';
 import _find from 'lodash.find';
 import {inject} from 'aurelia-framework';
 import techan from 'techan';
-import {AppStore, ObservationInstruction} from 'global-resources';
+import {Store} from 'au-redux';
 import {FormatNumberValueConverter} from 'app-resources';
 
-@inject(Element, AppStore, FormatNumberValueConverter)
+@inject(Element, Store, FormatNumberValueConverter)
 export class AreaChartCustomElement {
 
     loading = 0;
     numRefreshes = 0;
     noData = false;
 
-    constructor(element, appStore, formatNumber) {
+    constructor(element, store, formatNumber) {
         this.element = element;
-        this.appStore = appStore;
+        this.store = store;
         this.formatNumber = formatNumber;
 
         this.move = _throttle(this._move.bind(this), 100);
@@ -26,7 +26,7 @@ export class AreaChartCustomElement {
     }
 
     attached() {
-        this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
+        this.unsubscribeFromStore = this.store.subscribe(this.updateFromStore.bind(this));
 
         this.$element = $(this.element);
         this.$chart = this.$element.find('.chart');
@@ -102,7 +102,7 @@ export class AreaChartCustomElement {
             return;
         }
 
-        const newState = this.appStore.getState();
+        const newState = this.store.getState();
         const exchange = newState.exchange;
         const orderbookChart = exchange.detail.orderbookChart;
 

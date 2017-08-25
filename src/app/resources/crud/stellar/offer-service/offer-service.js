@@ -3,15 +3,15 @@
  */
 
 import {inject} from 'aurelia-framework';
-import {AppStore} from 'global-resources';
+ import {Store} from 'au-redux';
 import {BaseOfferService} from './base-offer-service';
 import {AppActionCreators} from '../../../../app-action-creators';
 
-@inject(AppStore, BaseOfferService, AppActionCreators)
+@inject(Store, BaseOfferService, AppActionCreators)
 export class OfferService {
 
-    constructor(appStore, baseOfferService, appActionCreators) {
-        this.appStore = appStore;
+    constructor(store, baseOfferService, appActionCreators) {
+        this.store = store;
         this.baseOfferService = baseOfferService;
         this.appActionCreators = appActionCreators;
     }
@@ -20,8 +20,8 @@ export class OfferService {
         await this.baseOfferService.createOffer(passedInfo);
 
         await Promise.all([
-            this.appStore.dispatch(this.appActionCreators.updateAccount()),
-            this.appStore.dispatch(this.appActionCreators.updateOffers())
+            this.store.dispatch(this.appActionCreators.updateAccount()),
+            this.store.dispatch(this.appActionCreators.updateOffers())
         ]);
     }
 
@@ -29,8 +29,8 @@ export class OfferService {
         await this.baseOfferService.cancelOffer(offer);
 
         await Promise.all([
-            this.appStore.dispatch(this.appActionCreators.updateAccount()),
-            this.appStore.dispatch(this.appActionCreators.updateOffers())
+            this.store.dispatch(this.appActionCreators.updateAccount()),
+            this.store.dispatch(this.appActionCreators.updateOffers())
         ]);
     }
 

@@ -4,17 +4,17 @@
 
 import {inject} from 'aurelia-framework';
 import {Router, Redirect} from 'aurelia-router';
-import {AppStore} from 'global-resources';
+ import {Store} from 'au-redux';
 import {AppActionCreators} from '../../app-action-creators';
 
-@inject(Router, AppStore, AppActionCreators)
+@inject(Router, Store, AppActionCreators)
 export class Login {
 
     action = 'login';
 
-    constructor(router, appStore, appActionCreators) {
+    constructor(router, store, appActionCreators) {
         this.router = router;
-        this.appStore = appStore;
+        this.store = store;
         this.appActionCreators = appActionCreators;
     }
 
@@ -23,7 +23,7 @@ export class Login {
     }
 
     canActivate() {
-        const account = this.appStore.getState().account;
+        const account = this.store.getState().account;
 
         if (account && account.id) {
             return new Redirect('exchange');

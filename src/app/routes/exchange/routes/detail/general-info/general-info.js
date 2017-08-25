@@ -5,25 +5,26 @@
 import _find from 'lodash.find';
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
-import {AppStore, StellarServer} from 'global-resources';
+import {Store} from 'au-redux';
+import {StellarServer} from 'global-resources';
 import {MarketResource} from 'app-resources';
 import {ExchangeActionCreators} from '../../../exchange-action-creators';
 
-@inject(Router, AppStore, StellarServer, MarketResource, ExchangeActionCreators)
+@inject(Router, Store, StellarServer, MarketResource, ExchangeActionCreators)
 export class GeneralInfoCustomElement {
 
     loading = 0;
 
-    constructor(router, appStore, stellarServer, marketResource, exchangeActionCreators) {
+    constructor(router, store, stellarServer, marketResource, exchangeActionCreators) {
         this.router = router;
-        this.appStore = appStore;
+        this.store = store;
         this.stellarServer = stellarServer;
         this.marketResource = marketResource;
         this.exchangeActionCreators = exchangeActionCreators;
     }
 
     bind() {
-        this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
+        this.unsubscribeFromStore = this.store.subscribe(this.updateFromStore.bind(this));
         this.updateFromStore();
     }
 
@@ -32,7 +33,7 @@ export class GeneralInfoCustomElement {
     }
 
     updateFromStore() {
-        const state = this.appStore.getState();
+        const state = this.store.getState();
 
         if (this.assetPair !== state.exchange.assetPair) {
             this.assetPair = state.exchange.assetPair;

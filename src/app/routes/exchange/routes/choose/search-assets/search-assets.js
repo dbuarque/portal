@@ -4,22 +4,23 @@
 
 import _cloneDeep from 'lodash.clonedeep';
 import {inject} from 'aurelia-framework';
-import {AppStore, EventHelper} from 'global-resources';
+import {Store} from 'au-redux';
+import {EventHelper} from 'global-resources';
 import {ExchangeActionCreators} from '../../../exchange-action-creators';
 
-@inject(Element, AppStore, ExchangeActionCreators)
+@inject(Element, Store, ExchangeActionCreators)
 export class SearchAssetsCustomElement {
 
     size = 16;
 
-    constructor(element, appStore, exchangeActionCreators) {
+    constructor(element, store, exchangeActionCreators) {
         this.element = element;
-        this.appStore = appStore;
+        this.store = store;
         this.exchangeActionCreators = exchangeActionCreators;
     }
 
     bind() {
-        this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
+        this.unsubscribeFromStore = this.store.subscribe(this.updateFromStore.bind(this));
         this.updateFromStore();
     }
 
@@ -28,7 +29,7 @@ export class SearchAssetsCustomElement {
     }
 
     updateFromStore() {
-        const exchange = this.appStore.getState().exchange;
+        const exchange = this.store.getState().exchange;
 
         if (this.storedAssetPair !== exchange.assetPair) {
             this.storedAssetPair = exchange.assetPair;
@@ -54,7 +55,7 @@ export class SearchAssetsCustomElement {
             this.alertConfig = undefined;
         }
 
-        this.appStore.dispatch(this.exchangeActionCreators.updateAssetPair(this.assetPair));
+        this.store.dispatch(this.exchangeActionCreators.updateAssetPair(this.assetPair));
 
         EventHelper.emitEvent(this.element, 'load');
     }

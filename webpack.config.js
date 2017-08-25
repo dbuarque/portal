@@ -37,7 +37,8 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
             'app-resources': path.resolve( __dirname, 'src', 'app', 'resources', 'index'),
             '$': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.js'),
             'jquery': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.js'),
-            'moment-timezone': path.resolve(__dirname, 'node_modules/moment-timezone/builds/moment-timezone-with-data-2012-2022')
+            'moment-timezone': path.resolve(__dirname, 'node_modules/moment-timezone/builds/moment-timezone-with-data-2012-2022'),
+            'au-redux': path.resolve(__dirname, 'src', 'resources', 'au-redux', 'src')
         }
     },
     entry: {

@@ -4,18 +4,19 @@
 
 import _find from 'lodash.find';
 import {inject} from 'aurelia-framework'
-import {StellarServer, AppStore, AlertToaster} from 'global-resources';
+import {Store} from 'au-redux';
+import {StellarServer, AlertToaster} from 'global-resources';
 import {LupoexResource} from 'app-resources';
 import {AppActionCreators} from '../../../../../app-action-creators';
 
-@inject(StellarServer, AppStore, AlertToaster, LupoexResource, AppActionCreators)
+@inject(StellarServer, Store, AlertToaster, LupoexResource, AppActionCreators)
 export class OfferModal {
 
     loading = 0;
 
-    constructor(stellarServer, appStore, alertToaster, lupoexResource, appActionCreators) {
+    constructor(stellarServer, store, alertToaster, lupoexResource, appActionCreators) {
         this.stellarServer = stellarServer;
-        this.appStore = appStore;
+        this.store = store;
         this.alertToaster = alertToaster;
         this.lupoexResource = lupoexResource;
         this.appActionCreators = appActionCreators;
@@ -67,7 +68,7 @@ export class OfferModal {
             ];
 
             if (fee) {
-                const lupoexAccount = this.appStore.getState().lupoexAccount;
+                const lupoexAccount = this.store.getState().lupoexAccount;
                 const lupoexHasTrust = sellingAsset.isNative() || _find(lupoexAccount.balances, b => b.asset_code === sellingAsset.getCode() && b.asset_issuer === sellingAsset.getIssuer());
 
                 if (!lupoexHasTrust) {

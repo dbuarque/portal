@@ -5,14 +5,14 @@
 import _debounce from 'lodash.debounce';
 import {bindable} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
-import {AppStore} from 'global-resources';
+ import {Store} from 'au-redux';
 import {TrustService} from 'app-resources';
 
 export class CreateOffer {
     
     constructor(container) {
         this.router = container.get(Router);
-        this.appStore = container.get(AppStore);
+        this.store = container.get(Store);
         this.trustService = container.get(TrustService);
 
         this.onPriceChanged = _debounce(this.priceChanged.bind(this), 250);
@@ -21,7 +21,7 @@ export class CreateOffer {
     }
 
     bind() {
-        this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
+        this.unsubscribeFromStore = this.store.subscribe(this.updateFromStore.bind(this));
         this.updateFromStore();
     }
 
@@ -30,7 +30,7 @@ export class CreateOffer {
     }
 
     updateFromStore() {
-        const state = this.appStore.getState();
+        const state = this.store.getState();
 
         if (this.assetPair !== state.exchange.assetPair || this.account !== state.account) {
             this.account = state.account;
@@ -110,7 +110,7 @@ export class CreateOffer {
                 price: this.sellingPrice
             });
 
-            this.appStore.dispatch(this.exchangeActionCreators.refreshOrderbook());
+            this.store.dispatch(this.exchangeActionCreators.refreshOrderbook());
         }
         catch(e) {}
     }

@@ -3,19 +3,19 @@
  */
 
 import {inject} from 'aurelia-framework';
-import {AppStore} from 'global-resources';
+ import {Store} from 'au-redux';
 import {ExchangeActionCreators} from '../../../exchange-action-creators';
 
-@inject(AppStore, ExchangeActionCreators)
+@inject(Store, ExchangeActionCreators)
 export class OrderbookChart {
 
-    constructor(appStore, exchangeActionCreators) {
-        this.appStore = appStore;
+    constructor(store, exchangeActionCreators) {
+        this.store = store;
         this.exchangeActionCreators = exchangeActionCreators;
     }
 
     bind() {
-        this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
+        this.unsubscribeFromStore = this.store.subscribe(this.updateFromStore.bind(this));
         this.updateFromStore();
     }
 
@@ -24,11 +24,11 @@ export class OrderbookChart {
     }
 
     async refresh() {
-        this.appStore.dispatch(this.exchangeActionCreators.refreshOrderbook());
+        this.store.dispatch(this.exchangeActionCreators.refreshOrderbook());
     }
 
     updateFromStore() {
-        const newState = this.appStore.getState();
+        const newState = this.store.getState();
         const exchange = newState.exchange;
 
         this.assetPair = exchange.assetPair;

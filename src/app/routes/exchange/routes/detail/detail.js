@@ -5,18 +5,18 @@
 import './globals';
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
-import {AppStore} from 'global-resources';
+ import {Store} from 'au-redux';
 import {ExchangeActionCreators} from '../../exchange-action-creators';
 import {AppActionCreators} from '../../../../app-action-creators';
     
-@inject(Router, AppStore, ExchangeActionCreators, AppActionCreators)
+@inject(Router, Store, ExchangeActionCreators, AppActionCreators)
 export class Detail {
 
     offerType = 'bid';
     
-    constructor(router, appStore, exchangeActionCreators, appActionCreators) {
+    constructor(router, store, exchangeActionCreators, appActionCreators) {
         this.router = router;
-        this.appStore = appStore;
+        this.store = store;
         this.exchangeActionCreators = exchangeActionCreators;
         this.appActionCreators = appActionCreators;
 
@@ -36,9 +36,9 @@ export class Detail {
             }
         };
         
-        this.appStore.dispatch(this.exchangeActionCreators.updateAssetPair(this.assetPair));
+        this.store.dispatch(this.exchangeActionCreators.updateAssetPair(this.assetPair));
 
-        this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
+        this.unsubscribeFromStore = this.store.subscribe(this.updateFromStore.bind(this));
         this.updateFromStore();
     }
 
@@ -47,7 +47,7 @@ export class Detail {
     }
 
     updateFromStore() {
-        const state = this.appStore.getState();
+        const state = this.store.getState();
 
         this.account = state.account;
         this.assetPair = state.exchange.assetPair;
@@ -58,7 +58,7 @@ export class Detail {
             return;
         }
 
-        this.appStore.dispatch(this.appActionCreators.updateOffers());
+        this.store.dispatch(this.appActionCreators.updateOffers());
     }
 
     attached() {

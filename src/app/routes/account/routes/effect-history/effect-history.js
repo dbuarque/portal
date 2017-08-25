@@ -3,25 +3,26 @@
  */
 
 import {inject} from 'aurelia-framework';
-import {StellarServer, AppStore} from 'global-resources';
+import {Store} from 'au-redux';
+import {StellarServer} from 'global-resources';
 import {EffectResource} from 'app-resources';
 import Config from './effect-history-config';
 
-@inject(Config, StellarServer, AppStore, EffectResource)
+@inject(Config, StellarServer, Store, EffectResource)
 export class EffectHistory {
 
     loading = 0;
     additionalFilterParams = {};
 
-    constructor(config, stellarServer, appStore, effectResource) {
+    constructor(config, stellarServer, store, effectResource) {
         this.config = config;
         this.stellarServer = stellarServer;
-        this.appStore = appStore;
+        this.store = store;
         this.effectResource = effectResource;
     }
 
     activate(params) {
-        this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
+        this.unsubscribeFromStore = this.store.subscribe(this.updateFromStore.bind(this));
         this.updateFromStore();
 
         if (params.operationId) {
@@ -34,7 +35,7 @@ export class EffectHistory {
     }
 
     updateFromStore() {
-        const state = this.appStore.getState();
+        const state = this.store.getState();
 
         const oldAccountId = this.account ? this.account.id : undefined;
 

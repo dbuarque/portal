@@ -4,16 +4,17 @@
 
 import {PLATFORM} from 'aurelia-pal';
 import {inject} from 'aurelia-framework';
-import {StellarServer, ModalService, AppStore, AlertToaster} from 'global-resources';
+import {Store} from 'au-redux';
+import {StellarServer, ModalService, AlertToaster} from 'global-resources';
 import {TransactionService} from '../transaction-service/transaction-service';
 
-@inject(StellarServer, ModalService, AppStore, AlertToaster, TransactionService)
+@inject(StellarServer, ModalService, Store, AlertToaster, TransactionService)
 export class BaseOfferService {
 
-    constructor(stellarServer, modalService, appStore, alertToaster, transactionService) {
+    constructor(stellarServer, modalService, store, alertToaster, transactionService) {
         this.stellarServer = stellarServer;
         this.modalService = modalService;
-        this.appStore = appStore;
+        this.store = store;
         this.alertToaster = alertToaster;
         this.transactionService = transactionService;
     }
@@ -29,7 +30,7 @@ export class BaseOfferService {
      * @returns {*}
      */
     async createOffer(passedInfo) {
-        if (!this.appStore.getState().account) {
+        if (!this.store.getState().account) {
             const errorMessage = 'You must be logged in to send a payment. Please log in and try again.';
             this.alertToaster.error(errorMessage);
             throw new Error(errorMessage);

@@ -4,19 +4,20 @@
 
 import {PLATFORM} from 'aurelia-pal';
 import {inject} from 'aurelia-framework';
-import {StellarServer, ModalService, AlertToaster, AppStore} from 'global-resources';
+import {Store} from 'au-redux';
+import {StellarServer, ModalService, AlertToaster} from 'global-resources';
 import {SecretStore} from '../../../auth/secret-store/secret-store';
 import {appActionTypes} from '../../../../app-action-types';
 
 const {UPDATE_ACCOUNT} = appActionTypes;
 
-@inject(StellarServer, ModalService, AppStore, AlertToaster, SecretStore)
+@inject(StellarServer, ModalService, Store, AlertToaster, SecretStore)
 export class TransactionService {
 
-    constructor(stellarServer, modalService, appStore, alertToaster, secretStore) {
+    constructor(stellarServer, modalService, store, alertToaster, secretStore) {
         this.stellarServer = stellarServer;
         this.modalService = modalService;
-        this.appStore = appStore;
+        this.store = store;
         this.alertToaster = alertToaster;
         this.secretStore = secretStore;
     }
@@ -29,7 +30,7 @@ export class TransactionService {
      * @returns {*}
      */
     async submit(operations, options = {}) {
-        let account = this.appStore.getState().account;
+        let account = this.store.getState().account;
 
         if (!account) {
             this.alertToaster.error('You cannot submit a transaction to the network without being logged in. Please log in and try again.');
@@ -41,7 +42,7 @@ export class TransactionService {
         try {
             account = await this.stellarServer.loadAccount(account.id);
 
-            this.appStore.dispatch({
+            this.store.dispatch({
                 type: UPDATE_ACCOUNT,
                 payload: {
                     account

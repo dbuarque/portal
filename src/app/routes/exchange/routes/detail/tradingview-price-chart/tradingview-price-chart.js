@@ -4,19 +4,19 @@
 
 import moment from 'moment';
 import {inject, bindable} from 'aurelia-framework';
-import {AppStore} from 'global-resources';
+ import {Store} from 'au-redux';
 import Config from './tradingview-price-chart-config';
 
-@inject(Config, AppStore)
+@inject(Config, Store)
 export class TradingviewPriceChartCustomElement {
 
-    constructor(config, appStore) {
+    constructor(config, store) {
         this.config = config;
-        this.appStore = appStore;
+        this.store = store;
     }
 
     attached() {
-        this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
+        this.unsubscribeFromStore = this.store.subscribe(this.updateFromStore.bind(this));
         this.updateFromStore();
     }
 
@@ -28,7 +28,7 @@ export class TradingviewPriceChartCustomElement {
 
     updateFromStore() {
         if (!this.assetPair) {
-            this.assetPair = this.appStore.getState().exchange.assetPair;
+            this.assetPair = this.store.getState().exchange.assetPair;
             this.updateChart();
         }
     }

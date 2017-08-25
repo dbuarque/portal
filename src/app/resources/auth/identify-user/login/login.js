@@ -4,19 +4,20 @@
 
 import _throttle from 'lodash.throttle';
 import {bindable, inject} from 'aurelia-framework';
-import {EventHelper, AppStore, ObserverManager, ObservationInstruction, StellarServer, AlertToaster} from 'global-resources';
+import {Store} from 'au-redux';
+import {EventHelper, ObserverManager, ObservationInstruction, StellarServer, AlertToaster} from 'global-resources';
 import {SecretStore} from 'app-resources';
 import {AppActionCreators} from '../../../../app-action-creators';
 
-@inject(AppStore, ObserverManager, StellarServer, AlertToaster, SecretStore, AppActionCreators)
+@inject(Store, ObserverManager, StellarServer, AlertToaster, SecretStore, AppActionCreators)
 export class LoginCustomElement {
 
     @bindable parentElement;
 
     loading = 0;
 
-    constructor(appStore, observerManager, stellarServer, alertToaster, secretStore, appActionCreators) {
-        this.appStore = appStore;
+    constructor(store, observerManager, stellarServer, alertToaster, secretStore, appActionCreators) {
+        this.store = store;
         this.observerManager = observerManager;
         this.stellarServer = stellarServer;
         this.alertToaster = alertToaster;
@@ -66,7 +67,7 @@ export class LoginCustomElement {
         this.loading++;
 
         try {
-            await this.appStore.dispatch(this.appActionCreators.setAccount(this.publicKey));
+            await this.store.dispatch(this.appActionCreators.setAccount(this.publicKey));
 
             if (this.secret) {
                 this.secretStore.remember(this.stellarServer.sdk.Keypair.fromSecret(this.secret));

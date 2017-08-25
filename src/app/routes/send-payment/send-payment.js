@@ -6,11 +6,12 @@ import {PLATFORM} from 'aurelia-pal';
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {HttpClient} from 'aurelia-fetch-client';
-import {ModalService, AppStore, ValidationManager, StellarServer} from 'global-resources';
+import {Store} from 'au-redux';
+import {ModalService, ValidationManager, StellarServer} from 'global-resources';
 import {TransactionService} from 'app-resources';
 import {AppActionCreators} from '../../app-action-creators';
 
-@inject(Router, HttpClient, ModalService, AppStore, ValidationManager, StellarServer, TransactionService, AppActionCreators)
+@inject(Router, HttpClient, ModalService, Store, ValidationManager, StellarServer, TransactionService, AppActionCreators)
 export class SendPayment {
 
     loading = 0;
@@ -21,11 +22,11 @@ export class SendPayment {
         dismissible: false
     };
 
-    constructor(router, httpClient, modalService, appStore, validationManager, stellarServer, transactionService, appActionCreators) {
+    constructor(router, httpClient, modalService, store, validationManager, stellarServer, transactionService, appActionCreators) {
         this.router = router;
         this.httpClient = httpClient;
         this.modalService = modalService;
-        this.appStore = appStore;
+        this.store = store;
         this.validationManager = validationManager;
         this.transactionService = transactionService;
         this.stellarServer = stellarServer;
@@ -172,7 +173,7 @@ export class SendPayment {
                     onSuccess: this.generateSuccessMessage.bind(this)
                 });
 
-                this.appStore.dispatch(this.appActionCreators.updateAccount());
+                this.store.dispatch(this.appActionCreators.updateAccount());
                 this.refresh();
             }
             catch(e) {

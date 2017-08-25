@@ -3,23 +3,23 @@
  */
 
 import {inject} from 'aurelia-framework';
-import {AppStore} from 'global-resources';
+ import {Store} from 'au-redux';
 import {OfferService} from 'app-resources';
 import {AppActionCreators} from '../../../../../app-action-creators';
 
-@inject(AppStore, OfferService, AppActionCreators)
+@inject(Store, OfferService, AppActionCreators)
 export class MyOffersCustomElement {
 
     loading = 0;
 
-    constructor(appStore, offerService, appActionCreators) {
-        this.appStore = appStore;
+    constructor(store, offerService, appActionCreators) {
+        this.store = store;
         this.offerService = offerService;
         this.appActionCreators = appActionCreators;
     }
 
     bind() {
-        this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
+        this.unsubscribeFromStore = this.store.subscribe(this.updateFromStore.bind(this));
         this.updateFromStore();
     }
 
@@ -28,7 +28,7 @@ export class MyOffersCustomElement {
     }
 
     updateFromStore() {
-        const state = this.appStore.getState();
+        const state = this.store.getState();
 
         this.account = state.account;
         this.nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
@@ -56,7 +56,7 @@ export class MyOffersCustomElement {
     async refresh() {
         this.loading++;
 
-        await this.appStore.dispatch(this.appActionCreators.updateOffers());
+        await this.store.dispatch(this.appActionCreators.updateOffers());
 
         this.loading--;
     }

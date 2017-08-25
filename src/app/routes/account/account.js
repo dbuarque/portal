@@ -5,17 +5,17 @@
 import _findIndex from 'lodash.findindex';
 import {inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
-import {AppStore} from 'global-resources';
+ import {Store} from 'au-redux';
 import Config from './account-config';
 
-@inject(Config, EventAggregator, AppStore)
+@inject(Config, EventAggregator, Store)
 export class Account {
 
-    constructor(config, eventAggregator, appStore) {
+    constructor(config, eventAggregator, store) {
         this.config = config;
         this.eventAggregator = eventAggregator;
 
-        this.appStore = appStore;
+        this.store = store;
     }
 
     configureRouter(routerConfig, router) {
@@ -28,7 +28,7 @@ export class Account {
     }
 
     canActivate() {
-        const account = this.appStore.getState().account;
+        const account = this.store.getState().account;
 
         if (!account) {
             return new Redirect('login');
@@ -36,7 +36,7 @@ export class Account {
     }
 
     activate() {
-        this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
+        this.unsubscribeFromStore = this.store.subscribe(this.updateFromStore.bind(this));
         this.updateFromStore();
     }
 
@@ -86,7 +86,7 @@ export class Account {
     }
 
     updateFromStore() {
-        this.account = this.appStore.getState().account;
+        this.account = this.store.getState().account;
 
         if (!this.account) {
             this.router.parent.navigateToRoute('exchange');

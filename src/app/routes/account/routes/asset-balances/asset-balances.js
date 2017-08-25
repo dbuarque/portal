@@ -4,18 +4,18 @@
 
 import {inject, bindable} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
-import {AppStore} from 'global-resources';
+ import {Store} from 'au-redux';
 import {TrustService} from 'app-resources';
 import Config from './asset-balances-config';
 import {AppActionCreators} from '../../../../app-action-creators';
 
-@inject(Config, Router, AppStore, TrustService, AppActionCreators)
+@inject(Config, Router, Store, TrustService, AppActionCreators)
 export class AssetBalances {
 
-    constructor(config, router, appStore, trustService, appActionCreators) {
+    constructor(config, router, store, trustService, appActionCreators) {
         this.config = config;
         this.router = router;
-        this.appStore = appStore;
+        this.store = store;
         this.trustService = trustService;
         this.appActionCreators = appActionCreators;
 
@@ -23,7 +23,7 @@ export class AssetBalances {
     }
 
     activate() {
-        this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
+        this.unsubscribeFromStore = this.store.subscribe(this.updateFromStore.bind(this));
         this.updateFromStore();
     }
 
@@ -32,12 +32,12 @@ export class AssetBalances {
     }
 
     updateFromStore() {
-        const state = this.appStore.getState();
+        const state = this.store.getState();
         this.account = state.account;
     }
 
     refresh() {
-        this.appStore.dispatch(this.appActionCreators.updateAccount());
+        this.store.dispatch(this.appActionCreators.updateAccount());
     }
 
     get refreshing() {
