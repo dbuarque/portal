@@ -1,8 +1,23 @@
 <template>
     <div class="card tradingview-price-chart" collapsible-card="is-open:true">
-        <div class="card-content">
+        <div class="card-content no-heading">
             <div class="card-body no-padding">
                 <div id="tradingview-price-chart-container">
+                </div>
+                <div class="filters center">
+                    <div class="btn-group">
+                        <span class="label">Timeframe:</span>&nbsp;
+                        <button class="btn btn-small btn-flat accent" click.trigger="setTimeframe(tf)" repeat.for="tf of config.time_frames">
+                            ${tf.text}
+                        </button>
+                    </div>
+                    <div class="btn-group">
+                        <span class="label">Resolution:</span>&nbsp;
+                        <button class="btn btn-small btn-flat accent" disabled.bind="option.disabled"
+                                click.trigger="setResolution(r)" repeat.for="r of config.supported_resolutions">
+                            ${r.text}
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

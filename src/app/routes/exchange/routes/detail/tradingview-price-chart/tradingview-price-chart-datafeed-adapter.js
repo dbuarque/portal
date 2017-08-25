@@ -4,8 +4,9 @@
 
 import moment from 'moment-timezone';
 import {inject} from 'aurelia-framework';
-import {TradingviewPriceChartSymbolInfo} from './tradingview-price-chart-symbol-info';
 import {MarketResource} from 'app-resources';
+import {TradingviewPriceChartSymbolInfo} from './tradingview-price-chart-symbol-info';
+import {TradingviewBarsRealtimeFetcher} from './tradingview-bars-realtime-fetcher';
 
 @inject(MarketResource)
 export class TradingviewPriceChartDatafeedAdapter {
@@ -13,20 +14,12 @@ export class TradingviewPriceChartDatafeedAdapter {
     configurationData = {
         exchanges: [],
         symbol_types: [],
-        supportedResolutions: [
-            "1",
-            "5",
-            "15",
-            "60",
-            "D",
-            "2D",
-            "4D",
-            "W"
-        ],
         supports_marks: false,
         supports_timescale_marks: false,
         supports_time: true
     };
+
+    subscribers = {};
 
     constructor(marketResource) {
         this.marketResource = marketResource;
@@ -98,7 +91,14 @@ export class TradingviewPriceChartDatafeedAdapter {
     }
 
     async subscribeBars(symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) {
-        
+        //const rtFetcher = new TradingviewBarsRealtimeFetcher(this.resolutionToSeconds(resolution), symbolInfo.assetPair, this.marketResource, onRealtimeCallback);
+        //rtFetcher.start();
+//
+        //this.subscribers[subscriberUID] = rtFetcher;
+    }
+
+    async unsubscribeBars(subscriberUID) {
+        //this.subscribers[subscriberUID].stop();
     }
 
     calculateHistoryDepth(resolution, resolutionBack, intervalBack) {
