@@ -4,6 +4,10 @@ const {config: {port : E2E_PORT}} = require('./test/protractor.conf');
 module.exports = {
   scripts: {
     default: 'nps webpack',
+    deps: series(
+        'npm install',
+        'git submodule update --recursive --remote --force'
+    ),
     test: {
       default: 'nps test.jest',
       jest: {
