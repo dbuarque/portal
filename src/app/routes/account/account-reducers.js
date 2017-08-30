@@ -2,11 +2,11 @@
  * Created by istrauss on 1/4/2017.
  */
 
-import {ReducerHelper} from 'global-resources';
+import {combineReducersProvideRootState, restrictReducerToNamespace} from 'au-redux';
 import {namespace, accountActionTypes} from './account-action-types';
 
 //const {} = accountActionTypes;
 
-let _account = ReducerHelper.combineReducersProvideRootState({});
+let _account = combineReducersProvideRootState({});
 
-export const account = ReducerHelper.restrictReducerToNamespace(_account, namespace);
+export const account = restrictReducerToNamespace(_account, namespace);

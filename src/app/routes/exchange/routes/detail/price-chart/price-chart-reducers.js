@@ -4,7 +4,7 @@
 
 import moment from 'moment';
 import _find from 'lodash.find';
-import {ReducerHelper} from 'global-resources';
+import {combineReducersProvideRootState, restrictReducerToNamespace} from 'au-redux';
 import {namespace, exchangeActionTypes} from '../../../exchange-action-types';
 import {priceChartActionTypes} from './price-chart-action-types';
 
@@ -153,7 +153,7 @@ let _priceChart = (state, action, rootState) => {
     return newState;
 };
 
-export const priceChart = ReducerHelper.restrictReducerToNamespace(_priceChart, namespace);
+export const priceChart = restrictReducerToNamespace(_priceChart, namespace);
 
 function isNewAssetPair(oldAssetPair, newAssetPair) {
     return  oldAssetPair && newAssetPair &&

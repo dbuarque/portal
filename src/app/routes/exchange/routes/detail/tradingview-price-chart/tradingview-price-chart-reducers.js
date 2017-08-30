@@ -4,13 +4,13 @@
 
 import moment from 'moment';
 import _find from 'lodash.find';
-import {ReducerHelper} from 'global-resources';
+import {combineReducersProvideRootState, restrictReducerToNamespace} from 'au-redux';
 import {namespace, exchangeActionTypes} from '../../../exchange-action-types';
 import {tradingviewPriceChartActionTypes} from './tradingview-price-chart-action-types';
 
 const {UPDATE_BAR, UPDATE_BARS, INCREMENT_LOADING, DECREMENT_LOADING} = tradingviewPriceChartActionTypes;
 
-let _tradingviewPriceChart = ReducerHelper.combineReducersProvideRootState({
+let _tradingviewPriceChart = combineReducersProvideRootState({
     bars,
     loading
 });
@@ -30,4 +30,4 @@ function loading(state, action) {
     }
 }
 
-export const tradingviewPriceChart = ReducerHelper.restrictReducerToNamespace(_tradingviewPriceChart, namespace);
+export const tradingviewPriceChart = restrictReducerToNamespace(_tradingviewPriceChart, namespace);

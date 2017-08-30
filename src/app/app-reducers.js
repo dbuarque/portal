@@ -2,13 +2,13 @@
  * Created by Ishai on 12/20/2016.
  */
 
-import {ReducerHelper} from 'global-resources';
+import {combineReducersProvideRootState, restrictReducerToNamespace} from 'au-redux';
 import {appActionTypes} from './app-action-types';
 import {exchange} from './routes/exchange/exchange-reducers';
 
 const {UPDATE_ACCOUNT, UPDATE_LUPOEX_ACCOUNT, UPDATE_OFFERS} = appActionTypes;
 
-export const app = ReducerHelper.combineReducersProvideRootState({
+export const app = combineReducersProvideRootState({
     account,
     lupoexAccount,
     offers,

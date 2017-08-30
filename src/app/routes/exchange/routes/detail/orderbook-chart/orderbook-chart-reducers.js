@@ -3,7 +3,7 @@
  */
 
 import _find from 'lodash.find';
-import {ReducerHelper} from 'global-resources';
+import {combineReducersProvideRootState, restrictReducerToNamespace} from 'au-redux';
 import {namespace, exchangeActionTypes} from '../../../exchange-action-types';
 import {orderbookChartActionTypes} from './orderbook-chart-action-types';
 
@@ -50,4 +50,4 @@ function isNewAssetPair(oldAssetPair, newAssetPair) {
         );
 }
 
-export const orderbookChart = ReducerHelper.restrictReducerToNamespace(_orderbookChart, namespace);
+export const orderbookChart = restrictReducerToNamespace(_orderbookChart, namespace);

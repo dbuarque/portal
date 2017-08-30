@@ -2,19 +2,19 @@
  * Created by istrauss on 1/4/2017.
  */
 
-import {ReducerHelper} from 'global-resources';
+import {combineReducersProvideRootState, restrictReducerToNamespace} from 'au-redux';
 import {namespace, exchangeActionTypes} from './exchange-action-types';
 import {detail} from './routes/detail/detail-reducers';
 
 const {UPDATE_ASSET_PAIR, REFRESH_ORDERBOOK} = exchangeActionTypes;
 
-let _exchange = ReducerHelper.combineReducersProvideRootState({
+let _exchange = combineReducersProvideRootState({
     assetPair,
     orderbook,
     detail
 });
 
-export const exchange = ReducerHelper.restrictReducerToNamespace(_exchange, namespace);
+export const exchange = restrictReducerToNamespace(_exchange, namespace);
 
 function assetPair(state, action) {
     return action.type === UPDATE_ASSET_PAIR ? action.payload : state;
