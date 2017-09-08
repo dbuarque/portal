@@ -9,6 +9,7 @@ export * from './modals/modals';
 export * from './validation/validation';
 export * from './value-converters/value-converters';
 export * from './stellar/stellar';
+export * from './decorators';
 
 export function configure(config) {
     config.globalResources(
