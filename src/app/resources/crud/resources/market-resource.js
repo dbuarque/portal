@@ -5,13 +5,15 @@
 import {inject} from 'aurelia-dependency-injection';
 import {ModalService} from 'global-resources';
 import BaseResource from './base-resource';
+import {AssetPairToUrlValueConverter} from '../value-converters';
 
-@inject(ModalService)
+@inject(ModalService, AssetPairToUrlValueConverter)
 export default class MarketResource extends BaseResource {
-    constructor(modalService) {
+    constructor(modalService, assetPairToUrl) {
         super('/Market');
 
         this.modalService = modalService;
+        this.assetPairToUrl = assetPairToUrl;
     }
 
     /**
@@ -27,19 +29,20 @@ export default class MarketResource extends BaseResource {
 
     /**
      * Finds a single market
-     * @param soldAssetCode
-     * @param soldAssetIssuer
-     * @param boughtAssetCode
-     * @param boughtAssetIssuer
+     * @param assetPair
      * @returns {*}
      */
-    findOne(soldAssetCode, soldAssetIssuer, boughtAssetCode, boughtAssetIssuer) {
-        return this.get('/FindOne', {
-            soldAssetCode,
-            soldAssetIssuer,
-            boughtAssetCode,
-            boughtAssetIssuer
-        });
+    findOne(assetPair) {
+        return this.get(this.assetPairToUrl.toView(assetPair) + '/FindOne');
+    }
+
+    /**
+     * Finds a single market
+     * @param assetPair
+     * @returns {*}
+     */
+    orderbook(assetPair) {
+        return this.get(this.assetPairToUrl.toView(assetPair) + '/Orderbook');
     }
 
     /**
@@ -51,7 +54,7 @@ export default class MarketResource extends BaseResource {
      * @returns {*}
      */
     bars(resolution, assetPair, from, to) {
-        const action = '/' + assetPair.selling.code + '/' + (assetPair.selling.issuer || 'native') + '/' + assetPair.buying.code + '/' + (assetPair.buying.issuer || 'native') + '/Bars';
+        const action = this.assetPairToUrl.toView(assetPair) + '/Bars';
         return this.get(action, {
             resolution,
             from,
@@ -67,7 +70,7 @@ export default class MarketResource extends BaseResource {
      * @returns {*}
      */
     lastPriorBar(resolution, assetPair, priorto) {
-        const action = '/' + assetPair.selling.code + '/' + (assetPair.selling.issuer || 'native') + '/' + assetPair.buying.code + '/' + (assetPair.buying.issuer || 'native') + '/LastPriorBar';
+        const action = this.assetPairToUrl.toView(assetPair) + '/LastPriorBar';
         return this.get(action, {
             resolution,
             priorto

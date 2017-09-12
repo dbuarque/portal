@@ -5,8 +5,9 @@
 import {inject} from 'aurelia-framework';
 import {subscriptionService, AlertToaster} from 'global-resources';
 import {connected} from 'au-redux';
+import {AssetPairToUrlValueConverter} from 'app-resources';
 
-@inject(AlertToaster)
+@inject(AlertToaster, AssetPairToUrlValueConverter)
 @subscriptionService()
 export class MarketStream {
 
@@ -14,44 +15,31 @@ export class MarketStream {
     assetPair;
 
     previousAssetPair;
+    isConnected = false;
 
-    constructor(alertToaster) {
+    constructor(alertToaster, assetPairToUrl) {
         const self = this;
 
         self.alertToaster = alertToaster;
+        self.assetPairToUrl = assetPairToUrl;
 
-        io.socket.on('trades', function(payload) {
-            self._notifySubscribers({
-                type: 'trades',
-                payload
-            });
-        });
-        io.socket.on('bids', function(payload) {
-            self._notifySubscribers({
-                type: 'bids',
-                payload
-            })
-        });
-        io.socket.on('asks', function(payload) {
-            self._notifySubscribers({
-                type: 'asks',
-                payload
-            })
-        });
+        io.socket.on('trades', this._newPayload.bind(this, 'trades'));
+        io.socket.on('bids', this._newPayload.bind(this, 'bids'));
+        io.socket.on('asks', this._newPayload.bind(this, 'asks'));
 
-        this.connect();
+        this.bind();
     }
 
     async assetPairChanged() {
         try {
             try {
-                await this._unsubscribeFromSocket();
+                await this._disconnectFromSocket();
                 this.previousAssetPair = undefined;
             }
             catch (e) {
                 throw e;
             }
-            await this._subscribeToSocket();
+            await this._connectToSocket();
             this.previousAssetPair = this.assetPair;
         }
         catch(e) {
@@ -59,13 +47,22 @@ export class MarketStream {
         }
     }
 
-    _unsubscribeFromSocket() {
+    _newPayload(type, payload) {
+        this._notifySubscribers({
+            type,
+            payload
+        });
+    }
+
+    _disconnectFromSocket() {
         if (!this.previousAssetPair) {
             return Promise.resolve();
         }
 
+        this.isConnected = false;
+
         return new Promise((resolve, reject) => {
-            io.socket.get(this._assetPairToUrl(this.previousAssetPair) + '/Unsubscribe', {}, (resData, jwRes) => {
+            io.socket.get('/Market' + this.assetPairToUrl.toView(this.previousAssetPair) + '/Unsubscribe', {}, (resData, jwRes) => {
                 if (jwRes.statusCode > 300) {
                     reject();
                     return;
@@ -76,24 +73,22 @@ export class MarketStream {
         });
     }
 
-    _subscribeToSocket() {
+    _connectToSocket() {
         if (!this.assetPair) {
             return Promise.resolve();
         }
 
         return new Promise((resolve, reject) => {
-            io.socket.get(this._assetPairToUrl(this.assetPair) + '/Subscribe', {}, (resData, jwRes) => {
+            io.socket.get('/Market' + this.assetPairToUrl.toView(this.assetPair) + '/Subscribe', {}, (resData, jwRes) => {
                 if (jwRes.statusCode > 300) {
                     reject();
                     return;
                 }
 
+                this.isConnected = true;
+
                 resolve();
             });
         });
-    }
-
-    _assetPairToUrl(assetPair) {
-        return '/Market/' + assetPair.selling.code + '/' + assetPair.selling.issuer + '/' + assetPair.buying.code + '/' + assetPair.buying.issuer;
     }
 }

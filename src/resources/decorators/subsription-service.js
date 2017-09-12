@@ -6,7 +6,7 @@ import _findIndex from 'lodash.findindex';
 
 export function subscriptionService() {
     return function (target) {
-        target.subscribe = function subscribe(subscriber) {
+        target.prototype.subscribe = function subscribe(subscriber) {
             if (!this.subscribers) {
                 this.subscribers = [];
             }
@@ -20,7 +20,7 @@ export function subscriptionService() {
             return this.unsubscribe.bind(this, subscriber);
         };
 
-        target.unsubscribe = function unsubscribe(subscriber) {
+        target.prototype.unsubscribe = function unsubscribe(subscriber) {
             const index = _findIndex(this.subscribers, s => s === subscriber);
 
             if (index > -1) {
@@ -32,7 +32,7 @@ export function subscriptionService() {
             }
         };
 
-        target._notifySubscribers = function _notifySubscribers(payload) {
+        target.prototype._notifySubscribers = function _notifySubscribers(payload) {
             this.subscribers.forEach(s => {
                 s(payload);
             });

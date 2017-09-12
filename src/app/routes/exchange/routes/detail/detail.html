@@ -1,7 +1,7 @@
 <template>
     <require from="./tradingview-price-chart/tradingview-price-chart"></require>
     <require from="./orderbook-chart/orderbook-chart"></require>
-    <require from="./offers/offers"></require>
+    <require from="./orderbook/orderbook"></require>
     <require from="./create-offer/create-bid"></require>
     <require from="./create-offer/create-ask"></require>
     <require from="./my-offers/my-offers"></require>
@@ -15,14 +15,7 @@
 
                 <tradingview-price-chart></tradingview-price-chart>
 
-                <div class="row">
-                    <div class="col l6">
-                        <offers type="Bids" price.bind="askingPrice"></offers>
-                    </div>
-                    <div class="col l6">
-                        <offers type="Asks" price.bind="biddingPrice"></offers>
-                    </div>
-                </div>
+                <orderbook asking-price.bind="askingPrice" bidding-price.bind="biddingPrice"></orderbook>
             </div>
             <div class="col l4">
                 <!--<div class="hide-on-med-and-down">-->

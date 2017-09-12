@@ -109,8 +109,6 @@ export class CreateOffer {
                 sellingAmount: this.sellingAmount,
                 price: this.sellingPrice
             });
-
-            this.store.dispatch(this.exchangeActionCreators.refreshOrderbook());
         }
         catch(e) {}
     }

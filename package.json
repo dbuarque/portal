@@ -132,8 +132,9 @@
     "moment-timezone": "^0.5.13",
     "redux": "^3.7.2",
     "redux-thunk": "^2.1.0",
-    "sails.io.js-dist": "^1.1.12",
+    "sails.io.js": "^1.1.12",
     "select2": "^4.0.3",
+    "socket.io-client": "^2.0.3",
     "techan": "^0.8.0",
     "tooltipster": "^4.2.2"
   }

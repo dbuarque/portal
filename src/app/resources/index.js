@@ -4,8 +4,8 @@
 
 import {PLATFORM} from 'aurelia-pal';
 
-export * from './auth/auth';
-export * from './crud/crud';
+export * from './auth';
+export * from './crud';
 export * from './value-converters';
 
 export function configure(config) {

@@ -70,12 +70,7 @@ export class GeneralInfoCustomElement {
     async findMarket() {
         this.loading++;
 
-        this.market = await this.marketResource.findOne(
-            this.assetPair.selling.code,
-            this.assetPair.selling.issuer,
-            this.assetPair.buying.code,
-            this.assetPair.buying.issuer
-        );
+        this.market = await this.marketResource.findOne(this.assetPair);
 
         this.loading--;
     }

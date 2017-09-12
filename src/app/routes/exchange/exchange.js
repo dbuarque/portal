@@ -3,16 +3,16 @@
  */
 
 import {inject} from 'aurelia-framework';
-import {Store} from 'au-redux';
 import Config from './exchange-config';
 import {ExchangeActionCreators} from './exchange-action-creators';
+import {OrderbookUpdater} from './orderbook-updater';
 
-@inject(Config, Store, ExchangeActionCreators)
+@inject(Config, OrderbookUpdater,ExchangeActionCreators)
 export class Exchange {
 
-    constructor(config, store, exchangeActionCreators) {
+    // Inject orderbookUpdater just to ensure that it is constructed (it initializes itself as part of construction).
+    constructor(config, orderbookUpdater, exchangeActionCreators) {
         this.config = config;
-        this.store = store;
         this.exchangeActionCreators = exchangeActionCreators;
     }
 
@@ -23,29 +23,5 @@ export class Exchange {
         this.router = router;
 
         this.router.transformTitle = title => false;
-    }
-
-    bind() {
-        this.unsubscribeFromStore = this.store.subscribe(this.updateFromStore.bind(this));
-        this.updateFromStore();
-    }
-
-    unbind() {
-        this.unsubscribeFromStore();
-    }
-
-    updateFromStore() {
-        const newState = this.store.getState();
-        const exchange = newState.exchange;
-
-        if (this.assetPair !== exchange.assetPair) {
-            this.assetPair = exchange.assetPair;
-            this.refresh();
-        }
-
-    }
-
-    refresh() {
-        this.store.dispatch(this.exchangeActionCreators.refreshOrderbook());
     }
 }

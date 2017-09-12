@@ -4,13 +4,17 @@
 
 import jQuery from 'jquery';
 import * as d3 from 'd3';
-import 'sails.io.js-dist';
-//import moment from 'moment';
+import socketIOClient from 'socket.io-client';
+import sailsIOClient from 'sails.io.js';
+
+// Instantiate the socket client (`io`)
+// (for now, you must explicitly pass in the socket.io client when using this library from Node.js)
+window.io = sailsIOClient(socketIOClient);
 
 window.$ = jQuery;
 window.jQuery = jQuery;
 window.d3 = d3;
 //window.moment = moment;
 
-io.sails.url = window.lupoex.urls.api;
-io.sails.useCORSRouteToGetCookie = false;
+window.io.sails.url = window.lupoex.urls.api;
+window.io.sails.useCORSRouteToGetCookie = false;
