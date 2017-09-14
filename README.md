@@ -1,5 +1,4 @@
-# aurelia-skeleton-webpack
-
+# Lupoex Client
 ## Getting started
 
 Before you start, make sure you have a recent version of [NodeJS](http://nodejs.org/) environment *>=6.0* with NPM 3 or Yarn.
