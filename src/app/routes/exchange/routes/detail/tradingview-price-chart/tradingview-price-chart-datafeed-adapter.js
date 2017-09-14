@@ -6,9 +6,9 @@ import moment from 'moment-timezone';
 import {inject} from 'aurelia-framework';
 import {MarketResource} from 'app-resources';
 import {TradingviewPriceChartSymbolInfo} from './tradingview-price-chart-symbol-info';
-import {TradingviewBarsRealtimeFetcher} from './tradingview-bars-realtime-fetcher';
+import {TradingviewBarsRealtimeUpdater} from './tradingview-bars-realtime-updater';
 
-@inject(MarketResource)
+@inject(MarketResource, TradingviewBarsRealtimeUpdater)
 export class TradingviewPriceChartDatafeedAdapter {
 
     configurationData = {
@@ -19,10 +19,9 @@ export class TradingviewPriceChartDatafeedAdapter {
         supports_time: true
     };
 
-    subscribers = {};
-
-    constructor(marketResource) {
+    constructor(marketResource, realtimeUpdater) {
         this.marketResource = marketResource;
+        this.realtimeUpdater = realtimeUpdater;
     }
 
     async onReady(callback) {
@@ -91,14 +90,12 @@ export class TradingviewPriceChartDatafeedAdapter {
     }
 
     async subscribeBars(symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) {
-        //const rtFetcher = new TradingviewBarsRealtimeFetcher(this.resolutionToSeconds(resolution), symbolInfo.assetPair, this.marketResource, onRealtimeCallback);
-        //rtFetcher.start();
-//
-        //this.subscribers[subscriberUID] = rtFetcher;
+        this.realtimeUpdater.restart(this.resolutionToSeconds(resolution), onRealtimeCallback);
+        this.realtimeUpdater.start();
     }
 
     async unsubscribeBars(subscriberUID) {
-        //this.subscribers[subscriberUID].stop();
+        this.realtimeUpdater.stop();
     }
 
     calculateHistoryDepth(resolution, resolutionBack, intervalBack) {

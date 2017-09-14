@@ -17,6 +17,16 @@ let _exchange = combineReducersProvideRootState({
 
 export const exchange = restrictReducerToNamespace(_exchange, namespace);
 
+export function isNewAssetPair(oldAssetPair, newAssetPair) {
+    return oldAssetPair && newAssetPair &&
+        !(
+            oldAssetPair.buying.code === newAssetPair.buying.code &&
+            oldAssetPair.buying.issuer === newAssetPair.buying.issuer &&
+            oldAssetPair.selling.code === newAssetPair.selling.code &&
+            oldAssetPair.selling.isser === newAssetPair.selling.isser
+        );
+}
+
 function assetPair(state, action) {
     return action.type === UPDATE_ASSET_PAIR ? action.payload : state;
 }
@@ -47,15 +57,6 @@ function orderbook(state, action, rootState) {
     }
 }
 
-function isNewAssetPair(oldAssetPair, newAssetPair) {
-    return oldAssetPair && newAssetPair &&
-            !(
-                oldAssetPair.buying.code === newAssetPair.buying.code &&
-                oldAssetPair.buying.issuer === newAssetPair.buying.issuer &&
-                oldAssetPair.selling.code === newAssetPair.selling.code &&
-                oldAssetPair.selling.isser === newAssetPair.selling.isser
-            );
-}
 
 function _mapOrders(orders) {
     let sellingDepth = 0;
