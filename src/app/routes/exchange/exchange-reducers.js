@@ -5,14 +5,12 @@
 import BigNumber from 'bignumber.js';
 import {combineReducersProvideRootState, restrictReducerToNamespace} from 'au-redux';
 import {namespace, exchangeActionTypes} from './exchange-action-types';
-import {detail} from './routes/detail/detail-reducers';
 
 const {UPDATE_ASSET_PAIR, UPDATE_ORDERBOOK} = exchangeActionTypes;
 
 let _exchange = combineReducersProvideRootState({
     assetPair,
-    orderbook,
-    detail
+    orderbook
 });
 
 export const exchange = restrictReducerToNamespace(_exchange, namespace);
