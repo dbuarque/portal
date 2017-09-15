@@ -126,8 +126,8 @@ export class LastBarTracker {
         const price = new BigNumber(trade.details.bought_amount).dividedBy(trade.details.sold_amount).toString(10);
         Object.assign(bar, {
             ...{
-                high: bar.high ? BigNumber.max(bar.high, price) : price,
-                low: bar.low ?  BigNumber.min(bar.low, price) : price,
+                high: bar.high ? BigNumber.max(bar.high, price).toString(10) : price,
+                low: bar.low ?  BigNumber.min(bar.low, price).toString(10) : price,
                 close: price,
                 bought_vol: (new BigNumber(bar.bought_vol)).add(trade.details.bought_amount).toString(10),
                 sold_vol: (new BigNumber(bar.sold_vol)).add(trade.details.sold_amount).toString(10),
