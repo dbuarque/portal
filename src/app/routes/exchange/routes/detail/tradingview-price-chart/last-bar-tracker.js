@@ -6,24 +6,24 @@ import BigNumber from 'bignumber.js';
 import moment from 'moment';
 import {inject} from 'aurelia-framework';
 import {subscriptionService} from 'global-resources';
+import {MarketResource} from 'app-resources';
 import {MarketStream} from '../../../market-stream';
 
 @subscriptionService()
-@inject(MarketStream)
+@inject(MarketResource, MarketStream)
 export class LastBarTracker {
 
     _resolution;
     _lastPriorBar;
     _assetPair;
     _emptyBar = {
-        high: -Infinity,
-        low: Infinity,
         volume: 0,
         bought_vol: 0,
         sold_vol: 0
     };
 
-    constructor(marketStream) {
+    constructor(marketResource, marketStream) {
+        this.marketResource = marketResource;
         this.marketStream = marketStream;
     }
 
@@ -47,11 +47,15 @@ export class LastBarTracker {
             this._assetPair = this.marketStream.assetPair;
 
             this._lastPriorBarPromise = this.marketResource.lastPriorBar(
-                this._resolutionToSeconds(this._resolution),
+                this._resolution,
                 this._assetPair,
-                moment.toISOString()
+                moment.utc(new Date()).toISOString()
             )
                 .then(lpb => {
+                    if (!lpb) {
+                        return null;
+                    }
+
                     this._lastPriorBar = {
                         ...lpb,
                         time: moment(lpb.begin_ts).valueOf(),
@@ -66,20 +70,21 @@ export class LastBarTracker {
             });
     }
 
-    getEmptyBar() {
+    async getEmptyBar() {
+        const lastPriorBar = await this.get();
         return {
-            ...this._emptyBar
+            ...this._emptyBar,
+            high: lastPriorBar.close,
+            low: lastPriorBar.close,
+            open: lastPriorBar.close,
+            close: lastPriorBar.close
         };
     }
 
     timeToBarTime(dateTime) {
-        let barDateTime = moment(this._lastPriorBar.time);
-
-        while(moment(barDateTime).add(this._resolution, 'seconds').isBefore(moment(dateTime))) {
-            barDateTime.add(this._resolution, 'seconds');
-        }
-
-        return barDateTime.valueOf();
+        const divided = moment(dateTime).unix() / this._resolution;
+        const floored = parseInt(Math.floor(divided), 10) * this._resolution;
+        return floored * 1000;
     }
 
     _reset() {
@@ -94,7 +99,7 @@ export class LastBarTracker {
         }
     }
 
-    async _handleMarketStreamPayload(type, payload) {
+    async _handleMarketStreamPayload({type, payload}) {
         if (!this._resolution || type !== 'trades') {
             return;
         }
@@ -108,30 +113,31 @@ export class LastBarTracker {
 
     async _updateBarWithNewTrades(bar, ledgerTradesPayload) {
         if (this._tradesBelongToNextBar(bar, ledgerTradesPayload)) {
-            const nextBarTime = this.timeToBarTime(ledgerTradesPayload.ledger.ledger_ts);
             Object.assign(bar, {
                 ...this._emptyBar,
-                time: nextBarTime
+                time: this.timeToBarTime(ledgerTradesPayload.ledger.closed_at)
             });
         }
 
-        ledgerTradesPayload.forEach(this._addTradeToBar.bind(this, bar));
+        ledgerTradesPayload.trades.forEach(this._addTradeToBar.bind(this, bar));
     }
 
     _addTradeToBar(bar, trade) {
+        const price = new BigNumber(trade.details.bought_amount).dividedBy(trade.details.sold_amount).toString(10);
         Object.assign(bar, {
             ...{
-                high: BigNumber.max(bar.high, trade.price),
-                low: BigNumber.min(bar.low, trade.price),
-                bought_vol: (new BigNumber(bar.bought_vol)).add(trade.bought_vol).toString(10),
-                sold_vol: (new BigNumber(bar.sold_vol)).add(trade.sold_vol).toString(10),
-                volume: (new BigNumber(bar.volume)).add(trade.sold_vol).toString(10)
+                high: bar.high ? BigNumber.max(bar.high, price) : price,
+                low: bar.low ?  BigNumber.min(bar.low, price) : price,
+                close: price,
+                bought_vol: (new BigNumber(bar.bought_vol)).add(trade.details.bought_amount).toString(10),
+                sold_vol: (new BigNumber(bar.sold_vol)).add(trade.details.sold_amount).toString(10),
+                volume: (new BigNumber(bar.volume)).add(trade.details.sold_amount).toString(10)
             }
         });
     }
 
     _tradesBelongToNextBar(lastPriorBar, ledgerTradesPayload) {
         const endOfPriorBar = moment(lastPriorBar.time).add(this._resolution, 'seconds');
-        return moment(ledgerTradesPayload.ledger.closedAt).isAfter(endOfPriorBar);
+        return moment(ledgerTradesPayload.ledger.closed_at).isAfter(endOfPriorBar);
     }
 }

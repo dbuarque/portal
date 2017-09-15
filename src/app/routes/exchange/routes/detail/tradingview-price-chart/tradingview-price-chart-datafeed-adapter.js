@@ -91,7 +91,6 @@ export class TradingviewPriceChartDatafeedAdapter {
 
     async subscribeBars(symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) {
         this.realtimeUpdater.restart(this.resolutionToSeconds(resolution), onRealtimeCallback);
-        this.realtimeUpdater.start();
     }
 
     async unsubscribeBars(subscriberUID) {

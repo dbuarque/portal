@@ -5,18 +5,52 @@
         padding: 0;
     }
 
-    table tbody {
+    table {
 
-        tr {
-            cursor: pointer;
-
-            &:last-child {
-                border-bottom-width: 0;
-            }
+        .arrow-cell {
+            width: 0;
+            padding: 0;
+            overflow: visible;
         }
 
-        td {
-            padding: 5px;
+
+        tbody {
+
+            tr {
+                cursor: pointer;
+
+                &:last-child {
+                    border-bottom-width: 0;
+                }
+
+                &.includes-my-offer {
+                    width: 0;
+                    height: 0;
+                    padding: 0;
+
+                    .arrow-cell-before {
+
+                        .arrow {
+                            border-top: 10px solid transparent;
+                            border-bottom: 10px solid transparent;
+                            border-left:10px solid $primary;
+                        }
+                    }
+
+                    .arrow-cell-after {
+
+                        .arrow {
+                            border-top: 10px solid transparent;
+                            border-bottom: 10px solid transparent;
+                            border-right:10px solid $primary;
+                        }
+                    }
+                }
+            }
+
+            td {
+                padding: 5px;
+            }
         }
     }
 }

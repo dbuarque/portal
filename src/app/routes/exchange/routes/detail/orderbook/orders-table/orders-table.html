@@ -11,9 +11,10 @@
                 <i if.bind="!orders">There are currently no ${type} for this asset pair.</i>
                 <div if.bind="orders">
                     <div class="scrollable-table-wrapper">
-                        <table class="highlight bordered centered">
+                        <table class="highlight bordered centered" class.one-time="selling ? 'selling' : 'buying'">
                             <thead>
                             <tr>
+                                <th width="0" class="arrow-cell"></th>
                                 <th>
                                     Price ${assetPair.buying.code & oneTime}/${assetPair.selling.code & oneTime}
                                 </th>
@@ -29,10 +30,14 @@
                                 <th>
                                     Depth (${assetPair.buying.code & oneTime})
                                 </th>
+                                <th width="0" class="arrow-cell"></th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr repeat.for="order of orders" click.delegate="price = priceFromFraction(order)">
+                            <tr repeat.for="order of orders" click.delegate="price = priceFromFraction(order)" class.bind="order | includesMyOfferCss">
+                                <td class="arrow-cell arrow-cell-before">
+                                    <div class="arrow"></div>
+                                </td>
                                 <td>
                                     ${priceFromFraction(order) | toPrecision:7 & oneTime}
                                 </td>
@@ -47,6 +52,9 @@
                                 </td>
                                 <td>
                                     ${order.buyingDepth | toPrecision:7 & oneTime}
+                                </td>
+                                <td class="arrow-cell arrow-cell-after">
+                                    <div class="arrow"></div>
                                 </td>
                             </tr>
                             </tbody>

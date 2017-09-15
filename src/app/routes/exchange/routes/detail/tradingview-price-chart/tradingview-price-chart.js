@@ -4,44 +4,54 @@
 
 import moment from 'moment';
 import {inject, bindable} from 'aurelia-framework';
- import {Store} from 'au-redux';
+import {Store, connected} from 'au-redux';
 import Config from './tradingview-price-chart-config';
+import {TradingviewBarsRealtimeUpdater} from './tradingview-bars-realtime-updater';
 
-@inject(Config, Store)
+@inject(Config, Store, TradingviewBarsRealtimeUpdater)
 export class TradingviewPriceChartCustomElement {
 
-    constructor(config, store) {
+    @connected('exchange.assetPair')
+    assetPair;
+
+    get symbol() {
+        return this.assetPair ?
+            this.assetPair.buying.code + '_' + (this.assetPair.buying.issuer || 'native') + '_' + this.assetPair.selling.code + '_' + (this.assetPair.selling.issuer || 'native') :
+            null;
+    }
+
+    constructor(config, store, rtUpdater) {
         this.config = config;
         this.store = store;
+        this.rtUpdater = rtUpdater;
     }
 
     attached() {
-        this.unsubscribeFromStore = this.store.subscribe(this.updateFromStore.bind(this));
-        this.updateFromStore();
+        this.isAttached = true;
+        this.assetPairChanged()
     }
 
     detached() {
-        this.unsubscribeFromStore();
-
-        this.widget.remove();
+        this.rtUpdater.stop();
+        delete this.widget;
     }
 
-    updateFromStore() {
-        if (!this.assetPair) {
-            this.assetPair = this.store.getState().exchange.assetPair;
-            this.updateChart();
-        }
+    assetPairChanged() {
+        this.updateChart();
     }
 
     updateChart() {
-        if (!this.chart) {
-            this.createChart();
+        if (!this.isAttached) {
+            return;
         }
-    }
 
-    createChart() {
-        this.config.symbol = this.assetPair.buying.code + '_' + (this.assetPair.buying.issuer || 'native') + '_' + this.assetPair.selling.code + '_' + (this.assetPair.selling.issuer || 'native');
-        this.widget = new TradingView.widget(this.config);
+        if (!this.widget) {
+            this.config.symbol = this.symbol;
+            this.widget = new TradingView.widget(this.config);
+        }
+        else {
+            this.widget.setSymbol(this.symbol)
+        }
     }
 
     setTimeframe(tf) {

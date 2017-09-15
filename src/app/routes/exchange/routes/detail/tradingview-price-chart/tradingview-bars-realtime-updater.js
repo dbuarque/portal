@@ -47,9 +47,14 @@ export class TradingviewBarsRealtimeUpdater {
             this.lastBarTracker.timeToBarTime(new Date())
         ]);
 
-        if (moment(values[0].time).diff(moment(values[1]), 'minues') > 0) {
+        if (!values[0]) {
+            this.stop();
+        }
+
+        if (moment(values[0].time).diff(moment(values[1]), 'minutes') !== 0) {
+            const emptyBar = await this.lastBarTracker.getEmptyBar();
             const newBar = {
-                ...this.lastBarTracker.getEmptyBar(),
+                ...emptyBar,
                 time: values[1]
             };
 
