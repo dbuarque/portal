@@ -19,7 +19,8 @@ export class LastBarTracker {
     _emptyBar = {
         volume: 0,
         bought_vol: 0,
-        sold_vol: 0
+        sold_vol: 0,
+        last_ledger_sequence: 0
     };
 
     constructor(marketResource, marketStream) {
@@ -119,6 +120,12 @@ export class LastBarTracker {
             });
         }
 
+        if (bar.last_ledger_sequence > ledgerTradesPayload.ledger.sequence) {
+            return;
+        }
+
+        bar.last_ledger_sequence = ledgerTradesPayload.ledger.sequence;
+
         ledgerTradesPayload.trades.forEach(this._addTradeToBar.bind(this, bar));
     }
 
@@ -129,9 +136,9 @@ export class LastBarTracker {
                 high: bar.high ? BigNumber.max(bar.high, price).toString(10) : price,
                 low: bar.low ?  BigNumber.min(bar.low, price).toString(10) : price,
                 close: price,
-                bought_vol: (new BigNumber(bar.bought_vol)).add(trade.details.bought_amount).toString(10),
-                sold_vol: (new BigNumber(bar.sold_vol)).add(trade.details.sold_amount).toString(10),
-                volume: (new BigNumber(bar.volume)).add(trade.details.sold_amount).toString(10)
+                bought_vol: parseFloat((new BigNumber(bar.bought_vol)).add(trade.details.bought_amount).toString(10), 10),
+                sold_vol: parseFloat((new BigNumber(bar.sold_vol)).add(trade.details.sold_amount).toString(10), 10),
+                volume: parseFloat((new BigNumber(bar.volume)).add(trade.details.sold_amount).toString(10), 10)
             }
         });
     }

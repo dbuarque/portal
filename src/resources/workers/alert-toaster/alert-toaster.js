@@ -38,7 +38,6 @@ export class AlertToaster {
 
     success(text, options = {}) {
         options.type = 'success';
-        options.timeout = options.timeout || 3000;
         this.toast(text, options);
     }
 

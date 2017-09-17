@@ -19,7 +19,10 @@ export class OrderbookUpdater {
         this.marketResource = marketResource;
         this.marketStream = marketStream;
         this.exchangeActionCreators = exchangeActionCreators;
+    }
 
+    init() {
+        //calling bind, connects the assetPair which will trigger the assetPairChanged listener.
         this.bind();
     }
 

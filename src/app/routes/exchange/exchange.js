@@ -10,10 +10,11 @@ import {OrderbookUpdater} from './orderbook-updater';
 @inject(Config, OrderbookUpdater,ExchangeActionCreators)
 export class Exchange {
 
-    // Inject orderbookUpdater just to ensure that it is constructed (it initializes itself as part of construction).
     constructor(config, orderbookUpdater, exchangeActionCreators) {
         this.config = config;
         this.exchangeActionCreators = exchangeActionCreators;
+
+        orderbookUpdater.init();
     }
 
     configureRouter(routerConfig, router) {
