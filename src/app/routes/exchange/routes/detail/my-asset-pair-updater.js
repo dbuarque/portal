@@ -8,7 +8,7 @@ import {AccountResource} from 'app-resources';
 import {DetailActionCreators} from './detail-action-creators';
 
 @inject(Store, AccountResource, DetailActionCreators)
-export class MyOffersUpdater {
+export class MyAssetPairUpdater {
 
     @connected('exchange.assetPair')
     assetPair;
@@ -23,7 +23,6 @@ export class MyOffersUpdater {
     }
 
     init() {
-        //calling bind, connects the assetPair which will trigger the assetPairChanged listener.
         this.bind();
     }
 
@@ -41,12 +40,12 @@ export class MyOffersUpdater {
         }
 
         if (this.assetPair && this.account) {
-            this.interval = setInterval(this.updateMyOffers.bind(this), 60 * 1000);
-            this.updateMyOffers();
+            this.interval = setInterval(this.updateBalances.bind(this), 60 * 1000);
+            this.updateBalances();
         }
     }
 
-    async updateMyOffers() {
-        this.store.dispatch(this.detailActionCreators.updateMyOffers());
+    async updateBalances() {
+        this.store.dispatch(this.detailActionCreators.updateMyAssetPair());
     }
 }

@@ -11,7 +11,10 @@ export const detailActionTypes = createNamespace(
     [
         'UPDATE_ORDERBOOK',
         'UPDATE_MY_OFFERS',
-        'UPDATE_NEW_OFFER'
+        'UPDATE_MY_BID',
+        'UPDATE_MY_ASK',
+        'UPDATE_MY_ASSET_PAIR',
+        'UPDATE_DISPLAYED_OFFER_TYPE'
     ],
     namespace
 );

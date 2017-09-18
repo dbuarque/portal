@@ -34,13 +34,15 @@ export class OrdersTableCustomElement {
         this.detailActionCreators = detailActionCreators;
     }
 
-    updateNewOfferPrice(order) {
-        this.store.dispatch(this.detailActionCreators.updateNewOffer({
-            [this.selling ? 'biddingPrice' : 'askingPrice']: this.priceFromFraction(order)
+    updateNewOrderPrice(order) {
+        const actionCreatorName = 'updateMy' + (this.type === 'bids' ? 'Ask' : 'Bid');
+
+        this.store.dispatch(this.detailActionCreators[actionCreatorName]({
+            price: this.priceFromFraction(order)
         }));
     }
 
     priceFromFraction(order) {
-        return order ? new BigNumber(order.priceNumerator).dividedBy(order.priceDenominator) : '';
+        return order ? new BigNumber(order.priceNumerator).dividedBy(order.priceDenominator).toString(10) : '';
     }
 }

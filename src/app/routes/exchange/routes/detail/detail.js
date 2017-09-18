@@ -4,13 +4,14 @@
 
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
- import {Store, connected} from 'au-redux';
+import {Store, connected} from 'au-redux';
 import {ExchangeActionCreators} from '../../exchange-action-creators';
 import {DetailActionCreators} from './detail-action-creators';
 import {OrderbookUpdater} from './orderbook-updater';
 import {MyOffersUpdater} from './my-offers-updater';
+import {MyAssetPairUpdater} from './my-asset-pair-updater';
     
-@inject(Router, Store, ExchangeActionCreators, DetailActionCreators, OrderbookUpdater, MyOffersUpdater)
+@inject(Router, Store, ExchangeActionCreators, DetailActionCreators, OrderbookUpdater, MyOffersUpdater, MyAssetPairUpdater)
 export class Detail {
 
     @connected('account')
@@ -19,14 +20,14 @@ export class Detail {
     @connected('exchange.assetPair')
     assetPair;
 
-    @connected('exchange.detail.newOffer')
-    newOffer;
+    @connected('exchange.detail.displayedOfferType')
+    displayedOfferType;
 
     get isMobile() {
         return window.innerWidth < 500;
     }
     
-    constructor(router, store, exchangeActionCreators, detailActionCreators, orderbookUpdater, myOffersUpdater) {
+    constructor(router, store, exchangeActionCreators, detailActionCreators, orderbookUpdater, myOffersUpdater, myAssetPairUpdater) {
         this.router = router;
         this.store = store;
         this.exchangeActionCreators = exchangeActionCreators;
@@ -34,6 +35,7 @@ export class Detail {
 
         orderbookUpdater.init();
         myOffersUpdater.init();
+        myAssetPairUpdater.init();
     }
     
     activate(params) {
@@ -62,9 +64,7 @@ export class Detail {
     }
 
     changeOfferType(newOfferType) {
-        this.store.dispatch(this.detailActionCreators.updateNewOffer({
-            displayedType: newOfferType
-        }));
+        this.store.dispatch(this.detailActionCreators.updateDisplayedOfferType(newOfferType));
     }
 
 

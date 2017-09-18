@@ -2,55 +2,40 @@
  * Created by istrauss on 6/2/2017.
  */
 
-import _debounce from 'lodash.debounce';
-import {bindable} from 'aurelia-framework';
+import BigNumber from 'bignumber.js';
+import {computedFrom} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
-import {Store} from 'au-redux';
-import {TrustService} from 'app-resources';
+import {Store, connected} from 'au-redux';
+import {TrustService, OfferService} from 'app-resources';
 import {DetailActionCreators} from '../detail-action-creators';
 
 export class CreateOffer {
+
+    @connected('account')
+    account;
+
+    @connected('exchange.assetPair')
+    assetPair;
+
+    @connected('exchange.detail.myAssetPair')
+    myAssetPair;
+
+    @computedFrom('buyingAsset')
+    get needsTrustline() {
+        return this.buyingAsset ? this.buyingAsset.code !== window.lupoex.stellar.nativeAssetCode : false;
+    }
+
+    @computedFrom('myBuyingAsset')
+    get minTrustLine() {
+        return this.myBuyingAsset && this.myBuyingAsset.balance ? (new BigNumber(this.myBuyingAsset.balance)).plus(this.buyingAmount || 0).toString(10) : Infinity;
+    }
     
     constructor(container) {
         this.router = container.get(Router);
         this.store = container.get(Store);
         this.trustService = container.get(TrustService);
+        this.offerService = container.get(OfferService);
         this.detailActionCreators = container.get(DetailActionCreators);
-
-        this.onPriceChanged = _debounce(this.priceChanged.bind(this), 250);
-        this.onBuyingAmountChanged = _debounce(this.buyingAmountChanged.bind(this), 250);
-        this.onSellingAmountChanged = _debounce(this.sellingAmountChanged.bind(this), 250);
-    }
-
-    bind() {
-        this.unsubscribeFromStore = this.store.subscribe(this.updateFromStore.bind(this));
-        this.updateFromStore();
-    }
-
-    unbind() {
-        this.unsubscribeFromStore();
-    }
-
-    updateFromStore() {
-        const state = this.store.getState();
-
-        if (this.assetPair !== state.exchange.assetPair || this.account !== state.account) {
-            this.account = state.account;
-            this.assetPair = state.exchange.assetPair;
-            this.buyingAssetBalance = this.trustService.balance(this.buyingAsset.code, this.buyingAsset.issuer) || {limit: 0, balance: 0};
-            this.sellingAssetBalance = this.trustService.balance(this.sellingAsset.code, this.sellingAsset.issuer) || {limit: 0, balance: 0};
-
-            this.buyingAssetBalance.balance = parseFloat(this.buyingAssetBalance.balance, 10);
-            this.buyingAssetBalance.limit = parseFloat(this.buyingAssetBalance.limit, 10);
-            this.sellingAssetBalance.balance = parseFloat(this.sellingAssetBalance.balance, 10);
-            this.sellingAssetBalance.limit = parseFloat(this.sellingAssetBalance.limit, 10);
-
-            this.autoCalculateTrustline();
-        }
-    }
-
-    get needsTrustline() {
-        return this.buyingAsset.code !== window.lupoex.stellar.nativeAssetCode;
     }
 
     goToLogin() {
@@ -109,79 +94,12 @@ export class CreateOffer {
                 sellingCode: this.sellingAsset.code,
                 sellingIssuer: this.sellingAsset.code === window.lupoex.stellar.nativeAssetCode ? undefined : this.sellingAsset.issuer,
                 sellingAmount: this.sellingAmount,
-                price: this.sellingPrice
+                price: this.price
             });
 
             this.detailActionCreators.updateMyOffers();
+            this.detailActionCreators.updateMyAssetPair();
         }
         catch(e) {}
-    }
-    
-    priceChanged() {
-        if (!this.sellingPrice) {
-            return;
-        }
-
-        if (this.buyingAmount) {
-            this.sellingAmount = parseFloat(this.buyingAmount, 10) / this.sellingPrice;
-            this.sellingAmount = this.sellingAmount.toFixed(7);
-        }
-        else if (this.sellingAmount) {
-            this.buyingAmount = this.sellingPrice * parseFloat(this.sellingAmount, 10);
-            this.buyingAmount = this.buyingAmount.toFixed(7);
-        }
-
-        this.autoCalculateTrustline();
-    }
-    
-    buyingAmountChanged() {
-        if (!this.buyingAmount) {
-            return;
-        }
-
-        if (this.sellingPrice) {
-            this.sellingAmount = parseFloat(this.buyingAmount, 10) / this.sellingPrice;
-            this.sellingAmount = this.sellingAmount.toFixed(7);
-        }
-        else if (this.sellingAmount) {
-            this.sellingPrice = parseFloat(this.buyingAmount, 10) / parseFloat(this.sellingAmount, 10);
-        }
-        this.autoCalculateTrustline();
-    }
-
-    sellingAmountChanged() {
-        if (!this.sellingAmount) {
-            return;
-        }
-        
-        if (this.sellingPrice) {
-            this.buyingAmount = this.sellingPrice * parseFloat(this.sellingAmount, 10);
-            this.buyingAmount = this.buyingAmount.toFixed(7);
-        }
-        else if (this.buyingAmount) {
-            this.sellingPrice = parseFloat(this.buyingAmount, 10) / parseFloat(this.sellingAmount, 10);
-        }
-
-        this.autoCalculateTrustline();
-    }
-
-    autoCalculateTrustline() {
-        if (!this.needsTrustline) {
-            return;
-        }
-
-        this.minTrustLine = this.minimumTrustline();
-    }
-
-    minimumTrustline() {
-        const minTrust = this.buyingAssetBalance.balance + parseFloat(this.buyingAmount || 0, 10);
-        return minTrust.toFixed(7);
-    }
-
-    refresh() {
-        this.price = undefined;
-        this.sellingAmount = undefined;
-        this.buyingAmount = undefined;
-        this.trustline = undefined;
     }
 }

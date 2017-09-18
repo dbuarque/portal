@@ -21,5 +21,6 @@ export class MyOffersCustomElement {
     async cancel(bid) {
         await this.offerService.cancelOffer(bid);
         this.detailActionCreators.updateMyOffers();
+        this.detailActionCreators.updateMyAssetPair();
     }
 }

@@ -4,7 +4,7 @@
 
 import {combineReducersProvideRootState, restrictReducerToNamespace} from 'au-redux';
 import {namespace, exchangeActionTypes} from './exchange-action-types';
-import {detail} from './routes/detail/detail-reducers';
+import detail from './routes/detail/reducers';
 
 const {UPDATE_ASSET_PAIR} = exchangeActionTypes;
 
