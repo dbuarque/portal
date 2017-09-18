@@ -74,6 +74,11 @@ export class AccountEffectAlerter {
 
         switch(type) {
             case 'PAYMENT':
+                // We don't want two alerts coming up every time someone puts an offer in (one for the trade and one for the fee)
+                if (e.operation.transaction.memo === 'offer_via_lupoex') {
+                    return null;
+                }
+
                 alert.msg = 'Send payment to ' + details.to.slice(0, 6) + ' for ' +
                     this._assetDetailsToText(details.amount, details.asset_type, details.asset_code);
                 break;

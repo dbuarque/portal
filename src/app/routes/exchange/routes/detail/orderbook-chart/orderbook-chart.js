@@ -16,7 +16,7 @@ export class OrderbookChartCustomElement {
     @connected('exchange.assetPair')
     assetPair;
 
-    @connected('exchange.orderbook')
+    @connected('exchange.detail.orderbook')
     orderbook;
 
     loading = 0;
@@ -99,43 +99,6 @@ export class OrderbookChartCustomElement {
 
         this.draw();
     }
-
-    //unbind() {
-    //    this.unsubscribeFromStore();
-    //}
-    //
-    //updateFromStore() {
-    //    if (!this.isAttached) {
-    //        return;
-    //    }
-    //
-    //    const newState = this.store.getState();
-    //    const exchange = newState.exchange;
-    //    const orderbookChart = exchange.detail.orderbookChart;
-    //
-    //    this.assetPair = exchange.assetPair;
-    //
-    //    if (this.orderbook !== exchange.orderbook ||
-    //        this.start !== orderbookChart.start ||
-    //        this.end !== orderbookChart.end
-    //    ) {
-    //        this.orderbook = exchange.orderbook;
-    //        this.start = orderbookChart.start;
-    //        this.end = orderbookChart.end;
-    //
-    //        if (this.orderbook.bids) {
-    //            this.orderbook.bids = this.orderbook.bids.filter(b =>
-    //                (!this.start || parseFloat(b.price) >= this.start) &&
-    //                (!this.end || parseFloat(b.price) <= this.end)
-    //            );
-    //            this.orderbook.asks = this.orderbook.asks.filter(a =>
-    //                (!this.start || parseFloat(a.price) >= this.start) &&
-    //                (!this.end || parseFloat(a.price) <= this.end)
-    //            );
-    //            this.refresh();
-    //        }
-    //    }
-    //}
 
     async orderbookChanged() {
         this.draw();

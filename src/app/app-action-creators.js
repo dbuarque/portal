@@ -5,16 +5,14 @@
 import {inject} from 'aurelia-framework';
 import {appActionTypes} from './app-action-types';
 import {StellarServer, AlertToaster} from 'global-resources';
-import {BaseOfferService} from './resources/crud/stellar/offer-service/base-offer-service';
 
 const {UPDATE_ACCOUNT, UPDATE_LUPOEX_ACCOUNT, UPDATE_OFFERS} = appActionTypes;
 
-@inject(StellarServer, AlertToaster, BaseOfferService)
+@inject(StellarServer, AlertToaster)
 export class AppActionCreators {
-    constructor(stellarServer, alertToaster, offerService) {
+    constructor(stellarServer, alertToaster) {
         this.stellarServer = stellarServer;
         this.alertToaster = alertToaster;
-        this.offerService = offerService;
     }
 
     setAccount(publicKey) {
@@ -76,23 +74,6 @@ export class AppActionCreators {
             }
 
             return dispatch(this.setAccount(account.id));
-        }
-    }
-
-    updateOffers() {
-        return async (dispatch, getState) => {
-            const account = getState().account;
-
-            if (!account) {
-                return;
-            }
-
-            const offers = await this.offerService.allOffers(account.id);
-
-            return dispatch({
-                type: UPDATE_OFFERS,
-                payload: offers
-            });
         }
     }
 

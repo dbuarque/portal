@@ -5,8 +5,9 @@
 import _debounce from 'lodash.debounce';
 import {bindable} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
- import {Store} from 'au-redux';
+import {Store} from 'au-redux';
 import {TrustService} from 'app-resources';
+import {DetailActionCreators} from '../detail-action-creators';
 
 export class CreateOffer {
     
@@ -14,6 +15,7 @@ export class CreateOffer {
         this.router = container.get(Router);
         this.store = container.get(Store);
         this.trustService = container.get(TrustService);
+        this.detailActionCreators = container.get(DetailActionCreators);
 
         this.onPriceChanged = _debounce(this.priceChanged.bind(this), 250);
         this.onBuyingAmountChanged = _debounce(this.buyingAmountChanged.bind(this), 250);
@@ -109,6 +111,8 @@ export class CreateOffer {
                 sellingAmount: this.sellingAmount,
                 price: this.sellingPrice
             });
+
+            this.detailActionCreators.updateMyOffers();
         }
         catch(e) {}
     }

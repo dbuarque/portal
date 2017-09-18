@@ -3,21 +3,11 @@
  */
 
 
-import {inject} from 'aurelia-framework';
-import {namespace, exchangeActionTypes} from './exchange-action-types';
-import {StellarServer} from 'global-resources';
-import {OrderAmountValueConverter, SumOrdersAmountValueConverter} from 'app-resources';
+import {exchangeActionTypes} from './exchange-action-types';
 
-const {UPDATE_ASSET_PAIR, UPDATE_ORDERBOOK} = exchangeActionTypes;
+const {UPDATE_ASSET_PAIR} = exchangeActionTypes;
 
-@inject(StellarServer, OrderAmountValueConverter, SumOrdersAmountValueConverter)
 export class ExchangeActionCreators {
-
-    constructor(stellarServer, orderAmount, sumOrdersAmount) {
-        this.stellarServer = stellarServer;
-        this.orderAmount = orderAmount;
-        this.sumOrdersAmount = sumOrdersAmount;
-    }
 
     updateAssetPair(assetPair) {
         return {
@@ -26,12 +16,5 @@ export class ExchangeActionCreators {
                 ...assetPair
             }
         };
-    }
-
-    updateOrderbook(orderbook) {
-        return {
-            type: UPDATE_ORDERBOOK,
-            payload: orderbook
-        }
     }
 }

@@ -7,7 +7,7 @@ import JsonClient from '../clients/json-client';
 import BaseResource from './base-resource';
 
 @inject(JsonClient)
-export default class EffectResource extends BaseResource {
+export class EffectResource extends BaseResource {
     constructor() {
         super('/Effect');
     }

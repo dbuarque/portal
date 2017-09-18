@@ -9,10 +9,10 @@
                     <i style="font-size: 15px;" class="fa fa-refresh right" no-collapse click.trigger="refresh()"></i>
                 </div>
                 <div class="card-body">
-                    <div show.bind="asks.length === 0 && bids.length === 0">
+                    <div show.bind="!myOffers.asks && !myOffers.bids">
                         <i>You have no open offers for this asset pair.</i>
                     </div>
-                    <div show.bind="asks.length !== 0 || bids.length !== 0">
+                    <div show.bind="myOffers.asks || myOffers.bids">
                         <table class="highlight striped centered">
                             <thead>
                                 <tr>
@@ -24,7 +24,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr repeat.for="bid of bids">
+                                <tr repeat.for="bid of myOffers.bids">
                                     <td><span class="success-text"><strong>Bid</strong></span></td>
                                     <td>${1 / bid.price | toPrecision:7}</td>
                                     <td>${bid.amount * bid.price | toPrecision:7}</td>
@@ -35,7 +35,7 @@
                                         </a>
                                     </td>
                                 </tr>
-                                <tr repeat.for="ask of asks">
+                                <tr repeat.for="ask of myOffers.asks">
                                     <td><span class="error-text"><strong>Ask</strong></span></td>
                                     <td>${ask.price | toPrecision:7}</td>
                                     <td>${ask.amount | toPrecision:7}</td>

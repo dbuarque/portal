@@ -4,17 +4,12 @@
 
 import {inject} from 'aurelia-framework';
 import Config from './exchange-config';
-import {ExchangeActionCreators} from './exchange-action-creators';
-import {OrderbookUpdater} from './orderbook-updater';
 
-@inject(Config, OrderbookUpdater,ExchangeActionCreators)
+@inject(Config)
 export class Exchange {
 
-    constructor(config, orderbookUpdater, exchangeActionCreators) {
+    constructor(config) {
         this.config = config;
-        this.exchangeActionCreators = exchangeActionCreators;
-
-        orderbookUpdater.init();
     }
 
     configureRouter(routerConfig, router) {

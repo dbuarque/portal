@@ -7,7 +7,7 @@ import JsonClient from '../clients/json-client';
 import BaseResource from './base-resource';
 
 @inject(JsonClient)
-export default class OperationResource extends BaseResource {
+export class OperationResource extends BaseResource {
     constructor() {
         super('/Operation');
     }

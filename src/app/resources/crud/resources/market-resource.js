@@ -8,7 +8,7 @@ import BaseResource from './base-resource';
 import {AssetPairToUrlValueConverter} from '../value-converters';
 
 @inject(ModalService, AssetPairToUrlValueConverter)
-export default class MarketResource extends BaseResource {
+export class MarketResource extends BaseResource {
     constructor(modalService, assetPairToUrl) {
         super('/Market');
 

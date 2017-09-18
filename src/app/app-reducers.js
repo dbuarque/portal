@@ -11,7 +11,6 @@ const {UPDATE_ACCOUNT, UPDATE_LUPOEX_ACCOUNT, UPDATE_OFFERS} = appActionTypes;
 export const app = combineReducersProvideRootState({
     account,
     lupoexAccount,
-    offers,
     exchange
 });
 
@@ -21,10 +20,6 @@ function account(state, action) {
 
 function lupoexAccount(state, action) {
     return action.type === UPDATE_LUPOEX_ACCOUNT ? action.payload.account : state;
-}
-
-function offers(state, action) {
-    return action.type === UPDATE_OFFERS ? action.payload : state;
 }
 
 

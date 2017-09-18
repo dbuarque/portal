@@ -8,8 +8,7 @@ export const namespace = 'EXCHANGE';
 
 export const exchangeActionTypes = createNamespace(
     [
-        'UPDATE_ASSET_PAIR',
-        'UPDATE_ORDERBOOK'
+        'UPDATE_ASSET_PAIR'
     ],
     namespace
 );

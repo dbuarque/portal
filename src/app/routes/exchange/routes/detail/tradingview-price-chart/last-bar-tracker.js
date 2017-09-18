@@ -7,7 +7,7 @@ import moment from 'moment';
 import {inject} from 'aurelia-framework';
 import {subscriptionService} from 'global-resources';
 import {MarketResource} from 'app-resources';
-import {MarketStream} from '../../../market-stream';
+import {MarketStream} from '../market-stream';
 
 @subscriptionService()
 @inject(MarketResource, MarketStream)

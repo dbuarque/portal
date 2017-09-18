@@ -4,60 +4,57 @@
 
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
- import {Store} from 'au-redux';
+ import {Store, connected} from 'au-redux';
 import {ExchangeActionCreators} from '../../exchange-action-creators';
-import {AppActionCreators} from '../../../../app-action-creators';
+import {DetailActionCreators} from './detail-action-creators';
+import {OrderbookUpdater} from './orderbook-updater';
+import {MyOffersUpdater} from './my-offers-updater';
     
-@inject(Router, Store, ExchangeActionCreators, AppActionCreators)
+@inject(Router, Store, ExchangeActionCreators, DetailActionCreators, OrderbookUpdater, MyOffersUpdater)
 export class Detail {
 
-    offerType = 'bid';
+    @connected('account')
+    account;
+
+    @connected('exchange.assetPair')
+    assetPair;
+
+    @connected('exchange.detail.newOffer')
+    newOffer;
+
+    get isMobile() {
+        return window.innerWidth < 500;
+    }
     
-    constructor(router, store, exchangeActionCreators, appActionCreators) {
+    constructor(router, store, exchangeActionCreators, detailActionCreators, orderbookUpdater, myOffersUpdater) {
         this.router = router;
         this.store = store;
         this.exchangeActionCreators = exchangeActionCreators;
-        this.appActionCreators = appActionCreators;
+        this.detailActionCreators = detailActionCreators;
 
-        this.isMobile = window.innerWidth < 500;
+        orderbookUpdater.init();
+        myOffersUpdater.init();
     }
     
     activate(params) {
         const nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
-        this.assetPair = {
-            buying: {
-                code: params.buyingCode,
-                issuer: params.buyingCode === nativeAssetCode ? undefined : params.buyingIssuer
-            },
-            selling: {
-                code: params.sellingCode,
-                issuer: params.sellingCode === nativeAssetCode ? undefined : params.sellingIssuer
-            }
-        };
         
-        this.store.dispatch(this.exchangeActionCreators.updateAssetPair(this.assetPair));
-
-        this.unsubscribeFromStore = this.store.subscribe(this.updateFromStore.bind(this));
-        this.updateFromStore();
+        this.store.dispatch(this.exchangeActionCreators.updateAssetPair(
+            {
+                buying: {
+                    code: params.buyingCode,
+                    issuer: params.buyingCode === nativeAssetCode ? undefined : params.buyingIssuer
+                },
+                selling: {
+                    code: params.sellingCode,
+                    issuer: params.sellingCode === nativeAssetCode ? undefined : params.sellingIssuer
+                }
+            }
+        ));
     }
 
-    unbind() {
-        this.unsubscribeFromStore();
-    }
-
-    updateFromStore() {
-        const state = this.store.getState();
-
-        this.account = state.account;
-        this.assetPair = state.exchange.assetPair;
-
+    assetPairChanged() {
         this.updateRouteTitle();
-
-        if (state.offers) {
-            return;
-        }
-
-        this.store.dispatch(this.appActionCreators.updateOffers());
     }
 
     attached() {
@@ -65,8 +62,9 @@ export class Detail {
     }
 
     changeOfferType(newOfferType) {
-        this.offerType = newOfferType;
-        //this.offerTabs.selectTab('tab-' + newOfferType);
+        this.store.dispatch(this.detailActionCreators.updateNewOffer({
+            displayedType: newOfferType
+        }));
     }
 
 

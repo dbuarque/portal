@@ -45,13 +45,13 @@ export class OpenOffers {
         }
     }
 
-    async refresh() {
-        this.loading++;
-
-        await this.store.dispatch(this.appActionCreators.updateOffers());
-
-        this.loading--;
-    }
+    //async refresh() {
+    //    this.loading++;
+//
+    //    await this.store.dispatch(this.appActionCreators.updateOffers());
+//
+    //    this.loading--;
+    //}
 
     get refreshing() {
         return this.account.updating || this.loading > 0;

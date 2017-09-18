@@ -2,6 +2,7 @@
  * Created by istrauss on 8/11/2017.
  */
 
+import _clone from 'lodash.clone';
 import {inject} from 'aurelia-framework';
 import moment from 'moment';
 import {LastBarTracker} from './last-bar-tracker';
@@ -10,6 +11,7 @@ import {LastBarTracker} from './last-bar-tracker';
 export class TradingviewBarsRealtimeUpdater {
 
     started = false;
+    lastBar;
 
     constructor(lastBarTracker) {
         this.lastBarTracker = lastBarTracker;
@@ -30,6 +32,7 @@ export class TradingviewBarsRealtimeUpdater {
             this.unsubscribeFromStream();
             this.lastBarTracker.reconfigure();
             this.started = false;
+            this.lastBar = undefined;
         }
     }
 
@@ -38,15 +41,17 @@ export class TradingviewBarsRealtimeUpdater {
     }
 
     _updateWithNewBar(newBar) {
+        this.lastBar = _clone(newBar);
         this.onFetchCallback(newBar);
     }
 
     async _updateWithEmptyBarIfNeeded() {
         const values = await Promise.all([
-            this.lastBarTracker.get(),
+            this.lastBar ? Promise.resolve(this.lastBar) : this.lastBarTracker.get(),
             this.lastBarTracker.timeToBarTime(new Date())
         ]);
 
+        //If there is no lastBar from the lastBarTracker then that means this market has no trades.
         if (!values[0]) {
             this.stop();
         }
@@ -58,6 +63,7 @@ export class TradingviewBarsRealtimeUpdater {
                 time: values[1]
             };
 
+            this.lastBar = _clone(newBar);
             this.onFetchCallback(newBar);
         }
     }

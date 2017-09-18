@@ -15,7 +15,7 @@
 
                 <tradingview-price-chart></tradingview-price-chart>
 
-                <orderbook asking-price.bind="askingPrice" bidding-price.bind="biddingPrice"></orderbook>
+                <orderbook></orderbook>
             </div>
             <div class="col l4">
                 <!--<div class="hide-on-med-and-down">-->
@@ -32,17 +32,17 @@
                             <div class="tabs">
                                 <ul md-tabs="fixed: true;" md-tabs.ref="offerTabs" class="z-depth-1">
                                     <li>
-                                        <a class="${offerType === 'ask' ? 'active' : '' & oneTime}" click.trigger="changeOfferType('ask')" href="#ask-tab">Sell ${assetPair.selling.code}</a>
+                                        <a class="${newOffer.displayedType === 'ask' ? 'active' : ''}" click.trigger="changeOfferType('ask')" href="#ask-tab">Sell ${assetPair.selling.code}</a>
                                     </li>
                                     <li>
-                                        <a class="${offerType === 'bid' ? 'active' : '' & oneTime}" click.trigger="changeOfferType('bid')" href="#bid-tab">Buy ${assetPair.selling.code}</a>
+                                        <a class="${newOffer.displayedType === 'bid' ? 'active' : ''}" click.trigger="changeOfferType('bid')" href="#bid-tab">Buy ${assetPair.selling.code}</a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                         <div class="card-body">
-                            <create-ask show.bind="offerType === 'ask'" price.bind="askingPrice"></create-ask>
-                            <create-bid show.bind="offerType === 'bid'" price.bind="biddingPrice"></create-bid>
+                            <create-ask show.bind="newOffer.displayedType === 'ask'" price.bind="newOffer.askingPrice"></create-ask>
+                            <create-bid show.bind="newOffer.displayedType === 'bid'" price.bind="newOffer.biddingPrice"></create-bid>
                         </div>
                     </div>
                 </div>

@@ -7,7 +7,7 @@ import {ModalService} from 'global-resources';
 import BaseResource from './base-resource';
 
 @inject(ModalService)
-export default class AssetResource extends BaseResource {
+export class AssetResource extends BaseResource {
     constructor(modalService) {
         super('/Asset');
 
