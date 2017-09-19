@@ -15,7 +15,7 @@ export function myBid(state, action, rootState) {
         case UPDATE_MY_BID:
             return calculateNewOrder(action.payload, state);
         case UPDATE_ORDERBOOK:
-            if (!state && action.payload && action.payload.asks) {
+            if (!state && action.payload && action.payload.asks && action.payload.asks.length > 0) {
                 return {
                     price: (new BigNumber(1)).dividedBy(action.payload.asks[0].price)
                 };
