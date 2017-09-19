@@ -28,7 +28,7 @@ export class TradingviewPriceChartCustomElement {
 
     attached() {
         this.isAttached = true;
-        this.assetPairChanged()
+        this.updateChart()
     }
 
     detached() {
