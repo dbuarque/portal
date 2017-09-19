@@ -2,6 +2,7 @@
  * Created by istrauss on 9/18/2017.
  */
 
+import BigNumber from 'bignumber.js';
 import {exchangeActionTypes} from '../../../exchange-action-types';
 import {detailActionTypes} from '../detail-action-types';
 import {isNewAssetPair, calculateNewOrder} from './helpers';
@@ -16,7 +17,7 @@ export function myBid(state, action, rootState) {
         case UPDATE_ORDERBOOK:
             if (!state && action.payload && action.payload.asks) {
                 return {
-                    price: action.payload.asks[0].price
+                    price: (new BigNumber(1)).dividedBy(action.payload.asks[0].price)
                 };
             }
 

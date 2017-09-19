@@ -6,14 +6,13 @@
                     <div class="card-title">
                         My Offers
                     </div>
-                    <i style="font-size: 15px;" class="fa fa-refresh right" no-collapse click.trigger="refresh()"></i>
                 </div>
                 <div class="card-body">
-                    <div show.bind="!myOffers.asks && !myOffers.bids">
+                    <div class="no-offers" show.bind="!anyOffers">
                         <i>You have no open offers for this asset pair.</i>
                     </div>
-                    <div show.bind="myOffers.asks || myOffers.bids">
-                        <table class="highlight striped centered">
+                    <div show.bind="anyOffers">
+                        <table class="highlight centered">
                             <thead>
                                 <tr>
                                     <th>Type</th>

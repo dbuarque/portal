@@ -25,9 +25,9 @@ export class CreateOffer {
         return this.buyingAsset ? this.buyingAsset.code !== window.lupoex.stellar.nativeAssetCode : false;
     }
 
-    @computedFrom('myBuyingAsset')
+    @computedFrom('myBuyingAsset', 'buyingAmount')
     get minTrustLine() {
-        return this.myBuyingAsset && this.myBuyingAsset.balance ? (new BigNumber(this.myBuyingAsset.balance)).plus(this.buyingAmount || 0).toString(10) : Infinity;
+        return this.myBuyingAsset && this.myBuyingAsset.balance ? (new BigNumber(this.myBuyingAsset.balance)).plus(this.buyingAmount || 0).toString(10) : undefined;
     }
     
     constructor(container) {

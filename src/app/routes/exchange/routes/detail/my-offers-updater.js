@@ -23,7 +23,7 @@ export class MyOffersUpdater {
     }
 
     init() {
-        //calling bind, connects the assetPair which will trigger the assetPairChanged listener.
+        //calling bind, connects the connected properties
         this.bind();
     }
 

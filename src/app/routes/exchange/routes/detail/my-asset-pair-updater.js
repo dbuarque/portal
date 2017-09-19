@@ -23,6 +23,7 @@ export class MyAssetPairUpdater {
     }
 
     init() {
+        //calling bind, connects the connected properties
         this.bind();
     }
 
@@ -40,12 +41,12 @@ export class MyAssetPairUpdater {
         }
 
         if (this.assetPair && this.account) {
-            this.interval = setInterval(this.updateBalances.bind(this), 60 * 1000);
-            this.updateBalances();
+            this.interval = setInterval(this.updateMyAssetPair.bind(this), 60 * 1000);
+            this.updateMyAssetPair();
         }
     }
 
-    async updateBalances() {
+    async updateMyAssetPair() {
         this.store.dispatch(this.detailActionCreators.updateMyAssetPair());
     }
 }

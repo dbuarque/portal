@@ -48,18 +48,22 @@ export class CreateBidCustomElement extends CreateOffer {
         }));
     }
 
+    @computedFrom('assetPair')
     get sellingAsset() {
         return this.assetPair ? this.assetPair.buying : {};
     }
 
+    @computedFrom('assetPair')
     get buyingAsset() {
         return this.assetPair ? this.assetPair.selling : {};
     }
 
+    @computedFrom('myAssetPair')
     get mySellingAsset() {
         return this.myAssetPair ? this.myAssetPair.buying : {};
     }
 
+    @computedFrom('myAssetPair')
     get myBuyingAsset() {
         return this.myAssetPair ? this.myAssetPair.selling : {};
     }
