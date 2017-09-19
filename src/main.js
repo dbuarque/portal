@@ -1,7 +1,9 @@
-import './main-config';
+
 import {PLATFORM} from 'aurelia-pal';
 import 'font-awesome/css/font-awesome.css';
 import './third-party-css';
+import 'babel-polyfill';
+import './main-config';
 import '!style-loader!css-loader!sass-loader!./main.scss';
 import {Store} from 'au-redux';
 import {app as rootReducer} from './app/app-reducers';
@@ -32,7 +34,6 @@ export async function configure(aurelia) {
             return bridge
                 .useCheckbox()
                 .useDropdown()
-                .useProgress()
                 .useRadio()
                 .useSelect()
                 .useSwitch()

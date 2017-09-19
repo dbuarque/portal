@@ -1,8 +1,9 @@
 node_modules
 .DS_STORE
-.idea
 npm-debug.log*
 yarn-error.log
 /dist
 /test/*coverage
+/test/coverage*
 /.chrome
+/.idea
