@@ -30,7 +30,7 @@
                     <label>${assetPair.buying.code}</label>
                     <input stellar-compliant-float type="number" class="form-control" value.bind="sellingAmount">
                 </div>
-                <div if.bind="needsTrustline && myBuyingAsset">
+                <div if.bind="needsTrustline && myBuyingAsset.trustLimit">
                     <div class="form-field">
                         <span class.bind="minTrustLine <= myBuyingAsset.trustLimit ? 'success-text' : 'error-text'">${minTrustLine}/${myBuyingAsset.trustLimit} Limit</span>
                     </div>

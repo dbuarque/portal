@@ -34,6 +34,7 @@ export class TradingviewPriceChartCustomElement {
     detached() {
         this.rtUpdater.stop();
         delete this.widget;
+        this.isAttached = false;
     }
 
     assetPairChanged() {

@@ -40,10 +40,12 @@ export class MyAssetPairUpdater {
             clearInterval(this.interval);
         }
 
-        if (this.assetPair && this.account) {
-            this.interval = setInterval(this.updateMyAssetPair.bind(this), 60 * 1000);
-            this.updateMyAssetPair();
+        if (!this.assetPair || !this.account || !this.account.flags) {
+            return;
         }
+
+        this.interval = setInterval(this.updateMyAssetPair.bind(this), 60 * 1000);
+        this.updateMyAssetPair();
     }
 
     async updateMyAssetPair() {

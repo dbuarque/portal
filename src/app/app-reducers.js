@@ -2,11 +2,12 @@
  * Created by Ishai on 12/20/2016.
  */
 
+import _isEqual from 'lodash.isequal';
 import {combineReducersProvideRootState, restrictReducerToNamespace} from 'au-redux';
 import {appActionTypes} from './app-action-types';
 import {exchange} from './routes/exchange/exchange-reducers';
 
-const {UPDATE_ACCOUNT, UPDATE_LUPOEX_ACCOUNT, UPDATE_OFFERS} = appActionTypes;
+const {UPDATE_ACCOUNT, UPDATE_LUPOEX_ACCOUNT} = appActionTypes;
 
 export const app = combineReducersProvideRootState({
     account,
@@ -15,7 +16,7 @@ export const app = combineReducersProvideRootState({
 });
 
 function account(state, action) {
-    return action.type === UPDATE_ACCOUNT ? action.payload.account : state;
+    return action.type === UPDATE_ACCOUNT && !_isEqual(state, action.payload.account) ? action.payload.account : state;
 }
 
 function lupoexAccount(state, action) {

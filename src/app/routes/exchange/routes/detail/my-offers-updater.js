@@ -40,10 +40,12 @@ export class MyOffersUpdater {
             clearInterval(this.interval);
         }
 
-        if (this.assetPair && this.account) {
-            this.interval = setInterval(this.updateMyOffers.bind(this), 60 * 1000);
-            this.updateMyOffers();
+        if (!this.assetPair || !this.account || !this.account.flags) {
+            return;
         }
+
+        this.interval = setInterval(this.updateMyOffers.bind(this), 60 * 1000);
+        this.updateMyOffers();
     }
 
     async updateMyOffers() {

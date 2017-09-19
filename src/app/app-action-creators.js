@@ -6,7 +6,7 @@ import {inject} from 'aurelia-framework';
 import {appActionTypes} from './app-action-types';
 import {StellarServer, AlertToaster} from 'global-resources';
 
-const {UPDATE_ACCOUNT, UPDATE_LUPOEX_ACCOUNT, UPDATE_OFFERS} = appActionTypes;
+const {UPDATE_ACCOUNT, UPDATE_LUPOEX_ACCOUNT} = appActionTypes;
 
 @inject(StellarServer, AlertToaster)
 export class AppActionCreators {
