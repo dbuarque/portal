@@ -25,7 +25,7 @@ export class Login {
     canActivate() {
         const account = this.store.getState().account;
 
-        if (account && account.id) {
+        if (account && account.accountId) {
             return new Redirect('exchange');
         }
     }

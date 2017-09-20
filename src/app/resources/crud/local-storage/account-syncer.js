@@ -34,14 +34,14 @@ export class AccountSyncer {
         const storedAccountId = storedAccount ? storedAccount.id : undefined;
 
         if (storedAccountId !== localAccountId) {
-            await this.store.dispatch(this.appActionCreators.setAccount(localAccountId));
+            await this.store.dispatch(this.appActionCreators.updateAccount(localAccountId));
         }
     }
 
     _syncToLocalStorage() {
         const localAccountId = localStorage.getItem('account-id');
         const storedAccount = this.store.getState().account;
-        const storedAccountId = storedAccount ? storedAccount.id : undefined;
+        const storedAccountId = storedAccount ? storedAccount.accountId : undefined;
 
         if (storedAccountId !== localAccountId) {
             storedAccountId ? localStorage.setItem('account-id', storedAccountId) : localStorage.removeItem('account-id');

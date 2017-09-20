@@ -16,11 +16,11 @@ export const app = combineReducersProvideRootState({
 });
 
 function account(state, action) {
-    return action.type === UPDATE_ACCOUNT && !_isEqual(state, action.payload.account) ? action.payload.account : state;
+    return action.type === UPDATE_ACCOUNT && !_isEqual(state, action.payload) ? action.payload : state;
 }
 
 function lupoexAccount(state, action) {
-    return action.type === UPDATE_LUPOEX_ACCOUNT ? action.payload.account : state;
+    return action.type === UPDATE_LUPOEX_ACCOUNT ? action.payload : state;
 }
 
 

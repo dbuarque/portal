@@ -15,6 +15,63 @@ export class AccountResource extends BaseResource {
     }
 
     /**
+     * Gets an account
+     * @param accountId
+     * @returns {*}
+     */
+    account(accountId) {
+        return this.get('/' + accountId);
+    }
+
+    /**
+     * Gets effects for an account
+     * @param accountId
+     * @param [query]
+     * @param [query.limit] The number of results to return (MAX 100)
+     * @param [query.offset] The number of results to skip
+     * @returns {*}
+     */
+    effects(accountId, query) {
+        return this.get('/' + accountId + '/Effects', query)
+    }
+
+    /**
+     * Gets balances for an account
+     * @param accountId
+     * @param [query]
+     * @param [query.limit] The number of results to return (MAX 100)
+     * @param [query.offset] The number of results to skip
+     * @returns {*}
+     */
+    balances(accountId, query) {
+        return this.get('/' + accountId + '/Balances', query)
+    }
+
+    /**
+     * Gets offers for an account
+     * @param accountId
+     * @param [query]
+     * @param [query.limit] The number of results to return (MAX 100)
+     * @param [query.offset] The number of results to skip
+     * @returns {*}
+     */
+    offers(accountId, query) {
+        return this.get('/' + accountId + '/Offers', query)
+    }
+
+    /**
+     * Gets account data for an account
+     * @param accountId
+     * @param [query]
+     * @param [query.limit] The number of results to return (MAX 100)
+     * @param [query.offset] The number of results to skip
+     * @returns {*}
+     */
+    accountData(accountId, query) {
+        return this.get('/' + accountId + '/AccountData', query)
+    }
+
+    /**
      * Gets the offers for an account for a specific market
      * @param accountId
      * @param assetPair

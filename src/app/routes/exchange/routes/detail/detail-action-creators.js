@@ -52,7 +52,7 @@ export class DetailActionCreators {
                 return;
             }
 
-            const offers = await this.accountResource.offersForMarket(state.account.id, state.exchange.assetPair);
+            const offers = await this.accountResource.offersForMarket(state.account.accountId, state.exchange.assetPair);
 
             return dispatch({
                 type: UPDATE_MY_OFFERS,
@@ -68,7 +68,7 @@ export class DetailActionCreators {
                 return;
             }
 
-            const offers = await this.accountResource.assetPairTrustlines(state.account.id, state.exchange.assetPair);
+            const offers = await this.accountResource.assetPairTrustlines(state.account.accountId, state.exchange.assetPair);
 
             return dispatch({
                 type: UPDATE_MY_ASSET_PAIR,

@@ -40,7 +40,7 @@ export class TransactionService {
         let transaction;
 
         try {
-            account = await this.stellarServer.loadAccount(account.id);
+            account = await this.stellarServer.loadAccount(account.accountId);
 
             this.store.dispatch({
                 type: UPDATE_ACCOUNT,
@@ -50,7 +50,7 @@ export class TransactionService {
             });
 
             const transactionBuilder = new this.stellarServer.sdk.TransactionBuilder(
-                new this.stellarServer.sdk.Account(account.id, account.sequence)
+                new this.stellarServer.sdk.Account(account.accountId, account.sequence)
             );
 
             operations.forEach(o => {

@@ -4,7 +4,7 @@
 
 import {inject} from 'aurelia-framework';
 import {StellarServer} from './stellar-server';
-import {AlertToaster} from '../workers/alert-toaster/alert-toaster';
+import {AlertToaster} from '../workers/toasters';
 import {StellarStream} from './stellar-stream';
 
 @inject(StellarServer, AlertToaster)

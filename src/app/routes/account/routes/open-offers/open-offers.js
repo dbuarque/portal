@@ -35,12 +35,12 @@ export class OpenOffers {
     updateFromStore() {
         const state = this.store.getState();
 
-        const oldAccountId = this.account ? this.account.id : undefined;
+        const oldAccountId = this.account ? this.account.accountId : undefined;
 
         this.account = state.account;
         this.offers = state.offers;
 
-        if (this.account.id !== oldAccountId) {
+        if (this.account.accountId !== oldAccountId) {
             this.refresh();
         }
     }

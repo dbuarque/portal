@@ -172,8 +172,6 @@ export class SendPayment {
                     memo: this.memo ? this.stellarServer.sdk.Memo[this.memoMethodFromType(this.memo.type)](this.memo.value) : undefined,
                     onSuccess: this.generateSuccessMessage.bind(this)
                 });
-
-                this.store.dispatch(this.appActionCreators.updateAccount());
                 this.refresh();
             }
             catch(e) {

@@ -37,7 +37,7 @@ export class AssetBalances {
     }
 
     refresh() {
-        this.store.dispatch(this.appActionCreators.updateAccount());
+        //this.store.dispatch(this.appActionCreators.updateAccount());
     }
 
     get refreshing() {

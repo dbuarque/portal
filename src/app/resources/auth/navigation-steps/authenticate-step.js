@@ -20,7 +20,7 @@ export default class AuthenticateStep {
 
         const account = this.store.getState().account;
 
-        if (navigationInstruction.config.accountRequired && !(account && account.id)) {
+        if (navigationInstruction.config.accountRequired && !(account && account.accountId)) {
             return next.cancel(new Redirect('login'));
         }
 

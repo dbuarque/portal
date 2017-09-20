@@ -49,6 +49,6 @@ export class Navbar {
 
     @computedFrom('account')
     get firstFive() {
-        return this.account && this.account.id ? this.account.id.slice(0, 5) : null;
+        return this.account && this.account.accountId ? this.account.accountId.slice(0, 5) : null;
     }
 }

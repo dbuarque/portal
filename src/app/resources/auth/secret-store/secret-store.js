@@ -39,7 +39,7 @@ export class SecretStore {
                 this.alertToaster.error('You cannot authenticate with your secret key before logging in. Please log in and try again.');
                 throw new Error('You cannot authenticate with your secret key before logging in. Please log in and try again.');
             }
-            if (account.id !== keypair.publicKey()) {
+            if (account.accountId !== keypair.publicKey()) {
                 this.alertToaster.error('Sorry, the secret key provided did not match your account. Please try again.');
                 return this.sign(transaction);
             }

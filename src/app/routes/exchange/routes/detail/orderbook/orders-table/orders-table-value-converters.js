@@ -20,6 +20,6 @@ export class IncludesMyOfferCssValueConverter {
 
     toView(order) {
         const account = this.store.getState().account;
-        return account && order.sellerIds.indexOf(account.id) > -1 ? 'includes-my-offer' : '';
+        return account && order.sellerIds.indexOf(account.accountId) > -1 ? 'includes-my-offer' : '';
     }
 }

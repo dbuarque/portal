@@ -67,7 +67,7 @@ export class LoginCustomElement {
         this.loading++;
 
         try {
-            await this.store.dispatch(this.appActionCreators.setAccount(this.publicKey));
+            await this.store.dispatch(this.appActionCreators.updateAccount(this.publicKey));
 
             if (this.secret) {
                 this.secretStore.remember(this.stellarServer.sdk.Keypair.fromSecret(this.secret));

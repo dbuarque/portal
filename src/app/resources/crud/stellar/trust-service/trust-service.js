@@ -44,8 +44,6 @@ export class TrustService {
         );
 
         await this.transactionService.submit(operations);
-
-        await this.store.dispatch(this.appActionCreators.updateAccount());
     }
 
     //minimumTrustLimit(code, issuer) {

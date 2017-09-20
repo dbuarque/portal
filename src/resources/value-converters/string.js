@@ -7,3 +7,11 @@ export class CapitalizeFirstLetterValueConverter {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 }
+
+export class CamelToBrokenValueConverter {
+    toView(string) {
+        return string ?
+            string.replace(/([a-z])([A-Z])/g, '$1 $2') :
+            string;
+    }
+}

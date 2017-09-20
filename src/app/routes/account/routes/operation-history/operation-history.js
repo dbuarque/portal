@@ -38,12 +38,12 @@ export class OperationHistory {
     updateFromStore() {
         const state = this.store.getState();
 
-        const oldAccountId = this.account ? this.account.id : undefined;
+        const oldAccountId = this.account ? this.account.accountId : undefined;
 
         this.account = state.account;
 
-        if (this.account.id !== oldAccountId) {
-            this.additionalFilterParams.sourceAccount = this.account.id;
+        if (this.account.accountId !== oldAccountId) {
+            this.additionalFilterParams.sourceAccount = this.account.accountId;
             this.refresh();
         }
     }

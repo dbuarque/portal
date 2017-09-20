@@ -37,12 +37,12 @@ export class EffectHistory {
     updateFromStore() {
         const state = this.store.getState();
 
-        const oldAccountId = this.account ? this.account.id : undefined;
+        const oldAccountId = this.account ? this.account.accountId : undefined;
 
         this.account = state.account;
 
-        if (this.account.id !== oldAccountId) {
-            this.additionalFilterParams['historyAccount.address'] = this.account.id;
+        if (this.account.accountId !== oldAccountId) {
+            this.additionalFilterParams['historyAccount.address'] = this.account.accountId;
             this.refresh();
         }
     }

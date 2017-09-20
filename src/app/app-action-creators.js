@@ -4,98 +4,58 @@
 
 import {inject} from 'aurelia-framework';
 import {appActionTypes} from './app-action-types';
-import {StellarServer, AlertToaster} from 'global-resources';
+import {AlertToaster} from 'global-resources';
+import {AccountResource} from './resources/crud/resources';
 
 const {UPDATE_ACCOUNT, UPDATE_LUPOEX_ACCOUNT} = appActionTypes;
 
-@inject(StellarServer, AlertToaster)
+@inject(AlertToaster, AccountResource)
 export class AppActionCreators {
-    constructor(stellarServer, alertToaster) {
-        this.stellarServer = stellarServer;
+    constructor(alertToaster, accountResource) {
         this.alertToaster = alertToaster;
+        this.accountResource = accountResource;
     }
 
-    setAccount(publicKey) {
+    updateAccount(publicKey) {
         return async (dispatch, getState) => {
             if (!publicKey) {
-                dispatch({
+                return dispatch({
                     type: UPDATE_ACCOUNT,
-                    payload: {
-                        account: undefined
-                    }
+                    payload: {}
                 });
-                return;
             }
 
-            let account = getState().account;
-
-            account = account || {id: publicKey};
-
-            dispatch({
-                type: UPDATE_ACCOUNT,
-                payload: {
-                    account: {
-                        ...account,
-                        updating: true
-                    }
-                }
-            });
-
             try {
-                account = await this.stellarServer.loadAccount(publicKey);
+                const account = await this.accountResource.account(publicKey);
+
+                return dispatch({
+                    type: UPDATE_ACCOUNT,
+                    payload: account
+                });
             }
             catch(e) {
                 //Couldn't find account, let's logout.
-                dispatch(this.setAccount());
+                dispatch(this.updateAccount());
                 throw e;
             }
-
-            if (account) {
-                account.updating = false;
-            }
-
-            dispatch({
-                type: UPDATE_ACCOUNT,
-                payload: {
-                    account
-                }
-            });
-
-            return account;
         };
-    }
-
-    updateAccount() {
-        return (dispatch, getState) => {
-            const account = getState().account;
-
-            if (!account) {
-                return;
-            }
-
-            return dispatch(this.setAccount(account.id));
-        }
     }
 
     updateLupoexAccount() {
         return async (dispatch, getState) => {
             let account;
             try {
-                account = await this.stellarServer.loadAccount(window.lupoex.publicKey);
+                account = await this.accountResource.account(window.lupoex.publicKey);
             }
             catch(e) {
                 this.alertToaster.error('Something is wrong. Do you have an internet connection?');
                 throw e;
             }
 
-            dispatch({
+            return dispatch({
                 type: UPDATE_LUPOEX_ACCOUNT,
-                payload: {
-                    account
-                }
+                payload: account
             });
-
-            return account;
         };
     }
 }
