@@ -3,6 +3,7 @@
  */
 
 import {inject} from 'aurelia-framework';
+import {connected} from 'au-redux';
 import {AccountResource, OfferService} from 'app-resources';
 import Config from './open-offers-config';
 
@@ -13,13 +14,6 @@ export class OpenOffers {
     account;
 
     loading = 0;
-
-    constructor(config, accountResource, offerService) {
-        this.config = config;
-        this.accountResource = accountResource;
-        this.offerService = offerService;
-        this.nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
-    }
 
     get refreshing() {
         return this.loading > 0;
@@ -43,6 +37,13 @@ export class OpenOffers {
         };
     }
 
+    constructor(config, accountResource, offerService) {
+        this.config = config;
+        this.accountResource = accountResource;
+        this.offerService = offerService;
+        this.nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
+    }
+
     refresh() {
         if (this.dataTable) {
             this.dataTable.dataTable.api().ajax.reload();
@@ -57,18 +58,5 @@ export class OpenOffers {
         callback(tableData);
 
         this.loading--;
-    }
-
-    updateTableConfig() {
-        let vm = this;
-
-        vm.config.table.columns[3].cellCallback = (cell, rowData) => {
-            cell.empty();
-            $('<button class="btn error-text btn-small btn-flat" type="button">Cancel</button>')
-                .click(() => {
-                    vm.offerService.cancelOffer(rowData);
-                })
-                .appendTo(cell);
-        };
     }
 }

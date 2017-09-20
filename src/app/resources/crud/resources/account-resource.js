@@ -48,9 +48,7 @@ export class AccountResource extends BaseResource {
     }
 
     async trustlinesDataTable(accountId, data, settings) {
-        const query = this.dataTablePre(data, {
-            allowedSearchProps: ['assetCode', 'issuerId']
-        });
+        const query = this.dataTablePre(data);
         const results = await this.trustlines(accountId, query);
         return this.dataTablePost(data, results);
     }
@@ -68,9 +66,7 @@ export class AccountResource extends BaseResource {
     }
 
     async offersDataTable(accountId, data, settings) {
-        const query = this.dataTablePre(data, {
-            allowedSearchProps: ['buyingAssetCode', 'buyingIssuer', 'sellingAssetCode', 'sellingIssuer']
-        });
+        const query = this.dataTablePre(data);
         const results = await this.offers(accountId, query);
         return this.dataTablePost(data, results);
     }

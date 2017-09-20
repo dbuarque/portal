@@ -4,16 +4,20 @@
 
 import {transient, inject} from 'aurelia-framework';
 import {FormatDateTimeValueConverter} from 'global-resources';
-import {FormatNumberValueConverter, OrderAmountValueConverter} from 'app-resources';
+import {FormatNumberValueConverter} from 'app-resources';
+import {IssuerHtmlValueConverter} from '../../account-value-converters';
 
 @transient()
-@inject(FormatNumberValueConverter, FormatDateTimeValueConverter)
+@inject(FormatNumberValueConverter, FormatDateTimeValueConverter, IssuerHtmlValueConverter)
 export default class AssetBalancesConfig {
 
-    constructor(formatNumber, formatDateTime) {
+    constructor(formatNumber, formatDateTime, issuerHtml) {
         return {
             table: {
                 order: [0, 'desc'],
+                lengthMenu: [ 10, 25, 100 ],
+                serverSide: true,
+                searchDelay: 500,
                 columns: [
                     {
                         title: 'Last Modified At',
@@ -25,23 +29,35 @@ export default class AssetBalancesConfig {
                     },
                     {
                         title: 'Offered Asset Code',
-                        data: 'sellingAssetCode',
+                        data: '_sellingAssetCode',
                         searchable: true
                     },
                     {
                         title: 'Offered Asset Issuer',
-                        data: 'sellingIssuer',
-                        searchable: true
+                        data: 'sellingIssuerId',
+                        searchable: true,
+                        cellCallback (cell, rowData) {
+                            cell.empty();
+                            cell.html(
+                                issuerHtml.toView(rowData.sellingIssuer)
+                            );
+                        }
                     },
                     {
                         title: 'Desired Asset Code',
-                        data: 'buyingAssetCode',
+                        data: '_buyingAssetCode',
                         searchable: true
                     },
                     {
                         title: 'Desired Asset Issuer',
-                        data: 'buyingIssuer',
-                        searchable: true
+                        data: 'buyingIssuerId',
+                        searchable: true,
+                        cellCallback (cell, rowData) {
+                            cell.empty();
+                            cell.html(
+                                issuerHtml.toView(rowData.buyingIssuer)
+                            );
+                        }
                     },
                     {
                         title: 'Amount Offered',
@@ -67,12 +83,3 @@ export default class AssetBalancesConfig {
         };
     }
 }
-
-function assetLabel (asset) {
-    return asset.asset_type === 'native' ? window.lupoex.stellar.nativeAssetCode + '(Native)' : asset.asset_code + '(' + asset.asset_issuer + ')';
-}
-
-function assetCode(asset) {
-    return asset.asset_type === 'native' ? window.lupoex.stellar.nativeAssetCode : asset.asset_code ;
-}
-
