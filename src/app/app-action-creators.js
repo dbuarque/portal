@@ -16,13 +16,16 @@ export class AppActionCreators {
         this.accountResource = accountResource;
     }
 
-    updateAccount(publicKey) {
+    updateAccount(publicKey, options) {
         return async (dispatch, getState) => {
             if (!publicKey) {
                 return dispatch({
-                    type: UPDATE_ACCOUNT,
-                    payload: {}
+                    type: UPDATE_ACCOUNT
                 });
+            }
+
+            if (getState().account && getState().account.accountId === publicKey && !options.force) {
+                return;
             }
 
             try {

@@ -20,7 +20,7 @@ export class Profile {
     async refresh() {
         this.loading++;
 
-        await this.store.dispatch(this.appActionCreators.updateAccount(this.account.accountId));
+        await this.store.dispatch(this.appActionCreators.updateAccount(this.account.accountId, {force: true}));
 
         this.loading--;
     }

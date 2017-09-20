@@ -39,8 +39,8 @@ export class Navbar {
     }
 
     logout() {
+        this.store.dispatch(this.appActionCreators.updateAccount());
         this.toaster.primary('Logged out successfully.');
-        this.store.dispatch(this.appActionCreators.setAccount());
     }
 
     goToAccount() {

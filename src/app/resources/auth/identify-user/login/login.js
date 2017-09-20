@@ -80,6 +80,7 @@ export class LoginCustomElement {
                 type: 'error',
                 message: 'That account could not be found on the stellar network. Are you sure the account exists?'
             };
+            console.log(e);
         }
 
         this.loading--;
