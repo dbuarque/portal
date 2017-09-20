@@ -3,58 +3,60 @@
  */
 
 import {inject} from 'aurelia-framework';
- import {Store} from 'au-redux';
-import {OfferService} from 'app-resources';
-import {AppActionCreators} from '../../../../app-action-creators';
+import {AccountResource, OfferService} from 'app-resources';
 import Config from './open-offers-config';
 
-@inject(Config, Store, OfferService, AppActionCreators)
+@inject(Config, AccountResource, OfferService)
 export class OpenOffers {
 
+    @connected('myAccount')
+    account;
+
     loading = 0;
-    offers = [];
 
-    constructor(config, store, offerService, appActionCreators) {
+    constructor(config, accountResource, offerService) {
         this.config = config;
-        this.store = store;
+        this.accountResource = accountResource;
         this.offerService = offerService;
-        this.appActionCreators = appActionCreators;
-
-        this.updateTableConfig();
+        this.nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
     }
 
-    bind() {
-        this.unsubscribeFromStore = this.store.subscribe(this.updateFromStore.bind(this));
-        this.updateFromStore();
+    get refreshing() {
+        return this.loading > 0;
     }
 
-    unbind() {
-        this.unsubscribeFromStore();
+    get tableConfig() {
+        const vm = this;
+
+        vm.config.table.columns[7].cellCallback = (cell, rowData) => {
+            cell.empty();
+            $('<button class="btn error-text btn-small btn-flat" type="button">Cancel</button>')
+                .click(() => {
+                    vm.offerService.cancelOffer(rowData);
+                })
+                .appendTo(cell);
+        };
+
+        return {
+            ...vm.config.table,
+            ajax: vm.ajax.bind(vm)
+        };
     }
 
-    updateFromStore() {
-        const state = this.store.getState();
-
-        const oldAccountId = this.account ? this.account.accountId : undefined;
-
-        this.account = state.myAccount;
-        this.offers = state.offers;
-
-        if (this.account.accountId !== oldAccountId) {
-            this.refresh();
+    refresh() {
+        if (this.dataTable) {
+            this.dataTable.dataTable.api().ajax.reload();
         }
     }
 
-    //async refresh() {
-    //    this.loading++;
-//
-    //    await this.store.dispatch(this.appActionCreators.updateOffers());
-//
-    //    this.loading--;
-    //}
+    async ajax(data, callback, settings) {
+        this.loading++;
 
-    get refreshing() {
-        return this.account.updating || this.loading > 0;
+        const tableData = await this.accountResource.offersDataTable(this.account.accountId, data, settings);
+
+        callback(tableData);
+
+        this.loading--;
     }
 
     updateTableConfig() {

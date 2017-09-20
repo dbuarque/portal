@@ -1,5 +1,18 @@
 <template>
-    <div class="asset-balances">
-        <jquery-data-table if.bind="account.balances" config.bind="config.table" list.bind="account.balances"></jquery-data-table>
+    <div class="asset-balances" if.bind="account">
+        <div class="row">
+            <div class="col s12 m2 offset-m5">
+                <div class="card center">
+                    <div class="card-content no-heading">
+                        <div class="card-body">
+                            ${nativeAssetCode & oneTime} Balance: <strong>${account.balance}</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12">
+                <jquery-data-table config.bind="tableConfig"></jquery-data-table>
+            </div>
+        </div>
     </div>
 </template>

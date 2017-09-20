@@ -1,3 +1,5 @@
 <template>
-    <jquery-data-table config.bind="config.table" list.bind="offers"></jquery-data-table>
+    <div class="open-offers" if.bind="account">
+        <jquery-data-table config.bind="tableConfig"></jquery-data-table>
+    </div>
 </template>

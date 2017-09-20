@@ -43,8 +43,16 @@ export class AccountResource extends BaseResource {
      * @param [query.offset] The number of results to skip
      * @returns {*}
      */
-    balances(accountId, query) {
-        return this.get('/' + accountId + '/Balances', query)
+    trustlines(accountId, query) {
+        return this.get('/' + accountId + '/Trustlines', query)
+    }
+
+    async trustlinesDataTable(accountId, data, settings) {
+        const query = this.dataTablePre(data, {
+            allowedSearchProps: ['assetCode', 'issuerId']
+        });
+        const results = await this.trustlines(accountId, query);
+        return this.dataTablePost(data, results);
     }
 
     /**
@@ -57,6 +65,14 @@ export class AccountResource extends BaseResource {
      */
     offers(accountId, query) {
         return this.get('/' + accountId + '/Offers', query)
+    }
+
+    async offersDataTable(accountId, data, settings) {
+        const query = this.dataTablePre(data, {
+            allowedSearchProps: ['buyingAssetCode', 'buyingIssuer', 'sellingAssetCode', 'sellingIssuer']
+        });
+        const results = await this.offers(accountId, query);
+        return this.dataTablePost(data, results);
     }
 
     /**

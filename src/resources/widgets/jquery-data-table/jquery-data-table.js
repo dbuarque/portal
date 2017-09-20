@@ -2,6 +2,7 @@
  * Created by istrauss on 4/4/2016.
  */
 
+import _debounce from 'lodash.debounce';
 import {customElement, bindable, inject, bindingMode} from 'aurelia-framework';
 
 const defaultConfig = {
@@ -44,6 +45,7 @@ export class JqueryDataTableCustomElement {
 
     bind() {
         this.config = Object.assign({}, defaultConfig, this.config);
+        this.search = this.config.searchDelay ? _debounce(this._search, this.config.searchDelay) : this._search;
 
         this.tableElement = $(this.element).find('table');
     }
@@ -195,13 +197,15 @@ export class JqueryDataTableCustomElement {
     }
 
     addColumnFilters() {
-        if (!this.config.searching) {
+        const self = this;
+        
+        if (!self.config.searching) {
             return;
         }
 
-        let tableHeader = this.tableElement.find('thead');
+        let tableHeader = self.tableElement.find('thead');
         let secondHeaderRow = $('<tr role="row"></tr>');
-        let dataTableApi = this.dataTable.api();
+        let dataTableApi = self.dataTable.api();
         let columnDefs = dataTableApi.settings().init().columns;
         let atLeastOneSearchableColumn = false;
 
@@ -218,11 +222,7 @@ export class JqueryDataTableCustomElement {
 
                 searchBox
                     .on( 'keyup change', function() {
-                        if ( column.search() !== this.value ) {
-                            column
-                                .search( this.value )
-                                .draw();
-                        }
+                        self.search(column, this);
                     })
                     .on('click', (event) => event.stopPropagation());
 
@@ -233,8 +233,16 @@ export class JqueryDataTableCustomElement {
         });
 
         if (atLeastOneSearchableColumn) {
-            this.searchRow = secondHeaderRow;
+            self.searchRow = secondHeaderRow;
             tableHeader.append(secondHeaderRow);
+        }
+    }
+    
+    _search(column, textbox) {
+        if (column.search() !== textbox.value ) {
+            column
+                .search( textbox.value )
+                .draw();
         }
     }
 }

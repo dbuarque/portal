@@ -10,33 +10,39 @@ export default class AssetBalancesConfig {
     constructor() {
         return {
             table: {
+                lengthMenu: [ 10, 25, 100 ],
+                serverSide: true,
+                searchDelay: 500,
                 columns: [
+                    {
+                        title: 'Code',
+                        data: 'assetCode',
+                        searchable: true
+                    },
+                    {
+                        title: 'Issuer',
+                        data: 'issuerId',
+                        cellCallback (cell, rowData) {
+                            cell.empty();
+
+                            let newHtml = '';
+                            newHtml += rowData.issuer.homeDomain ? '<div class="primary-text left-align">' + rowData.issuer.homeDomain + '</div>' : '<div class="left-align">Unknown</div>';
+                            newHtml += '<div class="left-align" style="font-size: 10px;">' + rowData.issuer.accountId + '</div>';
+
+                            cell.html(newHtml);
+                        },
+                        orderable: false,
+                        searchable: true
+                    },
                     {
                         title: 'Balance',
                         data: 'balance',
                         searchable: false
                     },
                     {
-                        title: 'Code',
-                        data: 'asset_code',
-                        render(cellData, type, rowData) {
-                            return rowData.asset_type === 'native' ? 'XLM' : rowData.asset_code;
-                        },
-                        searchable: true
-                    },
-                    {
-                        title: 'Issuer',
-                        render(cellData, type, rowData) {
-                            return rowData.asset_type === 'native' ? '' : rowData.asset_issuer;
-                        },
-                        searchable: true
-                    },
-                    {
                         title: 'Trust Limit',
-                        render(cellData, type, rowData) {
-                            return rowData.asset_type === 'native' ? '' : rowData.limit;
-                        },
-                        searchable: true
+                        data: 'trustLimit',
+                        searchable: false
                     },
                     {
                         title: '',

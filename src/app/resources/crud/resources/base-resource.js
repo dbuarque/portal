@@ -12,6 +12,37 @@ export default class BaseResource {
         this.client = config.client || Container.instance.get(JsonClient)
     }
 
+    dataTablePre(data, options = {}) {
+        const searchParams = data.columns.reduce((sp, col) => {
+            if (
+                options.allowedSearchProps &&
+                options.allowedSearchProps.indexOf(col.data) > -1
+                && col.searchable
+                && col.search.value
+            ) {
+                sp[col.data] = col.search.value;
+            }
+            return sp;
+        }, {});
+
+            
+        return {
+            ...searchParams,
+            offset: data.start,
+            limit: data.length,
+            order: data.columns[data.order[0].column].data + ':' + data.order[0].dir
+        };
+    }
+
+    dataTablePost(data, results) {
+        return {
+            draw: data.draw,
+            recordsTotal: results.count,
+            recordsFiltered: results.count,
+            data: results.rows
+        };
+    }
+
     getDataTable(data, settings, additionalFilters) {
         let query = {
             offset: data.start,
@@ -46,10 +77,6 @@ export default class BaseResource {
                     error: err.message
                 };
             });
-    }
-
-    findAndCount(query) {
-        return this.get('/FindAndCount', query);
     }
 
     get(action, query, options = {}) {

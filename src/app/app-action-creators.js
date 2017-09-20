@@ -16,7 +16,7 @@ export class AppActionCreators {
         this.accountResource = accountResource;
     }
 
-    updateAccount(publicKey, options) {
+    updateAccount(publicKey, options = {}) {
         return async (dispatch, getState) => {
             if (!publicKey) {
                 return dispatch({
