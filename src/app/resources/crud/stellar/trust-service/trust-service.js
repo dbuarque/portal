@@ -29,7 +29,7 @@ export class TrustService {
      * @returns {*}
      */
     async modifyLimit(code, issuer) {
-        if (!this.store.getState().account) {
+        if (!this.store.getState().myAccount) {
             const errorMessage = 'You must be logged in to send a payment. Please log in and try again.';
             this.alertToaster.error(errorMessage);
             throw new Error(errorMessage);
@@ -52,7 +52,7 @@ export class TrustService {
     //}
 
     balance(code, issuer) {
-        const account = this.store.getState().account;
+        const account = this.store.getState().myAccount;
 
         if (!account || !account.balances) {
             return undefined;

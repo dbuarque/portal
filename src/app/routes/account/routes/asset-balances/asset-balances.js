@@ -33,7 +33,7 @@ export class AssetBalances {
 
     updateFromStore() {
         const state = this.store.getState();
-        this.account = state.account;
+        this.account = state.myAccount;
     }
 
     refresh() {

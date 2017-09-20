@@ -14,7 +14,7 @@ import {MyAssetPairUpdater} from './my-asset-pair-updater';
 @inject(Router, Store, ExchangeActionCreators, DetailActionCreators, OrderbookUpdater, MyOffersUpdater, MyAssetPairUpdater)
 export class Detail {
 
-    @connected('account')
+    @connected('myAccount')
     account;
 
     @connected('exchange.assetPair')

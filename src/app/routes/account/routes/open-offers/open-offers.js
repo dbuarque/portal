@@ -37,7 +37,7 @@ export class OpenOffers {
 
         const oldAccountId = this.account ? this.account.accountId : undefined;
 
-        this.account = state.account;
+        this.account = state.myAccount;
         this.offers = state.offers;
 
         if (this.account.accountId !== oldAccountId) {

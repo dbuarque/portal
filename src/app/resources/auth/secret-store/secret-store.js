@@ -33,7 +33,7 @@ export class SecretStore {
 
             keypair = this.stellarServer.sdk.Keypair.fromSecret(result.secret);
 
-            const account = this.store.getState().account;
+            const account = this.store.getState().myAccount;
 
             if (!account) {
                 this.alertToaster.error('You cannot authenticate with your secret key before logging in. Please log in and try again.');

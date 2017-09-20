@@ -9,7 +9,7 @@ import {AppActionCreators} from '../../../../app-action-creators';
 @inject(Store, AppActionCreators)
 export class Profile {
 
-    @connected('account')
+    @connected('myAccount')
     account;
 
     constructor(store, appActionCreators) {
@@ -20,7 +20,7 @@ export class Profile {
     async refresh() {
         this.loading++;
 
-        await this.store.dispatch(this.appActionCreators.updateAccount(this.account.accountId, {force: true}));
+        await this.store.dispatch(this.appActionCreators.updateAccount(this.account.accountId));
 
         this.loading--;
     }

@@ -7,7 +7,7 @@ import {appActionTypes} from './app-action-types';
 import {AlertToaster} from 'global-resources';
 import {AccountResource} from './resources/crud/resources';
 
-const {UPDATE_ACCOUNT, UPDATE_LUPOEX_ACCOUNT} = appActionTypes;
+const {UPDATE_MY_ACCOUNT, UPDATE_LUPOEX_ACCOUNT} = appActionTypes;
 
 @inject(AlertToaster, AccountResource)
 export class AppActionCreators {
@@ -20,11 +20,11 @@ export class AppActionCreators {
         return async (dispatch, getState) => {
             if (!publicKey) {
                 return dispatch({
-                    type: UPDATE_ACCOUNT
+                    type: UPDATE_MY_ACCOUNT
                 });
             }
 
-            if (getState().account && getState().account.accountId === publicKey && !options.force) {
+            if (getState().myAccount && getState().myAccount.accountId === publicKey && !options.force) {
                 return;
             }
 
@@ -32,7 +32,7 @@ export class AppActionCreators {
                 const account = await this.accountResource.account(publicKey);
 
                 return dispatch({
-                    type: UPDATE_ACCOUNT,
+                    type: UPDATE_MY_ACCOUNT,
                     payload: account
                 });
             }

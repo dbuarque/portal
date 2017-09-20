@@ -9,7 +9,7 @@ import {StellarServer, ModalService, AlertToaster} from 'global-resources';
 import {SecretStore} from '../../../auth/secret-store/secret-store';
 import {appActionTypes} from '../../../../app-action-types';
 
-const {UPDATE_ACCOUNT} = appActionTypes;
+const {UPDATE_MY_ACCOUNT} = appActionTypes;
 
 @inject(StellarServer, ModalService, Store, AlertToaster, SecretStore)
 export class TransactionService {
@@ -30,7 +30,7 @@ export class TransactionService {
      * @returns {*}
      */
     async submit(operations, options = {}) {
-        let account = this.store.getState().account;
+        let account = this.store.getState().myAccount;
 
         if (!account) {
             this.alertToaster.error('You cannot submit a transaction to the network without being logged in. Please log in and try again.');
@@ -43,7 +43,7 @@ export class TransactionService {
             account = await this.stellarServer.loadAccount(account.accountId);
 
             this.store.dispatch({
-                type: UPDATE_ACCOUNT,
+                type: UPDATE_MY_ACCOUNT,
                 payload: {
                     account
                 }

@@ -39,7 +39,7 @@ export class EffectHistory {
 
         const oldAccountId = this.account ? this.account.accountId : undefined;
 
-        this.account = state.account;
+        this.account = state.myAccount;
 
         if (this.account.accountId !== oldAccountId) {
             this.additionalFilterParams['historyAccount.address'] = this.account.accountId;

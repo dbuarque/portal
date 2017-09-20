@@ -40,7 +40,7 @@ export class OperationHistory {
 
         const oldAccountId = this.account ? this.account.accountId : undefined;
 
-        this.account = state.account;
+        this.account = state.myAccount;
 
         if (this.account.accountId !== oldAccountId) {
             this.additionalFilterParams.sourceAccount = this.account.accountId;

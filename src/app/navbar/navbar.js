@@ -2,32 +2,27 @@
  * Created by Ishai on 3/27/2016.
  */
 import {bindable, inject, computedFrom} from 'aurelia-framework';
-import {Store} from 'au-redux';
+import {Store, connected} from 'au-redux';
 import {AlertToaster} from 'global-resources';
 import {AppActionCreators} from '../app-action-creators';
 
 @inject(Store, AppActionCreators, AlertToaster)
 export class Navbar {
+
+    @connected('myAccount')
+    account;
+
     @bindable router;
+
+    @computedFrom('account')
+    get firstFive() {
+        return this.account && this.account.accountId ? this.account.accountId.slice(0, 5) : null;
+    }
 
     constructor(store, appActionCreators, toaster) {
         this.store = store;
         this.appActionCreators = appActionCreators;
         this.toaster = toaster;
-    }
-
-    bind() {
-        this.unsubscribeFromStore = this.store.subscribe(this.updateFromStore.bind(this));
-        this.updateFromStore();
-    }
-
-    unbind() {
-        this.unsubscribeFromStore();
-    }
-
-    updateFromStore() {
-        const newState = this.store.getState();
-        this.account = newState.account;
     }
 
     goToExchange() {
@@ -45,10 +40,5 @@ export class Navbar {
 
     goToAccount() {
         this.router.navigateToRoute('account');
-    }
-
-    @computedFrom('account')
-    get firstFive() {
-        return this.account && this.account.accountId ? this.account.accountId.slice(0, 5) : null;
     }
 }

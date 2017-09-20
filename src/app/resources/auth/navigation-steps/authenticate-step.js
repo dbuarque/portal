@@ -18,7 +18,7 @@ export default class AuthenticateStep {
     async run(navigationInstruction, next) {
         await this.accountSyncer.init();
 
-        const account = this.store.getState().account;
+        const account = this.store.getState().myAccount;
 
         if (navigationInstruction.config.accountRequired && !(account && account.accountId)) {
             return next.cancel(new Redirect('login'));

@@ -19,7 +19,7 @@ export class IncludesMyOfferCssValueConverter {
     }
 
     toView(order) {
-        const account = this.store.getState().account;
+        const account = this.store.getState().myAccount;
         return account && order.sellerIds.indexOf(account.accountId) > -1 ? 'includes-my-offer' : '';
     }
 }

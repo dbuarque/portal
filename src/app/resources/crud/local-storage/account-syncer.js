@@ -30,7 +30,7 @@ export class AccountSyncer {
 
     async syncToStore() {
         const localAccountId = localStorage.getItem('account-id');
-        const storedAccount = this.store.getState().account;
+        const storedAccount = this.store.getState().myAccount;
         const storedAccountId = storedAccount ? storedAccount.id : undefined;
 
         if (storedAccountId !== localAccountId) {
@@ -40,7 +40,7 @@ export class AccountSyncer {
 
     _syncToLocalStorage() {
         const localAccountId = localStorage.getItem('account-id');
-        const storedAccount = this.store.getState().account;
+        const storedAccount = this.store.getState().myAccount;
         const storedAccountId = storedAccount ? storedAccount.accountId : undefined;
 
         if (storedAccountId !== localAccountId) {

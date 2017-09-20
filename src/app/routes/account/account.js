@@ -28,7 +28,7 @@ export class Account {
     }
 
     canActivate() {
-        const account = this.store.getState().account;
+        const account = this.store.getState().myAccount;
 
         if (!account) {
             return new Redirect('login');
@@ -86,7 +86,7 @@ export class Account {
     }
 
     updateFromStore() {
-        this.account = this.store.getState().account;
+        this.account = this.store.getState().myAccount;
 
         if (!this.account) {
             this.router.parent.navigateToRoute('exchange');

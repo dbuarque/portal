@@ -13,7 +13,7 @@ export class MyAssetPairUpdater {
     @connected('exchange.assetPair')
     assetPair;
 
-    @connected('account')
+    @connected('myAccount')
     account;
 
     constructor(store, accountResource, detailActionCreators) {

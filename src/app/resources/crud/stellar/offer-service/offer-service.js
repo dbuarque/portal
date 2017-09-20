@@ -30,7 +30,7 @@ export class OfferService {
      * @returns {*}
      */
     async createOffer(passedInfo) {
-        if (!this.store.getState().account) {
+        if (!this.store.getState().myAccount) {
             const errorMessage = 'You must be logged in to send a payment. Please log in and try again.';
             this.alertToaster.error(errorMessage);
             throw new Error(errorMessage);

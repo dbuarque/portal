@@ -11,7 +11,7 @@ import {DetailActionCreators} from '../detail-action-creators';
 
 export class CreateOffer {
 
-    @connected('account')
+    @connected('myAccount')
     account;
 
     @connected('exchange.assetPair')
