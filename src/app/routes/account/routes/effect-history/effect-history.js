@@ -1,59 +1,51 @@
 /**
- * Created by Ishai on 4/30/2017.
+ * Created by Ishai on 9/24/2017.
  */
 
+
 import {inject} from 'aurelia-framework';
-import {Store} from 'au-redux';
-import {StellarServer} from 'global-resources';
-import {EffectResource} from 'app-resources';
+import {connected} from 'au-redux';
+import {AccountResource} from 'app-resources';
 import Config from './effect-history-config';
 
-@inject(Config, StellarServer, Store, EffectResource)
+@inject(Config, AccountResource)
 export class EffectHistory {
 
+    @connected('myAccount')
+    account;
+
     loading = 0;
-    additionalFilterParams = {};
 
-    constructor(config, stellarServer, store, effectResource) {
+    get refreshing() {
+        return this.loading > 0;
+    }
+
+    get tableConfig() {
+        return {
+            ...this.config.table,
+            ajax: this.ajax.bind(this)
+        };
+    }
+
+    constructor(config, accountResource) {
         this.config = config;
-        this.stellarServer = stellarServer;
-        this.store = store;
-        this.effectResource = effectResource;
-    }
-
-    activate(params) {
-        this.unsubscribeFromStore = this.store.subscribe(this.updateFromStore.bind(this));
-        this.updateFromStore();
-
-        if (params.operationId) {
-            this.additionalFilterParams['operation.id'] = params.operationId;
-        }
-    }
-
-    unbind() {
-        this.unsubscribeFromStore();
-    }
-
-    updateFromStore() {
-        const state = this.store.getState();
-
-        const oldAccountId = this.account ? this.account.accountId : undefined;
-
-        this.account = state.myAccount;
-
-        if (this.account.accountId !== oldAccountId) {
-            this.additionalFilterParams['historyAccount.address'] = this.account.accountId;
-            this.refresh();
-        }
+        this.accountResource = accountResource;
+        this.nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
     }
 
     refresh() {
-        if (this.jqdt) {
-            this.jqdt.refresh();
+        if (this.dataTable) {
+            this.dataTable.dataTable.api().ajax.reload();
         }
     }
 
-    get refreshing() {
-        return this.jqdt.processing;
+    async ajax(data, callback, settings) {
+        this.loading++;
+
+        const tableData = await this.accountResource.effectsDataTable(this.account.accountId, data, settings);
+
+        callback(tableData);
+
+        this.loading--;
     }
 }

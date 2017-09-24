@@ -3,12 +3,13 @@
  */
 
 import {inject, bindable} from 'aurelia-framework';
+import {SanitizeHTMLValueConverter} from 'aurelia-templating-resources';
 import {Router} from 'aurelia-router';
 import {connected} from 'au-redux';
 import {AccountResource, TrustService} from 'app-resources';
 import Config from './asset-balances-config';
 
-@inject(Config, Router, AccountResource, TrustService)
+@inject(Config, SanitizeHTMLValueConverter, Router, AccountResource, TrustService)
 export class AssetBalances {
 
     @connected('myAccount')
@@ -30,7 +31,7 @@ export class AssetBalances {
 
             cell.empty();
 
-            const data = $('<span style="margin-right: 10px;">' + rowData.trustLimit + '</span>');
+            const data = $('<span style="margin-right: 10px;">' + this.sanitizeHTML.toView(rowData.trustLimit) + '</span>');
             const modify = $('<a href="javascript:void(0)" class="primary-text">modify</a>&nbsp;')
                 .click(e => {
                     vm.trustService.modifyLimit(rowData.assetCode, rowData.issuerId)
@@ -60,8 +61,9 @@ export class AssetBalances {
         };
     }
 
-    constructor(config, router, accountResource, trustService) {
+    constructor(config, sanitizeHTML, router, accountResource, trustService) {
         this.config = config;
+        this.sanitizeHTML = sanitizeHTML;
         this.router = router;
         this.accountResource = accountResource;
         this.trustService = trustService;

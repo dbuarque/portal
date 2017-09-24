@@ -5,3 +5,4 @@
 [submodule "src/resources/au-redux"]
 	path = src/resources/au-redux
 	url = https://github.com/istrau2/au-redux.git
+	branch = master

@@ -5,11 +5,18 @@
 import _findIndex from 'lodash.findindex';
 import {inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
- import {Store} from 'au-redux';
+import {Store, connected} from 'au-redux';
 import Config from './account-config';
 
 @inject(Config, EventAggregator, Store)
 export class Account {
+
+    @connected('myAccount')
+    account;
+
+    get routableRoutes() {
+        return this.config.routes.filter(r => !r.redirect);
+    }
 
     constructor(config, eventAggregator, store) {
         this.config = config;
@@ -33,15 +40,6 @@ export class Account {
         if (!account) {
             return new Redirect('login');
         }
-    }
-
-    activate() {
-        this.unsubscribeFromStore = this.store.subscribe(this.updateFromStore.bind(this));
-        this.updateFromStore();
-    }
-
-    unbind() {
-        this.unsubscribeFromStore();
     }
 
     attached() {
@@ -85,9 +83,7 @@ export class Account {
         }
     }
 
-    updateFromStore() {
-        this.account = this.store.getState().myAccount;
-
+    accountChanged() {
         if (!this.account) {
             this.router.parent.navigateToRoute('exchange');
         }

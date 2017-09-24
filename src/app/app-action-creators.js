@@ -16,6 +16,13 @@ export class AppActionCreators {
         this.accountResource = accountResource;
     }
 
+    /**
+     *
+     * @param publicKey Account public key
+     * @param [options]
+     * @param [options.force] Force an update (even if the same account is already loaded in the store)
+     * @returns {function(*, *)}
+     */
     updateAccount(publicKey, options = {}) {
         return async (dispatch, getState) => {
             if (!publicKey) {

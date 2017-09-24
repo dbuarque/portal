@@ -12,6 +12,12 @@ export class Profile {
     @connected('myAccount')
     account;
 
+    loading = 0;
+
+    get refreshing() {
+        return this.loading > 0;
+    }
+
     constructor(store, appActionCreators) {
         this.store = store;
         this.appActionCreators = appActionCreators;
@@ -20,7 +26,9 @@ export class Profile {
     async refresh() {
         this.loading++;
 
-        await this.store.dispatch(this.appActionCreators.updateAccount(this.account.accountId));
+        await this.store.dispatch(this.appActionCreators.updateAccount(this.account.accountId, {
+            force: true
+        }));
 
         this.loading--;
     }

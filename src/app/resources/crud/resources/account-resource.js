@@ -35,6 +35,12 @@ export class AccountResource extends BaseResource {
         return this.get('/' + accountId + '/Effects', query)
     }
 
+    async effectsDataTable(accountId, data, settings) {
+        const query = this.dataTablePre(data);
+        const results = await this.effects(accountId, query);
+        return this.dataTablePost(data, results);
+    }
+
     /**
      * Gets balances for an account
      * @param accountId

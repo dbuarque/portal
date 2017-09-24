@@ -1,5 +1,5 @@
 <template>
     <div class="open-offers" if.bind="account">
-        <jquery-data-table config.bind="tableConfig"></jquery-data-table>
+        <jquery-data-table view-model.ref="dataTable" config.bind="tableConfig"></jquery-data-table>
     </div>
 </template>

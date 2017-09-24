@@ -3,15 +3,16 @@
  */
 
 import {transient, inject} from 'aurelia-framework';
+import {SanitizeHTMLValueConverter} from 'aurelia-templating-resources';
 import {FormatDateTimeValueConverter} from 'global-resources';
 import {FormatNumberValueConverter} from 'app-resources';
 import {IssuerHtmlValueConverter} from '../../account-value-converters';
 
 @transient()
-@inject(FormatNumberValueConverter, FormatDateTimeValueConverter, IssuerHtmlValueConverter)
-export default class AssetBalancesConfig {
+@inject(FormatNumberValueConverter, FormatDateTimeValueConverter, IssuerHtmlValueConverter, SanitizeHTMLValueConverter)
+export default class OpenOffersConfig {
 
-    constructor(formatNumber, formatDateTime, issuerHtml) {
+    constructor(formatNumber, formatDateTime, issuerHtml, sanitizeHTML) {
         return {
             table: {
                 order: [0, 'desc'],
@@ -38,9 +39,9 @@ export default class AssetBalancesConfig {
                         searchable: true,
                         cellCallback (cell, rowData) {
                             cell.empty();
-                            cell.html(
-                                issuerHtml.toView(rowData.sellingIssuer)
-                            );
+                            let newHtml = issuerHtml.toView(rowData.sellingIssuer);
+                            newHtml = sanitizeHTML.toView(newHtml);
+                            cell.html(newHtml);
                         }
                     },
                     {
@@ -54,9 +55,9 @@ export default class AssetBalancesConfig {
                         searchable: true,
                         cellCallback (cell, rowData) {
                             cell.empty();
-                            cell.html(
-                                issuerHtml.toView(rowData.buyingIssuer)
-                            );
+                            let newHtml = issuerHtml.toView(rowData.buyingIssuer);
+                            newHtml = sanitizeHTML.toView(newHtml);
+                            cell.html(newHtml);
                         }
                     },
                     {

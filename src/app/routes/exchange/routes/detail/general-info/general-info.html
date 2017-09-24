@@ -35,7 +35,7 @@
                         </tr>
                         <tr show.bind="market">
                             <td>Change</td>
-                            <td innerhtml.bind="market.percent_gain | percentGain"></td>
+                            <td innerhtml.bind="market.percent_gain | percentGain | sanitizeHTML"></td>
                         </tr>
                         <tr show.bind="market">
                             <td>Low</td>

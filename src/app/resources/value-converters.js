@@ -68,3 +68,9 @@ export class ToPrecisionValueConverter {
         return result;
     }
 }
+
+export class ShortenAddressValueConverter {
+    toView(address, numLetters = 3) {
+        return address.slice(0, numLetters) + '...' + address.slice(address.length - numLetters);
+    }
+}

@@ -7,7 +7,7 @@
                 <i class="fa fa-check-circle-o fa-5x success-text"></i>
                 <br>
                 <br>
-                <div innerhtml.bind="successMessage"></div>
+                <div innerhtml.bind="successMessage | sanitizeHTML"></div>
                 <br>
                 <div class="center-text">
                     <button md-waves class="btn gray btn-small btn-flat" click.delegate="finish()" style="margin-top: 10px;">

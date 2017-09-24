@@ -3,13 +3,14 @@
  */
 
 import {transient, inject} from 'aurelia-framework';
+import {SanitizeHTMLValueConverter} from 'aurelia-templating-resources';
 import {IssuerHtmlValueConverter} from '../../account-value-converters';
 
 @transient()
-@inject(IssuerHtmlValueConverter)
+@inject(IssuerHtmlValueConverter, SanitizeHTMLValueConverter)
 export default class AssetBalancesConfig {
 
-    constructor(issuerHtml) {
+    constructor(issuerHtml, sanitizeHTML) {
         return {
             table: {
                 lengthMenu: [ 10, 25, 100 ],
@@ -26,9 +27,9 @@ export default class AssetBalancesConfig {
                         data: 'issuerId',
                         cellCallback (cell, rowData) {
                             cell.empty();
-                            cell.html(
-                                issuerHtml.toView(rowData.issuer)
-                            );
+                            let newHtml = issuerHtml.toView(rowData.issuer);
+                            newHtml = sanitizeHTML.toView(newHtml);
+                            cell.html(newHtml);
                         },
                         orderable: false,
                         searchable: true

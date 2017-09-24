@@ -36,17 +36,10 @@ export default class AppConfig {
                     breadcrumb: true
                 },
                 {
-                    route: ['operation-history'],
-                    name: 'operation-history',
-                    moduleId: PLATFORM.moduleName('./routes/operation-history/operation-history'),
-                    title: 'Operation History',
-                    breadcrumb: true
-                },
-                {
-                    route: ['effect-history'],
+                    route: ['history'],
                     name: 'effect-history',
                     moduleId: PLATFORM.moduleName('./routes/effect-history/effect-history'),
-                    title: 'Effect History',
+                    title: 'History',
                     breadcrumb: true
                 }
             ]
