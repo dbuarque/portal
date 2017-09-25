@@ -35,11 +35,16 @@ export class OrdersTableCustomElement {
     }
 
     updateNewOrderPrice(order) {
-        const actionCreatorName = 'updateMy' + (this.type === 'bids' ? 'Ask' : 'Bid');
-
-        this.store.dispatch(this.detailActionCreators[actionCreatorName]({
-            price: this.priceFromFraction(order)
-        }));
+        if (this.type === 'bids') {
+            this.store.dispatch(this.detailActionCreators.updateMyAsk({
+                price: this.priceFromFraction(order)
+            }));
+        }
+        else {
+            this.store.dispatch(this.detailActionCreators.updateMyBid({
+                price: new BigNumber(1).dividedBy(this.priceFromFraction(order))
+            }));
+        }
     }
 
     priceFromFraction(order) {

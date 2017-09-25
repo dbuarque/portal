@@ -2,18 +2,26 @@
  * Created by istrauss on 10/9/2016.
  */
 
+import _throttle from 'lodash.throttle';
 import {inject, bindable} from 'aurelia-framework';
 import { MdToastService } from 'aurelia-materialize-bridge';
 
 const defaultOptions = {
-    timeout: 10000
+    timeout: 10 * 1000
 };
+const defaultNetworkErrorText = 'Something went wrong. We are having trouble connecting to our server.';
 
 @inject(MdToastService)
 export class AlertToaster {
 
     constructor(toastService) {
         this.toastService = toastService;
+
+        this.networkError = _throttle((text = defaultNetworkErrorText) => {
+            this.error(text, {
+                timeout: 60 * 1000
+            });
+        });
     }
 
     error(text, options = {}) {
@@ -42,7 +50,10 @@ export class AlertToaster {
     }
 
     toast(text, options) {
-        const _options = Object.assign({}, defaultOptions, options);
+        const _options = {
+            ...defaultOptions,
+            options
+        };
         this.toastService.show(text, _options.timeout, _options.type);
     }
 }

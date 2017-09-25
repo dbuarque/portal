@@ -43,8 +43,8 @@ export class AccountStream {
             this.previousAccountId = this.accountId;
         }
         catch(e) {
-            const i = e;
-            this.alertToaster.error('Something went wrong. We are having trouble connecting to our server.');
+            this.alertToaster.networkError();
+            throw e;
         }
     }
 

@@ -19,13 +19,13 @@ export class OfferModal {
         return (new BigNumber(this.sellingAmount)).dividedBy(this.price).toString(10);
     }
 
-    get fee() {
-        if (window.lupoex.env !== 'production') {
-            return 0;
-        }
-
-        return (new BigNumber(this.sellingAmount)).times(window.lupoex.offerFeeFactor).toFixed(7);
-    }
+    //get fee() {
+    //    if (window.lupoex.env !== 'production') {
+    //        return 0;
+    //    }
+//
+    //    return (new BigNumber(this.sellingAmount)).times(window.lupoex.offerFeeFactor).toFixed(7);
+    //}
 
     constructor(stellarServer, store, alertToaster, lupoexResource, appActionCreators) {
         this.stellarServer = stellarServer;
@@ -52,7 +52,7 @@ export class OfferModal {
         this.modalVM.dismissible = false;
 
         let sellingAmount = new BigNumber(this.sellingAmount);
-        sellingAmount = sellingAmount.minus(this.fee).toFixed(7);
+        //sellingAmount = sellingAmount.minus(this.fee).toFixed(7);
 
         const sellingAsset = this.sellingCode === this.nativeAssetCode ?
             this.stellarServer.sdk.Asset.native() :
@@ -70,28 +70,28 @@ export class OfferModal {
                 })
             ];
 
-            //TODO change this logic to send a path payment...
+            //TODO figure out how to enable fees... (Path payments
 
-            if (parseFloat(this.fee) > 0) {
-                const lupoexAccount = this.store.getState().lupoexAccount;
-                const lupoexHasTrust = sellingAsset.isNative() || _find(lupoexAccount.balances, b => b.asset_code === sellingAsset.getCode() && b.asset_issuer === sellingAsset.getIssuer());
-
-                if (!lupoexHasTrust) {
-                    this.loading++;
-
-                    await this.lupoexResource.trust(sellingAsset.getCode(), sellingAsset.getIssuer());
-
-                    this.loading--;
-                }
-
-                operations.push(
-                    this.stellarServer.sdk.Operation.payment({
-                        destination: window.lupoex.publicKey,
-                        asset: sellingAsset,
-                        amount: fee.toString()
-                    })
-                );
-            }
+            //if (parseFloat(this.fee) > 0) {
+            //    const lupoexAccount = this.store.getState().lupoexAccount;
+            //    const lupoexHasTrust = sellingAsset.isNative() || _find(lupoexAccount.balances, b => b.asset_code === sellingAsset.getCode() && b.asset_issuer === sellingAsset.getIssuer());
+//
+            //    if (!lupoexHasTrust) {
+            //        this.loading++;
+//
+            //        await this.lupoexResource.trust(sellingAsset.getCode(), sellingAsset.getIssuer());
+//
+            //        this.loading--;
+            //    }
+//
+            //    operations.push(
+            //        this.stellarServer.sdk.Operation.payment({
+            //            destination: window.lupoex.publicKey,
+            //            asset: sellingAsset,
+            //            amount: fee.toString()
+            //        })
+            //    );
+            //}
 
             this.modalVM.close(operations);
         }

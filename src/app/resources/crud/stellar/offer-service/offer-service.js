@@ -44,7 +44,7 @@ export class OfferService {
         );
 
         const options = {
-            memo: this.stellarServer.sdk.Memo.Text('offer_via_lupoex')
+            memo: this.stellarServer.sdk.Memo.text('offer_via_lupoex')
         };
 
         await this.transactionService.submit(operations, options);

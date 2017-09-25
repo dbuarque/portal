@@ -79,7 +79,7 @@ export class AppActionCreators {
                 account = await this.accountResource.account(window.lupoex.publicKey);
             }
             catch(e) {
-                this.alertToaster.error('Something is wrong. Do you have an internet connection?');
+                this.alertToaster.networkError();
                 throw e;
             }
 

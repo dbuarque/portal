@@ -43,7 +43,8 @@ export class MarketStream {
             this.previousAssetPair = this.assetPair;
         }
         catch(e) {
-            this.alertToaster.error('Something went wrong. We are having trouble connecting to our server.');
+            this.alertToaster.networkError();
+            throw e;
         }
     }
 

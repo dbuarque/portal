@@ -21,7 +21,7 @@ export class CreateBidCustomElement extends CreateOffer {
 
     @computedFrom('myBid')
     get price() {
-        return this.myBid ?
+        return this.myBid && this.myBid.price ?
             validStellarNumber(
                 (new BigNumber(1)).dividedBy(this.myBid.price)
             ) :
