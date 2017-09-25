@@ -21,7 +21,7 @@ export class AlertToaster {
             this.error(text, {
                 timeout: 60 * 1000
             });
-        });
+        }, 60 * 1000);
     }
 
     error(text, options = {}) {
@@ -52,7 +52,7 @@ export class AlertToaster {
     toast(text, options) {
         const _options = {
             ...defaultOptions,
-            options
+            ...options
         };
         this.toastService.show(text, _options.timeout, _options.type);
     }
