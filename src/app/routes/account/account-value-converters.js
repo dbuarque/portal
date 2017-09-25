@@ -13,9 +13,13 @@ export class IssuerHtmlValueConverter {
     }
 
     toView(issuer) {
+        if (!issuer) {
+            return '';
+        }
+
         let html = '';
-        html += issuer.homeDomain ? '<div class="primary-text left-align">' + issuer.homeDomain + '</div>' : '<div class="left-align">unknown</div>';
-        html += '<div class="left-align" style="font-size: 10px;">' + this.shortenAddress.toView(issuer.accountId, 6) + '</div>';
+        html += issuer.homeDomain ? '<span class="primary-text">' + issuer.homeDomain + '</span>' : '';
+        html += ' <span style="font-size: 11px;">' + this.shortenAddress.toView(issuer.accountId, 6) + '</span>';
         return html;
     }
 }

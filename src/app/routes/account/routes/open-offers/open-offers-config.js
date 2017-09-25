@@ -29,8 +29,16 @@ export default class OpenOffersConfig {
                         }
                     },
                     {
+                        title: 'Offered Amount',
+                        data: 'amount',
+                        searchable: false
+                    },
+                    {
                         title: 'Offered Asset Code',
                         data: '_sellingAssetCode',
+                        render(cellData, type, rowData) {
+                            return rowData.sellingAssetCode;
+                        },
                         searchable: true
                     },
                     {
@@ -47,6 +55,9 @@ export default class OpenOffersConfig {
                     {
                         title: 'Desired Asset Code',
                         data: '_buyingAssetCode',
+                        render(cellData, type, rowData) {
+                            return rowData.buyingAssetCode;
+                        },
                         searchable: true
                     },
                     {
@@ -59,11 +70,6 @@ export default class OpenOffersConfig {
                             newHtml = sanitizeHTML.toView(newHtml);
                             cell.html(newHtml);
                         }
-                    },
-                    {
-                        title: 'Amount Offered',
-                        data: 'amount',
-                        searchable: false
                     },
                     {
                         title: 'Price',
