@@ -7,19 +7,18 @@ import {inject} from 'aurelia-framework';
 import {Store} from 'au-redux';
 import {StellarServer, ModalService, AlertToaster} from 'global-resources';
 import {SecretStore} from '../../../auth/secret-store/secret-store';
-import {appActionTypes} from '../../../../app-action-types';
+import {AppActionCreators} from '../../../../app-action-creators';
 
-const {UPDATE_MY_ACCOUNT} = appActionTypes;
-
-@inject(StellarServer, ModalService, Store, AlertToaster, SecretStore)
+@inject(StellarServer, ModalService, Store, AlertToaster, SecretStore, AppActionCreators)
 export class TransactionService {
 
-    constructor(stellarServer, modalService, store, alertToaster, secretStore) {
+    constructor(stellarServer, modalService, store, alertToaster, secretStore, appActionCreators) {
         this.stellarServer = stellarServer;
         this.modalService = modalService;
         this.store = store;
         this.alertToaster = alertToaster;
         this.secretStore = secretStore;
+        this.appActionCreators = appActionCreators;
     }
 
     /**
@@ -30,27 +29,24 @@ export class TransactionService {
      * @returns {*}
      */
     async submit(operations, options = {}) {
-        let account = this.store.getState().myAccount;
-
-        if (!account) {
-            this.alertToaster.error('You cannot submit a transaction to the network without being logged in. Please log in and try again.');
-            throw new Error('You cannot submit a transaction to the network without being logged in. Please log in and try again.');
-        }
-
         let transaction;
 
         try {
-            account = await this.stellarServer.loadAccount(account.accountId);
+            try {
+                // Try to update the seqnum
+                await this.appActionCreators.updateMySeqnum();
+            }
+            catch(e) {}
 
-            this.store.dispatch({
-                type: UPDATE_MY_ACCOUNT,
-                payload: {
-                    account
-                }
-            });
+            let account = this.store.getState().myAccount;
+
+            if (!account) {
+                this.alertToaster.error('You cannot submit a transaction to the network without being logged in. Please log in and try again.');
+                throw new Error('You cannot submit a transaction to the network without being logged in. Please log in and try again.');
+            }
 
             const transactionBuilder = new this.stellarServer.sdk.TransactionBuilder(
-                new this.stellarServer.sdk.Account(account.accountId, account.sequence)
+                new this.stellarServer.sdk.Account(account.accountId, account.seqNum)
             );
 
             operations.forEach(o => {

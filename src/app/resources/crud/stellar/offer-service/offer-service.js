@@ -47,35 +47,24 @@ export class OfferService {
             memo: this.stellarServer.sdk.Memo.Text('offer_via_lupoex')
         };
 
-        await this.transactionService.submit(operations);
+        await this.transactionService.submit(operations, options);
     }
 
-    //Make sure account.sequence is updated before calling this method
-    //or just call this method from the OfferService instead.
     async cancelOffer(offer) {
         const operations = [
             this.stellarServer.sdk.Operation.manageOffer({
-                buying: offer.buying.asset_type === 'native' ? this.stellarServer.sdk.Asset.native() : new this.stellarServer.sdk.Asset(offer.buying.asset_code, offer.buying.asset_issuer),
-                selling: offer.selling.asset_type === 'native' ? this.stellarServer.sdk.Asset.native() : new this.stellarServer.sdk.Asset(offer.selling.asset_code, offer.selling.asset_issuer),
+                buying: offer.buyingAssetType.toLowerCase() === 'native' ?
+                    this.stellarServer.sdk.Asset.native() :
+                    new this.stellarServer.sdk.Asset(offer.buyingAssetCode, offer.buyingIssuerId),
+                selling: offer.sellingAssetType.toLowerCase() === 'native' ?
+                    this.stellarServer.sdk.Asset.native() :
+                    new this.stellarServer.sdk.Asset(offer.sellingAsseCode, offer.sellingIssuerId),
                 amount: '0',
                 price: offer.price,
-                offerId: offer.id
+                offerId: offer.offerId
             })
         ];
 
         await this.transactionService.submit(operations);
-    }
-
-    async allOffers(accountId, page) {
-        page = page ? await page.next() : await this.stellarServer.offers('accounts', accountId).limit(100).call();
-        let records = page.records;
-
-        if (page.records === 100) {
-            const moreRecords = await this.allOffers(accountId, page);
-
-            records = records.concat(moreRecords);
-        }
-
-        return records;
     }
 }

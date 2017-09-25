@@ -4,47 +4,37 @@
 
 import _throttle from 'lodash.throttle';
 import {inject} from 'aurelia-framework';
- import {Store} from 'au-redux';
+import {Store, connected} from 'au-redux';
 import {AppActionCreators} from '../../../app-action-creators';
 
 @inject(Store, AppActionCreators)
 export class AccountSyncer {
 
+    @connected('myAccount.accountId')
+    accountId;
+
     constructor(store, appActionCreators) {
         this.store = store;
         this.appActionCreators = appActionCreators;
-        this.syncToLocalStorage = _throttle(this._syncToLocalStorage.bind(this), 1000);
-    }
-
-    async init() {
-        if (this.initialized) {
-            return;
-        }
 
         window.addEventListener('storage', this.syncToStore.bind(this));
-        this.store.subscribe(this.syncToLocalStorage.bind(this));
-        await this.syncToStore();
-
-        this.initialized = true;
+        this.syncToStore();
+        this.bind();
     }
 
-    async syncToStore() {
+    async syncToStore(e) {
         const localAccountId = localStorage.getItem('account-id');
-        const storedAccount = this.store.getState().myAccount;
-        const storedAccountId = storedAccount ? storedAccount.id : undefined;
 
-        if (storedAccountId !== localAccountId) {
+        if (this.accountId !== localAccountId) {
             await this.store.dispatch(this.appActionCreators.updateAccount(localAccountId));
         }
     }
 
-    _syncToLocalStorage() {
+    accountIdChanged() {
         const localAccountId = localStorage.getItem('account-id');
-        const storedAccount = this.store.getState().myAccount;
-        const storedAccountId = storedAccount ? storedAccount.accountId : undefined;
 
-        if (storedAccountId !== localAccountId) {
-            storedAccountId ? localStorage.setItem('account-id', storedAccountId) : localStorage.removeItem('account-id');
+        if (this.accountId !== localAccountId) {
+            this.accountId ? localStorage.setItem('account-id', this.accountId) : localStorage.removeItem('account-id');
         }
     }
 }

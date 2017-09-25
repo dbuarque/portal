@@ -31,7 +31,16 @@ export default class TradingviewPriceChartConfig {
                 { text: "1hr", resolution: "1" }
             ],
             //
-            disabled_features: ["left_toolbar", "header_widget", "timeframes_toolbar", "border_around_the_chart", "use_localstorage_for_settings"],
+            disabled_features: [
+                "left_toolbar",
+                "header_widget",
+                "compare_symbol",
+                "timeframes_toolbar",
+                "border_around_the_chart",
+                "context_menus",
+                "edit_buttons_in_legend",
+                "use_localstorage_for_settings"
+            ],
             enabled_features: ["move_logo_to_main_pane"],
             overrides: {
                 "mainSeriesProperties.candleStyle.drawBorder": false,

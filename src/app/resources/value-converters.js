@@ -3,6 +3,7 @@
  */
 
 
+import {validStellarNumber} from './helpers';
 import {inject} from 'aurelia-framework'
 
 export class FormatNumberValueConverter {
@@ -72,5 +73,11 @@ export class ToPrecisionValueConverter {
 export class ShortenAddressValueConverter {
     toView(address, numLetters = 3) {
         return address.slice(0, numLetters) + '...' + address.slice(address.length - numLetters);
+    }
+}
+
+export class ValidStellarNumberValueConverter {
+    toView(num) {
+        return validStellarNumber(num);
     }
 }

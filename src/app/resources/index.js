@@ -7,6 +7,7 @@ import {PLATFORM} from 'aurelia-pal';
 export * from './auth';
 export * from './crud';
 export * from './value-converters';
+export * from './helpers';
 
 export function configure(config) {
     config.globalResources(

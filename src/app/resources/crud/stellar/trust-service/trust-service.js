@@ -45,35 +45,4 @@ export class TrustService {
 
         await this.transactionService.submit(operations);
     }
-
-    //minimumTrustLimit(code, issuer) {
-    //    const balance = this.balance(code, issuer);
-    //    return Math.ceil(parseFloat(this.buyingAssetBalance, 10) + parseFloat(this.buyingAmount, 10) + this.buyingAssetOffersAmount);
-    //}
-
-    balance(code, issuer) {
-        const account = this.store.getState().myAccount;
-
-        if (!account || !account.balances) {
-            return undefined;
-        }
-
-        return _find(account.balances, b => code === window.lupoex.stellar.nativeAssetCode ? b.asset_type === 'native' : b.asset_code === code && b.asset_issuer === issuer);
-    }
-
-    //buyingAssetOffersAmount() {
-    //    const offers = this.store.getState().offers;
-    //
-    //    if (!offers) {
-    //        return 0;
-    //    }
-    //
-    //    return offers ? offers.reduce((result, o) => {
-    //        const add = asset1.asset_code === asset2.code && asset1.asset_issuer === asset2.issuer ?
-    //        parseFloat(o.amount, 10) * parseFloat(o.price, 10) :
-    //            parseFloat(o.amount, 10);
-//
-    //        return result + add;
-    //    }, 0) : 0;
-    //}
 }

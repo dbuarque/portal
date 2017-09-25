@@ -2,17 +2,30 @@
  * Created by istrauss on 5/8/2017.
  */
 
+import BigNumber from 'bignumber.js';
 import _find from 'lodash.find';
 import {inject} from 'aurelia-framework'
 import {Store} from 'au-redux';
 import {StellarServer, AlertToaster} from 'global-resources';
-import {LupoexResource} from 'app-resources';
+import {LupoexResource, validStellarNumber} from 'app-resources';
 import {AppActionCreators} from '../../../../../app-action-creators';
 
 @inject(StellarServer, Store, AlertToaster, LupoexResource, AppActionCreators)
 export class OfferModal {
 
     loading = 0;
+
+    get buyingAmount() {
+        return (new BigNumber(this.sellingAmount)).dividedBy(this.price).toString(10);
+    }
+
+    get fee() {
+        if (window.lupoex.env !== 'production') {
+            return 0;
+        }
+
+        return (new BigNumber(this.sellingAmount)).times(window.lupoex.offerFeeFactor).toFixed(7);
+    }
 
     constructor(stellarServer, store, alertToaster, lupoexResource, appActionCreators) {
         this.stellarServer = stellarServer;
@@ -32,24 +45,14 @@ export class OfferModal {
         this.sellingAmount = params.passedInfo.sellingAmount;
         this.buyingCode = params.passedInfo.buyingCode;
         this.buyingIssuer = params.passedInfo.buyingIssuer;
-        this.buyingAmount = parseFloat(params.passedInfo.sellingAmount, 10) * parseFloat(params.passedInfo.price, 10);
         this.price = params.passedInfo.price;
     }
 
     async confirm() {
         this.modalVM.dismissible = false;
 
-        const sellingAmountSplit = this.sellingAmount.split('.');
-        if (sellingAmountSplit.length > 1 && sellingAmountSplit[1].length > 7) {
-            this.alertToaster.error('Currency amounts cannot have more than 7 decimal places.');
-            this.modalVM.dismiss();
-            return;
-        }
-
-        let sellingAmount = parseFloat(this.sellingAmount);
-        const fee = window.lupoex.env === 'production' ? this.calculateFee(sellingAmount) : 0;
-        sellingAmount = sellingAmount - fee;
-        sellingAmount = sellingAmount.toFixed(7);
+        let sellingAmount = new BigNumber(this.sellingAmount);
+        sellingAmount = sellingAmount.minus(this.fee).toFixed(7);
 
         const sellingAsset = this.sellingCode === this.nativeAssetCode ?
             this.stellarServer.sdk.Asset.native() :
@@ -62,12 +65,14 @@ export class OfferModal {
                     buying: this.buyingCode === this.nativeAssetCode ?
                         this.stellarServer.sdk.Asset.native() :
                         new this.stellarServer.sdk.Asset(this.buyingCode, this.buyingIssuer),
-                    amount: sellingAmount,
-                    price: this.price.toString().slice(0, 15)
+                    amount: validStellarNumber(sellingAmount),
+                    price: validStellarNumber(this.price)
                 })
             ];
 
-            if (fee) {
+            //TODO change this logic to send a path payment...
+
+            if (parseFloat(this.fee) > 0) {
                 const lupoexAccount = this.store.getState().lupoexAccount;
                 const lupoexHasTrust = sellingAsset.isNative() || _find(lupoexAccount.balances, b => b.asset_code === sellingAsset.getCode() && b.asset_issuer === sellingAsset.getIssuer());
 
@@ -95,12 +100,6 @@ export class OfferModal {
             this.modalVM.dismiss();
         }
 
-    }
-
-    calculateFee(sellingAmount) {
-        let fee = sellingAmount * window.lupoex.offerFeeFactor;
-        fee = fee.toFixed(7);
-        return parseFloat(fee, 10);
     }
 
     cancel() {

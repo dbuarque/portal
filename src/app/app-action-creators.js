@@ -7,7 +7,7 @@ import {appActionTypes} from './app-action-types';
 import {AlertToaster} from 'global-resources';
 import {AccountResource} from './resources/crud/resources';
 
-const {UPDATE_MY_ACCOUNT, UPDATE_LUPOEX_ACCOUNT} = appActionTypes;
+const {UPDATE_MY_ACCOUNT, UPDATE_LUPOEX_ACCOUNT, UPDATE_MY_ACCOUNT_SEQNUM} = appActionTypes;
 
 @inject(AlertToaster, AccountResource)
 export class AppActionCreators {
@@ -46,6 +46,27 @@ export class AppActionCreators {
             catch(e) {
                 //Couldn't find account, let's logout.
                 dispatch(this.updateAccount());
+                throw e;
+            }
+        };
+    }
+
+    updateMySeqnum() {
+        return async (dispatch, getState) => {
+            const state = getState();
+            if (!state.account) {
+                throw new Error('Cannot update the seqnum without an account in the store.');
+            }
+
+            try {
+                const seqnum = await this.accountResource.seqnum(state.account.accountId);
+
+                return dispatch({
+                    type: UPDATE_MY_ACCOUNT_SEQNUM,
+                    payload: seqnum
+                });
+            }
+            catch(e) {
                 throw e;
             }
         };

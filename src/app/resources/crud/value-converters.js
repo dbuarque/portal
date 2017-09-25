@@ -2,11 +2,23 @@
  * Created by istrauss on 9/10/2017.
  */
 
+import {inject} from 'aurelia-framework';
+
+export class AssetUrlValueConverter {
+    toView(asset) {
+        return '/' + asset.code +
+            '/' + (asset.code === window.lupoex.stellar.nativeAssetCode ? 'native' : asset.issuer);
+    }
+}
+
+@inject(AssetUrlValueConverter)
 export class AssetPairToUrlValueConverter {
+
+    constructor(assetUrl) {
+        this.assetUrl = assetUrl;
+    }
+
     toView(assetPair) {
-        return '/' + assetPair.selling.code +
-            '/' + (assetPair.selling.code === window.lupoex.stellar.nativeAssetCode ? 'native' : assetPair.selling.issuer) +
-            '/' + assetPair.buying.code +
-            '/' + (assetPair.buying.code === window.lupoex.stellar.nativeAssetCode ? 'native' : assetPair.buying.issuer);
+        return this.assetUrl.toView(assetPair.selling) + this.assetUrl.toView(assetPair.buying);
     }
 }

@@ -16,7 +16,7 @@ export default class AuthenticateStep {
     }
 
     async run(navigationInstruction, next) {
-        await this.accountSyncer.init();
+        await this.accountSyncer.syncToStore();
 
         const account = this.store.getState().myAccount;
 

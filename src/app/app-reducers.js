@@ -7,7 +7,7 @@ import {combineReducersProvideRootState, restrictReducerToNamespace} from 'au-re
 import {appActionTypes} from './app-action-types';
 import {exchange} from './routes/exchange/exchange-reducers';
 
-const {UPDATE_MY_ACCOUNT, UPDATE_LUPOEX_ACCOUNT} = appActionTypes;
+const {UPDATE_MY_ACCOUNT, UPDATE_LUPOEX_ACCOUNT, UPDATE_MY_ACCOUNT_SEQNUM} = appActionTypes;
 
 export const app = combineReducersProvideRootState({
     myAccount,
@@ -16,7 +16,17 @@ export const app = combineReducersProvideRootState({
 });
 
 function myAccount(state, action) {
-    return action.type === UPDATE_MY_ACCOUNT && !_isEqual(state, action.payload) ? action.payload : state;
+    switch(action.type) {
+        case UPDATE_MY_ACCOUNT:
+            return !_isEqual(state, action.payload) ? action.payload : state;
+        case UPDATE_MY_ACCOUNT_SEQNUM:
+            return {
+                ...state,
+                seqNum: action.payload
+            };
+        default:
+            return state;
+    }
 }
 
 function lupoexAccount(state, action) {

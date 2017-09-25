@@ -5,6 +5,7 @@
 import BigNumber from 'bignumber.js';
 import {inject, Container, computedFrom} from 'aurelia-framework';
 import {connected} from 'au-redux';
+import {validStellarNumber} from 'app-resources';
 import {CreateOffer} from './create-offer';
 import {DetailActionCreators} from '../detail-action-creators';
 
@@ -20,7 +21,11 @@ export class CreateBidCustomElement extends CreateOffer {
 
     @computedFrom('myBid')
     get price() {
-        return this.myBid ? (new BigNumber(1)).dividedBy(this.myBid.price).toString(10) : undefined;
+        return this.myBid ?
+            validStellarNumber(
+                (new BigNumber(1)).dividedBy(this.myBid.price)
+            ) :
+            undefined;
     }
     set price(newPrice) {
         this.store.dispatch(this.detailActionCreators.updateMyBid({

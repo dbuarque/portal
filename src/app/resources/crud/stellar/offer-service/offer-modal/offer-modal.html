@@ -1,26 +1,18 @@
 <template>
     <div class="offer-modal">
         <div>
-            Are you sure you would like to:
+            Are you sure you would like to create a:
             <br>
             <br>
 
-            <div show.bind="type === 'bid'">
+            <div>
                 <strong>
-                    <span class="success-text">Buy</span>
-                    ${buyingAmount} ${buyingCode}(${buyingIssuer || 'Native'})
+                    <span show.bind="type === 'bid'" class="success-text">Bid</span>
+                    <span show.bind="type === 'ask'" class="error-text">Ask</span>
+                    ${sellingAmount} ${sellingCode} (${sellingIssuer || 'Native'})
                 </strong>
                 for
-                <strong>${sellingAmount} ${sellingCode}(${sellingIssuer || 'Native'})</strong>
-            </div>
-
-            <div show.bind="type === 'ask'">
-                <strong>
-                    <span class="error-text">Sell</span>
-                    ${sellingAmount} ${sellingCode}(${sellingIssuer || 'Native'})
-                </strong>
-                for
-                <strong>${buyingAmount} ${buyingCode}(${buyingIssuer || 'Native'})</strong>
+                <strong>${buyingAmount} ${buyingCode} (${buyingIssuer || 'Native'})</strong>
             </div>
 
             <br>

@@ -3,6 +3,7 @@
  */
 
 import {exchangeActionTypes} from '../../../exchange-action-types';
+import {validStellarNumber} from 'app-resources';
 import {detailActionTypes} from '../detail-action-types';
 import {isNewAssetPair, calculateNewOrder} from './helpers';
 
@@ -16,7 +17,9 @@ export function myAsk(state, action, rootState) {
         case UPDATE_ORDERBOOK:
             if (!state && action.payload && action.payload.bids && action.payload.bids.length > 0) {
                 return {
-                    price: action.payload.bids[0].price
+                    price: validStellarNumber(
+                        action.payload.bids[0].price
+                    )
                 };
             }
 

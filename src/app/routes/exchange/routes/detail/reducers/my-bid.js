@@ -3,6 +3,7 @@
  */
 
 import BigNumber from 'bignumber.js';
+import {validStellarNumber} from 'app-resources';
 import {exchangeActionTypes} from '../../../exchange-action-types';
 import {detailActionTypes} from '../detail-action-types';
 import {isNewAssetPair, calculateNewOrder} from './helpers';
@@ -17,7 +18,9 @@ export function myBid(state, action, rootState) {
         case UPDATE_ORDERBOOK:
             if (!state && action.payload && action.payload.asks && action.payload.asks.length > 0) {
                 return {
-                    price: (new BigNumber(1)).dividedBy(action.payload.asks[0].price)
+                    price: validStellarNumber(
+                        (new BigNumber(1)).dividedBy(action.payload.asks[0].price)
+                    )
                 };
             }
 

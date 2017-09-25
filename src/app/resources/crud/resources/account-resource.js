@@ -4,13 +4,14 @@
 
 import {inject} from 'aurelia-dependency-injection';
 import BaseResource from './base-resource';
-import {AssetPairToUrlValueConverter} from '../value-converters';
+import {AssetUrlValueConverter, AssetPairToUrlValueConverter} from '../value-converters';
 
-@inject(AssetPairToUrlValueConverter)
+@inject(AssetUrlValueConverter, AssetPairToUrlValueConverter)
 export class AccountResource extends BaseResource {
-    constructor(assetPairToUrl) {
+    constructor(assetUrl, assetPairToUrl) {
         super('/Account');
 
+        this.assetUrl = assetUrl;
         this.assetPairToUrl = assetPairToUrl;
     }
 
@@ -21,6 +22,15 @@ export class AccountResource extends BaseResource {
      */
     account(accountId) {
         return this.get('/' + accountId);
+    }
+
+    /**
+     * Gets the seqnum for an account
+     * @param accountId
+     * @returns {*}
+     */
+    seqnum(accountId) {
+        return this.get('/' + accountId + '/Seqnum');
     }
 
     /**
@@ -105,7 +115,19 @@ export class AccountResource extends BaseResource {
      * @param assetPair
      * @returns {*}
      */
-    assetPairTrustlines(accountId, assetPair) {
-        return this.get('/' + accountId + '/Trustlines' + this.assetPairToUrl.toView(assetPair));
+    async assetPairTrustlines(accountId, assetPair) {
+        const values = await Promise.all([
+            this.trustline(accountId, assetPair.buying),
+            this.trustline(accountId, assetPair.selling)
+        ]);
+
+        return {
+            buying: values[0],
+            selling: values[1]
+        };
+    }
+
+    trustline(accountId, asset) {
+        return this.get('/' + accountId + '/Trustline' + this.assetUrl.toView(asset));
     }
 }

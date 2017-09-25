@@ -51,7 +51,7 @@ export class CreateOffer {
 
     validate() {
         let alertMessage = undefined;
-        if (!this.sellingPrice) {
+        if (!this.price) {
             alertMessage = 'Price is required';
         }
         else if (!this.buyingAmount) {
@@ -60,17 +60,14 @@ export class CreateOffer {
         else if (!this.sellingAmount) {
             alertMessage = this.assetPair.selling.code +  ' is required';
         }
-        else if (this.sellingPrice * parseFloat(this.sellingAmount, 10) - parseFloat(this.buyingAmount, 10) > 0.00000009) {
-            alertMessage = this.assetPair.buying.code +  ' must equal '  + this.assetPair.selling.code + ' multiplied by the price';
-        }
-        else if (this.sellingPrice <= 0 || parseFloat(this.buyingAmount, 10) <= 0 || parseFloat(this.sellingAmount, 10) <= 0) {
+        else if (this.price <= 0 || parseFloat(this.buyingAmount, 10) <= 0 || parseFloat(this.sellingAmount, 10) <= 0) {
             alertMessage = 'Negative numbers are not allowed.';
         }
-        else if (this.needsTrustline && parseFloat(this.trustline, 10) < this.minimumTrustline()) {
-            alertMessage = 'Trustline is too small. It must be at least ' + this.minimumTrustline() + ' to cover your balance and this new offer.';
+        else if (this.needsTrustline && parseFloat(this.myAssetPair.buying.limit, 10) < this.minTrustLine) {
+            alertMessage = 'Trustline is too small. It must be at least ' + this.minTrustLine + ' to cover your balance and this new offer.';
         }
-        else if (parseFloat(this.sellingAssetBalance, 10) < parseFloat(this.sellingAmount, 10)) {
-            alertMessage = 'You cannot spend ' + this.sellingAmount + ' ' + this.sellingAsset.code + ' as you only have ' + this.sellingAssetBalance + ' ' + this.sellingAsset.code + ' in your account.';
+        else if (parseFloat(this.mySellingAsset.balance, 10) < parseFloat(this.sellingAmount, 10)) {
+            alertMessage = 'You cannot spend ' + this.sellingAmount + ' ' + this.sellingAsset.code + ' as you only have ' + this.mySellingAsset.balance + ' ' + this.sellingAsset.code + ' in your account.';
         }
 
         this.alertConfig = alertMessage ? {
