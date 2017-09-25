@@ -9,10 +9,10 @@
                 <strong>
                     <span show.bind="type === 'bid'" class="success-text">Bid</span>
                     <span show.bind="type === 'ask'" class="error-text">Ask</span>
-                    ${sellingAmount} ${sellingCode} (${sellingIssuer || 'Native'})
+                    ${amount} ${sellingAsset.code} (${sellingAsset.issuer || 'Native'})
                 </strong>
                 for
-                <strong>${buyingAmount} ${buyingCode} (${buyingIssuer || 'Native'})</strong>
+                <strong>${buyingAmount} ${buyingAsset.code} (${buyingAsset.issuer || 'Native'})</strong>
             </div>
 
             <br>

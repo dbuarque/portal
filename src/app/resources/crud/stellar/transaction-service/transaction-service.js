@@ -62,7 +62,7 @@ export class TransactionService {
             await this.secretStore.sign(transaction);
         }
         catch(e) {
-            this.alertToaster.error('An unexpected error occured while trying to submit your transaction to the network. Your transaction was not submitted.');
+            this.alertToaster.error('An unexpected error occurred while trying to submit your transaction to the network. Your transaction was not submitted.');
             throw e;
         }
 

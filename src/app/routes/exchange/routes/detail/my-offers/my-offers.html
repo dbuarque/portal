@@ -25,8 +25,8 @@
                             <tbody>
                                 <tr repeat.for="bid of myOffers.bids">
                                     <td><span class="success-text"><strong>Bid</strong></span></td>
-                                    <td>${1 / bid.price | toPrecision:7}</td>
-                                    <td>${bid.amount * bid.price | toPrecision:7}</td>
+                                    <td>${1 | divideBy:bid.price | toPrecision:7}</td>
+                                    <td>${bid.amount | multiplyBy:bid.price | toPrecision:7}</td>
                                     <td>${bid.amount | toPrecision:7}</td>
                                     <td>
                                         <a href="javascript:void(0)" class="text-accent" click.trigger="cancel(bid)">
@@ -38,7 +38,7 @@
                                     <td><span class="error-text"><strong>Ask</strong></span></td>
                                     <td>${ask.price | toPrecision:7}</td>
                                     <td>${ask.amount | toPrecision:7}</td>
-                                    <td>${ask.amount * ask.price | toPrecision:7}</td>
+                                    <td>${ask.amount | multiplyBy:ask.price | toPrecision:7}</td>
                                     <td>
                                         <a href="javascript:void(0)" class="text-accent" click.trigger="cancel(ask)">
                                             Cancel

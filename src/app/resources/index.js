@@ -11,11 +11,12 @@ export * from './helpers';
 
 export function configure(config) {
     config.globalResources(
-        PLATFORM.moduleName('./value-converters'),
+        PLATFORM.moduleName('./value-converters/misc'),
+        PLATFORM.moduleName('./value-converters/number'),
+        PLATFORM.moduleName('./value-converters/order'),
         PLATFORM.moduleName('./widgets/stellar-entities-jqdt/stellar-entities-jqdt'),
         PLATFORM.moduleName('./widgets/lupoex-jqdt/lupoex-jqdt'),
         PLATFORM.moduleName('./custom-attributes/stellar-compliant-float'),
         PLATFORM.moduleName('./dom-controls/stellar-address-input/stellar-address-input')
     );
 }
-

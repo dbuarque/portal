@@ -57,13 +57,25 @@ export default class EffectHistoryConfig {
     effectDetailsIcon(e) {
         switch(e.type) {
             case 'ACCOUNT_CREATED':
-                return '<i class="fa fa-lg fa-check success-text">A</i>';
+                return '<i class="fa fa-lg fa-check success-text"></i>';
             case 'ACCOUNT_REMOVED':
                 return '<i class="fa fa-lg fa-times error-text"></i>';
             case 'ACCOUNT_CREDITED':
                 return '<i class="fa fa-lg fa-arrow-left success-text"></i>';
             case 'ACCOUNT_DEBITED':
                 return '<i class="fa fa-lg fa-arrow-right error-text"></i>';
+            case 'SIGNER_CREATED':
+                return '<span><i class="fa fa-gray fa-pencil fa-lg"></i><i class="fa fa-plus success-text fa-sub"></i></span>';
+            case 'SIGNER_UPDATED':
+                return '<span><i class="fa fa-gray fa-pencil fa-lg"></i><i class="fa fa-arrow-up primary-text fa-sub"></i></span>';
+            case 'SIGNER_REMOVED':
+                return '<span><i class="fa fa-gray fa-pencil fa-lg"></i><i class="fa fa-times error-text fa-sub"></i></span>';
+            case 'TRUSTLINE_CREATED':
+                return '<span><i class="fa fa-gray fa-lock fa-lg"></i><i class="fa fa-plus success-text fa-sub"></i></span>';
+            case 'TRUSTLINE_UPDATED':
+                return '<span"><i class="fa fa-gray fa-lock fa-lg"></i><i class="fa fa-arrow-up primary-text fa-sub"></i></span>';
+            case 'TRUSTLINE_REMOVED':
+                return '<span><i class="fa fa-gray fa-lock fa-lg"></i><i class="fa fa-times error-text fa-sub"></i></span>';
             case 'TRADE':
                 return '<i class="fa fa-lg fa-exchange primary-text"></i>';
             default:
@@ -79,12 +91,24 @@ export default class EffectHistoryConfig {
                 return 'Account Removed';
             case 'ACCOUNT_CREDITED':
                 return 'Received payment from ' + this.shortenAddress.toView(e.operation.details.from) + ' for ' +
-                    e.operation.details.amount + ' ' + this._assetDetailsToText(e.operation.details.amount, e.operation.details.asset_type, e.operation.details.asset_code);
+                    this._assetDetailsToText(e.operation.details.amount, e.operation.details.asset_type, e.operation.details.asset_code);
             case 'ACCOUNT_DEBITED':
                 return this._handleAccountDebited(e);
+            case 'SIGNER_CREATED':
+                return 'New signer ' + this.shortenAddress.toView(e.details.public_key) + ' added with weight of ' + e.details.weight;
+            case 'SIGNER_UPDATED':
+                return 'Signer ' + this.shortenAddress.toView(e.details.public_key) + ' updated with weight of ' + e.details.weight;
+            case 'SIGNER_REMOVED':
+                return 'Signer ' + this.shortenAddress.toView(e.details.public_key) + ' removed';
+            case 'TRUSTLINE_CREATED':
+                return 'New trustline limit of ' + e.details.limit + ' for asset ' + e.details.asset_code + ' issued by ' + this.shortenAddress.toView(e.details.asset_issuer);
+            case 'TRUSTLINE_UPDATED':
+                return 'Trustline limit updated to ' + e.details.limit + ' for asset ' + e.details.asset_code + ' issued by ' + this.shortenAddress.toView(e.details.asset_issuer);
+            case 'TRUSTLINE_REMOVED':
+                return 'Trustline limit removed for asset ' + e.details.asset_code + ' issued by ' + this.shortenAddress.toView(e.details.asset_issuer);
             case 'TRADE':
                 return 'Traded ' + this._assetDetailsToText(e.operation.details.amount, e.operation.details.selling_asset_type, e.operation.details.selling_asset_code) +
-                    ' for ' + this._assetDetailsToText((new BigNumber(e.operation.details.amount)).times(e.operation.details.price), e.operation.details.buying_asset_type, e.operation.details.buying_asset_code);
+                    ' for ' + this._assetDetailsToText((new BigNumber(e.operation.details.amount)).times(e.operation.details.price).toString(10), e.operation.details.buying_asset_type, e.operation.details.buying_asset_code);
             default:
                 return e.type;
         }

@@ -39,9 +39,13 @@ export default class TradingviewPriceChartConfig {
                 "border_around_the_chart",
                 "context_menus",
                 "edit_buttons_in_legend",
-                "use_localstorage_for_settings"
+                "use_localstorage_for_settings",
+                "source_selection_markers"
             ],
-            enabled_features: ["move_logo_to_main_pane"],
+            enabled_features: [
+                "move_logo_to_main_pane",
+                "hide_last_na_study_output"
+            ],
             overrides: {
                 "mainSeriesProperties.candleStyle.drawBorder": false,
                 "mainSeriesProperties.candleStyle.upColor": "#388e3c",

@@ -30,9 +30,8 @@ export class MyOffersCustomElement {
         this.detailActionCreators = detailActionCreators;
     }
 
-    async cancel(bid) {
-        await this.offerService.cancelOffer(bid);
+    async cancel(offer) {
+        await this.offerService.cancelOffer(offer);
         this.detailActionCreators.updateMyOffers();
-        this.detailActionCreators.updateMyAssetPair();
     }
 }
