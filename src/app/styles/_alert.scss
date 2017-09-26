@@ -49,3 +49,13 @@
         background-color: $accent;
     }
 }
+
+@media all and (min-width: 601px) {
+    #toast-container {
+        top: auto !important;
+        left: auto !important;
+        bottom: 10px;
+        right: 10px;
+    }
+}
+

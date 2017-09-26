@@ -10,7 +10,7 @@ import {connected} from 'au-redux';
 @subscriptionService()
 export class AccountStream {
 
-    @connected('account.accountId')
+    @connected('myAccount.accountId')
     accountId;
 
     previousAccountId;
