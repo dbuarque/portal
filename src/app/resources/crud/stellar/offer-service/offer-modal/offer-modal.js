@@ -9,7 +9,7 @@ export class OfferModal {
     loading = 0;
 
     get buyingAmount() {
-        return (new BigNumber(this.amount)).dividedBy(this.price).toString(10);
+        return (new BigNumber(this.amount)).times(this.price).toString(10);
     }
 
     activate(params) {

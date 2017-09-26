@@ -84,15 +84,13 @@ export class CreateOffer {
         }
 
         try {
-            await this.offerService.createOffer({
-                type: this.type,
-                buyingCode: this.buyingAsset.code,
-                buyingIssuer: this.buyingAsset.code === window.lupoex.stellar.nativeAssetCode ? undefined : this.buyingAsset.issuer,
-                sellingCode: this.sellingAsset.code,
-                sellingIssuer: this.sellingAsset.code === window.lupoex.stellar.nativeAssetCode ? undefined : this.sellingAsset.issuer,
-                sellingAmount: this.sellingAmount,
-                price: this.price
-            });
+            await this.offerService.createOffer(
+                this.type,
+                this.sellingAmount,
+                this[this.type === 'bid' ? 'myBid' : 'myAsk'].price,
+                this.sellingAsset,
+                this.buyingAsset
+            );
 
             this.detailActionCreators.updateMyOffers();
             this.detailActionCreators.updateMyAssetPair();

@@ -2,6 +2,7 @@
  * Created by istrauss on 5/8/2017.
  */
 
+import BigNumber from 'bignumber.js';
 import {PLATFORM} from 'aurelia-pal';
 import {inject} from 'aurelia-framework';
 import {Store} from 'au-redux';
@@ -46,22 +47,22 @@ export class OfferService {
                 title: 'Create Offer'
             }
         );
-
-        const fee = await this.calculateFee(this.sellingAmount, {
-            code: this.passedInfo
-        });
-        const sellingAmount = (new BigNumber(this.sellingAmount)).minus(this.fee).toFixed(7);
+        
         const operations = [];
 
         try {
+            const nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
+            const fee = await this.calculateFee(amount, sellingAsset);
+            const sellingAmount = (new BigNumber(amount)).minus(fee).toFixed(7);
+
             const offerOp = this.stellarServer.sdk.Operation.manageOffer({
-                selling: this.sellingCode === this.nativeAssetCode ?
+                selling: sellingAsset.code === nativeAssetCode ?
                     this.stellarServer.sdk.Asset.native() :
                     new this.stellarServer.sdk.Asset(sellingAsset.code, sellingAsset.issuer),
-                buying: this.buyingCode === this.nativeAssetCode ?
+                buying: buyingAsset.code === nativeAssetCode ?
                     this.stellarServer.sdk.Asset.native() :
                     new this.stellarServer.sdk.Asset(buyingAsset.code, buyingAsset.issuer),
-                amount: validStellarNumber(amount),
+                amount: validStellarNumber(sellingAmount),
                 price: validStellarNumber(price)
             });
 
@@ -70,7 +71,7 @@ export class OfferService {
             if (fee && fee > 0) {
                 const feePaymentOp = this.stellarServer.sdk.Operation.payment({
                     destination: window.lupoex.publicKey,
-                    asset: this.sellingCode === this.nativeAssetCode ?
+                    asset: sellingAsset.code === nativeAssetCode ?
                         this.stellarServer.sdk.Asset.native() :
                         new this.stellarServer.sdk.Asset(sellingAsset.code, sellingAsset.issuer),
                     amount: fee.toString()
@@ -81,6 +82,7 @@ export class OfferService {
         }
         catch(e) {
             this.alertToaster.error('Unexpected error occured. Please check your inputs. Your offer was NOT submitted to the network.');
+            console.log(JSON.stringify(e));
             throw e;
         }
 
