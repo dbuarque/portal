@@ -15,19 +15,10 @@ export default class OpenOffersConfig {
     constructor(formatNumber, formatDateTime, issuerHtml, sanitizeHTML) {
         return {
             table: {
-                order: [0, 'desc'],
                 lengthMenu: [ 10, 25, 100 ],
                 serverSide: true,
                 searchDelay: 500,
                 columns: [
-                    {
-                        title: 'Last Modified At',
-                        data: 'lastModified',
-                        searchable: false,
-                        render(cellData, type, rowData) {
-                            return formatDateTime.toView(rowData.lastModified);
-                        }
-                    },
                     {
                         title: 'Offered Amount',
                         data: 'amount',

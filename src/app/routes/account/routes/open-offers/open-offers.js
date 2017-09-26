@@ -22,7 +22,7 @@ export class OpenOffers {
     get tableConfig() {
         const vm = this;
 
-        vm.config.table.columns[7].cellCallback = (cell, rowData) => {
+        vm.config.table.columns[6].cellCallback = (cell, rowData) => {
             cell.empty();
             $('<button class="btn error-text btn-small btn-flat" type="button">Cancel</button>')
                 .click(() => {
