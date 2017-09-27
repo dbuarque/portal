@@ -6,7 +6,7 @@ import BigNumber from 'bignumber.js';
 import {computedFrom} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {Store, connected} from 'au-redux';
-import {TrustService, OfferService} from 'app-resources';
+import {TrustService, OfferService, validStellarNumber} from 'app-resources';
 import {DetailActionCreators} from '../detail-action-creators';
 
 export class CreateOffer {
@@ -60,9 +60,6 @@ export class CreateOffer {
         else if (!this.sellingAmount) {
             alertMessage = this.assetPair.selling.code +  ' is required';
         }
-        else if (this.price <= 0 || parseFloat(this.buyingAmount, 10) <= 0 || parseFloat(this.sellingAmount, 10) <= 0) {
-            alertMessage = 'Negative numbers are not allowed.';
-        }
         else if (this.needsTrustline && parseFloat(this.myAssetPair.buying.limit, 10) < this.minTrustLine) {
             alertMessage = 'Trustline is too small. It must be at least ' + this.minTrustLine + ' to cover your balance and this new offer.';
         }
@@ -83,11 +80,15 @@ export class CreateOffer {
             return;
         }
 
+        const price = this[this.type === 'bid' ? 'myBid' : 'myAsk'].price;
+
         try {
             await this.offerService.createOffer(
                 this.type,
                 this.sellingAmount,
-                this[this.type === 'bid' ? 'myBid' : 'myAsk'].price,
+                validStellarNumber(
+                    (new BigNumber(price[0])).dividedBy(price[1])
+                ),
                 this.sellingAsset,
                 this.buyingAsset
             );

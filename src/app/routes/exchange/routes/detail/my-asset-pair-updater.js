@@ -5,9 +5,10 @@
 import {inject} from 'aurelia-framework';
 import {connected, Store} from 'au-redux';
 import {AccountResource} from 'app-resources';
+import {AccountStream} from '../../../../account-stream';
 import {DetailActionCreators} from './detail-action-creators';
 
-@inject(Store, AccountResource, DetailActionCreators)
+@inject(Store, AccountResource, AccountStream, DetailActionCreators)
 export class MyAssetPairUpdater {
 
     @connected('exchange.assetPair')
@@ -16,9 +17,10 @@ export class MyAssetPairUpdater {
     @connected('myAccount')
     account;
 
-    constructor(store, accountResource, detailActionCreators) {
+    constructor(store, accountResource, accountStream, detailActionCreators) {
         this.store = store;
         this.marketResource = accountResource;
+        this.accountStream = accountStream;
         this.detailActionCreators = detailActionCreators;
     }
 
@@ -40,12 +42,31 @@ export class MyAssetPairUpdater {
             clearInterval(this.interval);
         }
 
-        if (!this.assetPair || !this.account || !this.account.flags) {
+        if (this.unsubscribeFromStream) {
+            this.unsubscribeFromStream();
+        }
+
+        if (!this.assetPair || !this.account) {
             return;
         }
 
+        this.unsubscribeFromStream = this.accountStream.subscribe(this._handleAccountEffects.bind(this));
         this.interval = setInterval(this.updateMyAssetPair.bind(this), 60 * 1000);
         this.updateMyAssetPair();
+    }
+
+    _handleAccountEffects(msg) {
+        if (msg.type !== 'effects') {
+            return;
+        }
+
+        for(let i = 0; i < msg.payload.length; i++) {
+            // If a trade or trustline modification comes through, just call restart() which will update myAssetPair and restard the autoupdate interval.
+            if (msg.payload[i].type === 'TRADE' || msg.payload[i].type.indexOf('TRUSTLINE') > -1) {
+                this.restart();
+                return;
+            }
+        }
     }
 
     async updateMyAssetPair() {

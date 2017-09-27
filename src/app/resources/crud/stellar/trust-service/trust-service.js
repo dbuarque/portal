@@ -30,7 +30,7 @@ export class TrustService {
      */
     async modifyLimit(code, issuer) {
         if (!this.store.getState().myAccount) {
-            const errorMessage = 'You must be logged in to send a payment. Please log in and try again.';
+            const errorMessage = 'You must be logged in to modify trust. Please log in and try again.';
             this.alertToaster.error(errorMessage);
             throw new Error(errorMessage);
         }

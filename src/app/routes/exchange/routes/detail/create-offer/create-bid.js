@@ -21,15 +21,17 @@ export class CreateBidCustomElement extends CreateOffer {
 
     @computedFrom('myBid')
     get price() {
-        return this.myBid && this.myBid.price ?
+        return !this.myBid || !this.myBid.price ?
+            undefined :
             validStellarNumber(
-                (new BigNumber(1)).dividedBy(this.myBid.price)
-            ) :
-            undefined;
+                (new BigNumber(this.myBid.price[1])).dividedBy(this.myBid.price[0])
+            );
     }
     set price(newPrice) {
         this.store.dispatch(this.detailActionCreators.updateMyBid({
-            price: newPrice ? (new BigNumber(1)).dividedBy(newPrice).toString(10) : newPrice
+            price: newPrice ?
+                (new BigNumber(newPrice)).toFraction().reverse() :
+                newPrice
         }));
     }
 

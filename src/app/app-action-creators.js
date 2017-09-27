@@ -54,12 +54,12 @@ export class AppActionCreators {
     updateMySeqnum() {
         return async (dispatch, getState) => {
             const state = getState();
-            if (!state.account) {
+            if (!state.myAccount) {
                 throw new Error('Cannot update the seqnum without an account in the store.');
             }
 
             try {
-                const seqnum = await this.accountResource.seqnum(state.account.accountId);
+                const seqnum = await this.accountResource.seqnum(state.myAccount.accountId);
 
                 return dispatch({
                     type: UPDATE_MY_ACCOUNT_SEQNUM,

@@ -17,9 +17,7 @@ export function myAsk(state, action, rootState) {
         case UPDATE_ORDERBOOK:
             if (!state && action.payload && action.payload.bids && action.payload.bids.length > 0) {
                 return {
-                    price: validStellarNumber(
-                        action.payload.bids[0].price
-                    )
+                    price: [action.payload.bids[0].priceNumerator, action.payload.bids[0].priceDenominator]
                 };
             }
 

@@ -16,70 +16,68 @@ export function isNewAssetPair(oldAssetPair, newAssetPair) {
 }
 
 export function calculateNewOrder(newState, oldState) {
-    let clonedNewState;
+    let clonedNewState = {
+        ...newState
+    };
 
-    try {
-        clonedNewState = Object.keys(newState).reduce((ns, key) => {
-            return {
-                ...ns,
-                [key]: validStellarNumber(newState[key])
-            }
-        }, {});
-    }
-    catch(e) {
-        // new BigNumber can throw if newState has a value that is not a number.
-        // In that case, assume it is a lone negative sign or decimal and just return the new state without calculating anything new.
-        return {
-            ...oldState,
-            ...newState
-        };
-    }
+    //try {
+    //    clonedNewState = Object.keys(newState).reduce((ns, key) => {
+    //        return {
+    //            ...ns,
+    //            [key]: validStellarNumber(newState[key])
+    //        }
+    //    }, {});
+    //}
+    //catch(e) {
+    //    // new BigNumber can throw if newState has a value that is not a number.
+    //    // In that case, assume it is a lone negative sign or decimal and just return the new state without calculating anything new.
+    //    return {
+    //        ...oldState,
+    //        ...newState
+    //    };
+    //}
 
     if (clonedNewState.price) {
         const sellingAmount = clonedNewState.sellingAmount || oldState.sellingAmount;
         if (sellingAmount) {
             clonedNewState.buyingAmount = validStellarNumber(
-                (new BigNumber(sellingAmount)).times(clonedNewState.price)
+                (new BigNumber(sellingAmount)).times(clonedNewState.price[0]).dividedBy(clonedNewState.price[1])
             );
         }
         else {
             const buyingAmount = newState.buyingAmount || oldState.buyingAmount;
             if (buyingAmount) {
                 clonedNewState.sellingAmount = validStellarNumber(
-                    (new BigNumber(buyingAmount)).dividedBy(clonedNewState.price)
+                    (new BigNumber(buyingAmount)).times(clonedNewState.price[1]).dividedBy(clonedNewState.price[0])
                 );
             }
         }
     }
 
     else if (clonedNewState.sellingAmount) {
-        // Don't both looking for sellingAmount on clonedNewState, we know it doesn't exist there
+        // Don't bother looking for price in clonedNewState, we know it doesn't exist there
         if (oldState.price) {
             clonedNewState.buyingAmount = validStellarNumber(
-                (new BigNumber(clonedNewState.sellingAmount)).times(oldState.price)
+                (new BigNumber(clonedNewState.sellingAmount)).times(oldState.price[0]).dividedBy(oldState.price[1])
             );
         }
         else {
             const buyingAmount = clonedNewState.buyingAmount || oldState.buyingAmount;
             if (buyingAmount) {
-                clonedNewState.price = validStellarNumber(
-                    (new BigNumber(buyingAmount)).dividedBy(clonedNewState.sellingAmount)
-                );
+                clonedNewState.price = (new BigNumber(buyingAmount)).dividedBy(clonedNewState.sellingAmount).toFraction()
             }
         }
     }
     else if (clonedNewState.buyingAmount) {
-        // Don't both looking for price on clonedNewState, we know it doesn't exist there
+        // Don't bother looking for price in clonedNewState, we know it doesn't exist there
         if (oldState.price) {
             clonedNewState.sellingAmount = validStellarNumber(
-                (new BigNumber(clonedNewState.buyingAmount)).dividedBy(oldState.price)
+                (new BigNumber(clonedNewState.buyingAmount)).times(oldState.price[1]).dividedBy(oldState.price[0])
             );
         }
-        // Don't both looking for sellingAmount on clonedNewState, we know it doesn't exist there
+        // Don't bother looking for sellingAmount in clonedNewState, we know it doesn't exist there
         else if (oldState.sellingAmount) {
-            clonedNewState.price = validStellarNumber(
-                (new BigNumber(clonedNewState.buyingAmount)).dividedBy(oldState.sellingAmount)
-            );
+            clonedNewState.price = (new BigNumber(clonedNewState.buyingAmount)).dividedBy(oldState.sellingAmount).toFraction()
         }
     }
     
