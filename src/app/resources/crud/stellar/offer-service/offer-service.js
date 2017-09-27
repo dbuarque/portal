@@ -98,7 +98,9 @@ export class OfferService {
             return 0;
         }
 
-        const lupoexHasTrust = await this.accountResource.trustline(window.lupoex.publicKey, asset);
+        const lupoexHasTrust = asset.code === window.lupoex.stellar.nativeAssetCode ?
+            true :
+            await this.accountResource.trustline(window.lupoex.publicKey, asset);
 
         if (!lupoexHasTrust) {
             return 0;

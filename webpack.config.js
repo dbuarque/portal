@@ -33,8 +33,8 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
     alias: {
       app: path.resolve( __dirname, 'src', 'app'),
       //'resources': path.resolve( __dirname, 'src', 'resources'),
-      'global-resources': path.resolve( __dirname, 'src', 'resources', 'index'),
-      'app-resources': path.resolve( __dirname, 'src', 'app', 'resources', 'index'),
+      'global-resources': path.resolve( __dirname, 'src', 'resources'),
+      'app-resources': path.resolve( __dirname, 'src', 'app', 'resources'),
       '$': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.js'),
       'jquery': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.js'),
       'moment-timezone': path.resolve(__dirname, 'node_modules/moment-timezone/builds/moment-timezone-with-data-2012-2022'),
