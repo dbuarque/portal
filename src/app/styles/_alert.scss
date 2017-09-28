@@ -29,24 +29,69 @@
 }
 
 .toast {
+    background-color: #fff;
+    position:relative;
+    max-width: 300px;
+    word-break: normal;
+    padding-left: 40px;
+
+    &:before {
+        font-family: "FontAwesome";
+        font-size: 1.5em;
+        left:10px;
+        position:absolute;
+        top:50%;
+        margin-top: -10px;
+    }
+
     &.error {
-        background-color: $error;
+        color: $error;
+        border-color: $error;
+
+        &:before {
+            color: $error;
+            content: "\f057";
+        }
     }
 
     &.success {
-        background-color: $success;
+        border-color: $success;
+        color: $success;
+
+        &:before {
+            color: $success;
+            content: "\f058";
+        }
     }
 
     &.warning {
-        background-color: $warning;
+        border-color: $warning;
+        color: $warning;
+
+        &:before {
+            color: $warning;
+            content: "\f06a";
+        }
     }
 
     &.primary {
-        background-color: $primary;
+        border-color: $primary;
+        color: $primary;
+
+        &:before {
+            color: $primary;
+            content: "\f05a";
+        }
     }
 
     &.info {
-        background-color: $accent;
+        border-color: $accent;
+        color: $accent;
+
+        &:before {
+            color: $accent;
+            content: "\f05a";
+        }
     }
 }
 

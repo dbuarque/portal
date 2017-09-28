@@ -76,30 +76,10 @@ export class SendPayment {
 
     refresh() {
         this.amount = undefined;
-        this.memos = [];
+        this.memo = undefined;
         this.validationManager.clear();
         this.step = 'input';
         this.alertConfig = undefined;
-    }
-
-    async generateSuccessMessage(response) {
-        const transactionResponse = await this.httpClient.fetch(response._links.transaction.href);
-        const transaction = await transactionResponse.json();
-        const effectsResponse = await this.stellarServer.effects().forTransaction(transaction.id).call();
-
-        return effectsResponse.records.reduce((html, e) => {
-                let msg = '';
-                switch(e.type) {
-                    case 'account_credited':
-                        msg = 'Sent ' + e.amount + ' ' + (e.asset_type === 'native' ? this.nativeAssetCode : e.asset_code) + ' to account <span style="word-break: break-all;">' + e.account + '</span>.';
-                        break;
-                    case 'account_created':
-                        msg = 'Account <span style="word-break: break-all;">' + e.account + '</span> created with 20 ' + this.nativeAssetCode + '.';
-                        break;
-                }
-
-                return html + '<li>' + msg + '</li>';
-            }, '<ul>') + '</ul>';
     }
 
     async submitConfirmation() {
@@ -170,7 +150,6 @@ export class SendPayment {
             try {
                 await this.transactionService.submit(operations, {
                     memo: this.memo ? this.stellarServer.sdk.Memo[this.memoMethodFromType(this.memo.type)](this.memo.value) : undefined,
-                    onSuccess: this.generateSuccessMessage.bind(this)
                 });
                 this.refresh();
             }

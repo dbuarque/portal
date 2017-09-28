@@ -59,11 +59,11 @@ export class AppActionCreators {
             }
 
             try {
-                const seqnum = await this.accountResource.seqnum(state.myAccount.accountId);
+                const data = await this.accountResource.seqnum(state.myAccount.accountId);
 
                 return dispatch({
                     type: UPDATE_MY_ACCOUNT_SEQNUM,
-                    payload: seqnum
+                    payload: data.seqNum
                 });
             }
             catch(e) {

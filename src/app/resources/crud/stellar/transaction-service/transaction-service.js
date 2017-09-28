@@ -2,7 +2,6 @@
  * Created by istrauss on 5/18/2017.
  */
 
-import {PLATFORM} from 'aurelia-pal';
 import {inject} from 'aurelia-framework';
 import {Store} from 'au-redux';
 import {StellarServer, ModalService, SpinnerModalService, AlertToaster} from 'global-resources';
@@ -34,7 +33,9 @@ export class TransactionService {
 
         try {
             // Update the account sequence number.
-            await this.appActionCreators.updateMySeqnum();
+            await this.store.dispatch(
+                this.appActionCreators.updateMySeqnum()
+            );
 
             let account = this.store.getState().myAccount;
 
