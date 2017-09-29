@@ -47,10 +47,7 @@ export class AssetBalances {
             cell.empty();
             $('<button class="btn accent btn-small btn-flat" type="button"><i class="fa fa-paper-plane-o"></i>&nbsp;Pay</button>')
                 .click(() => {
-                    vm.router.parent.navigateToRoute('send-payment', {
-                        code: rowData.assetType === 'native' ? window.lupoex.stellar.nativeAssetCode : rowData.assetCode,
-                        issuer: rowData.issuerId
-                    });
+                    vm.goToSendPayment(rowData);
                 })
                 .appendTo(cell);
         };
@@ -59,6 +56,13 @@ export class AssetBalances {
             ...vm.config.table,
             ajax: vm.ajax.bind(vm)
         };
+    }
+
+    goToSendPayment(balance) {
+        this.router.parent.navigateToRoute('send-payment', {
+            code: balance.assetType === 'Native' ? window.lupoex.stellar.nativeAssetCode : balance.assetCode,
+            issuer: balance.assetType === 'Native' ? 'Native' : balance.issuerId
+        });
     }
 
     constructor(config, sanitizeHTML, router, accountResource, trustService) {

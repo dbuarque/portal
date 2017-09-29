@@ -7,7 +7,7 @@ import {inject} from 'aurelia-framework';
 import {detailActionTypes} from './detail-action-types';
 import {AccountResource} from 'app-resources';
 
-const {UPDATE_ORDERBOOK, UPDATE_MY_OFFERS, UPDATE_MY_BID, UPDATE_MY_ASK, UPDATE_MY_ASSET_PAIR, UPDATE_DISPLAYED_OFFER_TYPE} = detailActionTypes;
+const {UPDATE_ORDERBOOK, UPDATE_RECENT_TRADES, UPDATE_MY_OFFERS, UPDATE_MY_BID, UPDATE_MY_ASK, UPDATE_MY_ASSET_PAIR, UPDATE_DISPLAYED_OFFER_TYPE} = detailActionTypes;
 
 @inject(AccountResource)
 export class DetailActionCreators {
@@ -34,6 +34,13 @@ export class DetailActionCreators {
         return {
             type: UPDATE_MY_BID,
             payload: myBid
+        }
+    }
+
+    updateRecentTrades(recentTrades) {
+        return {
+            type: UPDATE_RECENT_TRADES,
+            payload: recentTrades
         }
     }
 

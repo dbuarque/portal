@@ -7,7 +7,7 @@ import {inject, bindable} from 'aurelia-framework';
 import { MdToastService } from 'aurelia-materialize-bridge';
 
 const defaultOptions = {
-    timeout: 10 * 1000
+    timeout: 15 * 1000
 };
 const defaultNetworkErrorText = 'Something went wrong. We are having trouble connecting to our server.';
 

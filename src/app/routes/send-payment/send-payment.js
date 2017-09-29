@@ -65,10 +65,6 @@ export class SendPayment {
         this.step = 'confirm';
     }
 
-    finish() {
-        this.router.navigate('/account/asset-balances');
-    }
-
     tryAgain() {
         this.alertConfig = undefined;
         this.step = 'input';

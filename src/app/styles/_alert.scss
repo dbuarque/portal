@@ -31,9 +31,15 @@
 .toast {
     background-color: #fff;
     position:relative;
-    max-width: 300px;
+    padding: 10px;
     word-break: normal;
     padding-left: 40px;
+    font-size: 14px;
+    line-height: 20px;
+    border: 1px solid $light-gray;
+    -webkit-box-shadow: $shadow1;
+    -moz-box-shadow: $shadow1;
+    box-shadow: $shadow1;
 
     &:before {
         font-family: "FontAwesome";
@@ -46,7 +52,6 @@
 
     &.error {
         color: $error;
-        border-color: $error;
 
         &:before {
             color: $error;
@@ -55,7 +60,6 @@
     }
 
     &.success {
-        border-color: $success;
         color: $success;
 
         &:before {
@@ -65,7 +69,6 @@
     }
 
     &.warning {
-        border-color: $warning;
         color: $warning;
 
         &:before {
@@ -75,7 +78,6 @@
     }
 
     &.primary {
-        border-color: $primary;
         color: $primary;
 
         &:before {
@@ -85,7 +87,6 @@
     }
 
     &.info {
-        border-color: $accent;
         color: $accent;
 
         &:before {
@@ -101,6 +102,12 @@
         left: auto !important;
         bottom: 10px;
         right: 10px;
+    }
+}
+
+@media all and (min-width: 480px) {
+    .toast {
+        max-width: 300px;
     }
 }
 

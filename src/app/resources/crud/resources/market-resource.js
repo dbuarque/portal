@@ -76,4 +76,14 @@ export class MarketResource extends BaseResource {
             priorto
         });
     }
+
+    /**
+     * Returns the most recent trades for an assetPair
+     * @param assetPair
+     * @returns {*}
+     */
+    recentTrades(assetPair) {
+        const action = this.assetPairToUrl.toView(assetPair) + '/RecentTrades';
+        return this.get(action);
+    }
 }

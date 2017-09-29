@@ -70,11 +70,11 @@ export default class EffectHistoryConfig {
             case 'SIGNER_REMOVED':
                 return '<span><i class="fa fa-gray fa-pencil fa-lg"></i><i class="fa fa-times error-text fa-sub"></i></span>';
             case 'TRUSTLINE_CREATED':
-                return '<span><i class="fa fa-gray fa-lock fa-lg"></i><i class="fa fa-plus success-text fa-sub"></i></span>';
+                return '<span><i class="fa fa-gray fa-handshake-o fa-lg"></i><i class="fa fa-plus success-text fa-sub"></i></span>';
             case 'TRUSTLINE_UPDATED':
-                return '<span"><i class="fa fa-gray fa-lock fa-lg"></i><i class="fa fa-arrow-up primary-text fa-sub"></i></span>';
+                return '<span"><i class="fa fa-gray fa-handshake-o fa-lg"></i><i class="fa fa-arrow-up primary-text fa-sub"></i></span>';
             case 'TRUSTLINE_REMOVED':
-                return '<span><i class="fa fa-gray fa-lock fa-lg"></i><i class="fa fa-times error-text fa-sub"></i></span>';
+                return '<span><i class="fa fa-gray fa-handshake-o fa-lg"></i><i class="fa fa-times error-text fa-sub"></i></span>';
             case 'TRADE':
                 return '<i class="fa fa-lg fa-exchange primary-text"></i>';
             default:
