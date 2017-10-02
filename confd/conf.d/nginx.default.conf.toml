@@ -1,0 +1,4 @@
+[template]
+src = "index.html.tmpl"
+dest = "/etc/nginx/conf.d/default.conf"
+mode = "0644"

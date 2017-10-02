@@ -30,10 +30,22 @@
         }
     </style>
 
-    <!-- imported CSS are concatenated and added automatically -->
+    <% if (htmlWebpackPlugin.options.metadata.production) { %>
+        <script>
+            lupoex = {
+                env: '{{getenv "CLIENT_ENV"}}'
+            };
+        </script>
+    <% } %>
+    <% if (!htmlWebpackPlugin.options.metadata.production) { %>
     <script>
-        lupoex = {};
+        lupoex = {
+            env: 'development'
+        };
     </script>
+    <% } %>
+
+    <!-- imported CSS are concatenated and added automatically -->
 </head>
 <body aurelia-app="main">
 <div class="splash">

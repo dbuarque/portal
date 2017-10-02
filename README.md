@@ -121,5 +121,5 @@ npm start -- test.all
 ## Running the docker container
 
 ```shell
-docker run -d -p 8080:80 --name lupoex-client lupoex-client
+docker run -d -p 8080:80 -e CLIENT_ENV="development" --name lupoex-client lupoex-client
 ```
