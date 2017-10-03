@@ -2,51 +2,47 @@
  * Created by istrauss on 10/9/2016.
  */
 
-import _throttle from 'lodash.throttle';
-import {inject, bindable} from 'aurelia-framework';
-import { MdToastService } from 'aurelia-materialize-bridge';
-
 const defaultOptions = {
     timeout: 15 * 1000
 };
 const defaultNetworkErrorText = 'Something went wrong. We are having trouble connecting to our server.';
 
-@inject(MdToastService)
 export class AlertToaster {
 
-    constructor(toastService) {
-        this.toastService = toastService;
+    networkError(text = defaultNetworkErrorText, options = {}) {
+        options.type = 'error network-error';
+        options.timeout = options.timeout || 30 * 1000;
 
-        this.networkError = _throttle((text = defaultNetworkErrorText) => {
-            this.error(text, {
-                timeout: 60 * 1000
-            });
-        }, 60 * 1000);
+        $('#toast-container').find('.network-error').each((i, elm) => {
+             $(elm).first()[0].M_Toast.remove();
+        });
+
+       this.toast(text, options);
     }
 
     error(text, options = {}) {
         options.type = 'error';
-        this.toast(text, options);
+        return this.toast(text, options);
     }
 
     warning(text, options = {}) {
         options.type = 'warning';
-        this.toast(text, options);
+        return this.toast(text, options);
     }
 
     primary(text, options = {}) {
         options.type = 'primary';
-        this.toast(text, options);
+        return this.toast(text, options);
     }
 
     info(text, options = {}) {
         options.type = 'info';
-        this.toast(text, options);
+        return this.toast(text, options);
     }
 
     success(text, options = {}) {
         options.type = 'success';
-        this.toast(text, options);
+        return this.toast(text, options);
     }
 
     toast(text, options) {
@@ -54,6 +50,7 @@ export class AlertToaster {
             ...defaultOptions,
             ...options
         };
-        this.toastService.show(text, _options.timeout, _options.type);
+
+        return Materialize.toast(text, _options.timeout, _options.type);
     }
 }
