@@ -21,16 +21,15 @@ export default class TradingviewPriceChartConfig {
             toolbar_bg: '#ffffff',
             locale: "en",
             time_frames: [
-                { text: "5y", resolution: "W" },
-                { text: "1y", resolution: "W" },
-                { text: "1mo", resolution: "D" },
-                { text: "4d", resolution: "240" },
-                { text: "2d", resolution: "60" },
-                { text: "1d", resolution: "15" },
-                { text: "4hr", resolution: "5" },
-                { text: "1hr", resolution: "1" }
+                { text: "5y", resolution: "W", description: '5 Years' },
+                { text: "1y", resolution: "W", description: '1 Year' },
+                { text: "1mo", resolution: "D", description: '1 Month' },
+                { text: "4d", resolution: "240", description: '4 Days' },
+                { text: "2d", resolution: "60", description: '2 Days' },
+                { text: "1d", resolution: "15", description: '1 Day' },
+                { text: "4hr", resolution: "5", description: '4 Hours' },
+                { text: "1hr", resolution: "1", description: '1 Hour' }
             ],
-            //
             disabled_features: [
                 "left_toolbar",
                 "header_widget",
@@ -64,15 +63,15 @@ export default class TradingviewPriceChartConfig {
                 //"volume.show ma": true
             },
             supported_resolutions: [
-                { text: "1min", resolution: "1" },
-                { text: "5min", resolution: "5" },
-                { text: "15min", resolution: "15" },
-                { text: "1hr", resolution: "60" },
-                { text: "4hr", resolution: "240" },
-                { text: "1d", resolution: "D" },
-                { text: "2d", resolution: "2D" },
-                { text: "4d", resolution: "4D" },
-                { text: "1w", resolution: "W" }
+                { text: "1min", resolution: "1", description: '1 Minute' },
+                { text: "5min", resolution: "5", description: '5 Minutes' },
+                { text: "15min", resolution: "15", description: '15 Minutes' },
+                { text: "1hr", resolution: "60", description: '1 Hour' },
+                { text: "4hr", resolution: "240", description: '4 Hours' },
+                { text: "1d", resolution: "D", description: '1 Day' },
+                { text: "2d", resolution: "2D", description: '2 Days' },
+                { text: "4d", resolution: "4D", description: '4 Days' },
+                { text: "1w", resolution: "W", description: '1 Week' }
             ],
             custom_css_url: '../../../custom-charting.css'
         };
