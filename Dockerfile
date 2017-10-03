@@ -1,4 +1,12 @@
 FROM nginx
 
-COPY dist /usr/share/nginx/html
-COPY nginx.default.conf /etc/nginx/conf.d/default.conf
+# install confd
+ADD install.sh /
+RUN /install.sh
+
+ADD confd /etc/confd
+
+ADD dist /usr/share/nginx/html
+
+ADD entry.sh /
+ENTRYPOINT ["/entry.sh"]
