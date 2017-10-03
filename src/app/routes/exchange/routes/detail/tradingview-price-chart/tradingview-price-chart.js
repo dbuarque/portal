@@ -7,6 +7,7 @@ import {inject, bindable} from 'aurelia-framework';
 import {Store, connected} from 'au-redux';
 import Config from './tradingview-price-chart-config';
 import {TradingviewBarsRealtimeUpdater} from './tradingview-bars-realtime-updater';
+import {timeFrameToAmountScale} from './tradingview-price-chart-utils'
 
 @inject(Config, Store, TradingviewBarsRealtimeUpdater)
 export class TradingviewPriceChartCustomElement {
@@ -32,8 +33,24 @@ export class TradingviewPriceChartCustomElement {
     }
 
     detached() {
+        // Stop the real time updater.
         this.rtUpdater.stop();
-        delete this.widget;
+
+        if (this.intervalSubscriptionObj) {
+            this.intervalSubscriptionObj.unsubscribeAll(this);
+        }
+
+        if (this.widget) {
+            // Try running the widget's remove method (not sure what it does really but let's execute it for good measure).
+            try {
+                // Will error out because the #tradingview-price-chart-container no longer can be accessed via the DOM
+                this.widget.remove();
+            }
+            catch(e) {}
+
+            delete this.widget;
+        }
+
         this.isAttached = false;
     }
 
@@ -42,17 +59,30 @@ export class TradingviewPriceChartCustomElement {
     }
 
     updateChart() {
-        if (!this.isAttached) {
+        const self = this;
+        
+        if (!self.isAttached) {
             return;
         }
 
-        if (!this.widget) {
-            this.config.symbol = this.symbol;
-            this.widget = new TradingView.widget(this.config);
+        if (!self.widget) {
+            self.config.symbol = self.symbol;
+            self.widget = new TradingView.widget(self.config);
+            self.widget.onChartReady((() => {
+                self.intervalSubscriptionObj = self.widget.chart().onIntervalChanged();
+                self.intervalSubscriptionObj.subscribe(self, self.onIntervalChanged);
+            }));
+
+            self.currentResolution = self.config.interval;
+            
         }
         else {
-            this.widget.setSymbol(this.symbol)
+            self.widget.setSymbol(self.symbol)
         }
+    }
+
+    onIntervalChanged(interval, obj) {
+        this.currentResolution = interval;
     }
 
     setTimeframe(tf) {
@@ -60,28 +90,10 @@ export class TradingviewPriceChartCustomElement {
             return;
         }
 
-        const scaleMap = {
-            hr: 'hours',
-            d: 'days',
-            mo: 'months',
-            y: 'years'
-        };
-
-        let scale;
-        let amount;
-
-        for (let k = 0; k < Object.keys(scaleMap).length; k++) {
-            const key = Object.keys(scaleMap)[k];
-
-            if (tf.text.indexOf(key) > -1) {
-                scale = scaleMap[key];
-                amount = parseInt(tf.text.replace(key, ''), 10);
-                break;
-            }
-        }
+        const amountScale = timeFrameToAmountScale(tf);
 
         this.widget.chart().setVisibleRange({
-            from: moment().subtract(amount, scale).unix(),
+            from: moment().subtract(amountScale.amount, amountScale.scale).unix(),
             to: moment().unix()
         });
     }

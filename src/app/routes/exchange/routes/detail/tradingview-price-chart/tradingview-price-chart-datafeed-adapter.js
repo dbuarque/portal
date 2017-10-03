@@ -7,6 +7,7 @@ import {inject} from 'aurelia-framework';
 import {MarketResource} from 'app-resources';
 import {TradingviewPriceChartSymbolInfo} from './tradingview-price-chart-symbol-info';
 import {TradingviewBarsRealtimeUpdater} from './tradingview-bars-realtime-updater';
+import {resolutionToSeconds} from './tradingview-price-chart-utils';
 
 @inject(MarketResource, TradingviewBarsRealtimeUpdater)
 export class TradingviewPriceChartDatafeedAdapter {
@@ -51,7 +52,7 @@ export class TradingviewPriceChartDatafeedAdapter {
     async getBars(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest) {
         try {
             const bars = await this.marketResource.bars(
-                this.resolutionToSeconds(resolution),
+                resolutionToSeconds(resolution),
                 symbolInfo.assetPair,
                 moment.unix(from).toISOString(),
                 firstDataRequest ? undefined : moment.unix(to).toISOString()
@@ -69,7 +70,7 @@ export class TradingviewPriceChartDatafeedAdapter {
 
             if (interpretedBars.length === 0) {
                 const lastPreviousBar = await this.marketResource.lastPriorBar(
-                    this.resolutionToSeconds(resolution),
+                    resolutionToSeconds(resolution),
                     symbolInfo.assetPair,
                     moment.unix(from).toISOString()
                 );
@@ -90,7 +91,7 @@ export class TradingviewPriceChartDatafeedAdapter {
     }
 
     async subscribeBars(symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) {
-        this.realtimeUpdater.restart(this.resolutionToSeconds(resolution), onRealtimeCallback);
+        this.realtimeUpdater.restart(resolutionToSeconds(resolution), onRealtimeCallback);
     }
 
     async unsubscribeBars(subscriberUID) {
@@ -113,24 +114,5 @@ export class TradingviewPriceChartDatafeedAdapter {
         return moment.unix();
     }
 
-    resolutionToSeconds(resolution) {
-        let multiplicationFactor = 60;
 
-        if (resolution.indexOf('D') > -1) {
-            multiplicationFactor = 60 * 60 * 24;
-        }
-        else if (resolution.indexOf('W') > -1) {
-            multiplicationFactor = 60 * 60 * 24 * 7;
-        }
-
-        let result = resolution.replace(/[DW]/, '');
-
-        result = parseInt(result || 1, 10);
-
-        if (isNaN(result)) {
-            throw new Error('Could not convert resolution: ' + resolution + ' to seconds.');
-        }
-
-        return result * multiplicationFactor;
-    }
 }

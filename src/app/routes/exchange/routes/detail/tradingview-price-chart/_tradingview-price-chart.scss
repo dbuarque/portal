@@ -1,42 +1,43 @@
 .tradingview-price-chart {
-  font-size: 12px;
+    font-size: 12px;
 
-  #tradingview-price-chart-container {
-    height: 379px;
-  }
-
-  .filters {
-
-    .btn-group {
-      margin: 0 15px;
-      display: inline-block;
-
-      span.label {
-        display: inline-block;
-        vertical-align: middle;
-        font-weight: bold;
-      }
-
-      button.btn {
-        border-radius: 0;
-        border: none !important;
-        border-left: none !important;
-        color: $accent;
-        background-color: #fff;
-        height: 20px;
-        line-height: 12px;
-        padding: 2px 3px;
-        font-size: 12px;
-        text-transform: lowercase;
-
-        &.active, &:hover {
-          color: $primary;
-        }
-
-        &:disabled {
-          background-color: $light-gray;
-        }
-      }
+    #tradingview-price-chart-container {
+        height: 379px;
     }
-  }
+
+    .filters {
+
+        .btn-group {
+            margin: 0 15px;
+            display: inline-block;
+
+            span.label {
+                display: inline-block;
+                vertical-align: middle;
+                font-weight: bold;
+            }
+
+            button.btn.btn-flat {
+                border-radius: 0;
+                border: none !important;
+                border-left: none !important;
+                color: $accent !important;
+                background-color: #fff;
+                height: 20px;
+                line-height: 12px;
+                padding: 2px 3px;
+                font-size: 12px;
+                text-transform: lowercase;
+
+                &.active, &:hover, &.active {
+                    color: $primary !important;
+                }
+
+                &:disabled {
+                    color: $light-gray !important;
+                    background-color: #fff !important;
+                }
+            }
+        }
+    }
 }
