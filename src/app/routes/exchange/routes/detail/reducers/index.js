@@ -9,6 +9,7 @@ import {myAssetPair} from './my-asset-pair';
 import {myBid} from './my-bid';
 import {myAsk} from './my-ask';
 import {displayedOfferType} from './displayed-offer-type';
+import {recentTrades} from './recent-trades';
 
 export default combineReducersProvideRootState({
     myBid,
@@ -16,5 +17,6 @@ export default combineReducersProvideRootState({
     orderbook,
     myOffers,
     myAssetPair,
-    displayedOfferType
+    displayedOfferType,
+    recentTrades
 });

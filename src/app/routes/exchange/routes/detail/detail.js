@@ -8,10 +8,11 @@ import {Store, connected} from 'au-redux';
 import {ExchangeActionCreators} from '../../exchange-action-creators';
 import {DetailActionCreators} from './detail-action-creators';
 import {OrderbookUpdater} from './orderbook-updater';
+import {RecentTradesUpdater} from './recent-trades-updater';
 import {MyOffersUpdater} from './my-offers-updater';
 import {MyAssetPairUpdater} from './my-asset-pair-updater';
     
-@inject(Router, Store, ExchangeActionCreators, DetailActionCreators, OrderbookUpdater, MyOffersUpdater, MyAssetPairUpdater)
+@inject(Router, Store, ExchangeActionCreators, DetailActionCreators, OrderbookUpdater, RecentTradesUpdater, MyOffersUpdater, MyAssetPairUpdater)
 export class Detail {
 
     @connected('myAccount')
@@ -27,13 +28,14 @@ export class Detail {
         return window.innerWidth < 500;
     }
     
-    constructor(router, store, exchangeActionCreators, detailActionCreators, orderbookUpdater, myOffersUpdater, myAssetPairUpdater) {
+    constructor(router, store, exchangeActionCreators, detailActionCreators, orderbookUpdater, recentTradesUpdater, myOffersUpdater, myAssetPairUpdater) {
         this.router = router;
         this.store = store;
         this.exchangeActionCreators = exchangeActionCreators;
         this.detailActionCreators = detailActionCreators;
 
         orderbookUpdater.init();
+        recentTradesUpdater.init();
         myOffersUpdater.init();
         myAssetPairUpdater.init();
     }

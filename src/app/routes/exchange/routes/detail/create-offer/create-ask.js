@@ -2,8 +2,10 @@
  * Created by istrauss on 6/2/2017.
  */
 
+import BigNumber from 'bignumber.js';
 import {inject, Container, computedFrom} from 'aurelia-framework';
 import {connected} from 'au-redux';
+import {validStellarNumber} from 'app-resources';
 import {CreateOffer} from './create-offer';
 import {DetailActionCreators} from '../detail-action-creators';
 
@@ -19,11 +21,15 @@ export class CreateAskCustomElement extends CreateOffer {
 
     @computedFrom('myAsk')
     get price() {
-        return this.myAsk ? this.myAsk.price : undefined;
+        return !this.myAsk || !this.myAsk.price ?
+            undefined :
+            validStellarNumber(
+                (new BigNumber(this.myAsk.price[0])).dividedBy(this.myAsk.price[1])
+            );
     }
     set price(newPrice) {
         this.store.dispatch(this.detailActionCreators.updateMyAsk({
-            price: newPrice
+            price: (new BigNumber(newPrice)).toFraction()
         }));
     }
 

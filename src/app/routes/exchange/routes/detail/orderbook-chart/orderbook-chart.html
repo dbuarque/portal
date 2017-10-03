@@ -1,6 +1,11 @@
 <template>
-    <div class="card orderbook-chart">
-        <div class="card-content no-heading">
+    <div class="card orderbook-chart" collapsible-card="is-open:true">
+        <div class="card-content">
+            <div class="card-heading">
+                <div class="card-title">
+                    Orderbook Chart
+                </div>
+            </div>
             <div class="card-body no-padding">
                 <div show.bind="orderbook.bids.length === 0 && orderbook.asks.length === 0" style="padding: 10px;">
                     <i>There is no orderbook data for the chosen asset pair.</i>

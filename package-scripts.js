@@ -6,7 +6,7 @@ module.exports = {
     default: 'nps webpack',
     deps: series(
         'npm install',
-        'git submodule update --recursive --remote --force'
+        'git submodule update --recursive --force'
     ),
     test: {
       default: 'nps test.jest',

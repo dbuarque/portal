@@ -37,12 +37,12 @@ export class OrdersTableCustomElement {
     updateNewOrderPrice(order) {
         if (this.type === 'bids') {
             this.store.dispatch(this.detailActionCreators.updateMyAsk({
-                price: this.priceFromFraction(order)
+                price: [order.priceNumerator, order.priceDenominator]
             }));
         }
         else {
             this.store.dispatch(this.detailActionCreators.updateMyBid({
-                price: new BigNumber(1).dividedBy(this.priceFromFraction(order))
+                price: [order.priceDenominator, order.priceNumerator]
             }));
         }
     }

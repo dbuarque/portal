@@ -7,17 +7,19 @@ import {PLATFORM} from 'aurelia-pal';
 import {inject} from 'aurelia-framework';
 import {Store} from 'au-redux';
 import {StellarServer, ModalService, AlertToaster} from 'global-resources';
-import {validStellarNumber} from 'app-resources';
+import {validStellarNumber} from '../../../helpers';
+import {AccountResource} from '../../resources';
 import {TransactionService} from '../transaction-service/transaction-service';
 
-@inject(StellarServer, ModalService, Store, AlertToaster, TransactionService)
+@inject(StellarServer, ModalService, Store, AlertToaster, AccountResource, TransactionService)
 export class OfferService {
 
-    constructor(stellarServer, modalService, store, alertToaster, transactionService) {
+    constructor(stellarServer, modalService, store, alertToaster, accountResource, transactionService) {
         this.stellarServer = stellarServer;
         this.modalService = modalService;
         this.store = store;
         this.alertToaster = alertToaster;
+        this.accountResource = accountResource;
         this.transactionService = transactionService;
     }
 
@@ -94,11 +96,13 @@ export class OfferService {
     }
 
     async calculateFee(amount, asset) {
-        if (window.lupoex.env !== 'production' || !window.lupoex.offerFeeFactor) {
+        if (!window.lupoex.offerFeeFactor) {
             return 0;
         }
 
-        const lupoexHasTrust = await this.accountResource.trustline(window.lupoex.publicKey, asset);
+        const lupoexHasTrust = asset.code === window.lupoex.stellar.nativeAssetCode ?
+            true :
+            await this.accountResource.trustline(window.lupoex.publicKey, asset);
 
         if (!lupoexHasTrust) {
             return 0;

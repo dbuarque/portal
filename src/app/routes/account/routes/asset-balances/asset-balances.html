@@ -6,6 +6,10 @@
                     <div class="card-content no-heading">
                         <div class="card-body">
                             ${nativeAssetCode & oneTime} Balance: <strong>${account.balance}</strong>
+                            &nbsp;
+                            <button type="button" class="btn btn-flat btn-small accent" click.delegate="goToSendPayment({assetType: 'Native'})">
+                                <i class="fa fa-paper-plane-o"></i>&nbsp;Pay
+                            </button>
                         </div>
                     </div>
                 </div>

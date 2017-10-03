@@ -1,6 +1,3 @@
-/**
- * Created by Ishai on 9/24/2017.
- */
 
 import BigNumber from 'bignumber.js';
 

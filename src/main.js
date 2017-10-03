@@ -23,6 +23,22 @@ try {
 catch(e) {}
 
 export async function configure(aurelia) {
+    //Create the store
+    const middleware = [thunk];
+
+    const composeEnhancers =
+        window.lupoex.env === 'development' &&
+        window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+            window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+                // Specify here name, actionsBlacklist, actionsCreators and other options
+            }) : compose;
+
+    const enhancer = composeEnhancers(
+        applyMiddleware(...middleware)
+        // other store enhancers if any
+    );
+
+    Store.createAndRegister(rootReducer, enhancer);
     aurelia.use
         .defaultBindingLanguage()
         .defaultResources()
@@ -50,23 +66,6 @@ export async function configure(aurelia) {
     }
 
     await aurelia.start();
-
-    //Create the store
-    const middleware = [thunk];
-
-    const composeEnhancers =
-        window.lupoex.env === 'development' &&
-        window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
-            window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-                // Specify here name, actionsBlacklist, actionsCreators and other options
-            }) : compose;
-
-    const enhancer = composeEnhancers(
-        applyMiddleware(...middleware)
-        // other store enhancers if any
-    );
-
-    Store.createAndRegister(rootReducer, enhancer);
 
     await aurelia.setRoot(PLATFORM.moduleName('app/app'));
 }

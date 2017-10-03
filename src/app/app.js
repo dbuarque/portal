@@ -1,9 +1,9 @@
-import {PLATFORM} from 'aurelia-pal';
+
 import {HttpClient} from 'aurelia-fetch-client';
 import {Router} from 'aurelia-router';
 import {AppConfig} from './app-config';
 import {inject} from 'aurelia-framework';
- import {Store} from 'au-redux';
+import {Store} from 'au-redux';
 import {JsonClient, AuthenticateStep} from 'app-resources';
 import {AppActionCreators} from './app-action-creators';
 import {AccountEffectAlerter} from './account-effect-alerter';

@@ -29,24 +29,70 @@
 }
 
 .toast {
+    background-color: #fff;
+    position:relative;
+    padding: 10px;
+    word-break: normal;
+    padding-left: 40px;
+    font-size: 14px;
+    line-height: 20px;
+    border: 1px solid $light-gray;
+    -webkit-box-shadow: $shadow1;
+    -moz-box-shadow: $shadow1;
+    box-shadow: $shadow1;
+
+    &:before {
+        font-family: "FontAwesome";
+        font-size: 1.5em;
+        left:10px;
+        position:absolute;
+        top:50%;
+        margin-top: -10px;
+    }
+
     &.error {
-        background-color: $error;
+        color: $error;
+
+        &:before {
+            color: $error;
+            content: "\f057";
+        }
     }
 
     &.success {
-        background-color: $success;
+        color: $success;
+
+        &:before {
+            color: $success;
+            content: "\f058";
+        }
     }
 
     &.warning {
-        background-color: $warning;
+        color: $warning;
+
+        &:before {
+            color: $warning;
+            content: "\f06a";
+        }
     }
 
     &.primary {
-        background-color: $primary;
+        color: $primary;
+
+        &:before {
+            color: $primary;
+            content: "\f05a";
+        }
     }
 
     &.info {
-        background-color: $accent;
+        color: $accent;
+
+        &:before {
+            color: $accent;
+            content: "\f05a";
+        }
     }
 }
 
@@ -56,6 +102,12 @@
         left: auto !important;
         bottom: 10px;
         right: 10px;
+    }
+}
+
+@media all and (min-width: 480px) {
+    .toast {
+        max-width: 300px;
     }
 }
 
