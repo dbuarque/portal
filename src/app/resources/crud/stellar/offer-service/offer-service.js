@@ -39,6 +39,12 @@ export class OfferService {
             throw new Error(errorMessage);
         }
 
+        // validStellarNumber() may lop off digits past 7 after the decimal.
+        // In that case we want to specify rounding modes that will ensure that the offer fills a corresponding opposite offer
+        price = validStellarNumber(price, {
+            rm: type === 'bid' ? BigNumber.ROUND_UP : BigNumber.ROUND_DOWN
+        });
+
         await this.modalService.open(PLATFORM.moduleName('app/resources/crud/stellar/offer-service/offer-modal/offer-modal'),
             {
                 type,
@@ -65,7 +71,7 @@ export class OfferService {
                     this.stellarServer.sdk.Asset.native() :
                     new this.stellarServer.sdk.Asset(buyingAsset.code, buyingAsset.issuer),
                 amount: validStellarNumber(sellingAmount),
-                price: validStellarNumber(price)
+                price
             });
 
             operations.push(offerOp);

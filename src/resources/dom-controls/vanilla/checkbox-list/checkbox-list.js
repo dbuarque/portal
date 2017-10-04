@@ -2,7 +2,7 @@
  * Created by istrauss on 4/20/2016.
  */
 import {customElement, bindable, bindingMode} from 'aurelia-framework';
-import _find from 'lodash.find';
+import _find from 'lodash/find';
 
 @customElement('checkbox-list')
 export class CheckboxListCustomElement {

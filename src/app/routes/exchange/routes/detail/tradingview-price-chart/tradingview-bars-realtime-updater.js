@@ -2,7 +2,7 @@
  * Created by istrauss on 8/11/2017.
  */
 
-import _clone from 'lodash.clone';
+import _clone from 'lodash/clone';
 import {inject} from 'aurelia-framework';
 import moment from 'moment';
 import {LastBarTracker} from './last-bar-tracker';

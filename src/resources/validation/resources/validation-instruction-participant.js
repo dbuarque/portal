@@ -2,7 +2,7 @@
  * Created by istrauss on 5/12/2016.
  */
 
-import _findIndex from 'lodash.findindex';
+import _findIndex from 'lodash/findIndex';
 
 /**
  * Participates in an instruction's validation set. Usually, one participant is created for each dom control that is to be validated.

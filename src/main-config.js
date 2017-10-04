@@ -2,7 +2,7 @@
  * Created by istrauss on 5/12/2017.
  */
 
-import _merge from 'lodash.merge';
+import _merge from 'lodash/merge';
 
 const config = {
     development: {

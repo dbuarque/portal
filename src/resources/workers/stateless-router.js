@@ -2,8 +2,8 @@
  * Created by istrauss on 3/21/2016.
  */
 
-import _find from 'lodash.find';
-import _findIndex from 'lodash.findindex';
+import _find from 'lodash/find';
+import _findIndex from 'lodash/findIndex';
 
 export default class StatelessRouter {
 

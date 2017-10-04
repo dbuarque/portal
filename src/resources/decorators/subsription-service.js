@@ -2,7 +2,7 @@
  * Created by istrauss on 9/8/2017.
  */
 
-import _findIndex from 'lodash.findindex';
+import _findIndex from 'lodash/findIndex';
 
 export function subscriptionService() {
     return function (target) {

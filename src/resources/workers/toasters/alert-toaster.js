@@ -2,8 +2,7 @@
  * Created by istrauss on 10/9/2016.
  */
 
-import _throttle from 'lodash.throttle';
-import {inject, bindable} from 'aurelia-framework';
+import {inject} from 'aurelia-framework';
 import { MdToastService } from 'aurelia-materialize-bridge';
 
 const defaultOptions = {

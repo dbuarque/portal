@@ -87,7 +87,14 @@ export class CreateOffer {
                 this.type,
                 this.sellingAmount,
                 validStellarNumber(
-                    (new BigNumber(price[0])).dividedBy(price[1])
+                    (new BigNumber(price[0])).dividedBy(price[1]),
+                    {
+                        // validStellarNumber() may lop off digits past 7 after the decimal.
+                        // In that case we want to specify rounding modes that will ensure that the offer fills a corresponding opposite offer
+                        rm: this.type === 'bid' ?
+                            BigNumber.ROUND_UP :
+                            BigNumber.ROUND_DOWN
+                    }
                 ),
                 this.sellingAsset,
                 this.buyingAsset

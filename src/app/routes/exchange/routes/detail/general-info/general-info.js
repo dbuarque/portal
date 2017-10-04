@@ -2,7 +2,7 @@
  * Created by istrauss on 6/20/2017.
  */
 
-import _find from 'lodash.find';
+import _find from 'lodash/find';
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {Store} from 'au-redux';

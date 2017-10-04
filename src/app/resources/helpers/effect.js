@@ -26,8 +26,12 @@ export function userFriendlyEffectMessage(e) {
         case 'TRUSTLINE_REMOVED':
             return 'Trustline limit removed for asset ' + e.details.asset_code + ' issued by ' + shortenAddress(e.details.asset_issuer);
         case 'TRADE':
-            return 'Traded ' + assetDetailsToText(e.operation.details.amount, e.operation.details.selling_asset_type, e.operation.details.selling_asset_code) +
-                ' for ' + assetDetailsToText((new BigNumber(e.operation.details.amount)).times(e.operation.details.price).toString(10), e.operation.details.buying_asset_type, e.operation.details.buying_asset_code);
+            if (e.operation.source === e.details.seller) {
+                return 'Traded ' + assetDetailsToText(e.details.bought_amount, e.details.bought_asset_type, e.details.bought_asset_code) +
+                    ' for ' + assetDetailsToText(e.details.sold_amount, e.details.sold_asset_type, e.details.sold_asset_code);
+            }
+            return 'Traded ' + assetDetailsToText(e.details.sold_amount, e.details.sold_asset_type, e.details.sold_asset_code) +
+                ' for ' + assetDetailsToText(e.details.bought_amount, e.details.bought_asset_type, e.details.bought_asset_code);
         default:
             return e.type;
     }

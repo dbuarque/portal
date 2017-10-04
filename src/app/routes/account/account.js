@@ -2,7 +2,7 @@
  * Created by istrauss on 4/22/2016.
  */
 
-import _findIndex from 'lodash.findindex';
+import _findIndex from 'lodash/findIndex';
 import {inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {Store, connected} from 'au-redux';

@@ -20,23 +20,6 @@ export function calculateNewOrder(newState, oldState) {
         ...newState
     };
 
-    //try {
-    //    clonedNewState = Object.keys(newState).reduce((ns, key) => {
-    //        return {
-    //            ...ns,
-    //            [key]: validStellarNumber(newState[key])
-    //        }
-    //    }, {});
-    //}
-    //catch(e) {
-    //    // new BigNumber can throw if newState has a value that is not a number.
-    //    // In that case, assume it is a lone negative sign or decimal and just return the new state without calculating anything new.
-    //    return {
-    //        ...oldState,
-    //        ...newState
-    //    };
-    //}
-
     if (clonedNewState.price) {
         const sellingAmount = clonedNewState.sellingAmount || oldState.sellingAmount;
         if (sellingAmount) {

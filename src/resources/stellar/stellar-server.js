@@ -2,6 +2,8 @@
  * Created by istrauss on 3/16/2017.
  */
 
+import * as StellarSdk from 'stellar-sdk';
+
 export class StellarServer {
     constructor() {
         if (window.lupoex.networkMode === 'public') {

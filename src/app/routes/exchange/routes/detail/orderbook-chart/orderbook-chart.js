@@ -2,9 +2,7 @@
  * Created by istrauss on 3/19/2017.
  */
 
-import BigNumber from 'bignumber.js';
-import _throttle from 'lodash.throttle';
-import _find from 'lodash.find';
+import _throttle from 'lodash/throttle';
 import {inject} from 'aurelia-framework';
 import techan from 'techan';
 import {Store, connected} from 'au-redux';

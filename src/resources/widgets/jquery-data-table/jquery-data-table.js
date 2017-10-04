@@ -2,7 +2,7 @@
  * Created by istrauss on 4/4/2016.
  */
 
-import _debounce from 'lodash.debounce';
+import _debounce from 'lodash/debounce';
 import {customElement, bindable, inject, bindingMode} from 'aurelia-framework';
 
 const defaultConfig = {

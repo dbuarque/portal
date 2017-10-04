@@ -2,7 +2,7 @@
  * Created by Ishai on 12/20/2016.
  */
 
-import _isEqual from 'lodash.isequal';
+import _isEqual from 'lodash/isEqual';
 import {combineReducersProvideRootState, restrictReducerToNamespace} from 'au-redux';
 import {appActionTypes} from './app-action-types';
 import {exchange} from './routes/exchange/exchange-reducers';

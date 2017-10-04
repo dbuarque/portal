@@ -2,7 +2,7 @@
  * Created by Ishai on 4/28/2017.
  */
 
-import _throttle from 'lodash.throttle';
+import _throttle from 'lodash/throttle';
 import {inject} from 'aurelia-framework';
 import {Store, connected} from 'au-redux';
 import {AppActionCreators} from '../../../app-action-creators';

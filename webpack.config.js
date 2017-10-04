@@ -112,7 +112,7 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
         }),
         new HtmlWebpackPlugin({
             template: 'index.ejs',
-            filename: production ? 'confd/templates/index.html.tmpl': 'index.html',
+            filename: production ? '../confd/templates/index.html.tmpl': 'index.html',
             minify: production ? {
                 removeComments: true,
                 collapseWhitespace: true
@@ -148,7 +148,7 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
         new CopyWebpackPlugin([
             { from: 'favicon.ico', to: 'favicon.ico' },
             { from: 'assets', to: 'assets'},
-            { from: 'node_modules/js-stellar-sdk/stellar-sdk.min.js', to: 'stellar-sdk.min.js'}
+            //{ from: 'node_modules/js-stellar-sdk/stellar-sdk.min.js', to: 'stellar-sdk.min.js'}
         ]),
         ...when(production, new CompressionPlugin({
             asset: "[path].gz[query]",

@@ -2,7 +2,7 @@
  * Created by istrauss on 6/29/2017.
  */
 
-import _throttle from 'lodash.throttle';
+import _throttle from 'lodash/throttle';
 import {bindable, inject} from 'aurelia-framework';
 import {Store} from 'au-redux';
 import {EventHelper, ObserverManager, ObservationInstruction, StellarServer, AlertToaster} from 'global-resources';
