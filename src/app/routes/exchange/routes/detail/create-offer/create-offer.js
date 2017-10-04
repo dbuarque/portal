@@ -93,8 +93,12 @@ export class CreateOffer {
                 this.buyingAsset
             );
 
-            this.detailActionCreators.updateMyOffers();
-            this.detailActionCreators.updateMyAssetPair();
+            this.store.dispatch(
+                this.detailActionCreators.updateMyOffers()
+            );
+            this.store.dispatch(
+                this.detailActionCreators.updateMyAssetPair()
+            );
         }
         catch(e) {}
     }

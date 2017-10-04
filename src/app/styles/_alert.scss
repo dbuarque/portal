@@ -52,6 +52,7 @@
 
     &.error {
         color: $error;
+        border: 1px solid $error;
 
         &:before {
             color: $error;
@@ -61,6 +62,7 @@
 
     &.success {
         color: $success;
+        border: 1px solid $success;
 
         &:before {
             color: $success;
@@ -70,6 +72,7 @@
 
     &.warning {
         color: $warning;
+        border: 1px solid $warning;
 
         &:before {
             color: $warning;
@@ -79,6 +82,7 @@
 
     &.primary {
         color: $primary;
+        border: 1px solid $primary;
 
         &:before {
             color: $primary;
@@ -88,6 +92,7 @@
 
     &.info {
         color: $accent;
+        border: 1px solid $accent;
 
         &:before {
             color: $accent;
