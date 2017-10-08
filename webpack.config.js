@@ -112,7 +112,7 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
         }),
         new HtmlWebpackPlugin({
             template: 'index.ejs',
-            filename: production ? '../confd/templates/index.html.tmpl': 'index.html',
+            filename: production ? 'index.html.tmpl': 'index.html',
             minify: production ? {
                 removeComments: true,
                 collapseWhitespace: true

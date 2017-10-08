@@ -33,7 +33,7 @@
     <% if (htmlWebpackPlugin.options.metadata.production) { %>
         <script>
             lupoex = {
-                env: '{{getenv "CLIENT_ENV"}}'
+                env: '%env%'
             };
         </script>
     <% } %>
