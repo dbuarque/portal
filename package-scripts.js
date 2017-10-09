@@ -75,8 +75,7 @@ module.exports = {
           ),
           default: series(
               'nps webpack.build.before',
-              crossEnv('NODE_ENV=production webpack --progress -p --env.production --env.extractCss'),
-              'gzipme dist/stellar-sdk.min.js'
+              crossEnv('NODE_ENV=production webpack --progress -p --env.production --env.extractCss')
           ),
           serve: series.nps(
               'webpack.build.production',

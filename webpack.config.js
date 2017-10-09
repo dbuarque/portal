@@ -147,8 +147,7 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
         //}),
         new CopyWebpackPlugin([
             { from: 'favicon.ico', to: 'favicon.ico' },
-            { from: 'assets', to: 'assets'},
-            //{ from: 'node_modules/js-stellar-sdk/stellar-sdk.min.js', to: 'stellar-sdk.min.js'}
+            { from: 'assets', to: 'assets'}
         ]),
         ...when(production, new CompressionPlugin({
             asset: "[path].gz[query]",

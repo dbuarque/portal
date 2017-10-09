@@ -1,2 +1,2 @@
-sed "s/\%env\%/$1/g" dist/index.html.tmpl > index.html
-aws s3 sync --acl public-read dist/ s3://$2
+sed "s/\%env\%/$1/g" dist/index.html.tmpl > dist/index.html
+aws s3 sync --profile lupoex --acl public-read dist/ s3://$2
