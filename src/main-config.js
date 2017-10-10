@@ -15,10 +15,17 @@ const config = {
     },
     test: {
         urls: {
-            api: 'http://test.api.lupoex.com',
+            api: 'https://test.api.lupoex.com',
             horizon: 'https://horizon-testnet.stellar.org/'
         },
         networkMode: 'test'
+    },
+    beta: {
+        urls: {
+            api: 'https://beta.api.lupoex.com',
+            horizon: 'https://horizon.stellar.org'
+        },
+        networkMode: 'public'
     },
     production: {
         urls: {

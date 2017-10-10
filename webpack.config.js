@@ -1,5 +1,4 @@
 const path = require('path');
-const CompressionPlugin = require('compression-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -27,82 +26,82 @@ const cssRules = [
 ];
 
 module.exports = ({production, server, extractCss, coverage} = {}) => ({
-       resolve: {
-         extensions: ['.js'],
-         modules: [srcDir, 'node_modules'],
-         alias: {
-           app: path.resolve( __dirname, 'src', 'app'),
-           //'resources': path.resolve( __dirname, 'src', 'resources'),
-           'global-resources': path.resolve( __dirname, 'src', 'resources'),
-           'app-resources': path.resolve( __dirname, 'src', 'app', 'resources'),
-           '$': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.js'),
-           'jquery': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.js'),
-           'moment-timezone': path.resolve(__dirname, 'node_modules/moment-timezone/builds/moment-timezone-with-data-2012-2022'),
-           'au-redux': path.resolve(__dirname, 'src', 'resources', 'au-redux', 'src')
-         }
-       },
-       entry: {
-         app: ['aurelia-bootstrapper'],
-         vendor: ['bluebird', 'jquery']
-       },
-       output: {
-         path: outDir,
-         publicPath: baseUrl,
-         filename: production ? '[name].[chunkhash].bundle.js' : '[name].[hash].bundle.js',
-         sourceMapFilename: production ? '[name].[chunkhash].bundle.map' : '[name].[hash].bundle.map',
-         chunkFilename: production ? '[chunkhash].chunk.js' : '[hash].chunk.js'
-       },
-       devServer: {
-         contentBase: baseUrl,
-         // serve index.html for all 404 (required for push-state)
-         historyApiFallback: true
-       },
-       module: {
-         rules: [
-           // CSS required in JS/TS files should use the style-loader that auto-injects it into the website
-           // only when the issuer is a .js/.ts file, so the loaders are not applied inside html templates
-           {
-             test: /\.css$/i,
-             issuer: [{ not: [{ test: /\.html$/i }] }],
-             use: extractCss ? ExtractTextPlugin.extract({
-               fallback: 'style-loader',
-               use: cssRules
-             }) : ['style-loader', ...cssRules]
-           },
-           {
-             test: /\.css$/i,
-             issuer: [{ test: /\.html$/i }],
-             // CSS required in templates cannot be extracted safely
-             // because Aurelia would try to require it again in runtime
-             use: cssRules
-           },
-           { test: /\.html$/i, loader: 'html-loader' },
-           { test: /\.js$/i, loader: 'babel-loader', exclude: nodeModulesDir },
-           { test: /\.scss$/, loaders: ['raw-loader'] },
-           { test: /\.d.ts$/, loaders: ['ignore-loader'] },
-           { test: /\.json$/i, loader: 'json-loader' },
-           // use Bluebird as the global Promise implementation:
-           { test: /[\/\\]node_modules[\/\\]bluebird[\/\\].+\.js$/, loader: 'expose-loader?Promise' },
-           // exposes jQuery globally as $ and as jQuery:
-           { test: require.resolve('jquery'), loader: 'expose-loader?$!expose-loader?jQuery' },
-           // embed small images and fonts as Data Urls and larger ones as files:
-           { test: /\.(png|gif|jpg|cur)$/i, loader: 'url-loader', options: { limit: 8192 } },
-           { test: /\.woff2(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'url-loader', options: { limit: 10000, mimetype: 'application/font-woff2' } },
-           { test: /\.woff(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'url-loader', options: { limit: 10000, mimetype: 'application/font-woff' } },
-           // load these fonts normally, as files:
-           { test: /\.(ttf|eot|svg|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'file-loader' },
-           ...when(coverage, {
-             test: /\.[jt]s$/i, loader: 'istanbul-instrumenter-loader',
-             include: srcDir, exclude: [/\.{spec,test}\.[jt]s$/i],
-             enforce: 'post', options: { esModules: true }
-           })
-         ]
-       },
-       plugins: [
-         new AureliaPlugin(
-             {
-                 svg: false
-             }
+    resolve: {
+        extensions: ['.js'],
+        modules: [srcDir, 'node_modules'],
+        alias: {
+            app: path.resolve( __dirname, 'src', 'app'),
+            //'resources': path.resolve( __dirname, 'src', 'resources'),
+            'global-resources': path.resolve( __dirname, 'src', 'resources'),
+            'app-resources': path.resolve( __dirname, 'src', 'app', 'resources'),
+            '$': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.js'),
+            'jquery': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.js'),
+            'moment-timezone': path.resolve(__dirname, 'node_modules/moment-timezone/builds/moment-timezone-with-data-2012-2022'),
+            'au-redux': path.resolve(__dirname, 'src', 'resources', 'au-redux', 'src')
+        }
+    },
+    entry: {
+        app: ['aurelia-bootstrapper'],
+        vendor: ['bluebird', 'jquery']
+    },
+    output: {
+        path: outDir,
+        publicPath: baseUrl,
+        filename: production ? '[name].[chunkhash].bundle.js' : '[name].[hash].bundle.js',
+        sourceMapFilename: production ? '[name].[chunkhash].bundle.map' : '[name].[hash].bundle.map',
+        chunkFilename: production ? '[chunkhash].chunk.js' : '[hash].chunk.js'
+    },
+    devServer: {
+        contentBase: baseUrl,
+        // serve index.html for all 404 (required for push-state)
+        historyApiFallback: true
+    },
+    module: {
+        rules: [
+            // CSS required in JS/TS files should use the style-loader that auto-injects it into the website
+            // only when the issuer is a .js/.ts file, so the loaders are not applied inside html templates
+            {
+                test: /\.css$/i,
+                issuer: [{ not: [{ test: /\.html$/i }] }],
+                use: extractCss ? ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: cssRules
+                }) : ['style-loader', ...cssRules]
+            },
+            {
+                test: /\.css$/i,
+                issuer: [{ test: /\.html$/i }],
+                // CSS required in templates cannot be extracted safely
+                // because Aurelia would try to require it again in runtime
+                use: cssRules
+            },
+            { test: /\.html$/i, loader: 'html-loader' },
+            { test: /\.js$/i, loader: 'babel-loader', exclude: nodeModulesDir },
+            { test: /\.scss$/, loaders: ['raw-loader'] },
+            { test: /\.d.ts$/, loaders: ['ignore-loader'] },
+            { test: /\.json$/i, loader: 'json-loader' },
+            // use Bluebird as the global Promise implementation:
+            { test: /[\/\\]node_modules[\/\\]bluebird[\/\\].+\.js$/, loader: 'expose-loader?Promise' },
+            // exposes jQuery globally as $ and as jQuery:
+            { test: require.resolve('jquery'), loader: 'expose-loader?$!expose-loader?jQuery' },
+            // embed small images and fonts as Data Urls and larger ones as files:
+            { test: /\.(png|gif|jpg|cur)$/i, loader: 'url-loader', options: { limit: 8192 } },
+            { test: /\.woff2(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'url-loader', options: { limit: 10000, mimetype: 'application/font-woff2' } },
+            { test: /\.woff(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'url-loader', options: { limit: 10000, mimetype: 'application/font-woff' } },
+            // load these fonts normally, as files:
+            { test: /\.(ttf|eot|svg|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'file-loader' },
+            ...when(coverage, {
+                test: /\.[jt]s$/i, loader: 'istanbul-instrumenter-loader',
+                include: srcDir, exclude: [/\.{spec,test}\.[jt]s$/i],
+                enforce: 'post', options: { esModules: true }
+            })
+        ]
+    },
+    plugins: [
+        new AureliaPlugin(
+            {
+                svg: false
+            }
         ),
         new ProvidePlugin({
             'Promise': 'bluebird'
@@ -148,13 +147,6 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
         new CopyWebpackPlugin([
             { from: 'favicon.ico', to: 'favicon.ico' },
             { from: 'assets', to: 'assets'}
-        ]),
-        ...when(production, new CompressionPlugin({
-            asset: "[path].gz[query]",
-            algorithm: "gzip",
-            test: /\.js$|\.css$|\.html$|\.woff$|\.woff2$|\.eot$|\.svg$|\.ttf$/,
-            threshold: 10240,
-            minRatio: 0.8
-        }))
+        ])
     ]
 });
