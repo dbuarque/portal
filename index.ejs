@@ -31,6 +31,8 @@
     </style>
 
     <% if (htmlWebpackPlugin.options.metadata.production) { %>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-107386084-1"></script>
+
         <script>
             lupoex = {
                 env: '%env%'
@@ -38,11 +40,11 @@
         </script>
     <% } %>
     <% if (!htmlWebpackPlugin.options.metadata.production) { %>
-    <script>
-        lupoex = {
-            env: 'development'
-        };
-    </script>
+        <script>
+            lupoex = {
+                env: 'development'
+            };
+        </script>
     <% } %>
 
     <!-- imported CSS are concatenated and added automatically -->
