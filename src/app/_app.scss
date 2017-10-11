@@ -3,6 +3,11 @@
 
 body {
     overflow-y: scroll;
+
+    &.modal-open {
+        overflow-y: hidden;
+        margin-right: 17px;
+    }
 }
 
 html, body {

@@ -24,10 +24,15 @@ export class ModalAnchorCustomElement {
     addListeners() {
         this.eventAggregator.subscribe('modal.open', (modalId) => {
             this.modalInstructions.push(this.modalService.getInstruction(modalId));
+            $('body').addClass('modal-open');
         });
 
         this.eventAggregator.subscribe('modal.destroy', (modalId) => {
             this.modalInstructions.splice(_findIndex(this.modalInstructions, {modalId: modalId}), 1);
+
+            if (this.modalInstructions.length === 0) {
+                $('body').removeClass('modal-open');
+            }
         });
     }
 }

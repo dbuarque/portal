@@ -32,7 +32,7 @@
                 </div>
                 <div if.bind="needsTrustline && myBuyingAsset.trustLimit">
                     <div class="form-field">
-                        <span class.bind="minTrustLine <= myAssetPair.buying.limit ? 'success-text' : 'error-text'">${minTrustLine}/${myAssetPair.buying.limit} Limit</span>
+                        <span class.bind="minTrustLine <= myAssetPair.buying.trustLimit ? 'success-text' : 'error-text'">${minTrustLine}/${myAssetPair.buying.trustLimit} Limit</span>
                     </div>
                     <a href="javascript:void(0)" class="primary-text" click.trigger="modifyLimit()">Learn More/Modify Limit.</a>
                 </div>
