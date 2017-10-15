@@ -10,11 +10,11 @@
             <table class="current-balance">
                 <tr>
                     <td>${assetPair.selling.code} Balance:</td>
-                    <td>${sellingAssetBalance.balance.toFixed(7)}</td>
+                    <td>${myAssetPair.selling.balance}</td>
                 </tr>
                 <tr>
                     <td>${assetPair.buying.code} Balance:</td>
-                    <td>${buyingAssetBalance.balance.toFixed(7)}</td>
+                    <td>${myAssetPair.buying.balance}</td>
                 </tr>
             </table>
             <form submit.trigger="submit()" novalidate>
@@ -24,20 +24,20 @@
                 </div>
                 <div class="form-field">
                     <label>${assetPair.selling.code}</label>
-                    <input stellar-compliant-float type="number" class="form-control" value.bind="sellingAmount" keyup.trigger="onSellingAmountChanged()">
+                    <input type="number" class="form-control" value.bind="sellingAmount">
                 </div>
                 <div class="form-field">
                     <label>${assetPair.buying.code}</label>
-                    <input stellar-compliant-float type="number" class="form-control" value.bind="buyingAmount" keyup.trigger="onBuyingAmountChanged()">
+                    <input type="number" class="form-control" value.bind="buyingAmount">
                 </div>
-                <div if.bind="needsTrustline">
+                <div if.bind="needsTrustline && myBuyingAsset.trustLimit">
                     <div class="form-field">
-                        <span class.bind="minTrustLine <= buyingAssetBalance.limit ? 'success-text' : 'error-text'">${minTrustLine}/${buyingAssetBalance.limit} Limit</span>
+                        <span class.bind="minTrustLine <= myAssetPair.buying.trustLimit ? 'success-text' : 'error-text'">${minTrustLine}/${myAssetPair.buying.trustLimit} Limit</span>
                     </div>
                     <a href="javascript:void(0)" class="primary-text" click.trigger="modifyLimit()">Learn More/Modify Limit.</a>
                 </div>
                 <div class="center-align form-field">
-                    <button md-waves type="submit" class="btn primary btn-small">
+                    <button md-waves type="submit" class="btn primary">
                         &nbsp;Create Ask
                     </button>
                 </div>

@@ -2,7 +2,7 @@
  * Created by istrauss on 5/31/2016.
  */
 
-import _find from 'lodash.find';
+import _find from 'lodash/find';
 import {inject, Container} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-fetch-client';
 import HttpErrorHandler from '../http-error-handler';

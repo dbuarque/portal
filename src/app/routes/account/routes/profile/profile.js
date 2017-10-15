@@ -3,36 +3,33 @@
  */
 
 import {inject, bindable} from 'aurelia-framework';
-import {AppStore} from 'global-resources';
+import {Store, connected} from 'au-redux';
 import {AppActionCreators} from '../../../../app-action-creators';
 
-@inject(AppStore, AppActionCreators)
+@inject(Store, AppActionCreators)
 export class Profile {
 
-    constructor(appStore, appActionCreators) {
-        this.appStore = appStore;
+    @connected('myAccount')
+    account;
+
+    loading = 0;
+
+    get refreshing() {
+        return this.loading > 0;
+    }
+
+    constructor(store, appActionCreators) {
+        this.store = store;
         this.appActionCreators = appActionCreators;
     }
 
-    activate() {
-        this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
-        this.updateFromStore();
-    }
+    async refresh() {
+        this.loading++;
 
-    unbind() {
-        this.unsubscribeFromStore();
-    }
+        await this.store.dispatch(this.appActionCreators.updateAccount(this.account.accountId, {
+            force: true
+        }));
 
-    updateFromStore() {
-        const state = this.appStore.getState();
-        this.account = state.account;
-    }
-
-    refresh() {
-        this.appStore.dispatch(this.appActionCreators.updateAccount());
-    }
-
-    get refreshing() {
-        return this.account.updating;
+        this.loading--;
     }
 }

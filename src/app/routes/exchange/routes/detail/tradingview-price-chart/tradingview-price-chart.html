@@ -1,0 +1,28 @@
+<template>
+    <require from="./tradingview-price-chart-value-converters"></require>
+
+    <div class="card tradingview-price-chart">
+        <div class="card-content no-heading">
+            <div class="card-body no-padding">
+                <div id="tradingview-price-chart-container">
+                </div>
+                <div class="filters center">
+                    <div class="btn-group">
+                        <span class="label">Timeframe:</span>&nbsp;
+                        <button class="btn btn-small btn-flat" title.one-time="tf.description" disabled.bind="tf | disableTimeframe:$parent.currentResolution"
+                                click.trigger="setTimeframe(tf)" repeat.for="tf of config.time_frames">
+                            ${tf.text & oneTime}
+                        </button>
+                    </div>
+                    <div class="btn-group">
+                        <span class="label">Resolution:</span>
+                        <button class="btn btn-small btn-flat ${r.resolution === $parent.currentResolution ? 'active' : ''}" title.one-time="r.description"
+                                click.trigger="setResolution(r)" repeat.for="r of config.supported_resolutions">
+                            ${r.text & oneTime}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

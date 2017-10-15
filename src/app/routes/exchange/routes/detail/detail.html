@@ -1,58 +1,55 @@
 <template>
-    <require from="./price-chart/price-chart"></require>
+    <require from="./tradingview-price-chart/tradingview-price-chart"></require>
     <require from="./orderbook-chart/orderbook-chart"></require>
-    <require from="./offers/offers"></require>
+    <require from="./orderbook/orderbook"></require>
     <require from="./create-offer/create-bid"></require>
     <require from="./create-offer/create-ask"></require>
     <require from="./my-offers/my-offers"></require>
     <require from="./general-info/general-info"></require>
-    <div>
+    <require from="./recent-trades/recent-trades"></require>
+
+    <div class="detail">
         <div class="row">
             <div class="col l8">
-                <div class="hide-on-large-only">
-                    <general-info></general-info>
-                </div>
+                <!--<div class="hide-on-large-only">-->
+                    <!--<general-info></general-info>-->
+                <!--</div>-->
 
-                <price-chart if.one-time="!isMobile"></price-chart>
+                <tradingview-price-chart></tradingview-price-chart>
+
+                <orderbook></orderbook>
+            </div>
+            <div class="col l4">
+                <!--<div class="hide-on-med-and-down">-->
+                    <!--<general-info></general-info>-->
+                <!--</div>-->
 
                 <orderbook-chart if.one-time="!isMobile"></orderbook-chart>
 
-                <div class="row">
-                    <div class="col l6">
-                        <offers type="Bids" price.bind="askingPrice"></offers>
-                    </div>
-                    <div class="col l6">
-                        <offers type="Asks" price.bind="biddingPrice"></offers>
-                    </div>
-                </div>
-            </div>
-            <div class="col l4">
-                <div class="hide-on-med-and-down">
-                    <general-info></general-info>
-                </div>
-
                 <my-offers if.bind="account"></my-offers>
 
-                <div class="card">
+                <div class="card create-offer-card">
                     <div class="card-content">
                         <div class="card-heading">
                             <div class="tabs">
                                 <ul md-tabs="fixed: true;" md-tabs.ref="offerTabs" class="z-depth-1">
                                     <li>
-                                        <a class="${offerType === 'ask' ? 'active' : '' & oneTime}" click.trigger="changeOfferType('ask')" href="#ask-tab">Sell ${assetPair.selling.code}</a>
+                                        <a class="${displayedOfferType === 'ask' ? 'active' : ''}" click.trigger="changeOfferType('ask')" href="#ask-tab">Sell ${assetPair.selling.code}</a>
                                     </li>
                                     <li>
-                                        <a class="${offerType === 'bid' ? 'active' : '' & oneTime}" click.trigger="changeOfferType('bid')" href="#bid-tab">Buy ${assetPair.selling.code}</a>
+                                        <a class="${displayedOfferType === 'bid' ? 'active' : ''}" click.trigger="changeOfferType('bid')" href="#bid-tab">Buy ${assetPair.selling.code}</a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                         <div class="card-body">
-                            <create-ask show.bind="offerType === 'ask'" price.bind="askingPrice"></create-ask>
-                            <create-bid show.bind="offerType === 'bid'" price.bind="biddingPrice"></create-bid>
+                            <create-ask show.bind="displayedOfferType === 'ask'" price.bind="newOffer.askingPrice"></create-ask>
+                            <create-bid show.bind="displayedOfferType === 'bid'" price.bind="newOffer.biddingPrice"></create-bid>
                         </div>
                     </div>
                 </div>
+
+                <recent-trades></recent-trades>
             </div>
         </div>
     </div>

@@ -1,5 +1,5 @@
 <template>
-    <div class="effect-history">
-        <lupoex-jqdt config.bind="config.table" resource.bind="effectResource" additional-filter-params.bind="additionalFilterParams" view-model.ref="jqdt"></lupoex-jqdt>
+    <div class="effect-history" if.bind="account">
+        <jquery-data-table view-model.ref="dataTable" config.bind="tableConfig"></jquery-data-table>
     </div>
 </template>

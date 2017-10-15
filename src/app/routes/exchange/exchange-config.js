@@ -22,7 +22,7 @@ export default class Config {
                     title: 'Choose Asset Pair'
                 },
                 {
-                    route: [':buyingCode/:buyingIssuer/:sellingCode/:sellingIssuer'],
+                    route: [':sellingCode/:sellingIssuer/:buyingCode/:buyingIssuer'],
                     name: 'detail',
                     moduleId: PLATFORM.moduleName('./routes/detail/detail', 'exchange-detail'),
                     title: 'Detail',

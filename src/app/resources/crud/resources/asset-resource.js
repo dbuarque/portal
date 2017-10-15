@@ -7,7 +7,7 @@ import {ModalService} from 'global-resources';
 import BaseResource from './base-resource';
 
 @inject(ModalService)
-export default class AssetResource extends BaseResource {
+export class AssetResource extends BaseResource {
     constructor(modalService) {
         super('/Asset');
 
@@ -24,5 +24,18 @@ export default class AssetResource extends BaseResource {
 
     codeIssuers(code) {
         return this.get('/CodeIssuers', {code});
+    }
+
+    /**
+     * Finds a single market
+     * @param code
+     * @param issuer
+     * @returns {*}
+     */
+    findOne(code, issuer) {
+        return this.get('/FindOne', {
+            code,
+            issuer
+        });
     }
 }

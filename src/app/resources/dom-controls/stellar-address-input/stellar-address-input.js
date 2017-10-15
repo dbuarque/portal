@@ -2,7 +2,7 @@
  * Created by istrauss on 6/22/2017.
  */
 
-import _debounce from 'lodash.debounce';
+import _debounce from 'lodash/debounce';
 import {inject, bindable, bindingMode} from 'aurelia-framework';
 import {StellarServer} from 'global-resources';
 

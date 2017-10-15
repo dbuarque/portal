@@ -3,7 +3,7 @@
  */
 
 import {inject, bindable} from 'aurelia-framework';
-import {ObserverManager, ObservationInstruction} from '../../workers/workers';
+import {ObserverManager, ObservationInstruction} from '../../workers';
 
 @inject(Element, ObserverManager)
 export class SpinnerOverlayCustomElement {

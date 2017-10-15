@@ -2,29 +2,40 @@
  * Created by Ishai on 12/20/2016.
  */
 
-import {ReducerHelper} from 'global-resources';
+import _isEqual from 'lodash/isEqual';
+import {combineReducersProvideRootState, restrictReducerToNamespace} from 'au-redux';
 import {appActionTypes} from './app-action-types';
 import {exchange} from './routes/exchange/exchange-reducers';
 
-const {UPDATE_ACCOUNT, UPDATE_LUPOEX_ACCOUNT, UPDATE_OFFERS} = appActionTypes;
+const {UPDATE_MY_ACCOUNT_ID, UPDATE_MY_ACCOUNT, UPDATE_LUPOEX_ACCOUNT, UPDATE_MY_ACCOUNT_SEQNUM} = appActionTypes;
 
-export const app = ReducerHelper.combineReducersProvideRootState({
-    account,
+export const app = combineReducersProvideRootState({
+    myAccount,
     lupoexAccount,
-    offers,
     exchange
 });
 
-function account(state, action) {
-    return action.type === UPDATE_ACCOUNT ? action.payload.account : state;
+function myAccount(state, action) {
+    switch(action.type) {
+        case UPDATE_MY_ACCOUNT_ID:
+            return {
+                ...state,
+                accountId: action.payload
+            };
+        case UPDATE_MY_ACCOUNT:
+            return !_isEqual(state, action.payload) ? action.payload : state;
+        case UPDATE_MY_ACCOUNT_SEQNUM:
+            return {
+                ...state,
+                seqNum: action.payload
+            };
+        default:
+            return state;
+    }
 }
 
 function lupoexAccount(state, action) {
-    return action.type === UPDATE_LUPOEX_ACCOUNT ? action.payload.account : state;
-}
-
-function offers(state, action) {
-    return action.type === UPDATE_OFFERS ? action.payload : state;
+    return action.type === UPDATE_LUPOEX_ACCOUNT ? action.payload : state;
 }
 
 

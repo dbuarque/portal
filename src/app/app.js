@@ -1,21 +1,25 @@
-import {PLATFORM} from 'aurelia-pal';
+
 import {HttpClient} from 'aurelia-fetch-client';
 import {Router} from 'aurelia-router';
 import {AppConfig} from './app-config';
 import {inject} from 'aurelia-framework';
-import {AppStore} from 'global-resources';
-import {JsonClient, AuthenticateStep} from 'app-resources';
+import {Store} from 'au-redux';
+import {JsonClient, AuthenticateStep, PageTracker} from 'app-resources';
 import {AppActionCreators} from './app-action-creators';
+import {AccountEffectAlerter} from './account-effect-alerter';
 
-@inject(AppConfig, HttpClient, Router, AppStore, JsonClient, AppActionCreators)
+@inject(AppConfig, HttpClient, Router, Store, JsonClient, PageTracker, AppActionCreators, AccountEffectAlerter)
 export class App {
 
-    constructor(appConfig, httpClient, router, appStore, jsonClient, appActionCreators) {
+    constructor(appConfig, httpClient, router, store, jsonClient, pageTracker, appActionCreators, accountEffectAlerter) {
         this.config = appConfig;
-        this.appStore = appStore;
+        this.store = store;
         this.jsonClient = jsonClient;
         this.router = router;
+        this.pageTracker = pageTracker;
         this.appActionCreators = appActionCreators;
+
+        accountEffectAlerter.init();
 
         httpClient.configure(config => {
             config.useStandardConfiguration();
@@ -23,6 +27,10 @@ export class App {
     }
 
     configureRouter(routerConfig, router) {
+        if (window.lupoex.env !== 'development') {
+            this.pageTracker.init();
+        }
+
         routerConfig.options.pushState = true;
         routerConfig.map(this.config.routes);
 
@@ -34,7 +42,7 @@ export class App {
     }
 
     activate() {
-        this.appStore.dispatch(this.appActionCreators.updateLupoexAccount());
+        this.store.dispatch(this.appActionCreators.updateLupoexAccount());
         this.jsonClient.configure();
     }
 

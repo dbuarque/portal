@@ -1,5 +1,4 @@
 const path = require('path');
-const CompressionPlugin = require('compression-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -33,10 +32,12 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
         alias: {
             app: path.resolve( __dirname, 'src', 'app'),
             //'resources': path.resolve( __dirname, 'src', 'resources'),
-            'global-resources': path.resolve( __dirname, 'src', 'resources', 'index'),
-            'app-resources': path.resolve( __dirname, 'src', 'app', 'resources', 'index'),
+            'global-resources': path.resolve( __dirname, 'src', 'resources'),
+            'app-resources': path.resolve( __dirname, 'src', 'app', 'resources'),
             '$': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.js'),
-            'jquery': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.js')
+            'jquery': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.js'),
+            'moment-timezone': path.resolve(__dirname, 'node_modules/moment-timezone/builds/moment-timezone-with-data-2012-2022'),
+            'au-redux': path.resolve(__dirname, 'src', 'resources', 'au-redux', 'src')
         }
     },
     entry: {
@@ -110,6 +111,7 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
         }),
         new HtmlWebpackPlugin({
             template: 'index.ejs',
+            filename: production ? 'index.html.tmpl': 'index.html',
             minify: production ? {
                 removeComments: true,
                 collapseWhitespace: true
@@ -144,15 +146,7 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
         //}),
         new CopyWebpackPlugin([
             { from: 'favicon.ico', to: 'favicon.ico' },
-            { from: 'assets', to: 'assets'},
-            { from: 'node_modules/js-stellar-sdk/stellar-sdk.min.js', to: 'stellar-sdk.min.js'}
-        ]),
-        ...when(production, new CompressionPlugin({
-            asset: "[path].gz[query]",
-            algorithm: "gzip",
-            test: /\.js$|\.css$|\.html$|\.woff$|\.woff2$|\.eot$|\.svg$|\.ttf$/,
-            threshold: 10240,
-            minRatio: 0.8
-        }))
+            { from: 'assets', to: 'assets'}
+        ])
     ]
 });

@@ -1,0 +1,45 @@
+<template>
+    <require from="./recent-trades-value-converters"></require>
+
+    <div class="recent-trades">
+        <div class="card" collapsible-card="is-open:true">
+            <div class="card-content">
+                <div class="card-heading">
+                    <div class="card-title">
+                        Recent Trades
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="no-trades" show.bind="!anyTrades">
+                        <i>There are no trades for this asset pair.</i>
+                    </div>
+                    <div show.bind="anyTrades">
+                        <table class="highlight centered">
+                            <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Price (${assetPair.buying.code}/${assetPair.selling.code})</th>
+                                <th>Amount (${assetPair.selling.code})</th>
+                                <th>Amount (${assetPair.buying.code})</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr repeat.for="trade of trades">
+                                <!-- If seller initiates it is a buy, otherwise it is a sell -->
+                                <td>
+                                    <span show.bind="trade | isABuy" class="success-text"><strong>Buy</strong></span>
+                                    <span show.bind="trade | isASell" class="error-text"><strong>Sell</strong></span>
+                                </td>
+                                <td>${trade.details.bought_amount | divideBy:trade.details.sold_amount | toPrecision:7}</td>
+                                <td>${trade.details.sold_amount | toPrecision:7}</td>
+                                <td>${trade.details.bought_amount | toPrecision:7}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

@@ -3,11 +3,12 @@
  */
 
 import {inject} from 'aurelia-framework'
-import {StellarServer, AppStore, ValidationManager} from 'global-resources';
+import {Store} from 'au-redux';
+import {StellarServer, ValidationManager} from 'global-resources';
 import {AppActionCreators} from '../../../../../app-action-creators';
-import {TrustService} from 'app-resources';
+import {AccountResource} from 'app-resources';
 
-@inject(StellarServer, AppStore, ValidationManager, AppActionCreators, TrustService)
+@inject(StellarServer, Store, ValidationManager, AppActionCreators, AccountResource)
 export class OfferModal {
 
     loading = 0;
@@ -21,21 +22,21 @@ export class OfferModal {
             '<p>To learn more about stellar assets and trust see the <a href="https://www.stellar.org/developers/guides/concepts/assets.html" target="_blank">Stellar Asset Concept Documentation</a>.</p>'
     };
 
-    constructor(stellarServer, appStore, validationManager, appActionCreators, trustService) {
+    constructor(stellarServer, store, validationManager, appActionCreators, accountResource) {
         this.stellarServer = stellarServer;
-        this.appStore = appStore;
+        this.store = store;
         this.validationManager = validationManager;
         this.appActionCreators = appActionCreators;
-        this.trustService = trustService;
+        this.accountResource = accountResource;
     }
 
-    activate(params) {
+    async activate(params) {
         this.modalVM = params.modalVM;
         this.code = params.passedInfo.code;
         this.issuer = params.passedInfo.issuer;
 
-        const balance = this.trustService.balance(this.code, this.issuer);
-        this.limit = balance ? balance.limit : 0;
+        const trustline = await this.accountResource.trustline(this.store.getState().myAccount.accountId, {code: this.code, issuer: this.issuer});
+        this.limit = trustline ? trustline.trustLimit : 0;
     }
 
     async modifyLimit() {

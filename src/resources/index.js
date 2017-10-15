@@ -3,24 +3,17 @@
  */
 import {PLATFORM} from 'aurelia-pal';
 
-export * from './helpers/helpers';
-export * from './workers/workers';
-export * from './modals/modals';
-export * from './validation/validation';
-export * from './value-converters/value-converters';
-export * from './redux/redux';
-export * from './stellar/stellar';
+export * from './helpers';
+export * from './workers';
+export * from './modals';
+export * from './validation';
+export * from './value-converters';
+export * from './stellar';
+export * from './decorators';
 
 export function configure(config) {
     config.globalResources(
-        PLATFORM.moduleName('./dom-controls/vanilla/radio-list/radio-list'),
-        PLATFORM.moduleName('./dom-controls/vanilla/label-vc/label-vc'),
-        PLATFORM.moduleName('./dom-controls/vanilla/checkbox-list/checkbox-list'),
-        PLATFORM.moduleName('./dom-controls/vanilla/select-dd/select-dd'),
-        PLATFORM.moduleName('./dom-controls/vanilla/state-select/state-select'),
-        PLATFORM.moduleName('./dom-controls/vanilla/country-select/country-select'),
         PLATFORM.moduleName('./dom-controls/vendor/select2/select2'),
-        PLATFORM.moduleName('./widgets/form-fields/form-fields'),
         PLATFORM.moduleName('./widgets/spinner-overlay/spinner-overlay'),
         PLATFORM.moduleName('./widgets/jquery-data-table/jquery-data-table'),
         PLATFORM.moduleName('./value-converters/object'),

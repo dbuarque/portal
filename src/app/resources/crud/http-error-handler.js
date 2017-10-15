@@ -7,8 +7,7 @@ import {AlertToaster} from 'global-resources';
 
 const defaultErrors = {
     default: {
-        messageType: 'error',
-        message: 'We are experiencing issues. Please contact support.'
+        messageType: 'networkError'
     },
     401: {
         messageType: 'warning',
@@ -17,10 +16,6 @@ const defaultErrors = {
     403: {
         messageType: 'warning',
         message: 'You don\'t have permission to access that resource.'
-    },
-    502: {
-        messageType: 'error',
-        message: 'We had issues connecting to our server. Please check your internet connection and try again. If this problem persists, please contact support.'
     }
 };
 

@@ -3,49 +3,26 @@
  */
 
 import {inject, bindable} from 'aurelia-framework';
+import {SanitizeHTMLValueConverter} from 'aurelia-templating-resources';
 import {Router} from 'aurelia-router';
-import {AppStore} from 'global-resources';
-import {TrustService} from 'app-resources';
+import {connected} from 'au-redux';
+import {AccountResource, TrustService} from 'app-resources';
 import Config from './asset-balances-config';
-import {AppActionCreators} from '../../../../app-action-creators';
 
-@inject(Config, Router, AppStore, TrustService, AppActionCreators)
+@inject(Config, SanitizeHTMLValueConverter, Router, AccountResource, TrustService)
 export class AssetBalances {
 
-    constructor(config, router, appStore, trustService, appActionCreators) {
-        this.config = config;
-        this.router = router;
-        this.appStore = appStore;
-        this.trustService = trustService;
-        this.appActionCreators = appActionCreators;
+    @connected('myAccount')
+    account;
 
-        this.updateTableConfig();
-    }
-
-    activate() {
-        this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
-        this.updateFromStore();
-    }
-
-    unbind() {
-        this.unsubscribeFromStore();
-    }
-
-    updateFromStore() {
-        const state = this.appStore.getState();
-        this.account = state.account;
-    }
-
-    refresh() {
-        this.appStore.dispatch(this.appActionCreators.updateAccount());
-    }
+    loading = 0;
 
     get refreshing() {
-        return this.account.updating;
+        return this.loading > 0;
     }
 
-    updateTableConfig() {
-        let vm = this;
+    get tableConfig() {
+        const vm = this;
 
         vm.config.table.columns[3].cellCallback = (cell, rowData) => {
             if (rowData.asset_type === 'native') {
@@ -54,10 +31,10 @@ export class AssetBalances {
 
             cell.empty();
 
-            const data = $('<span style="margin-right: 10px;">' + rowData.limit + '</span>');
+            const data = $('<span style="margin-right: 10px;">' + this.sanitizeHTML.toView(rowData.trustLimit) + '</span>');
             const modify = $('<a href="javascript:void(0)" class="primary-text">modify</a>&nbsp;')
                 .click(e => {
-                    vm.trustService.modifyLimit(rowData.asset_code, rowData.asset_issuer)
+                    vm.trustService.modifyLimit(rowData.assetCode, rowData.issuerId)
                         .then(vm.refresh.bind(vm))
                         .catch(e => {});
                 });
@@ -70,12 +47,46 @@ export class AssetBalances {
             cell.empty();
             $('<button class="btn accent btn-small btn-flat" type="button"><i class="fa fa-paper-plane-o"></i>&nbsp;Pay</button>')
                 .click(() => {
-                    vm.router.parent.navigateToRoute('send-payment', {
-                        code: rowData.asset_type === 'native' ? window.lupoex.stellar.nativeAssetCode : rowData.asset_code,
-                        issuer: rowData.asset_issuer
-                    });
+                    vm.goToSendPayment(rowData);
                 })
                 .appendTo(cell);
         };
+
+        return {
+            ...vm.config.table,
+            ajax: vm.ajax.bind(vm)
+        };
+    }
+
+    goToSendPayment(balance) {
+        this.router.parent.navigateToRoute('send-payment', {
+            code: balance.assetType === 'Native' ? window.lupoex.stellar.nativeAssetCode : balance.assetCode,
+            issuer: balance.assetType === 'Native' ? 'Native' : balance.issuerId
+        });
+    }
+
+    constructor(config, sanitizeHTML, router, accountResource, trustService) {
+        this.config = config;
+        this.sanitizeHTML = sanitizeHTML;
+        this.router = router;
+        this.accountResource = accountResource;
+        this.trustService = trustService;
+        this.nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
+    }
+
+    refresh() {
+        if (this.dataTable) {
+            this.dataTable.dataTable.api().ajax.reload();
+        }
+    }
+
+    async ajax(data, callback, settings) {
+        this.loading++;
+
+        const tableData = await this.accountResource.trustlinesDataTable(this.account.accountId, data, settings);
+
+        callback(tableData);
+
+        this.loading--;
     }
 }

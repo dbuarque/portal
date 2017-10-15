@@ -1,0 +1,56 @@
+/**
+ * Created by istrauss on 9/18/2017.
+ */
+
+import BigNumber from 'bignumber.js';
+import {exchangeActionTypes} from '../../../exchange-action-types';
+import {detailActionTypes} from '../detail-action-types';
+import {isNewAssetPair} from './helpers';
+
+const {UPDATE_ASSET_PAIR} = exchangeActionTypes;
+const {UPDATE_ORDERBOOK} = detailActionTypes;
+
+export function orderbook(state, action, rootState) {
+    switch (action.type) {
+        case UPDATE_ORDERBOOK:
+            if (!action.payload) {
+                return undefined;
+            }
+
+            if (action.payload.bids) {
+                action.payload.bids = _mapOrders(action.payload.bids);
+            }
+
+            if (action.payload.asks) {
+                action.payload.asks = _mapOrders(action.payload.asks);
+            }
+
+            return {
+                ...state,
+                ...action.payload
+            };
+        case UPDATE_ASSET_PAIR:
+            if (!action.payload) {
+                return undefined;
+            }
+
+            return isNewAssetPair(action.payload, rootState.exchange.assetPair) ? undefined : state;
+        default:
+            return state;
+    }
+}
+
+function _mapOrders(orders) {
+    let sellingDepth = 0;
+    let buyingDepth = 0;
+
+    return orders.map(o => {
+        sellingDepth = (new BigNumber(o.amount)).plus(sellingDepth).toString(10);
+        buyingDepth = (new BigNumber(o.amount)).times(o.priceNumerator).dividedBy(o.priceDenominator).plus(buyingDepth).toString(10);
+        return {
+            ...o,
+            sellingDepth: parseFloat(sellingDepth),
+            buyingDepth: parseFloat(buyingDepth)
+        }
+    });
+}

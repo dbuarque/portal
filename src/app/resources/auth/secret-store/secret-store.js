@@ -4,16 +4,17 @@
 
 import {PLATFORM} from 'aurelia-pal';
 import {inject} from 'aurelia-framework';
-import {ModalService, StellarServer, AppStore, AlertToaster} from 'global-resources';
+import {Store} from 'au-redux';
+import {ModalService, StellarServer, AlertToaster} from 'global-resources';
 import {InactivityTracker} from '../inactivity-tracker';
 
-@inject(ModalService, StellarServer, AppStore, AlertToaster, InactivityTracker)
+@inject(ModalService, StellarServer, Store, AlertToaster, InactivityTracker)
 export class SecretStore {
 
-    constructor(modalService, stellarServer, appStore, alertToaster, inactivityTracker) {
+    constructor(modalService, stellarServer, store, alertToaster, inactivityTracker) {
         this.modalService = modalService;
         this.stellarServer = stellarServer;
-        this.appStore = appStore;
+        this.store = store;
         this.alertToaster = alertToaster;
         this.inactivityTracker = inactivityTracker;
     }
@@ -32,13 +33,13 @@ export class SecretStore {
 
             keypair = this.stellarServer.sdk.Keypair.fromSecret(result.secret);
 
-            const account = this.appStore.getState().account;
+            const account = this.store.getState().myAccount;
 
             if (!account) {
                 this.alertToaster.error('You cannot authenticate with your secret key before logging in. Please log in and try again.');
                 throw new Error('You cannot authenticate with your secret key before logging in. Please log in and try again.');
             }
-            if (account.id !== keypair.publicKey()) {
+            if (account.accountId !== keypair.publicKey()) {
                 this.alertToaster.error('Sorry, the secret key provided did not match your account. Please try again.');
                 return this.sign(transaction);
             }

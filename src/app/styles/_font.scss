@@ -2,3 +2,16 @@ html body {
     color: $accent-text;
     font-family: 'Clear Sans', sans-serif;
 }
+
+.fa-gray {
+    color: $gray;
+}
+
+.fa-sub {
+    position: relative;
+    left: -.5em;
+    width: .1em;
+    height: .1em;
+    vertical-align: -.4em;
+    text-shadow: 0 0 1px black;
+}

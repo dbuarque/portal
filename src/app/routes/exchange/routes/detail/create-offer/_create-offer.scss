@@ -1,6 +1,16 @@
 .create-offer {
+  font-size: 11px;
+
+  label {
+    font-size: 11px;
+  }
+
+  input {
+    height: 22px;
+    font-size: 12px;
+  }
+
   table.current-balance {
-    font-size: 10px;
     width: auto;
     border: 1px solid $gray;
 

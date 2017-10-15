@@ -1,2 +1,4 @@
-@import "routes/choose/choose";
-@import "routes/detail/detail";
+.exchange {
+  @import "routes/choose/choose";
+  @import "routes/detail/detail";
+}

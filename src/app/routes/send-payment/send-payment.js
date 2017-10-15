@@ -6,11 +6,12 @@ import {PLATFORM} from 'aurelia-pal';
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {HttpClient} from 'aurelia-fetch-client';
-import {ModalService, AppStore, ValidationManager, StellarServer} from 'global-resources';
+import {Store} from 'au-redux';
+import {ModalService, ValidationManager, StellarServer} from 'global-resources';
 import {TransactionService} from 'app-resources';
 import {AppActionCreators} from '../../app-action-creators';
 
-@inject(Router, HttpClient, ModalService, AppStore, ValidationManager, StellarServer, TransactionService, AppActionCreators)
+@inject(Router, HttpClient, ModalService, Store, ValidationManager, StellarServer, TransactionService, AppActionCreators)
 export class SendPayment {
 
     loading = 0;
@@ -21,11 +22,11 @@ export class SendPayment {
         dismissible: false
     };
 
-    constructor(router, httpClient, modalService, appStore, validationManager, stellarServer, transactionService, appActionCreators) {
+    constructor(router, httpClient, modalService, store, validationManager, stellarServer, transactionService, appActionCreators) {
         this.router = router;
         this.httpClient = httpClient;
         this.modalService = modalService;
-        this.appStore = appStore;
+        this.store = store;
         this.validationManager = validationManager;
         this.transactionService = transactionService;
         this.stellarServer = stellarServer;
@@ -64,10 +65,6 @@ export class SendPayment {
         this.step = 'confirm';
     }
 
-    finish() {
-        this.router.navigate('/account/asset-balances');
-    }
-
     tryAgain() {
         this.alertConfig = undefined;
         this.step = 'input';
@@ -75,30 +72,10 @@ export class SendPayment {
 
     refresh() {
         this.amount = undefined;
-        this.memos = [];
+        this.memo = undefined;
         this.validationManager.clear();
         this.step = 'input';
         this.alertConfig = undefined;
-    }
-
-    async generateSuccessMessage(response) {
-        const transactionResponse = await this.httpClient.fetch(response._links.transaction.href);
-        const transaction = await transactionResponse.json();
-        const effectsResponse = await this.stellarServer.effects().forTransaction(transaction.id).call();
-
-        return effectsResponse.records.reduce((html, e) => {
-                let msg = '';
-                switch(e.type) {
-                    case 'account_credited':
-                        msg = 'Sent ' + e.amount + ' ' + (e.asset_type === 'native' ? this.nativeAssetCode : e.asset_code) + ' to account <span style="word-break: break-all;">' + e.account + '</span>.';
-                        break;
-                    case 'account_created':
-                        msg = 'Account <span style="word-break: break-all;">' + e.account + '</span> created with 20 ' + this.nativeAssetCode + '.';
-                        break;
-                }
-
-                return html + '<li>' + msg + '</li>';
-            }, '<ul>') + '</ul>';
     }
 
     async submitConfirmation() {
@@ -169,10 +146,7 @@ export class SendPayment {
             try {
                 await this.transactionService.submit(operations, {
                     memo: this.memo ? this.stellarServer.sdk.Memo[this.memoMethodFromType(this.memo.type)](this.memo.value) : undefined,
-                    onSuccess: this.generateSuccessMessage.bind(this)
                 });
-
-                this.appStore.dispatch(this.appActionCreators.updateAccount());
                 this.refresh();
             }
             catch(e) {

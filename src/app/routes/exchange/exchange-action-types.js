@@ -2,14 +2,13 @@
  * Created by istrauss on 1/7/2017.
  */
 
-import {ActionTypeHelper} from 'global-resources';
+import {createNamespace} from 'au-redux';
 
 export const namespace = 'EXCHANGE';
 
-export const exchangeActionTypes = ActionTypeHelper.createNamespace(
+export const exchangeActionTypes = createNamespace(
     [
-        'UPDATE_ASSET_PAIR',
-        'REFRESH_ORDERBOOK'
+        'UPDATE_ASSET_PAIR'
     ],
     namespace
 );

@@ -2,23 +2,7 @@
  * Created by istrauss on 5/12/2017.
  */
 
-import _merge from 'lodash.merge';
-
-let env;
-
-switch (window.location.hostname) {
-    case 'localhost':
-        env = 'development';
-        break;
-    case 'test.lupoex.com':
-        env = 'test';
-        break;
-    case 'lupoex.com':
-        env = 'production';
-        break;
-    default:
-        throw new Error('Unknown environment');
-}
+import _merge from 'lodash/merge';
 
 const config = {
     development: {
@@ -31,10 +15,17 @@ const config = {
     },
     test: {
         urls: {
-            api: 'http://test.api.lupoex.com',
+            api: 'https://test.api.lupoex.com',
             horizon: 'https://horizon-testnet.stellar.org/'
         },
         networkMode: 'test'
+    },
+    beta: {
+        urls: {
+            api: 'https://beta.api.lupoex.com',
+            horizon: 'https://horizon.stellar.org'
+        },
+        networkMode: 'public'
     },
     production: {
         urls: {
@@ -53,4 +44,4 @@ const config = {
     }
 };
 
-Object.assign(window.lupoex, {env}, _merge(config.all, config[env]));
+Object.assign(window.lupoex, _merge(config.all, config[window.lupoex.env]));

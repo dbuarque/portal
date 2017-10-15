@@ -2,7 +2,7 @@
  * Created by istrauss on 3/17/2017.
  */
 
-import _find from 'lodash.find';
+import _find from 'lodash/find';
 import {inject, bindable, bindingMode, computedFrom} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-fetch-client';
 import {ValidationManager, StellarServer} from 'global-resources';

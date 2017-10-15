@@ -4,19 +4,19 @@
 
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
-import {AppStore} from 'global-resources';
+import {Store} from 'au-redux';
 
-@inject(Router, AppStore)    
+@inject(Router, Store)
 export class Choose {
 
-    constructor(router, appStore) {
+    constructor(router, store) {
         this.router = router;
-        this.appStore = appStore;
+        this.store = store;
     }
     
     load(e) {
         const nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
-        const assetPair = this.appStore.getState().exchange.assetPair;
+        const assetPair = this.store.getState().exchange.assetPair;
         this.router.navigateToRoute('detail', {
             buyingCode: assetPair.buying.code,
             buyingIssuer: assetPair.buying.code === nativeAssetCode ? 'native': assetPair.buying.issuer,

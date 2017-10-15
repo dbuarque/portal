@@ -2,31 +2,27 @@
  * Created by Ishai on 3/27/2016.
  */
 import {bindable, inject, computedFrom} from 'aurelia-framework';
-import {AppStore, AlertToaster} from 'global-resources';
+import {Store, connected} from 'au-redux';
+import {AlertToaster} from 'global-resources';
 import {AppActionCreators} from '../app-action-creators';
 
-@inject(AppStore, AppActionCreators, AlertToaster)
+@inject(Store, AppActionCreators, AlertToaster)
 export class Navbar {
+
+    @connected('myAccount')
+    account;
+
     @bindable router;
 
-    constructor(appStore, appActionCreators, toaster) {
-        this.appStore = appStore;
+    @computedFrom('account')
+    get firstFive() {
+        return this.account && this.account.accountId ? this.account.accountId.slice(0, 5) : null;
+    }
+
+    constructor(store, appActionCreators, toaster) {
+        this.store = store;
         this.appActionCreators = appActionCreators;
         this.toaster = toaster;
-    }
-
-    bind() {
-        this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
-        this.updateFromStore();
-    }
-
-    unbind() {
-        this.unsubscribeFromStore();
-    }
-
-    updateFromStore() {
-        const newState = this.appStore.getState();
-        this.account = newState.account;
     }
 
     goToExchange() {
@@ -38,16 +34,11 @@ export class Navbar {
     }
 
     logout() {
+        this.store.dispatch(this.appActionCreators.updateAccount());
         this.toaster.primary('Logged out successfully.');
-        this.appStore.dispatch(this.appActionCreators.setAccount());
     }
 
     goToAccount() {
         this.router.navigateToRoute('account');
-    }
-
-    @computedFrom('account')
-    get firstFive() {
-        return this.account && this.account.id ? this.account.id.slice(0, 5) : null;
     }
 }
