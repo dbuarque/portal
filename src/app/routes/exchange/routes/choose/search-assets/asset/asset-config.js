@@ -46,7 +46,7 @@ export default class AssetConfig {
                 allowClear: true,
                 getText: i => {
                     const domain = i.homedomain ? '<span class="primary-text" style="font-size: 20px;">' + i.homedomain + '</span>' : '<span class="accent-text" style="font-size: 20px;">unknown</span>';
-                    return domain + '<br>' + '<span class="accent-text">' + i.accountid + '</span>';
+                    return domain + '<br>' + '<span class="accent-text" style="font-size: 12px;">' + i.accountid + '</span>';
                 },
                 escapeMarkup: m => m
             }

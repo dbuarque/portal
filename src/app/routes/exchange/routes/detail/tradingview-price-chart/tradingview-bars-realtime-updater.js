@@ -54,6 +54,7 @@ export class TradingviewBarsRealtimeUpdater {
         //If there is no lastBar from the lastBarTracker then that means this market has no trades.
         if (!values[0]) {
             this.stop();
+            return;
         }
 
         if (moment(values[0].time).diff(moment(values[1]), 'minutes') !== 0) {

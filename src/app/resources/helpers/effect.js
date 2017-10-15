@@ -9,8 +9,17 @@ export function userFriendlyEffectMessage(e) {
         case 'ACCOUNT_REMOVED':
             return 'Account Removed';
         case 'ACCOUNT_CREDITED':
-            return 'Received payment from ' + shortenAddress(e.operation.details.from) + ' for ' +
-                assetDetailsToText(e.operation.details.amount, e.operation.details.asset_type, e.operation.details.asset_code);
+            switch(e.operation.type) {
+                case 'PAYMENT':
+                case 'PATH_PAYMENT':
+                    return 'Received payment from ' + shortenAddress(e.operation.details.from) + ' for ' +
+                        assetDetailsToText(e.operation.details.amount, e.operation.details.asset_type, e.operation.details.asset_code);
+                case 'ACCOUNT_MERGE':
+                    return 'Credited with ' + assetDetailsToText(e.details.amount, e.details.asset_type, e.details.asset_code) +
+                        ' via an account merge from ' + shortenAddress(e.operation.details.account);
+                default:
+                    return e.type;
+            }
         case 'ACCOUNT_DEBITED':
             return accountDebitedMessage(e);
         case 'SIGNER_CREATED':
@@ -57,8 +66,10 @@ function accountDebitedMessage(e) {
                     return result + ' -> '  + assetDetailsToText(fragment.amount, fragment.asset_type, fragment.asset_code)
                 }, '')
                 + ' -> '  + assetDetailsToText(details.amount, details.asset_type, details.asset_code);
+        case 'CREATE_ACCOUNT':
+            return 'Sent ' + details.starting_balance + ' to create account ' + shortenAddress(details.account);
         default:
-            return '';
+            return type;
     }
 }
 

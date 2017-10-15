@@ -48,7 +48,19 @@ input:not([type]), input[type=text], input[type=password], input[type=email], in
     }
 
     .select2-dropdown {
-        border-top: 1px solid $gray;
+        border: 1px solid $gray;
+
+        > .select2-search.select2-search--dropdown {
+            padding: 0;
+
+            input {
+                margin-bottom: 0;
+                height: 2rem;
+                border: none;
+                border-bottom: 1px solid $gray;
+                padding: 0 4px;
+            }
+        }
 
         li.loading-results {
             color: #fff;
@@ -108,20 +120,10 @@ input[type=search] {
     margin: 0;
 }
 
-input:not([type]),
-input[type=text],
-input[type=password],
-input[type=email],
-input[type=url],
-input[type=time],
-input[type=date],
-input[type=datetime],
-input[type=datetime-local],
-input[type=tel],
-input[type=number],
-input[type=search],
-textarea.materialize-textarea {
-    height: 33px;
+input:not([type]), input[type=text]:not(.browser-default), input[type=password]:not(.browser-default), input[type=email]:not(.browser-default), input[type=url]:not(.browser-default), input[type=time]:not(.browser-default), input[type=date]:not(.browser-default), input[type=datetime]:not(.browser-default), input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default), input[type=number]:not(.browser-default), input[type=search]:not(.browser-default), textarea.materialize-textarea {
+    height: 2rem;
+    padding: 0 4px;
+    margin-bottom: 0;
 }
 
 input.aurelia-flatpickr, .aurelia-flatpickr input {
