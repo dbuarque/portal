@@ -35,8 +35,14 @@ export class OfferModal {
         this.code = params.passedInfo.code;
         this.issuer = params.passedInfo.issuer;
 
+        this.getTrustline();
+    }
+
+    async getTrustline() {
+        this.loading++;
         const trustline = await this.accountResource.trustline(this.store.getState().myAccount.accountId, {code: this.code, issuer: this.issuer});
         this.limit = trustline ? trustline.trustLimit : 0;
+        this.loading--;
     }
 
     async modifyLimit() {

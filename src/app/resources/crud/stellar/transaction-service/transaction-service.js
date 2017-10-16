@@ -2,6 +2,7 @@
  * Created by istrauss on 5/18/2017.
  */
 
+import {PLATFORM} from 'aurelia-pal';
 import {inject} from 'aurelia-framework';
 import {Store} from 'au-redux';
 import {StellarServer, ModalService, SpinnerModalService, AlertToaster} from 'global-resources';
@@ -92,10 +93,15 @@ export class TransactionService {
             }
 
             try {
-                this.modalService.open('app/resources/crud/stellar/transaction-service/error-modal/error-modal', {
-                    title: 'Stellar Transaction Error',
-                    message: errorMessage
-                });
+                this.modalService.open(
+                    PLATFORM.moduleName('app/resources/crud/stellar/transaction-service/error-modal/error-modal'),
+                    {
+                        title: 'Stellar Transaction Error',
+                        message: errorMessage
+                    }, {
+                        modalClass: 'sm'
+                    }
+                );
             }
             catch(e) {}
 

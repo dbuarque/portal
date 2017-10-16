@@ -63,8 +63,8 @@ export class CreateOffer {
         else if (this.needsTrustline && parseFloat(this.myAssetPair.buying.limit, 10) < this.minTrustLine) {
             alertMessage = 'Trustline is too small. It must be at least ' + this.minTrustLine + ' to cover your balance and this new offer.';
         }
-        else if (parseFloat(this.mySellingAsset.balance, 10) < parseFloat(this.sellingAmount, 10)) {
-            alertMessage = 'You cannot spend ' + this.sellingAmount + ' ' + this.sellingAsset.code + ' as you only have ' + this.mySellingAsset.balance + ' ' + this.sellingAsset.code + ' in your account.';
+        else if (!this.mySellingAsset.balance || parseFloat(this.mySellingAsset.balance, 10) < parseFloat(this.sellingAmount, 10)) {
+            alertMessage = 'You cannot spend ' + this.sellingAmount + ' ' + this.sellingAsset.code + ' as you only have ' + (this.mySellingAsset.balance || 0) + ' ' + this.sellingAsset.code + ' in your account.';
         }
 
         this.alertConfig = alertMessage ? {

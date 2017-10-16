@@ -6,6 +6,6 @@ export class ErrorModal {
 
     activate(params) {
         this.modalVM = params.modalVM;
-        this.transaction = params.passedInfo.message;
+        this.message = params.passedInfo.message;
     }
 }

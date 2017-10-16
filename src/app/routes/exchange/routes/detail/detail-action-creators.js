@@ -75,11 +75,11 @@ export class DetailActionCreators {
                 return;
             }
 
-            const offers = await this.accountResource.assetPairTrustlines(state.myAccount.accountId, state.exchange.assetPair);
+            const assetPair = await this.accountResource.assetPairTrustlines(state.myAccount.accountId, state.exchange.assetPair);
 
             return dispatch({
                 type: UPDATE_MY_ASSET_PAIR,
-                payload: offers
+                payload: assetPair
             });
         }
     }

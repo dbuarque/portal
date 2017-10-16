@@ -66,21 +66,20 @@ export class LoginCustomElement {
 
         this.loading++;
 
-        try {
-            await this.store.dispatch(this.appActionCreators.updateAccount(this.publicKey));
+        await this.store.dispatch(this.appActionCreators.updateAccount(this.publicKey));
 
+        if (!this.store.getState().myAccount) {
+            this.alertConfig = {
+                type: 'error',
+                message: 'That account could not be found on the stellar network. Are you sure the account exists?'
+            };
+        }
+        else {
             if (this.secret) {
                 this.secretStore.remember(this.stellarServer.sdk.Keypair.fromSecret(this.secret));
             }
 
             EventHelper.emitEvent(this.parentElement, 'login');
-        }
-        catch(e) {
-            this.alertConfig = {
-                type: 'error',
-                message: 'That account could not be found on the stellar network. Are you sure the account exists?'
-            };
-            console.log(e);
         }
 
         this.loading--;

@@ -46,7 +46,9 @@ export class AppActionCreators {
             });
 
             try {
-                const account = await this.accountResource.account(publicKey);
+                const account = await this.accountResource.account(publicKey, {
+                    handleError: false
+                });
 
                 return dispatch({
                     type: UPDATE_MY_ACCOUNT,

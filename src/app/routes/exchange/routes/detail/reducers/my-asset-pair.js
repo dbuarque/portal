@@ -12,7 +12,10 @@ const {UPDATE_MY_ASSET_PAIR} = detailActionTypes;
 export function myAssetPair(state, action, rootState) {
     switch (action.type) {
         case UPDATE_MY_ASSET_PAIR:
-            return action.payload;
+            return {
+                selling: action.payload.selling || {},
+                buying: action.payload.buying || {}
+            };
         case UPDATE_ASSET_PAIR:
             if (!action.payload) {
                 return undefined;

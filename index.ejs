@@ -42,7 +42,8 @@
     <% if (!htmlWebpackPlugin.options.metadata.production) { %>
         <script>
             lupoex = {
-                env: 'development'
+                env: 'development',
+                networkMode: 'test'
             };
         </script>
     <% } %>

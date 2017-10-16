@@ -18,10 +18,12 @@ export class AccountResource extends BaseResource {
     /**
      * Gets an account
      * @param accountId
+     * @param [options]
+     * @param [options.handleError]
      * @returns {*}
      */
-    account(accountId) {
-        return this.get('/' + accountId);
+    account(accountId, options) {
+        return this.get('/' + accountId, {}, options);
     }
 
     /**
