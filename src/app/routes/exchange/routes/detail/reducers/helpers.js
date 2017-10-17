@@ -15,7 +15,7 @@ export function isNewAssetPair(oldAssetPair, newAssetPair) {
         );
 }
 
-export function calculateNewOrder(newState, oldState) {
+export function calculateNewOrder(newState, oldState = {}) {
     let clonedNewState = {
         ...newState
     };

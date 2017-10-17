@@ -48,6 +48,7 @@ export default class AssetBalancesConfig {
                         searchable: false
                     },
                     {
+                        width: 100,
                         title: '',
                         defaultContent: '',
                         searchable: false,

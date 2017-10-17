@@ -78,4 +78,14 @@ export class CreateAskCustomElement extends CreateOffer {
 
         this.detailActionCreators = detailActionCreators;
     }
+
+    bind() {
+        //Ensure that all @connected props are bound for superclass.
+        CreateOffer.prototype.bind.call(this);
+    }
+
+    unbind() {
+        //Ensure that all @connected props are unbound for superclass.
+        CreateOffer.prototype.unbind.call(this);
+    }
 }

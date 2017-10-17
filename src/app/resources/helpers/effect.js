@@ -5,9 +5,9 @@ import {shortenAddress} from "./misc";
 export function userFriendlyEffectMessage(e) {
     switch(e.type) {
         case 'ACCOUNT_CREATED':
-            return 'Account Created';
+            return 'Account created with initial balance of ' + e.details.starting_balance + ' ' + window.lupoex.stellar.nativeAssetCode;
         case 'ACCOUNT_REMOVED':
-            return 'Account Removed';
+            return 'Account removed';
         case 'ACCOUNT_CREDITED':
             switch(e.operation.type) {
                 case 'PAYMENT':
