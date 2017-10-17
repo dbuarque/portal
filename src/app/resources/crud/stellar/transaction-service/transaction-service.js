@@ -68,7 +68,7 @@ export class TransactionService {
         }
         catch(e) {
             this.alertToaster.error('An unexpected error occurred while trying to submit your transaction to the network (perhaps you didn\'t sign the transaction with your secret key?). Your transaction was not submitted to the network.');
-            throw e;
+            return;
         }
 
         let transactionResponse;

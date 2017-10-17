@@ -18,10 +18,12 @@ export const app = combineReducersProvideRootState({
 function myAccount(state, action) {
     switch(action.type) {
         case UPDATE_MY_ACCOUNT_ID:
-            return {
-                ...state,
-                accountId: action.payload
-            };
+            return action.payload ?
+                {
+                    ...state,
+                    accountId: action.payload
+                } :
+                undefined;
         case UPDATE_MY_ACCOUNT:
             return !_isEqual(state, action.payload) ? action.payload : state;
         case UPDATE_MY_ACCOUNT_SEQNUM:
