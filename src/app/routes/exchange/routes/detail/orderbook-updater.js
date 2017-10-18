@@ -42,13 +42,11 @@ export class OrderbookUpdater {
 
         // Now, subscribe to changes.
         this.unsubscribeFromStream = this.marketStream.subscribe(payload => {
-            if (payload.type !== 'asks' && payload.type !== 'bids') {
+            if (payload.type !== 'orderbook') {
                 return;
             }
 
-            this.store.dispatch(this.detailActionCreators.updateOrderbook({
-                [payload.type]: payload.payload
-            }));
+            this.store.dispatch(this.detailActionCreators.updateOrderbook(payload.payload));
         });
     }
 }

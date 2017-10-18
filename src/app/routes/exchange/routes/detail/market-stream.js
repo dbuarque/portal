@@ -24,8 +24,7 @@ export class MarketStream {
         self.assetPairToUrl = assetPairToUrl;
 
         io.socket.on('trades', this._newPayload.bind(this, 'trades'));
-        io.socket.on('bids', this._newPayload.bind(this, 'bids'));
-        io.socket.on('asks', this._newPayload.bind(this, 'asks'));
+        io.socket.on('orderbook', this._newPayload.bind(this, 'orderbook'));
 
         this.bind();
     }

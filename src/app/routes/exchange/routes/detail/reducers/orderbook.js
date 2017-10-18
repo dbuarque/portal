@@ -17,17 +17,9 @@ export function orderbook(state, action, rootState) {
                 return undefined;
             }
 
-            if (action.payload.bids) {
-                action.payload.bids = _mapOrders(action.payload.bids);
-            }
-
-            if (action.payload.asks) {
-                action.payload.asks = _mapOrders(action.payload.asks);
-            }
-
             return {
-                ...state,
-                ...action.payload
+                bids: _mapOrders(action.payload.bids),
+                asks: _mapOrders(action.payload.asks)
             };
         case UPDATE_ASSET_PAIR:
             if (!action.payload) {
