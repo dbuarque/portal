@@ -33,10 +33,10 @@
                     <div class="card-body">
                         <ul class="collection" show.bind="account.otherSigners.length > 0">
                             <li repeat.for="signer of account.otherSigners" class="collection-item">
-                                ${signer.accountId}
+                                ${signer.publicKey}: ${signer.weight}
                             </li>
                         </ul>
-                        <i>There are no other signers for this account</i>
+                        <i show.bind="account.otherSigners.length === 0">There are no other signers for this account</i>
                     </div>
                 </div>
             </div>
