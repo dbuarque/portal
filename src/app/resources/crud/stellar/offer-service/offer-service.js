@@ -60,8 +60,8 @@ export class OfferService {
 
         try {
             const nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
-            const fee = await this.calculateFee(amount, sellingAsset);
-            const sellingAmount = (new BigNumber(amount)).minus(fee).toFixed(7);
+            //const fee = await this.calculateFee(amount, sellingAsset);
+            //const sellingAmount = (new BigNumber(amount)).minus(fee).toFixed(7);
 
             const offerOp = this.stellarServer.sdk.Operation.manageOffer({
                 selling: sellingAsset.code === nativeAssetCode ?
@@ -70,23 +70,23 @@ export class OfferService {
                 buying: buyingAsset.code === nativeAssetCode ?
                     this.stellarServer.sdk.Asset.native() :
                     new this.stellarServer.sdk.Asset(buyingAsset.code, buyingAsset.issuer),
-                amount: validStellarNumber(sellingAmount),
+                amount: validStellarNumber(amount),
                 price
             });
 
             operations.push(offerOp);
 
-            if (fee && fee > 0) {
-                const feePaymentOp = this.stellarServer.sdk.Operation.payment({
-                    destination: window.lupoex.publicKey,
-                    asset: sellingAsset.code === nativeAssetCode ?
-                        this.stellarServer.sdk.Asset.native() :
-                        new this.stellarServer.sdk.Asset(sellingAsset.code, sellingAsset.issuer),
-                    amount: fee.toString()
-                });
-
-                operations.push(feePaymentOp);
-            }
+            // if (fee && fee > 0) {
+            //     const feePaymentOp = this.stellarServer.sdk.Operation.payment({
+            //         destination: window.lupoex.publicKey,
+            //         asset: sellingAsset.code === nativeAssetCode ?
+            //             this.stellarServer.sdk.Asset.native() :
+            //             new this.stellarServer.sdk.Asset(sellingAsset.code, sellingAsset.issuer),
+            //         amount: fee.toString()
+            //     });
+            //
+            //     operations.push(feePaymentOp);
+            // }
         }
         catch(e) {
             this.alertToaster.error('Unexpected error occured. Please check your inputs. Your offer was NOT submitted to the network.');
