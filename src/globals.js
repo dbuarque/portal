@@ -17,4 +17,5 @@ window.d3 = d3;
 //window.moment = moment;
 
 window.io.sails.url = window.lupoex.urls.api;
+window.io.sails.transports = ['websocket'];
 //window.io.sails.useCORSRouteToGetCookie = false;
