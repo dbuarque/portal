@@ -13,6 +13,7 @@ export * from './decorators';
 
 export function configure(config) {
     config.globalResources(
+        PLATFORM.moduleName('./binding-behaviors/reflect-model'),
         PLATFORM.moduleName('./dom-controls/vendor/select2/select2'),
         PLATFORM.moduleName('./widgets/spinner-overlay/spinner-overlay'),
         PLATFORM.moduleName('./widgets/jquery-data-table/jquery-data-table'),

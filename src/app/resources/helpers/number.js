@@ -12,16 +12,33 @@ const defaultOptions = {
  * @param [options.rm] - The rounding mode to use in toFixed(7)
  * @returns {string}
  */
-export function validStellarNumber(num, options = {}) {
+export function validStellarNumber(original, options = {}) {
+    let result = original;
+    
+    if (!result) {
+        return result;
+    }
+    
     const _options = {
         ...defaultOptions,
         ...options
     };
+    const max = "922337203685.4775807";
 
-    return (new BigNumber(num)).abs()
-        // stellar numbers cannot have more than 7 decimal places.
-        .toFixed(7, options.rm)
-        // replace zeros trailing a decimal
-        .replace(/\.?0+$/, '')
-        .slice(0, 15);
+    result = (new BigNumber(result)).abs();
+
+    result = result.greaterThan(max) ?
+        new BigNumber(max) :
+        result;
+
+    if (result.dp() >= 7) {
+        return result.toFixed(7, options.rm);
+    }
+
+    //result.valueOf will result in losing trailing zeros. Just return the original instead of no modifications were made.
+    if (typeof original === 'string' && result.equals(original)) {
+        return original;
+    }
+
+    return result.valueOf();
 }

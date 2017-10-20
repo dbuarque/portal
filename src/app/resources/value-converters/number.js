@@ -31,7 +31,7 @@ export class ToPrecisionValueConverter {
 
 export class ValidStellarNumberValueConverter {
     toView(num) {
-        return validStellarNumber(num);
+        return num ? validStellarNumber(num) : num;
     }
 }
 

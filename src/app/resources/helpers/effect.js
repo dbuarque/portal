@@ -53,10 +53,9 @@ function accountDebitedMessage(e) {
         case 'PAYMENT':
             // We don't want two alerts coming up every time someone puts an offer in (one for the trade and one for the fee)
             // For the effect history (because we want an entry for the fee as well), just don't include the transaction's memo
-            if (e.operation.transaction.memo === 'offer_via_lupoex') {
-                return null;
-            }
-
+            //if (e.operation.transaction.memo === 'offer_via_lupoex') {
+            //    return null;
+            //}
             return 'Sent payment to ' + shortenAddress(details.to) + ' for ' +
                 assetDetailsToText(details.amount, details.asset_type, details.asset_code);
         case 'PATH_PAYMENT':

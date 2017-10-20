@@ -16,9 +16,12 @@ export function isNewAssetPair(oldAssetPair, newAssetPair) {
 }
 
 export function calculateNewOrder(newState, oldState = {}) {
-    let clonedNewState = {
-        ...newState
-    };
+    const clonedNewState = Object.keys(newState).reduce((_clone, key) => ({
+        ..._clone,
+        [key]: key === 'price' ?
+            newState[key] :
+            validStellarNumber(newState[key])
+    }), {});
 
     if (clonedNewState.price) {
         const sellingAmount = clonedNewState.sellingAmount || oldState.sellingAmount;

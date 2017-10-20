@@ -7,5 +7,9 @@
     .login-container {
         width: 90%;
         max-width: 500px;
+
+        .card-heading {
+            padding: 0;
+        }
     }
 }

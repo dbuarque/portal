@@ -76,6 +76,7 @@ export class OfferService {
 
             operations.push(offerOp);
 
+            //Comment this back in to enable fees
             // if (fee && fee > 0) {
             //     const feePaymentOp = this.stellarServer.sdk.Operation.payment({
             //         destination: window.lupoex.publicKey,
@@ -94,9 +95,9 @@ export class OfferService {
             throw e;
         }
 
-        const options = {
-            memo: this.stellarServer.sdk.Memo.text('offer_via_lupoex')
-        };
+        //const options = {
+        //    memo: this.stellarServer.sdk.Memo.text('offer_via_lupoex')
+        //};
 
         await this.transactionService.submit(operations, options);
     }

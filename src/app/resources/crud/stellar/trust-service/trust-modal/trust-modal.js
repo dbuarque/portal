@@ -2,11 +2,11 @@
  * Created by istrauss on 5/8/2017.
  */
 
-import {inject} from 'aurelia-framework'
+import {inject, computedFrom} from 'aurelia-framework'
 import {Store} from 'au-redux';
 import {StellarServer, ValidationManager} from 'global-resources';
 import {AppActionCreators} from '../../../../../app-action-creators';
-import {AccountResource} from 'app-resources';
+import {AccountResource, validStellarNumber} from 'app-resources';
 
 @inject(StellarServer, Store, ValidationManager, AppActionCreators, AccountResource)
 export class OfferModal {
@@ -21,6 +21,14 @@ export class OfferModal {
             ' Your asset balance cannot be greater than your trust limit.</p>' +
             '<p>To learn more about stellar assets and trust see the <a href="https://www.stellar.org/developers/guides/concepts/assets.html" target="_blank">Stellar Asset Concept Documentation</a>.</p>'
     };
+
+    @computedFrom('_newLimit')
+    get newLimit() {
+        return this._newLimit;
+    }
+    set newLimit(newLimit) {
+        this._newLimit = validStellarNumber(newLimit);
+    }
 
     constructor(stellarServer, store, validationManager, appActionCreators, accountResource) {
         this.stellarServer = stellarServer;
@@ -41,7 +49,7 @@ export class OfferModal {
     async getTrustline() {
         this.loading++;
         const trustline = await this.accountResource.trustline(this.store.getState().myAccount.accountId, {code: this.code, issuer: this.issuer});
-        this.limit = trustline ? trustline.trustLimit : 0;
+        this._newLimit = this.limit = trustline ? trustline.trustLimit : 0;
         this.loading--;
     }
 

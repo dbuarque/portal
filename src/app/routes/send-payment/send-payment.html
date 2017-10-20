@@ -31,8 +31,7 @@
                                 </div>
                                 <div class="col s12">
                                     <label>Amount</label>
-                                    <input stellar-compliant-float type="number" value.bind="amount" required title="Amount"
-                                           tt-validate="manager.bind: validationManager; key: amount;">
+                                    <input type="number" value.bind="amount | validStellarNumber" required title="Amount" tt-validate="manager.bind: validationManager; key: amount;">
                                 </div>
                                 <div class="col s12">
                                     <label>Destination Account</label>

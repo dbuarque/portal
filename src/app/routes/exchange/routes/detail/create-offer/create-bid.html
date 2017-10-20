@@ -30,11 +30,11 @@
                     </div>
                     <div class="form-field">
                         <label>${assetPair.selling.code}</label>
-                        <input type="number" class="form-control" value.bind="buyingAmount">
+                        <input type="number" class="form-control" value.bind="buyingAmount & reflectModel">
                     </div>
                     <div class="form-field">
                         <label>${assetPair.buying.code}</label>
-                        <input type="number" class="form-control" value.bind="sellingAmount">
+                        <input type="number" class="form-control" value.bind="sellingAmount & reflectModel">
                     </div>
                     <div if.bind="needsTrustline && myBuyingAsset.trustLimit">
                         <div class="form-field">
