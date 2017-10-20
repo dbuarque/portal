@@ -29,7 +29,7 @@ export class TopTenMarkets {
     async refresh() {
         this.loading++;
 
-        this.markets = await this.marketResource.topTen(this.order);
+        const markets = await this.marketResource.topTen(this.order);
 
         this.loading--;
     }
