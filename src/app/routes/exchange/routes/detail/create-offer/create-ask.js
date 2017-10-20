@@ -29,7 +29,7 @@ export class CreateAskCustomElement extends CreateOffer {
     }
     set price(newPrice) {
         this.store.dispatch(this.detailActionCreators.updateMyAsk({
-            price: (new BigNumber(newPrice)).toFraction()
+            price: newPrice ? (new BigNumber(newPrice)).toFraction() : newPrice
         }));
     }
 

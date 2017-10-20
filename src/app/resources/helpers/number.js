@@ -7,7 +7,7 @@ const defaultOptions = {
 
 /**
  * Produces a valid stellar number from a number
- * @param num - The number to be processed
+ * @param original - The number to be processed
  * @param [options]
  * @param [options.rm] - The rounding mode to use in toFixed(7)
  * @returns {string}
@@ -18,12 +18,15 @@ export function validStellarNumber(original, options = {}) {
     if (!result) {
         return result;
     }
-    
+
     const _options = {
         ...defaultOptions,
         ...options
     };
     const max = "922337203685.4775807";
+
+    const stringForm = result instanceof BigNumber ? result.valueOf() : result.toString();
+
 
     result = (new BigNumber(result)).abs();
 
@@ -32,13 +35,25 @@ export function validStellarNumber(original, options = {}) {
         result;
 
     if (result.dp() >= 7) {
-        return result.toFixed(7, options.rm);
+        result = result.toFixed(7, options.rm);
+    }
+    //result.valueOf will result in losing trailing zeros. Just return the original instead if no modifications were made.
+    else if (typeof original === 'string' && result.equals(original)) {
+        result = original;
+    }
+    else {
+        result = result.valueOf();
     }
 
-    //result.valueOf will result in losing trailing zeros. Just return the original instead of no modifications were made.
-    if (typeof original === 'string' && result.equals(original)) {
-        return original;
+    return ensureZeroInFrontOfDecimal(
+        result
+    );
+}
+
+function ensureZeroInFrontOfDecimal(numString) {
+    if (numString.charAt(0) === '.') {
+        numString = '0.' + numString.slice(1);
     }
 
-    return result.valueOf();
+    return numString;
 }

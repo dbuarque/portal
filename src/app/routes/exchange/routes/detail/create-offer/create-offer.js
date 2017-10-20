@@ -44,7 +44,7 @@ export class CreateOffer {
 
     async modifyLimit() {
         try {
-            this.trustService.modifyLimit(this.buyingAsset.code, this.buyingAsset.issuer);
+            await this.trustService.modifyLimit(this.buyingAsset.code, this.buyingAsset.issuer);
         }
         catch(e) {}
     }
@@ -55,12 +55,12 @@ export class CreateOffer {
             alertMessage = 'Price is required';
         }
         else if (!this.buyingAmount) {
-            alertMessage = this.assetPair.buying.code +  ' is required';
+            alertMessage = this.buyingAsset.code +  ' is required';
         }
         else if (!this.sellingAmount) {
-            alertMessage = this.assetPair.selling.code +  ' is required';
+            alertMessage = this.sellingAsset.code +  ' is required';
         }
-        else if (this.needsTrustline && parseFloat(this.myAssetPair.buying.limit, 10) < this.minTrustLine) {
+        else if (this.needsTrustline && parseFloat(this.myBuyingAsset.limit, 10) < this.minTrustLine) {
             alertMessage = 'Trustline is too small. It must be at least ' + this.minTrustLine + ' to cover your balance and this new offer.';
         }
         else if (!this.mySellingAsset.balance || parseFloat(this.mySellingAsset.balance, 10) < parseFloat(this.sellingAmount, 10)) {
