@@ -1,6 +1,6 @@
 {
     "name": "lupoex-client",
-    "version": "3.0.0-beta2",
+    "version": "3.0.0-beta3",
     "description": "Lupoex Client App.",
     "main": "dist/main.js",
     "productName": "Lupoex Client App",

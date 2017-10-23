@@ -24,7 +24,7 @@
                     <div class="row">
                         <div class="tab-content col s12">
                             <router-view></router-view>
-                            <spinner-overlay size="2x" show.bind="router.isNavigating || currentViewModel.refreshing"></spinner-overlay>
+                            <spinner-overlay size="2x" spin.bind="router.isNavigating || currentViewModel.refreshing"></spinner-overlay>
                         </div>
                     </div>
                 </div>
