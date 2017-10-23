@@ -98,7 +98,7 @@ export class OfferService {
         //    memo: this.stellarServer.sdk.Memo.text('offer_via_lupoex')
         //};
 
-        await this.transactionService.submit(operations, options);
+        await this.transactionService.submit(operations);
     }
 
     async calculateFee(amount, asset) {
