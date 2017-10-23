@@ -32,7 +32,10 @@
                             </thead>
                             <tbody>
                                 <tr repeat.for="market of markets" click.trigger="goToMarket(market)">
-                                    <td innerhtml.bind="market | marketTile | sanitizeHTML"></td>
+                                    <td>
+                                        <market-tile asset.bind="{code: market.bought_asset_code, issuer: market.bought_asset_issuer}"></market-tile>
+                                        <market-tile asset.bind="{code: market.bought_asset_code, issuer: market.bought_asset_issuer}"></market-tile>
+                                    </td>
                                     <td>${market.trade_count}</td>
                                     <td innerhtml.bind="market.percent_gain | percentGain | sanitizeHTML"></td>
                                 </tr>
