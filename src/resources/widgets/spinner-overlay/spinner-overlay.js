@@ -3,19 +3,18 @@
  */
 
 import {inject, bindable} from 'aurelia-framework';
-import {ObserverManager, ObservationInstruction} from '../../workers';
 
-@inject(Element, ObserverManager)
+@inject(Element)
 export class SpinnerOverlayCustomElement {
 
     @bindable minHeight = 350;
     @bindable size = '3x';
     @bindable transparent = false;
     @bindable top = 75;
+    @bindable spin;
 
-    constructor(element, observerManager) {
+    constructor(element) {
         this.element = element;
-        this.observerManager = observerManager;
     }
 
     attached() {
@@ -29,29 +28,17 @@ export class SpinnerOverlayCustomElement {
 
         $(this.element).find('.spinner-overlay').css('padding-top', parseInt(this.top, 10));
 
-        this.subscribeObservers();
-        this.toggled();
+        this.spinChanged();
     }
 
-    detached() {
-        this.observerManager.unsubscribe();
-    }
-
-    subscribeObservers() {
-        let observationInstructions = [
-            new ObservationInstruction(this.element, 'className', this.toggled.bind(this))
-        ];
-        this.observerManager.subscribe(observationInstructions);
-    }
-
-    toggled() {
-        if (this.element.className.indexOf('aurelia-hide') > -1) {
-            this.parent.css('min-height', this.parentMinHeight);
+    spinChanged() {
+        if (!this.parent) {
+            return;
         }
-        else {
-            if (this.parentMinHeight === '0px') {
-                this.parent.css('min-height', this.minHeight + 'px');
-            }
-        }
+
+        this.parent.css(
+            'min-height',
+            this.spin ? this.minHeight + 'px' : this.parentMinHeight
+        );
     }
 }

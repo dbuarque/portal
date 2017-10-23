@@ -390,3 +390,7 @@ input.valid:not([type]), input.valid:not([type]):focus, input[type=text].valid:n
     border-bottom: 1px solid $gray;
     box-shadow: none;
 }
+
+.tabs .tab {
+    text-transform: none;
+}

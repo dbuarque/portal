@@ -5,20 +5,19 @@
 import _throttle from 'lodash/throttle';
 import {bindable, inject} from 'aurelia-framework';
 import {Store} from 'au-redux';
-import {EventHelper, ObserverManager, ObservationInstruction, StellarServer, AlertToaster} from 'global-resources';
+import {EventHelper, StellarServer, AlertToaster} from 'global-resources';
 import {SecretStore} from 'app-resources';
 import {AppActionCreators} from '../../../../app-action-creators';
 
-@inject(Store, ObserverManager, StellarServer, AlertToaster, SecretStore, AppActionCreators)
+@inject(Store, StellarServer, AlertToaster, SecretStore, AppActionCreators)
 export class LoginCustomElement {
 
     @bindable parentElement;
 
     loading = 0;
 
-    constructor(store, observerManager, stellarServer, alertToaster, secretStore, appActionCreators) {
+    constructor(store, stellarServer, alertToaster, secretStore, appActionCreators) {
         this.store = store;
-        this.observerManager = observerManager;
         this.stellarServer = stellarServer;
         this.alertToaster = alertToaster;
         this.secretStore = secretStore;
@@ -26,12 +25,6 @@ export class LoginCustomElement {
 
         this.onPublicKeyChange = _throttle(this._onPublicKeyChange.bind(this), 250);
         this.onSecretChange = _throttle(this._onSecretChange.bind(this), 250);
-    }
-
-    subscribeObservers() {
-        const instructions = [
-            new ObservationInstruction(this, 'publicKey', this.onPublicKeyChange.bind(this))
-        ]
     }
 
     _onPublicKeyChange() {
