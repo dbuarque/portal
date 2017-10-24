@@ -42,7 +42,7 @@ export class OfferService {
         // validStellarNumber() may lop off digits past 7 after the decimal.
         // In that case we want to specify rounding modes that will ensure that the offer fills a corresponding opposite offer
         price = validStellarNumber(price, {
-            rm: type === 'bid' ? BigNumber.ROUND_UP : BigNumber.ROUND_DOWN
+            rm: BigNumber.ROUND_DOWN
         });
 
         await this.modalService.open(PLATFORM.moduleName('app/resources/crud/stellar/offer-service/offer-modal/offer-modal'),
@@ -101,23 +101,23 @@ export class OfferService {
         await this.transactionService.submit(operations);
     }
 
-    async calculateFee(amount, asset) {
-        if (!window.lupoex.offerFeeFactor) {
-            return 0;
-        }
-
-        const lupoexHasTrust = asset.code === window.lupoex.stellar.nativeAssetCode ?
-            true :
-            await this.accountResource.trustline(window.lupoex.publicKey, asset);
-
-        if (!lupoexHasTrust) {
-            return 0;
-        }
-
-        const feeString = (new BigNumber(amount)).times(window.lupoex.offerFeeFactor).toFixed(7);
-
-        return parseFloat(feeString, 10);
-    }
+    //async calculateFee(amount, asset) {
+    //    if (!window.lupoex.offerFeeFactor) {
+    //        return 0;
+    //    }
+//
+    //    const lupoexHasTrust = asset.code === window.lupoex.stellar.nativeAssetCode ?
+    //        true :
+    //        await this.accountResource.trustline(window.lupoex.publicKey, asset);
+//
+    //    if (!lupoexHasTrust) {
+    //        return 0;
+    //    }
+//
+    //    const feeString = (new BigNumber(amount)).times(window.lupoex.offerFeeFactor).toFixed(7);
+//
+    //    return parseFloat(feeString, 10);
+    //}
 
     async cancelOffer(offer) {
         const operations = [

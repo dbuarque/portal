@@ -45,7 +45,7 @@ export function validStellarNumber(original, options = {}) {
         result;
 
     // Truncate to a maximum of 7 decimal places if number has more than that.
-    if (result.dp() >= 7) {
+    if (result.dp() > 7) {
         result = result.toFixed(7, options.rm);
     }
     //result.valueOf will result in losing trailing zeros. Just return the original instead if no modifications were made.
