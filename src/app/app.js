@@ -22,13 +22,17 @@ export class App {
         this.pageTracker = pageTracker;
         this.appActionCreators = appActionCreators;
 
-        //Ensure that the wake event will get published to the eventAggregator if the browser comes back from sleep.
-        wakeEventEmitter.init();
+        // We only want to enable page refresh on wake outside of development because pausing the debugger
+        // on a breakpoint will trigger a "wake" event and refresh the page (which can get VERY annoying).
+        if (window.lupoex.env !== 'development') {
+            // Ensure that the wake event will get published to the eventAggregator if the browser comes back from sleep.
+            wakeEventEmitter.init();
 
-        //Handle the wake event.
-        eventAggregator.subscribe('wake', () => {
-            location.reload();
-        });
+            // Handle the wake event.
+            eventAggregator.subscribe('wake', () => {
+                location.reload();
+            });
+        }
 
         accountEffectAlerter.init();
 

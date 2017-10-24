@@ -26,15 +26,15 @@
                 <form submit.trigger="submit()" novalidate>
                     <div class="form-field">
                         <label>Price (${assetPair.buying.code}/${assetPair.selling.code})</label>
-                        <input type="number" class="form-control" value.bind="price">
+                        <input type="tel" class="form-control" value.bind="price & reflectModel">
                     </div>
                     <div class="form-field">
                         <label>${assetPair.selling.code}</label>
-                        <input type="number" class="form-control" value.bind="sellingAmount & reflectModel">
+                        <input type="tel" class="form-control" value.bind="sellingAmount & reflectModel">
                     </div>
                     <div class="form-field">
                         <label>${assetPair.buying.code}</label>
-                        <input type="number" class="form-control" value.bind="buyingAmount & reflectModel">
+                        <input type="tel" class="form-control" value.bind="buyingAmount & reflectModel">
                     </div>
                     <div if.bind="needsTrustline">
                         <div class="form-field">

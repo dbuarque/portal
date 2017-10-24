@@ -124,6 +124,9 @@ input:not([type]), input[type=text]:not(.browser-default), input[type=password]:
     height: 2rem;
     padding: 0 4px;
     margin-bottom: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 input.aurelia-flatpickr, .aurelia-flatpickr input {
