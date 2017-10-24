@@ -1,0 +1,22 @@
+<template>
+    <div class="asset-card card">
+        <div class="card-content no-heading">
+            <div class="card-body">
+                <table>
+                    <tr>
+                        <td width="70">
+                            <img src.one-time="imageSrc">
+                            <i class="fa fa-check fa-sub success-text" show.one-time="verified"></i>
+                            <i class="fa fa-exclamation fa-sub warning-text" show.one-time="!verified"></i>
+                        </td>
+                        <td>
+                            <h5>${assetCode & oneTime}</h5>
+                            <div show.one-time="homeDomain" class="primary-text">${homeDomain & oneTime}</div>
+                            <div>${issuerAddress & oneTime}</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</template>

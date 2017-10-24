@@ -394,3 +394,9 @@ input.valid:not([type]), input.valid:not([type]):focus, input[type=text].valid:n
 .tabs .tab {
     text-transform: none;
 }
+
+table {
+    td, th {
+        padding: 5px;
+    }
+}

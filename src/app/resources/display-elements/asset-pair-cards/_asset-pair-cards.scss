@@ -1,0 +1,15 @@
+
+.asset-pair-cards {
+    position: relative;
+    max-width: 320px;
+    display: inline-block;
+
+    .card {
+        margin-bottom: 0;
+    }
+
+    hr {
+        position: absolute;
+        top: 50%;
+    }
+}

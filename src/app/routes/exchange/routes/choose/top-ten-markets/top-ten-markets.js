@@ -34,20 +34,22 @@ export class TopTenMarkets {
 
         this.markets = await Promise.all(
             markets.map(m => {
-                return this.tomlCache.assetPairTomls({
-                    buying: {
+                return Promise.all([
+                    this.tomlCache.assetToml({
                         code: m.bought_asset_code,
                         issuer: m.bought_asset_issuer
-                    },
-                    selling: {
+                    }),
+                    this.tomlCache.assetToml({
                         code: m.sold_asset_code,
                         issuer: m.sold_asset_issuer
-                    }
-                })
-                    .then(tomls => {
-                        m.tomls = tomls;
-                        return m;
                     })
+                ])
+                    .then(tomls => {
+                        m.bought_asset_toml = tomls[0];
+                        m.sold_asset_toml = tomls[1];
+
+                        return m;
+                    });
             })
         );
 

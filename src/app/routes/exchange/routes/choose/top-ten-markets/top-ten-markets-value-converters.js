@@ -18,12 +18,20 @@ export class PercentGainValueConverter {
     }
 }
 
-export class MarketAssetValueConverter {
-    toView(market, prefix) {
+export class MarketToAssetPairValueConverter {
+    toView(market) {
         return {
-            type: market[prefix + '_asset_type'],
-            code: market[prefix + '_asset_code'],
-            issuer: market[prefix + '_asset_issuer']
+            buying: marketAsset(market, 'bought'),
+            selling: marketAsset(market, 'sold')
         };
     }
+}
+
+function marketAsset(market, prefix) {
+    return {
+        type: market[prefix + '_asset_type'],
+        code: market[prefix + '_asset_code'],
+        issuer: market[prefix + '_asset_issuer'],
+        toml: market[prefix + '_asset_toml']
+    };
 }

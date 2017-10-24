@@ -14,10 +14,6 @@
       tr {
         cursor: pointer;
 
-        &:hover {
-          background-color: $background;
-        }
-
         &:last-child {
           border-bottom-width: 0;
         }

@@ -35,22 +35,4 @@ export class TomlCache {
         const issuerToml = await this.issuerToml(issuer);
         return _find(issuerToml.CURRENCIES, currency => currency.issuer === issuer.accountId && currency.code === assetCode);
     }
-
-    async assetPairTomls(assetPair) {
-        const values = await Promise.all([
-            this.assetToml(
-                assetPair.buying.issuer,
-                assetPair.buying.code
-            ),
-            this.assetToml(
-                assetPair.selling.issuer,
-                assetPair.selling.code
-            )
-        ]);
-
-        return {
-            buying: values[0],
-            selling: values[1]
-        };
-    }
 }

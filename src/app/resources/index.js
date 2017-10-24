@@ -17,6 +17,7 @@ export function configure(config) {
         PLATFORM.moduleName('./widgets/stellar-entities-jqdt/stellar-entities-jqdt'),
         PLATFORM.moduleName('./widgets/lupoex-jqdt/lupoex-jqdt'),
         PLATFORM.moduleName('./dom-controls/stellar-address-input/stellar-address-input'),
-        PLATFORM.moduleName('./display-elements/market-tile/market-tile')
+        PLATFORM.moduleName('./display-elements/asset-card/asset-card'),
+        PLATFORM.moduleName('./display-elements/asset-pair-cards/asset-pair-cards')
     );
 }
