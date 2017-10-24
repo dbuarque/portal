@@ -5,20 +5,21 @@
 import {inject} from 'aurelia-framework';
 import {Store} from 'au-redux';
 import {EventHelper} from 'global-resources';
-import {MarketResource} from 'app-resources';
+import {MarketResource, TomlCache} from 'app-resources';
 import {ExchangeActionCreators} from '../../../exchange-action-creators';
 
-@inject(Element, Store, MarketResource, ExchangeActionCreators)
+@inject(Element, Store, MarketResource, TomlCache, ExchangeActionCreators)
 export class TopTenMarkets {
 
     markets = [];
     loading = 0;
     order = 'trade_count';
 
-    constructor(element, store, marketResource, exchangeActionCreators) {
+    constructor(element, store, marketResource, tomlCache, exchangeActionCreators) {
         this.element = element;
         this.store = store;
         this.marketResource = marketResource;
+        this.tomlCache = tomlCache;
         this.exchangeActionCreators = exchangeActionCreators;
     }
 
@@ -29,7 +30,26 @@ export class TopTenMarkets {
     async refresh() {
         this.loading++;
 
-        const markets = await this.marketResource.topTen(this.order);
+        let markets = await this.marketResource.topTen(this.order);
+
+        this.markets = await Promise.all(
+            markets.map(m => {
+                return this.tomlCache.assetPairTomls({
+                    buying: {
+                        code: m.bought_asset_code,
+                        issuer: m.bought_asset_issuer
+                    },
+                    selling: {
+                        code: m.sold_asset_code,
+                        issuer: m.sold_asset_issuer
+                    }
+                })
+                    .then(tomls => {
+                        m.tomls = tomls;
+                        return m;
+                    })
+            })
+        );
 
         this.loading--;
     }

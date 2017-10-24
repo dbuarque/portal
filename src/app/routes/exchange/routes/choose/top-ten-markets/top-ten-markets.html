@@ -33,8 +33,8 @@
                             <tbody>
                                 <tr repeat.for="market of markets" click.trigger="goToMarket(market)">
                                     <td>
-                                        <market-tile asset.bind="{code: market.bought_asset_code, issuer: market.bought_asset_issuer}"></market-tile>
-                                        <market-tile asset.bind="{code: market.bought_asset_code, issuer: market.bought_asset_issuer}"></market-tile>
+                                        <market-tile asset.one-time="market | marketAsset:'bought'" toml.one-time="market.tomls.buying"></market-tile>
+                                        <market-tile asset.one-time="market | marketAsset:'sold'" toml.one-time="market.tomls.selling"></market-tile>
                                     </td>
                                     <td>${market.trade_count}</td>
                                     <td innerhtml.bind="market.percent_gain | percentGain | sanitizeHTML"></td>

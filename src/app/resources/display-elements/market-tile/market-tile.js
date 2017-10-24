@@ -7,18 +7,22 @@ export class MarketTileCustomElement {
     @bindable toml;
 
     get imageSrc() {
-        return this.toml.image;
+        return this.toml ? this.toml.image : '';
     }
 
     get verified() {
-        return this.toml;
+        return this.asset.type === 'native' || this.toml;
     }
 
     get homeDomain() {
-        return this.asset.issuer.home_domain;
+        return this.asset.type !== 'native' ? this.asset.issuer.homeDomain : 'Native';
     }
 
     get issuerAddress() {
-        return this.asset.issuer.address;
+        return this.asset.type !== 'native' ? this.asset.issuer.accountId : '';
+    }
+
+    get assetCode() {
+        return this.asset.type !== 'native' ? this.asset.code : window.lupoex.stellar.nativeAssetCode;
     }
 }

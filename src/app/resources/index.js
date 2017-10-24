@@ -16,6 +16,7 @@ export function configure(config) {
         PLATFORM.moduleName('./value-converters/order'),
         PLATFORM.moduleName('./widgets/stellar-entities-jqdt/stellar-entities-jqdt'),
         PLATFORM.moduleName('./widgets/lupoex-jqdt/lupoex-jqdt'),
-        PLATFORM.moduleName('./dom-controls/stellar-address-input/stellar-address-input')
+        PLATFORM.moduleName('./dom-controls/stellar-address-input/stellar-address-input'),
+        PLATFORM.moduleName('./display-elements/market-tile/market-tile')
     );
 }
