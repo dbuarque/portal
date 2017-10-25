@@ -1,18 +1,23 @@
 <template>
-    <div class="asset-card card">
-        <div class="card-content no-heading">
+    <div class="asset-card card" class.bind="verified ? 'verified' : 'not-verified'" title.bind="description">
+        <div class="card-content">
             <div class="card-body">
                 <table>
                     <tr>
-                        <td width="70">
-                            <img src.one-time="imageSrc">
-                            <i class="fa fa-check fa-sub success-text" show.one-time="verified"></i>
-                            <i class="fa fa-exclamation fa-sub warning-text" show.one-time="!verified"></i>
+                        <td class="image-cell">
+                            <div class="image-wrapper">
+                                <img show.bind="loading === 0" src.bind="imageSrc">
+                                <i show.bind="loading > 0" class="fa fa-refresh primary-text fa-spin"></i>
+                            </div>
+                            <div class="verification">
+                                <i show.bind="verified" class="fa fa-check-circle-o success-text" title.bind="verifiedMessage"></i>
+                                <i show.bind="!verified" class="fa fa-exclamation-triangle warning-text" title.bind="verifiedMessage"></i>
+                            </div>
                         </td>
-                        <td>
-                            <h5>${assetCode & oneTime}</h5>
-                            <div show.one-time="homeDomain" class="primary-text">${homeDomain & oneTime}</div>
-                            <div>${issuerAddress & oneTime}</div>
+                        <td class="description-cell">
+                            <h6><strong>${assetCode & oneTime}</strong></h6>
+                            <div show.one-time="homeDomain" class="primary-text home-domain">${homeDomain & oneTime}</div>
+                            <div class="issuer-address">${issuerAddress & oneTime}</div>
                         </td>
                     </tr>
                 </table>

@@ -5,21 +5,20 @@
 import {inject} from 'aurelia-framework';
 import {Store} from 'au-redux';
 import {EventHelper} from 'global-resources';
-import {MarketResource, TomlCache} from 'app-resources';
+import {MarketResource} from 'app-resources';
 import {ExchangeActionCreators} from '../../../exchange-action-creators';
 
-@inject(Element, Store, MarketResource, TomlCache, ExchangeActionCreators)
+@inject(Element, Store, MarketResource, ExchangeActionCreators)
 export class TopTenMarkets {
 
     markets = [];
     loading = 0;
     order = 'trade_count';
 
-    constructor(element, store, marketResource, tomlCache, exchangeActionCreators) {
+    constructor(element, store, marketResource, exchangeActionCreators) {
         this.element = element;
         this.store = store;
         this.marketResource = marketResource;
-        this.tomlCache = tomlCache;
         this.exchangeActionCreators = exchangeActionCreators;
     }
 
@@ -30,28 +29,7 @@ export class TopTenMarkets {
     async refresh() {
         this.loading++;
 
-        let markets = await this.marketResource.topTen(this.order);
-
-        this.markets = await Promise.all(
-            markets.map(m => {
-                return Promise.all([
-                    this.tomlCache.assetToml({
-                        code: m.bought_asset_code,
-                        issuer: m.bought_asset_issuer
-                    }),
-                    this.tomlCache.assetToml({
-                        code: m.sold_asset_code,
-                        issuer: m.sold_asset_issuer
-                    })
-                ])
-                    .then(tomls => {
-                        m.bought_asset_toml = tomls[0];
-                        m.sold_asset_toml = tomls[1];
-
-                        return m;
-                    });
-            })
-        );
+        this.markets = await this.marketResource.topTen(this.order);
 
         this.loading--;
     }
@@ -71,11 +49,11 @@ export class TopTenMarkets {
         this.store.dispatch(this.exchangeActionCreators.updateAssetPair({
             buying: {
                 code:  market.bought_asset_type === 'native' ? nativeAssetCode : market.bought_asset_code,
-                issuer: market.bought_asset_type === 'native' ? undefined : market.bought_asset_issuer
+                issuer: market.bought_asset_type === 'native' ? undefined : market.bought_asset_issuer.accountId
             },
             selling: {
                 code: market.sold_asset_type === 'native' ? nativeAssetCode : market.sold_asset_code,
-                issuer: market.sold_asset_type === 'native' ? undefined : market.sold_asset_issuer
+                issuer: market.sold_asset_type === 'native' ? undefined : market.sold_asset_issuer.accountId
             }
         }));
 

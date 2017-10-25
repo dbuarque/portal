@@ -112,6 +112,7 @@ export class AssetCustomElement {
         return this.validationManager.validate();
     }
 
+    @computedFrom('issuer')
     get issuerHomeDomain() {
         const issuer = _find(this.issuers, {accountid: this.issuer});
         return issuer ? issuer.homedomain : '';
@@ -122,6 +123,7 @@ export class AssetCustomElement {
         return 'This asset code/issuer combination was verified by the owner of ' + this.issuerHomeDomain;
     }
 
+    @computedFrom('issuerHomeDomain')
     get notVerifiedExplanation() {
         return this.issuerHomeDomain ?
             'Anyone can publish an asset claiming to be from any domain on the stellar network. The owner of ' + this.issuerHomeDomain +

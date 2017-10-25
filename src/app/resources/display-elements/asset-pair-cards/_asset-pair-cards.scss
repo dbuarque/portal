@@ -1,6 +1,7 @@
 
 .asset-pair-cards {
     position: relative;
+    width: 100%;
     max-width: 320px;
     display: inline-block;
 
@@ -10,6 +11,15 @@
 
     hr {
         position: absolute;
-        top: 50%;
+        left: 5px;
+        right: 5px;
+
+        &.one {
+            top: 25%;
+        }
+
+        &.two {
+            bottom: 25%;
+        }
     }
 }

@@ -1,23 +1,25 @@
 .top-ten-markets {
-  .card-body {
-    padding: 0;
-  }
-
-  table {
-    thead {
-      th.sortable {
-        cursor: pointer;
-      }
+    .card-body {
+        padding: 0;
     }
 
-    tbody {
-      tr {
-        cursor: pointer;
+    .trade-link {
+        font-size: 14px;
+    }
 
-        &:last-child {
-          border-bottom-width: 0;
+    table {
+        thead {
+            th.sortable {
+                cursor: pointer;
+            }
         }
-      }
+
+        tbody {
+            tr {
+                &:last-child {
+                    border-bottom-width: 0;
+                }
+            }
+        }
     }
-  }
 }

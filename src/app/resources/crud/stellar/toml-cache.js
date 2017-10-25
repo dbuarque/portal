@@ -6,25 +6,26 @@ import {StellarServer} from 'global-resources';
 @inject(StellarServer)
 export class TomlCache {
 
-    issuerTomls = {};
+    promises = {};
 
     constructor(stellarServer) {
         this.stellarServer = stellarServer;
     }
 
     refresh() {
-        this.issuerTomls = {};
+        this.promises = {};
     }
 
-    async issuerToml(issuer) {
+    issuerToml(issuer) {
         if (!issuer || !issuer.homeDomain) {
             return null;
         }
 
-        this.issuerTomls[issuer.homeDomain] = this.issuerTomls[issuer.homeDomain] ||
-            await this.stellarServer.sdk.StellarTomlResolver.resolve(issuer.homeDomain);
+        if (!this.promises[issuer.homeDomain]) {
+            this.promises[issuer.homeDomain] = this.stellarServer.sdk.StellarTomlResolver.resolve(issuer.homeDomain);
+        }
 
-        return this.issuerTomls[issuer.homeDomain];
+        return this.promises[issuer.homeDomain];
     }
 
     async assetToml(issuer, assetCode) {
@@ -33,6 +34,8 @@ export class TomlCache {
         }
 
         const issuerToml = await this.issuerToml(issuer);
-        return _find(issuerToml.CURRENCIES, currency => currency.issuer === issuer.accountId && currency.code === assetCode);
+        return issuerToml ?
+            _find(issuerToml.CURRENCIES, currency => currency.issuer === issuer.accountId && currency.code === assetCode) :
+            null;
     }
 }

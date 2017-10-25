@@ -1,6 +1,63 @@
 .asset-card {
-    img {
-        height: 60px;
-        width: 60px;
+    padding: 3px;
+
+    &.verified {
+        border: 1px solid $success;
+
+        .verification {
+            border-top: 1px solid $success;
+            border-right: 1px solid $success;
+        }
+    }
+
+    &.not-verified {
+        border: 1px solid $warning;
+
+        .verification {
+            border-top: 1px solid $warning;
+            border-right: 1px solid $warning;
+        }
+    }
+
+    i {
+        margin: auto;
+    }
+
+    .home-domain {
+        word-break: break-all;
+    }
+
+    td {
+        padding: 2px;
+
+        &.image-cell {
+            position: relative;
+            width: 49px;
+
+            .image-wrapper, img {
+                height: 45px;
+                width: 45px;
+            }
+
+            .verification {
+                position: absolute;
+                bottom: -3px;
+                left: -3px;
+                background: #fff;
+                padding: 3px;
+                height: auto;
+                top: auto;
+                right: auto;
+                line-height: 16px;
+            }
+        }
+
+        &.description-cell {
+            background: #fff;
+            .home-domain, .issuer-address {
+                font-size: 12px;
+            }
+            overflow: hidden;
+        }
     }
 }

@@ -14,7 +14,7 @@
                         <i>No markets trading in the last 24 hours.</i>
                     </div>
                     <div show.bind="markets.length > 0">
-                        <table class="centered bordered">
+                        <table class="hide-on-small-only centered bordered">
                             <thead>
                                 <tr>
                                     <th>
@@ -28,20 +28,57 @@
                                         Change (%)
                                         <span show.bind="order === 'percent_gain'">&nbsp;<i class="fa fa-caret-down primary-text"></i></span>
                                     </th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr repeat.for="market of markets" click.trigger="goToMarket(market)">
+                                <tr repeat.for="market of markets">
                                     <td>
                                         <asset-pair-cards asset-pair.one-time="market | marketToAssetPair"></asset-pair-cards>
                                     </td>
                                     <td>${market.trade_count}</td>
                                     <td innerhtml.bind="market.percent_gain | percentGain | sanitizeHTML"></td>
+                                    <td>
+                                        <a href="javascript:void(0)" click.trigger="goToMarket(market)" class="primary-text trade-link">
+                                            Trade<br><i class="fa fa-arrow-right"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="hide-on-med-and-up centered bordered">
+                            <tbody>
+                                <tr repeat.for="market of markets">
+                                    <td>
+                                        <asset-pair-cards asset-pair.one-time="market | marketToAssetPair"></asset-pair-cards>
+                                        <div class="show-on-small-only">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <div>
+                                                            Trade Count:
+                                                            ${market.trade_count}
+                                                        </div>
+                                                        <div>
+                                                            Percent Gain:
+                                                            <span innerhtml.one-time="market.percent_gain | percentGain | sanitizeHTML"></span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="javascript:void(0)" click.trigger="goToMarket(market)" class="primary-text trade-link">
+                                            Trade<br><i class="fa fa-arrow-right"></i>
+                                        </a>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <spinner-overlay spin.bind="loading > 0"></spinner-overlay>
+                    <spinner-overlay size="2x" spin.bind="loading > 0"></spinner-overlay>
                 </div>
             </div>
         </div>
