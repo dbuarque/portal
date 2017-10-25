@@ -11,18 +11,18 @@
     <div class="detail">
         <div class="row">
             <div class="col l8">
-                <!--<div class="hide-on-large-only">-->
-                    <!--<general-info></general-info>-->
-                <!--</div>-->
+                <div class="hide-on-med-and-up">
+                    <asset-pair-cards asset-pair.bind="assetPair"></asset-pair-cards>
+                </div>
 
                 <tradingview-price-chart></tradingview-price-chart>
 
                 <orderbook></orderbook>
             </div>
             <div class="col l4">
-                <!--<div class="hide-on-med-and-down">-->
-                    <!--<general-info></general-info>-->
-                <!--</div>-->
+                <div class="hide-on-small-only">
+                    <asset-pair-cards asset-pair.bind="assetPair"></asset-pair-cards>
+                </div>
 
                 <orderbook-chart if.one-time="!isMobile"></orderbook-chart>
 

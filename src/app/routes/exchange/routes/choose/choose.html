@@ -5,14 +5,15 @@
     <require from="./favorite-markets/favorite-markets"></require>
     <div class="choose">
         <div class="row">
-            <div class="col l6">
+            <div class="col l6 offset-l3">
                 <getting-started></getting-started>
-                <top-ten-markets load.trigger="load()"></top-ten-markets>
+                <asset-pair-cards asset-pair.bind="assetPair"></asset-pair-cards>
+                <top-ten-markets></top-ten-markets>
                 <!--<favorite-markets></favorite-markets>-->
             </div>
-            <div class="col l6">
+            <!--<div class="col l6">
                 <search-assets load.trigger="load()"></search-assets>
-            </div>
+            </div>-->
         </div>
     </div>
 </template>

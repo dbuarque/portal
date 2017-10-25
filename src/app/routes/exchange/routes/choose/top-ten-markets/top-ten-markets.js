@@ -7,19 +7,21 @@ import {Store} from 'au-redux';
 import {EventHelper} from 'global-resources';
 import {MarketResource} from 'app-resources';
 import {ExchangeActionCreators} from '../../../exchange-action-creators';
+import {MarketToAssetPairValueConverter} from "./top-ten-markets-value-converters";
 
-@inject(Element, Store, MarketResource, ExchangeActionCreators)
+@inject(Element, Store, MarketResource, ExchangeActionCreators, MarketToAssetPairValueConverter)
 export class TopTenMarkets {
 
     markets = [];
     loading = 0;
     order = 'trade_count';
 
-    constructor(element, store, marketResource, exchangeActionCreators) {
+    constructor(element, store, marketResource, exchangeActionCreators, marketToAssetPair) {
         this.element = element;
         this.store = store;
         this.marketResource = marketResource;
         this.exchangeActionCreators = exchangeActionCreators;
+        this.marketToAssetPair = marketToAssetPair;
     }
 
     bind() {
@@ -43,20 +45,9 @@ export class TopTenMarkets {
         this.refresh();
     }
 
-    goToMarket(market) {
-        const nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
-
-        this.store.dispatch(this.exchangeActionCreators.updateAssetPair({
-            buying: {
-                code:  market.bought_asset_type === 'native' ? nativeAssetCode : market.bought_asset_code,
-                issuer: market.bought_asset_type === 'native' ? undefined : market.bought_asset_issuer.accountId
-            },
-            selling: {
-                code: market.sold_asset_type === 'native' ? nativeAssetCode : market.sold_asset_code,
-                issuer: market.sold_asset_type === 'native' ? undefined : market.sold_asset_issuer.accountId
-            }
-        }));
-
-        EventHelper.emitEvent(this.element, 'load');
+    chooseMarket(market) {
+        EventHelper.emitEvent(this.element, 'choose', {
+            detail: this.marketToAssetPair.toView(market)
+        });
     }
 }

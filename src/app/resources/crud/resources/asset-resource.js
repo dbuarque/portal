@@ -27,15 +27,12 @@ export class AssetResource extends BaseResource {
     }
 
     /**
-     * Finds a single market
+     * Finds a single asset
      * @param code
      * @param issuer
      * @returns {*}
      */
-    findOne(code, issuer) {
-        return this.get('/FindOne', {
-            code,
-            issuer
-        });
+    asset(code, issuer) {
+        return this.get('/' + code + '/' + issuer);
     }
 }

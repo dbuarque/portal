@@ -28,7 +28,6 @@
                                         Change (%)
                                         <span show.bind="order === 'percent_gain'">&nbsp;<i class="fa fa-caret-down primary-text"></i></span>
                                     </th>
-                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -38,11 +37,6 @@
                                     </td>
                                     <td>${market.trade_count}</td>
                                     <td innerhtml.bind="market.percent_gain | percentGain | sanitizeHTML"></td>
-                                    <td>
-                                        <a href="javascript:void(0)" click.trigger="goToMarket(market)" class="primary-text trade-link">
-                                            Trade<br><i class="fa fa-arrow-right"></i>
-                                        </a>
-                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -68,11 +62,6 @@
                                                 </tr>
                                             </table>
                                         </div>
-                                    </td>
-                                    <td>
-                                        <a href="javascript:void(0)" click.trigger="goToMarket(market)" class="primary-text trade-link">
-                                            Trade<br><i class="fa fa-arrow-right"></i>
-                                        </a>
                                     </td>
                                 </tr>
                             </tbody>

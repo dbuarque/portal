@@ -40,18 +40,20 @@ export class Detail {
         myAssetPairUpdater.init();
     }
     
-    activate(params) {
+    async activate(params) {
         const nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
         
-        this.store.dispatch(this.exchangeActionCreators.updateAssetPair(
+        await this.store.dispatch(this.exchangeActionCreators.updateAssetPair(
             {
                 buying: {
                     code: params.buyingCode,
-                    issuer: params.buyingCode === nativeAssetCode ? undefined : params.buyingIssuer
+                    issuer: params.buyingType.toLowerCase() === 'native' ? null : params.buyingIssuer,
+                    type: params.buyingType
                 },
                 selling: {
                     code: params.sellingCode,
-                    issuer: params.sellingCode === nativeAssetCode ? undefined : params.sellingIssuer
+                    issuer: params.sellingType.toLowerCase() === 'native' ? null : params.sellingIssuer,
+                    type: params.sellingType
                 }
             }
         ));

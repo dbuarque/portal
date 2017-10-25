@@ -11,6 +11,7 @@ import {ExchangeActionCreators} from '../../../exchange-action-creators';
 @inject(Element, Store, ExchangeActionCreators)
 export class SearchAssetsCustomElement {
 
+    loading = 0;
     size = 16;
 
     constructor(element, store, exchangeActionCreators) {
@@ -37,7 +38,9 @@ export class SearchAssetsCustomElement {
         }
     }
 
-    load() {
+    async load() {
+        this.loading++;
+
         const sellingValid = this.sellingAssetVm.validate();
         const buyingValid = this.buyingAssetVm.validate();
         if (!sellingValid || !buyingValid) {
@@ -55,7 +58,9 @@ export class SearchAssetsCustomElement {
             this.alertConfig = undefined;
         }
 
-        this.store.dispatch(this.exchangeActionCreators.updateAssetPair(this.assetPair));
+        await this.store.dispatch(this.exchangeActionCreators.updateAssetPair(this.assetPair));
+
+        this.loading--;
 
         EventHelper.emitEvent(this.element, 'load');
     }

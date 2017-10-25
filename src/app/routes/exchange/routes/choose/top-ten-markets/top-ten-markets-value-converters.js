@@ -31,7 +31,6 @@ function marketAsset(market, prefix) {
     return {
         type: market[prefix + '_asset_type'],
         code: market[prefix + '_asset_code'],
-        issuer: market[prefix + '_asset_issuer'],
-        toml: market[prefix + '_asset_toml']
+        issuer: market[prefix + '_asset_issuer']
     };
 }
