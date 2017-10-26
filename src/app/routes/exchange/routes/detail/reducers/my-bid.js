@@ -2,13 +2,10 @@
  * Created by istrauss on 9/18/2017.
  */
 
-import BigNumber from 'bignumber.js';
-import {validStellarNumber} from 'app-resources';
-import {exchangeActionTypes} from '../../../exchange-action-types';
+import {UPDATE_ASSET_PAIR} from '../../../exchange-action-types';
 import {detailActionTypes} from '../detail-action-types';
 import {isNewAssetPair, calculateNewOrder} from './helpers';
 
-const {UPDATE_ASSET_PAIR} = exchangeActionTypes;
 const {UPDATE_ORDERBOOK, UPDATE_MY_BID} = detailActionTypes;
 
 export function myBid(state, action, rootState) {

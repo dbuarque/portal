@@ -3,10 +3,8 @@
  */
 
 import {inject} from 'aurelia-framework';
-import {exchangeActionTypes} from './exchange-action-types';
+import {UPDATE_ASSET_PAIR} from './exchange-action-types';
 import {AssetResource} from 'app-resources';
-
-const {UPDATE_ASSET_PAIR} = exchangeActionTypes;
 
 @inject(AssetResource)
 export class ExchangeActionCreators {
@@ -20,6 +18,7 @@ export class ExchangeActionCreators {
             const oldAssetPair = getState().exchange.assetPair;
 
             if (
+                oldAssetPair &&
                 compareAssets(assetPair.buying, oldAssetPair.buying) &&
                 compareAssets(assetPair.selling, oldAssetPair.selling)
             ) {
@@ -33,8 +32,11 @@ export class ExchangeActionCreators {
             ]);
 
             return dispatch({
-                buying: assets[0],
-                selling: assets[1]
+                type: UPDATE_ASSET_PAIR,
+                payload: {
+                    buying: assets[0],
+                    selling: assets[1]
+                }
             });
         };
     }
@@ -67,9 +69,13 @@ export class ExchangeActionCreators {
 }
 
 function compareAssets(newAsset, oldAsset) {
-    const newIssuerAddress = newAsset.issuer.accountId || newAsset.issuer;
+    if (!oldAsset) {
+        return false;
+    }
+
+    const newIssuerAddress = newAsset.issuer && newAsset.issuer.accountId ? newAsset.issuer.accountId : newAsset.issuer;
     const newCode = newAsset.code;
-    const oldIssuerAddress = oldAsset.issuer.accountId;
+    const oldIssuerAddress = oldAsset.issuer ? oldAsset.issuer.accountId : newAsset.issuer;
     const oldCode = oldAsset.code;
 
     return newIssuerAddress === oldIssuerAddress && newCode === oldCode;

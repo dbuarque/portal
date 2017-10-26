@@ -1,5 +1,29 @@
+.asset-card-container.selectable {
+    border: solid $light-gray 1px;
+    min-height: 56px;
+    background: #fff;
+    z-index: 2;
+    box-shadow: $shadow1;
+    cursor: pointer;
+    vertical-align: middle;
+    text-align: center;
+
+    .no-asset {
+        color: $light-gray;
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 56px;
+    }
+}
+
 .asset-card {
-    padding: 3px;
+    z-index: 2;
+    padding: 2px;
+    text-align: left;
+
+    .card-body {
+        padding: 0;
+    }
 
     &.verified {
         border: 1px solid $success;
@@ -28,36 +52,46 @@
     }
 
     td {
-        padding: 2px;
+        padding: 1px;
 
         &.image-cell {
             position: relative;
-            width: 49px;
+            width: 42px;
+            background: #fff;
 
             .image-wrapper, img {
-                height: 45px;
-                width: 45px;
+                height: 40px;
+                width: 40px;
             }
 
             .verification {
                 position: absolute;
-                bottom: -3px;
-                left: -3px;
+                bottom: -2px;
+                left: -2px;
                 background: #fff;
-                padding: 3px;
+                padding: 2px;
                 height: auto;
                 top: auto;
                 right: auto;
-                line-height: 16px;
+                line-height: 14px;
             }
         }
 
         &.description-cell {
             background: #fff;
-            .home-domain, .issuer-address {
-                font-size: 12px;
-            }
             overflow: hidden;
+
+            .asset-code {
+                font-size: 14px;
+            }
+
+            .home-domain {
+                font-size: 10px;
+            }
+
+            .issuer-address {
+                font-size: 9px;
+            }
         }
     }
 }

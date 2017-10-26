@@ -73,5 +73,5 @@ function accountDebitedMessage(e) {
 }
 
 function assetDetailsToText(amount, assetType, assetCode) {
-    return amount + ' ' + (assetType === 'native' ? window.lupoex.stellar.nativeAssetCode : assetCode);
+    return amount + ' ' + (assetType.toLowerCase() === 'native' ? window.lupoex.stellar.nativeAssetCode : assetCode);
 }

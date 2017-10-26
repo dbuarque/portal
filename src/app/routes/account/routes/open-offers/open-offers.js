@@ -41,7 +41,6 @@ export class OpenOffers {
         this.config = config;
         this.accountResource = accountResource;
         this.offerService = offerService;
-        this.nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
     }
 
     refresh() {

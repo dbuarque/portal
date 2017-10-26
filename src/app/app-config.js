@@ -37,7 +37,7 @@ export class AppConfig {
                     breadcrumb: true
                 },
                 {
-                    route: ['send-payment/:code/:issuer'],
+                    route: ['send-payment/:type/:code/:issuer'],
                     name: 'send-payment',
                     moduleId: PLATFORM.moduleName('./routes/send-payment/send-payment'),
                     accountRequired: true,

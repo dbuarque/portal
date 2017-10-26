@@ -3,11 +3,10 @@
  */
 
 import BigNumber from 'bignumber.js';
-import {exchangeActionTypes} from '../../../exchange-action-types';
+import {UPDATE_ASSET_PAIR} from '../../../exchange-action-types';
 import {detailActionTypes} from '../detail-action-types';
 import {isNewAssetPair} from './helpers';
 
-const {UPDATE_ASSET_PAIR} = exchangeActionTypes;
 const {UPDATE_ORDERBOOK} = detailActionTypes;
 
 export function orderbook(state, action, rootState) {

@@ -138,3 +138,12 @@
         }
     }
 }
+
+.refresh-button {
+    font-size: 15px;
+    cursor: pointer;
+
+    &:hover {
+        color: $primary;
+    }
+}

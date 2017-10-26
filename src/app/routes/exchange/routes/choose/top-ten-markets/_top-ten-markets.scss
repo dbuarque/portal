@@ -15,9 +15,13 @@
         }
 
         tbody {
-            cursor: pointer;
             
             tr {
+                cursor: pointer;
+                &:hover {
+                    background: $light-gray;
+                }
+
                 &:last-child {
                     border-bottom-width: 0;
                 }

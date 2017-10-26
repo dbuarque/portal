@@ -1,19 +1,22 @@
 <template>
-    <require from="./search-assets/search-assets"></require>
     <require from="./getting-started/getting-started"></require>
     <require from="./top-ten-markets/top-ten-markets"></require>
-    <require from="./favorite-markets/favorite-markets"></require>
+    <!--<require from="./favorite-markets/favorite-markets"></require>-->
     <div class="choose">
         <div class="row">
             <div class="col l6 offset-l3">
                 <getting-started></getting-started>
-                <asset-pair-cards asset-pair.bind="assetPair"></asset-pair-cards>
+                <div class="row asset-pair-row">
+                    <div class="col l6 offset-l3 m8 offset-m2 center-text">
+                        <asset-pair-cards selectable.bind="true" asset-pair.bind="assetPair"></asset-pair-cards>
+                        <button click.trigger="goTrade()" class="btn primary" disabled.bind="!assetPair.buying || !assetPair.selling">
+                            Trade&nbsp;<i class="fa fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
                 <top-ten-markets></top-ten-markets>
                 <!--<favorite-markets></favorite-markets>-->
             </div>
-            <!--<div class="col l6">
-                <search-assets load.trigger="load()"></search-assets>
-            </div>-->
         </div>
     </div>
 </template>

@@ -22,7 +22,7 @@ export class CreateOffer {
 
     @computedFrom('buyingAsset')
     get needsTrustline() {
-        return this.buyingAsset ? this.buyingAsset.code !== window.lupoex.stellar.nativeAssetCode : false;
+        return this.buyingAsset ? this.buyingAsset.type.toLowerCase() !== 'native' : false;
     }
 
     @computedFrom('myBuyingAsset', 'buyingAmount')
@@ -44,7 +44,7 @@ export class CreateOffer {
 
     async modifyLimit() {
         try {
-            await this.trustService.modifyLimit(this.buyingAsset.code, this.buyingAsset.issuer);
+            await this.trustService.modifyLimit(this.buyingAsset.type, this.buyingAsset.code, this.buyingAsset.issuer);
         }
         catch(e) {}
     }

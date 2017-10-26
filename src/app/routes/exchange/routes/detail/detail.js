@@ -41,8 +41,6 @@ export class Detail {
     }
     
     async activate(params) {
-        const nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
-        
         await this.store.dispatch(this.exchangeActionCreators.updateAssetPair(
             {
                 buying: {

@@ -2,7 +2,7 @@
  * Created by istrauss on 5/19/2017.
  */
 
-import {inject} from 'aurelia-framework';
+import {inject, computedFrom} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {Store} from 'au-redux';
 import {ModalService, ValidationManager, StellarServer} from 'global-resources';
@@ -20,6 +20,11 @@ export class SendPayment {
         dismissible: false
     };
 
+    @computedFrom('type')
+    get isNative() {
+        return this.type.toLowerCase() === 'native';
+    }
+
     constructor(router, modalService, store, validationManager, stellarServer, accountResource, transactionService, appActionCreators) {
         this.router = router;
         this.modalService = modalService;
@@ -34,7 +39,7 @@ export class SendPayment {
     }
 
     activate(params) {
-        this.nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
+        this.type = params.type;
         this.code = params.code;
         this.issuer = params.issuer;
         this.destination = params.destination;
@@ -96,7 +101,7 @@ export class SendPayment {
 
             //Destination account doest exist? Let's try to create it (if the user is sending native asset).
             if (!destinationAccount) {
-                if (this.code === this.nativeAssetCode) {
+                if (this.isNative) {
                     const mimimumAmount = window.lupoex.stellar.minimumNativeBalance + 1;
 
                     if (parseInt(this.amount, 10) < mimimumAmount) {
@@ -129,7 +134,7 @@ export class SendPayment {
                     this.stellarServer.sdk.Operation.payment({
                         destination: this.destination,
                         amount: this.amount.toString(),
-                        asset: this.code === this.nativeAssetCode ?
+                        asset: this.isNative ?
                             this.stellarServer.sdk.Asset.native() :
                             new this.stellarServer.sdk.Asset(this.code, this.issuer)
                     })

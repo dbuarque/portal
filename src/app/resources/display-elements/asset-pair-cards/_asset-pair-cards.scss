@@ -9,17 +9,28 @@
         margin-bottom: 0;
     }
 
+    .col1 {
+        padding-right: 15px;
+    }
+
+    .col2 {
+        padding-left: 15px;
+    }
+
     hr {
         position: absolute;
-        left: 5px;
-        right: 5px;
+        left: 50%;
+        right: 50%;
+        margin-left: -15px;
+        margin-right: -15px;
+        z-index: 1;
 
-        &.one {
-            top: 25%;
+        &.hr-one {
+            top: 15%;
         }
 
-        &.two {
-            bottom: 25%;
+        &.hr-two {
+            bottom: 15%;
         }
     }
 }

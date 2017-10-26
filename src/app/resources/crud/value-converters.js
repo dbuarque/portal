@@ -7,7 +7,7 @@ import {inject} from 'aurelia-framework';
 export class AssetUrlValueConverter {
     toView(asset) {
         return '/' + asset.code +
-            '/' + (asset.code === window.lupoex.stellar.nativeAssetCode ? 'native' : asset.issuer);
+            '/' + (asset.type.toLowerCase() === 'native' ? 'Stellar' : asset.issuer);
     }
 }
 

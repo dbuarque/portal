@@ -40,6 +40,7 @@ export class OfferModal {
 
     async activate(params) {
         this.modalVM = params.modalVM;
+        this.type = params.passedInfo.type;
         this.code = params.passedInfo.code;
         this.issuer = params.passedInfo.issuer;
 
@@ -63,7 +64,7 @@ export class OfferModal {
 
         this.modalVM.close([
             this.stellarServer.sdk.Operation.changeTrust({
-                asset: this.code === this.nativeAssetCode ?
+                asset: this.type.toLowerCase() === 'native' ?
                     this.stellarServer.sdk.Asset.native() :
                     new this.stellarServer.sdk.Asset(this.code, this.issuer),
                 limit: this.newLimit

@@ -30,7 +30,6 @@ export class EffectHistory {
     constructor(config, accountResource) {
         this.config = config;
         this.accountResource = accountResource;
-        this.nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
     }
 
     refresh() {

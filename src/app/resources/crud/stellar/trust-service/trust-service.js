@@ -27,7 +27,7 @@ export class TrustService {
      * @param issuer
      * @returns {*}
      */
-    async modifyLimit(code, issuer) {
+    async modifyLimit(type, code, issuer) {
         if (!this.store.getState().myAccount) {
             const errorMessage = 'You must be logged in to modify trust. Please log in and try again.';
             this.alertToaster.error(errorMessage);
@@ -36,6 +36,7 @@ export class TrustService {
 
         const operations = await this.modalService.open(PLATFORM.moduleName('app/resources/crud/stellar/trust-service/trust-modal/trust-modal'),
             {
+                type,
                 code,
                 issuer,
                 title: 'Modify ' + code + ' Trust Limit'

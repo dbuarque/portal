@@ -1,5 +1,5 @@
 <template>
-    <require from="./top-ten-markets-value-converters"></require>
+    <require from="../choose-value-converters"></require>
     <div class="top-ten-markets">
         <div class="card">
             <div class="card-content">
@@ -7,7 +7,7 @@
                     <div class="card-title">
                         Top Ten Markets
                     </div>
-                    <i style="font-size: 15px;" class="fa fa-refresh right" no-collapse click.trigger="refresh()"></i>
+                    <i class="fa fa-refresh right refresh-button" no-collapse click.trigger="refresh()"></i>
                 </div>
                 <div class="card-body">
                     <div show.bind="markets.length === 0">
@@ -31,7 +31,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr repeat.for="market of markets">
+                                <tr repeat.for="market of markets" click.delegate="chooseMarket(market)">
                                     <td>
                                         <asset-pair-cards asset-pair.one-time="market | marketToAssetPair"></asset-pair-cards>
                                     </td>
@@ -43,7 +43,7 @@
 
                         <table class="hide-on-med-and-up centered bordered">
                             <tbody>
-                                <tr repeat.for="market of markets">
+                                <tr repeat.for="market of markets" click.delegate="chooseMarket(market)">
                                     <td>
                                         <asset-pair-cards asset-pair.one-time="market | marketToAssetPair"></asset-pair-cards>
                                         <div class="show-on-small-only">

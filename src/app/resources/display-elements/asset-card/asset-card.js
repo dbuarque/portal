@@ -1,15 +1,17 @@
 
 import {bindable, computedFrom, inject} from 'aurelia-framework';
+import {awaitedBindable} from "global-resources";
 import {shortenAddress, TomlCache} from "app-resources";
 
 @inject(TomlCache)
 export class AssetCardCustomElement {
 
+    @bindable selectable;
     @bindable asset;
 
     loading = 0;
 
-    @computedFrom('toml')
+    @computedFrom('asset', 'toml')
     get imageSrc() {
         return this.asset.type === 'native' ?
             '/assets/stellar-rocket-144x144.png' :
@@ -18,7 +20,7 @@ export class AssetCardCustomElement {
                 '/assets/font-awesome_4-7-0_question-circle-o_144_10_e0e0e0_none.png';
     }
 
-    @computedFrom('toml')
+    @computedFrom('asset', 'toml')
     get verified() {
         return this.asset.type === 'native' || this.toml;
     }
@@ -57,7 +59,7 @@ export class AssetCardCustomElement {
                 this.asset.code;
     }
 
-    @computedFrom('toml')
+    @computedFrom('asset', 'toml')
     get description() {
         return this.asset.type === 'native' ?
             window.lupoex.stellar.nativeAssetCode + ' is the native asset used to power the stellar network.' :
@@ -66,19 +68,29 @@ export class AssetCardCustomElement {
                 this.asset.code + ' asset';
     }
 
-    constructor(tomlCache) {
-        this.tomlCache = tomlCache;
-    }
+    @awaitedBindable()
+    @computedFrom('asset')
+    get toml() {
+        if (!this.asset) {
+            return null;
+        }
 
-    async assetChanged() {
         if (this.asset.type === 'native') {
-            return;
+            return null;
         }
 
         this.loading++;
 
-        this.toml = await this.tomlCache.assetToml(this.asset.issuer, this.asset.code);
+        return this.tomlCache.assetToml(this.asset.issuer, this.asset.code)
+            .then(toml => {
+                this.loading--;
 
-        this.loading--;
+                return toml;
+            });
+
+    }
+
+    constructor(tomlCache) {
+        this.tomlCache = tomlCache;
     }
 }

@@ -1,1 +1,10 @@
-@import 'top-ten-markets/top-ten-markets';
+.choose {
+    @import 'top-ten-markets/top-ten-markets';
+
+    .asset-pair-row {
+
+        button {
+            margin-bottom: 10px;
+        }
+    }
+}

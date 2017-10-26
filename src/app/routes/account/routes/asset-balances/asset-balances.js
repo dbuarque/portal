@@ -34,7 +34,7 @@ export class AssetBalances {
             const data = $('<span style="margin-right: 10px;">' + this.sanitizeHTML.toView(rowData.trustLimit) + '</span>');
             const modify = $('<a href="javascript:void(0)" class="primary-text">modify</a>&nbsp;')
                 .click(e => {
-                    vm.trustService.modifyLimit(rowData.assetCode, rowData.issuerId)
+                    vm.trustService.modifyLimit(rowData.assetType, rowData.assetCode, rowData.issuerId)
                         .then(vm.refresh.bind(vm))
                         .catch(e => {});
                 });
@@ -59,9 +59,11 @@ export class AssetBalances {
     }
 
     goToSendPayment(balance) {
+        const isNative = balance.assetType.toLowerCase() === 'native';
         this.router.parent.navigateToRoute('send-payment', {
-            code: balance.assetType === 'Native' ? window.lupoex.stellar.nativeAssetCode : balance.assetCode,
-            issuer: balance.assetType === 'Native' ? 'Native' : balance.issuerId
+            type: balance.assetType,
+            code: isNative ? window.lupoex.stellar.nativeAssetCode : balance.assetCode,
+            issuer: isNative ? 'Stellar' : balance.issuerId
         });
     }
 

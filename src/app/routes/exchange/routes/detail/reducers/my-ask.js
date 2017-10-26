@@ -2,12 +2,10 @@
  * Created by istrauss on 9/18/2017.
  */
 
-import {exchangeActionTypes} from '../../../exchange-action-types';
-import {validStellarNumber} from 'app-resources';
+import {UPDATE_ASSET_PAIR} from '../../../exchange-action-types';
 import {detailActionTypes} from '../detail-action-types';
 import {isNewAssetPair, calculateNewOrder} from './helpers';
 
-const {UPDATE_ASSET_PAIR} = exchangeActionTypes;
 const {UPDATE_ORDERBOOK, UPDATE_MY_ASK} = detailActionTypes;
 
 export function myAsk(state, action, rootState) {

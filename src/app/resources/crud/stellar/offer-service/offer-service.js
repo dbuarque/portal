@@ -59,15 +59,14 @@ export class OfferService {
         const operations = [];
 
         try {
-            const nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
             //const fee = await this.calculateFee(amount, sellingAsset);
             //const sellingAmount = (new BigNumber(amount)).minus(fee).toFixed(7);
 
             const offerOp = this.stellarServer.sdk.Operation.manageOffer({
-                selling: sellingAsset.code === nativeAssetCode ?
+                selling: sellingAsset.type.toLowerCase() === 'native' ?
                     this.stellarServer.sdk.Asset.native() :
                     new this.stellarServer.sdk.Asset(sellingAsset.code, sellingAsset.issuer),
-                buying: buyingAsset.code === nativeAssetCode ?
+                buying: buyingAsset.type.toLowerCase() === 'native' ?
                     this.stellarServer.sdk.Asset.native() :
                     new this.stellarServer.sdk.Asset(buyingAsset.code, buyingAsset.issuer),
                 amount: validStellarNumber(amount),

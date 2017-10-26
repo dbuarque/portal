@@ -13,7 +13,6 @@ export class OfferModal {
     }
 
     activate(params) {
-        this.nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
         this.modalVM = params.modalVM;
         this.type = params.passedInfo.type || 'bid';
         this.amount = params.passedInfo.amount;
