@@ -1,13 +1,20 @@
 <template>
     <div class="asset-pair-cards">
-        <hr class="hr-one">
-        <hr class="hr-two">
         <div class="row">
-            <div class="col col1 s6">
-                <asset-card selectable.bind="selectable" asset.bind="assetPair.buying"></asset-card>
-            </div>
-            <div class="col col2 s6">
-                <asset-card selectable.bind="selectable" asset.bind="assetPair.selling"></asset-card>
+            <div class="col col1 s6 center-text">Buying</div>
+            <div class="col col2 s6">Selling</div>
+        </div>
+        <div class="cards-container">
+            <hr class="hr-one">
+            <hr class="hr-two">
+            <i show.bind="switchAssets" click.trigger="switchAssets()" class="fa fa-exchange primary-text"></i>
+            <div class="row">
+                <div class="col col1 s6 center-text">
+                    <asset-card selectable.bind="selectable" asset.bind="assetPair.buying"></asset-card>
+                </div>
+                <div class="col col2 s6">
+                    <asset-card selectable.bind="selectable" asset.bind="assetPair.selling"></asset-card>
+                </div>
             </div>
         </div>
     </div>

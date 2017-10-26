@@ -5,16 +5,20 @@
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {Store, connected} from 'au-redux';
+import {ExchangeActionCreators} from '../../exchange-action-creators';
 
-@inject(Router, Store)
+@inject(Router, Store, ExchangeActionCreators)
 export class Choose {
 
     @connected('exchange.assetPair')
     assetPair;
 
-    constructor(router, store) {
+    constructor(router, store, exchangeActionCreators) {
         this.router = router;
         this.store = store;
+        this.exchangeActionCreators = exchangeActionCreators;
+
+        this.switchAssets = this._switchAssets.bind(this);
     }
 
     goTrade(e) {
@@ -30,5 +34,14 @@ export class Choose {
             sellingCode: sellingIsNative ? nativeAssetCode : this.assetPair.selling.code,
             sellingIssuer: sellingIsNative ? 'Stellar': this.assetPair.selling.issuer.accountId
         });
+    }
+
+    _switchAssets() {
+        this.store.dispatch(
+            this.exchangeActionCreators.updateAssetPair({
+                buying: this.assetPair.selling,
+                selling: this.assetPair.buying
+            })
+        );
     }
 }

@@ -17,11 +17,11 @@ export class TradingviewPriceChartCustomElement {
 
     get symbol() {
         return this.assetPair ?
-            this.assetPair.buying.type + '_' +
-            this.assetPair.buying.code + '_' +
-            (this.assetPair.buying.type.toLowerCase() === 'native' ? 'Stellar' : this.assetPair.buying.issuer.accountId) + '_' +
-            this.assetPair.selling.type + '_' +
-            this.assetPair.selling.code + '_' +
+            this.assetPair.buying.type + '|' +
+            this.assetPair.buying.code + '|' +
+            (this.assetPair.buying.type.toLowerCase() === 'native' ? 'Stellar' : this.assetPair.buying.issuer.accountId) + '|' +
+            this.assetPair.selling.type + '|' +
+            this.assetPair.selling.code + '|' +
             (this.assetPair.selling.type.toLowerCase() === 'native' ? 'Stellar' : this.assetPair.selling.issuer.accountId) :
             null;
     }
@@ -82,7 +82,7 @@ export class TradingviewPriceChartCustomElement {
             
         }
         else {
-            self.widget.setSymbol(self.symbol)
+            self.widget.setSymbol(self.symbol, this.currentResolution)
         }
     }
 

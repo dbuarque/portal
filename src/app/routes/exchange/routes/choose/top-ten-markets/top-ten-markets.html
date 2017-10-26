@@ -20,13 +20,19 @@
                                     <th>
                                         Market
                                     </th>
-                                    <th click.delegate="changeOrder('trade_count')" class.bind="order !== 'trade_count' ? 'sortable' : ''">
-                                        Volume (#Trades)
-                                        <span show.bind="order === 'trade_count'">&nbsp;<i class="fa fa-caret-down primary-text"></i></span>
-                                    </th>
                                     <th click.delegate="changeOrder('percent_gain')" class.bind="order !== 'percent_gain' ? 'sortable' : ''">
                                         Change (%)
                                         <span show.bind="order === 'percent_gain'">&nbsp;<i class="fa fa-caret-down primary-text"></i></span>
+                                    </th>
+                                    <th click.delegate="changeOrder('trade_count')" class.bind="order !== 'trade_count' ? 'sortable' : ''">
+                                        Trades (#)
+                                        <span show.bind="order === 'trade_count'">&nbsp;<i class="fa fa-caret-down primary-text"></i></span>
+                                    </th>
+                                    <th>
+                                        Sold Volume
+                                    </th>
+                                    <th>
+                                        Bought Volume
                                     </th>
                                 </tr>
                             </thead>
@@ -35,7 +41,13 @@
                                     <td>
                                         <asset-pair-cards asset-pair.one-time="market | marketToAssetPair"></asset-pair-cards>
                                     </td>
-                                    <td>${market.trade_count}</td>
+                                    <td>${market.trade_count & oneTime}</td>
+                                    <td>
+                                        ${market.sold_vol | formatNumber:3}&nbsp;${market.sold_asset_type.toLowerCase() === 'native' ? nativeAssetCode : market.sold_asset_code}
+                                    </td>
+                                    <td>
+                                        ${market.bought_vol | formatNumber:3}&nbsp;${market.bought_asset_type.toLowerCase() === 'native' ? nativeAssetCode : market.bought_asset_code}
+                                    </td>
                                     <td innerhtml.bind="market.percent_gain | percentGain | sanitizeHTML"></td>
                                 </tr>
                             </tbody>
@@ -50,14 +62,34 @@
                                             <table>
                                                 <tr>
                                                     <td>
-                                                        <div>
-                                                            Trade Count:
-                                                            ${market.trade_count}
-                                                        </div>
-                                                        <div>
-                                                            Percent Gain:
-                                                            <span innerhtml.one-time="market.percent_gain | percentGain | sanitizeHTML"></span>
-                                                        </div>
+                                                        Change (%)
+                                                    </td>
+                                                    <td>
+                                                        <span innerhtml.one-time="market.percent_gain | percentGain | sanitizeHTML"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Trades (#)
+                                                    </td>
+                                                    <td>
+                                                        ${market.trade_count & oneTime}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Sold Volume
+                                                    </td>
+                                                    <td>
+                                                        ${market.sold_vol}&nbsp;${market.sold_asset_type.toLowerCase() === 'native' ? nativeAssetCode : market.sold_asset_code}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Bought Volume
+                                                    </td>
+                                                    <td>
+                                                        ${market.bought_vol}&nbsp;${market.bought_asset_type.toLowerCase() === 'native' ? nativeAssetCode : market.bought_asset_code}
                                                     </td>
                                                 </tr>
                                             </table>

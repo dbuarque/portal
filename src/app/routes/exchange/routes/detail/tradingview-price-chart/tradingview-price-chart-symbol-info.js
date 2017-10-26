@@ -31,7 +31,7 @@ export class TradingviewPriceChartSymbolInfo {
     }
 
     get name() {
-        const splitTicker = this.ticker.split('_');
+        const splitTicker = this.ticker.split('|');
         return splitTicker[1] + '/' + splitTicker[4];
     }
 
@@ -44,7 +44,7 @@ export class TradingviewPriceChartSymbolInfo {
     }
 
     get assetPair() {
-        const splitTicker = this.ticker.split('_');
+        const splitTicker = this.ticker.split('|');
         return {
             buying: {
                 type: splitTicker[0],

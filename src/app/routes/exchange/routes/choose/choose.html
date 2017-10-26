@@ -8,7 +8,8 @@
                 <getting-started></getting-started>
                 <div class="row asset-pair-row">
                     <div class="col l6 offset-l3 m8 offset-m2 center-text">
-                        <asset-pair-cards selectable.bind="true" asset-pair.bind="assetPair"></asset-pair-cards>
+                        <asset-pair-cards switch-assets.bind="switchAssets" selectable.one-time="true" asset-pair.bind="assetPair"></asset-pair-cards>
+                        <br>
                         <button click.trigger="goTrade()" class="btn primary" disabled.bind="!assetPair.buying || !assetPair.selling">
                             Trade&nbsp;<i class="fa fa-arrow-right"></i>
                         </button>

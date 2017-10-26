@@ -1,9 +1,12 @@
 
 .asset-pair-cards {
-    position: relative;
     width: 100%;
     max-width: 320px;
     display: inline-block;
+
+    .cards-container {
+        position: relative;
+    }
 
     .card {
         margin-bottom: 0;
@@ -15,6 +18,15 @@
 
     .col2 {
         padding-left: 15px;
+    }
+
+    .fa-exchange {
+        position: absolute;
+        top: 50%;
+        margin-top: -8px;
+        left: 50%;
+        margin-left: -8px;
+        cursor: pointer;
     }
 
     hr {

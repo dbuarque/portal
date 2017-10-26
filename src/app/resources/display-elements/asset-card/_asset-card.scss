@@ -1,5 +1,5 @@
 .asset-card-container.selectable {
-    border: solid $light-gray 1px;
+    border: dashed $gray 2px;
     min-height: 56px;
     background: #fff;
     z-index: 2;
@@ -7,12 +7,13 @@
     cursor: pointer;
     vertical-align: middle;
     text-align: center;
+    padding: 1px;
 
     .no-asset {
         color: $light-gray;
         display: inline-block;
         vertical-align: middle;
-        line-height: 56px;
+        line-height: 54px;
     }
 }
 
