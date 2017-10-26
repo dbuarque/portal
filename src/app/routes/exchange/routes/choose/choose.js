@@ -25,10 +25,10 @@ export class Choose {
         this.router.navigateToRoute('detail', {
             buyingType: this.assetPair.buying.type,
             buyingCode: buyingIsNative ? nativeAssetCode : this.assetPair.buying.code,
-            buyingIssuer: buyingIsNative ? 'Stellar': this.assetPair.buying.issuer,
+            buyingIssuer: buyingIsNative ? 'Stellar': this.assetPair.buying.issuer.accountId,
             sellingType: this.assetPair.selling.type,
             sellingCode: sellingIsNative ? nativeAssetCode : this.assetPair.selling.code,
-            sellingIssuer: sellingIsNative ? 'Stellar': this.assetPair.selling.issuer
+            sellingIssuer: sellingIsNative ? 'Stellar': this.assetPair.selling.issuer.accountId
         });
     }
 }

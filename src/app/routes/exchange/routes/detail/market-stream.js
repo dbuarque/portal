@@ -31,13 +31,9 @@ export class MarketStream {
 
     async assetPairChanged() {
         try {
-            try {
-                await this._disconnectFromSocket();
-                this.previousAssetPair = undefined;
-            }
-            catch (e) {
-                throw e;
-            }
+            await this._disconnectFromSocket();
+            this.previousAssetPair = undefined;
+
             await this._connectToSocket();
             this.previousAssetPair = this.assetPair;
         }

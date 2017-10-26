@@ -52,19 +52,27 @@ export class ExchangeActionCreators {
             return newAsset;
         }
 
-        if (compareAssets(newAsset, oldAssetPair.selling)) {
-            return oldAssetPair.selling;
-        }
+        if (oldAssetPair) {
+            if (compareAssets(newAsset, oldAssetPair.selling)) {
+                return oldAssetPair.selling;
+            }
 
-        if (compareAssets(newAsset, oldAssetPair.buying)) {
-            return oldAssetPair.buying;
+            if (compareAssets(newAsset, oldAssetPair.buying)) {
+                return oldAssetPair.buying;
+            }
         }
 
         if (newAsset.type === 'native') {
             return newAsset;
         }
 
-        return this.assetResource.asset(newAsset.code, newAsset.issuer);
+        const assetWithIssuer = await this.assetResource.asset(newAsset.code, newAsset.issuer);
+
+        return {
+            code: assetWithIssuer.assetCode,
+            type: assetWithIssuer.assetType,
+            issuer: assetWithIssuer.issuer
+        };
     }
 }
 

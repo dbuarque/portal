@@ -23,10 +23,6 @@ export class Detail {
 
     @connected('exchange.detail.displayedOfferType')
     displayedOfferType;
-
-    get isMobile() {
-        return window.innerWidth < 500;
-    }
     
     constructor(router, store, exchangeActionCreators, detailActionCreators, orderbookUpdater, recentTradesUpdater, myOffersUpdater, myAssetPairUpdater) {
         this.router = router;
@@ -58,23 +54,27 @@ export class Detail {
     }
 
     assetPairChanged() {
-        this.updateRouteTitle();
+        if (!this.assetPair.selling || !this.assetPair.buying) {
+            this.router.navigateToRoute('choose');
+        }
+
+        //this.updateRouteTitle();
     }
 
-    attached() {
-        this.updateRouteTitle();
-    }
+    //attached() {
+    //    this.updateRouteTitle();
+    //}
 
     changeOfferType(newOfferType) {
         this.store.dispatch(this.detailActionCreators.updateDisplayedOfferType(newOfferType));
     }
 
 
-    updateRouteTitle() {
-        if (!this.router.currentInstruction || !this.assetPair) {
-            return;
-        }
-
-        this.router.currentInstruction.config.title = this.assetPair.buying.code + '/' + this.assetPair.selling.code;
-    }
+    //updateRouteTitle() {
+    //    if (!this.router.currentInstruction || !this.assetPair) {
+    //        return;
+    //    }
+//
+    //    this.router.currentInstruction.config.title = this.assetPair.buying.code + '/' + this.assetPair.selling.code;
+    //}
 }

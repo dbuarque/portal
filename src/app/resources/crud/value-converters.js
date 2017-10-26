@@ -6,8 +6,11 @@ import {inject} from 'aurelia-framework';
 
 export class AssetUrlValueConverter {
     toView(asset) {
-        return '/' + asset.code +
-            '/' + (asset.type.toLowerCase() === 'native' ? 'Stellar' : asset.issuer);
+        const issuerAddress = asset.type.toLowerCase() === 'native' ?
+            'Stellar' :
+            (asset.issuer.accountId || asset.issuer);
+
+        return '/' + asset.code + '/' + issuerAddress;
     }
 }
 

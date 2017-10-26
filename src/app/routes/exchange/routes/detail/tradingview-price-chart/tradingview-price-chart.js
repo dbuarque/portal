@@ -17,7 +17,12 @@ export class TradingviewPriceChartCustomElement {
 
     get symbol() {
         return this.assetPair ?
-            this.assetPair.buying.code + '_' + (this.assetPair.buying.issuer || 'native') + '_' + this.assetPair.selling.code + '_' + (this.assetPair.selling.issuer || 'native') :
+            this.assetPair.buying.type + '_' +
+            this.assetPair.buying.code + '_' +
+            (this.assetPair.buying.type.toLowerCase() === 'native' ? 'Stellar' : this.assetPair.buying.issuer.accountId) + '_' +
+            this.assetPair.selling.type + '_' +
+            this.assetPair.selling.code + '_' +
+            (this.assetPair.selling.type.toLowerCase() === 'native' ? 'Stellar' : this.assetPair.selling.issuer.accountId) :
             null;
     }
 
