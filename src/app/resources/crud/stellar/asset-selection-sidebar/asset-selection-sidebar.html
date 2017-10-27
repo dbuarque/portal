@@ -2,7 +2,7 @@
     <div class="asset-selection-sidebar">
         <a style="display: none" md-sidenav-collapse="ref.bind: sideNav;" md-sidenav-collapse.ref="sidenavController"></a>
         <md-sidenav md-on-sidenav-hide.delegate="onHide($event)" view-model.ref="sideNav" md-edge="right">
-            <div class="header-container">
+            <div class="header-container" show.bind="asset">
                 <asset-card asset.bind="asset"></asset-card>
                 <br>
                 <button disabled.bind="asset === startingAsset" class="btn primary btn-flat" click.trigger="finish()">

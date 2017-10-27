@@ -64,8 +64,8 @@ export class AssetCardCustomElement {
     get description() {
         return this.asset.type.toLowerCase() === 'native' ?
             window.lupoex.stellar.nativeAssetCode + ' is the native asset used to power the stellar network.' :
-            this.toml && this.toml.description ?
-                this.toml.description :
+            this.toml && this.toml.desc ?
+                this.toml.desc :
                 this.asset.code + ' asset';
     }
 

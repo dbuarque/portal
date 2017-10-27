@@ -10,7 +10,7 @@
                     <div class="col l6 offset-l3 m8 offset-m2 center-text">
                         <asset-pair-cards switch-assets.bind="switchAssets" reselect.bind="reselect" asset-pair.bind="assetPair"></asset-pair-cards>
                         <br>
-                        <button click.trigger="goTrade()" class="btn primary" disabled.bind="!assetPair.buying || !assetPair.selling">
+                        <button click.trigger="goTrade()" class="btn primary btn-large" disabled.bind="!assetPair.buying || !assetPair.selling">
                             Trade&nbsp;<i class="fa fa-arrow-right"></i>
                         </button>
                     </div>

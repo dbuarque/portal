@@ -3,11 +3,24 @@
         <div class="navbar-fixed">
             <nav>
                 <div class="nav-wrapper">
-                    <a href="javascript:void(0)" class="brand-logo" click.delegate="goToExchange()">
+                    <a href="javascript:void(0)" class="brand-logo" click.delegate="goToExchangeChoose()">
                         <img src="/assets/lupoex-logo.png">
                         LuPoEx
                         <span class="brand-desc hide-on-small-only">Lumen Powered Exchange</span>
                     </a>
+
+                    <ul class="left hide-on-med-and-down">
+                        <li>
+                            <a href="javascript:void(0)" md-waves click.delegate="goToExchangeChoose()" title="Go To Markets">
+                                <i class="fa fa-list-ul fa-lg"></i>&nbsp;Markets
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" md-waves if.bind="assetPair" click.delegate="goToExchangeDetail()" title="Go To Markets">
+                                <i class="fa fa-line-chart fa-lg"></i>&nbsp;Exchange
+                            </a>
+                        </li>
+                    </ul>
 
                     <ul class="right hide-on-med-and-down">
                         <li>
