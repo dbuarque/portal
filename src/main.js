@@ -51,6 +51,7 @@ export async function configure(aurelia) {
                 .useCheckbox()
                 .useDropdown()
                 .useRadio()
+                .useSidenav()
                 .useSelect()
                 .useSwitch()
                 .useTabs()

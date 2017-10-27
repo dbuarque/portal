@@ -16,6 +16,7 @@ export function configure(config) {
         PLATFORM.moduleName('./value-converters/order'),
         PLATFORM.moduleName('./dom-controls/stellar-address-input/stellar-address-input'),
         PLATFORM.moduleName('./display-elements/asset-card/asset-card'),
-        PLATFORM.moduleName('./display-elements/asset-pair-cards/asset-pair-cards')
+        PLATFORM.moduleName('./display-elements/asset-pair-cards/asset-pair-cards'),
+        PLATFORM.moduleName('./crud/stellar/asset-selection-sidebar/asset-selection-sidebar')
     );
 }

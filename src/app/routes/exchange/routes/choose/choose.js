@@ -19,6 +19,7 @@ export class Choose {
         this.exchangeActionCreators = exchangeActionCreators;
 
         this.switchAssets = this._switchAssets.bind(this);
+        this.reselect = this._reselect.bind(this);
     }
 
     goTrade(e) {
@@ -34,6 +35,14 @@ export class Choose {
             sellingCode: sellingIsNative ? nativeAssetCode : this.assetPair.selling.code,
             sellingIssuer: sellingIsNative ? 'Stellar': this.assetPair.selling.issuer.accountId
         });
+    }
+
+    _reselect(asset, type) {
+        this.store.dispatch(
+            this.exchangeActionCreators.updateAssetPair({
+                [type]: asset
+            })
+        );
     }
 
     _switchAssets() {

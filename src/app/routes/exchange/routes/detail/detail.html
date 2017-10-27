@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col l8">
                 <div class="hide-on-large-only center-text">
-                    <asset-pair-cards switch-assets.bind="switchAssets" selectable.one-time="true" asset-pair.bind="assetPair"></asset-pair-cards>
+                    <asset-pair-cards switch-assets.bind="switchAssets" reselect.bind="reselect" asset-pair.bind="assetPair"></asset-pair-cards>
                 </div>
 
                 <tradingview-price-chart></tradingview-price-chart>
@@ -20,7 +20,7 @@
             </div>
             <div class="col l4">
                 <div class="hide-on-med-and-down center-text">
-                    <asset-pair-cards switch-assets.bind="switchAssets" selectable.one-time="true" asset-pair.bind="assetPair"></asset-pair-cards>
+                    <asset-pair-cards switch-assets.bind="switchAssets" reselect.bind="reselect" asset-pair.bind="assetPair"></asset-pair-cards>
                 </div>
 
                 <orderbook-chart if.one-time="!isMobile"></orderbook-chart>

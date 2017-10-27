@@ -29,7 +29,9 @@ export class Detail {
         this.store = store;
         this.exchangeActionCreators = exchangeActionCreators;
         this.detailActionCreators = detailActionCreators;
+
         this.switchAssets = this._switchAssets.bind(this);
+        this.reselect = this._reselect.bind(this);
 
         orderbookUpdater.init();
         recentTradesUpdater.init();
@@ -68,6 +70,14 @@ export class Detail {
 
     changeOfferType(newOfferType) {
         this.store.dispatch(this.detailActionCreators.updateDisplayedOfferType(newOfferType));
+    }
+
+    _reselect(asset, type) {
+        this.store.dispatch(
+            this.exchangeActionCreators.updateAssetPair({
+                [type]: asset
+            })
+        );
     }
 
     _switchAssets() {

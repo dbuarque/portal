@@ -1,4 +1,4 @@
-.asset-card-container.selectable {
+.asset-card-container.reselect {
     border: dashed $gray 2px;
     min-height: 56px;
     background: #fff;
@@ -63,6 +63,7 @@
             .image-wrapper, img {
                 height: 40px;
                 width: 40px;
+                text-align: center;
             }
 
             .verification {

@@ -1,0 +1,29 @@
+<template>
+    <div class="asset-selection-sidebar">
+        <a style="display: none" md-sidenav-collapse="ref.bind: sideNav;" md-sidenav-collapse.ref="sidenavController"></a>
+        <md-sidenav view-model.ref="sideNav" md-edge="right">
+            <div class="asset-card-container" class.bind="!asset ? 'no-asset' : ''">
+                <asset-card asset.bind="asset"></asset-card>
+            </div>
+            <button class="btn btn-gray" click.trigger="cancel()">
+                <i class="fa fa-times"></i>&nbsp;Cancel
+            </button>
+            <button disabled.bind="asset === startingAsset" class="btn btn-success" click.trigger="finish()">
+                <i class="fa fa-check"></i>&nbsp;finish
+            </button>
+            <hr>
+            <input type="text" placeholder="Asset Code" value.bind="code" change.trigger="refresh()">
+            <input type="text" placeholder="Issuer Domain/Address" value.bind="issuer" change.trigger="refresh()">
+            <div class="scrollable-container">
+                <asset-card asset.bind="asset" repeat.for="asset of assets" click.delegate="select(asset)"></asset-card>
+                <br>
+                <br>
+                <i class="fa fa-spinner fa-spin fa-2x text-primary" show.bind="loading"></i>
+                <button show.bind="!noMore" class="btn btn-primary btn-flat" md-waves>
+                    Load More
+                </button>
+                <spinner-overlay size="2x" spin.bind="refreshing"></spinner-overlay>
+            </div>
+        </md-sidenav>
+    </div>
+</template>

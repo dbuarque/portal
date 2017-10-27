@@ -2,11 +2,12 @@
 import {bindable, computedFrom, inject} from 'aurelia-framework';
 import {awaitedBindable} from "global-resources";
 import {shortenAddress, TomlCache} from "app-resources";
+import {AssetSelectionService} from "../../crud/stellar/asset-selection-service";
 
-@inject(TomlCache)
+@inject(TomlCache, AssetSelectionService)
 export class AssetCardCustomElement {
 
-    @bindable selectable;
+    @bindable reselect;
     @bindable asset;
 
     loading = 0;
@@ -90,7 +91,18 @@ export class AssetCardCustomElement {
 
     }
 
-    constructor(tomlCache) {
+    constructor(tomlCache, assetSelectionService) {
         this.tomlCache = tomlCache;
+        this.assetSelectionService = assetSelectionService;
+    }
+
+    async openSidebar() {
+        if (this.reselect) {
+            try {
+                const newAsset = await this.assetSelectionService.select(this.asset);
+                this.reselect(newAsset);
+            }
+            catch(e) {}
+        }
     }
 }

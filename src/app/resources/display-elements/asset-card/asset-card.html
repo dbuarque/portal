@@ -1,5 +1,5 @@
 <template>
-    <div class="asset-card-container" class.bind="selectable ? 'selectable' : ''">
+    <div class="asset-card-container" class.bind="reselect ? 'reselect' : ''" click.trigger="openSidebar()">
         <div if.bind="!asset" class="no-asset">
             <i class="fa fa-hand-pointer-o"></i>&nbsp;Select
         </div>

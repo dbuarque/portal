@@ -1,0 +1,23 @@
+.asset-selection-sidebar {
+    text-align: center;
+
+    .asset-card-container.selectable {
+        max-width: 145px;
+        border: dashed $gray 2px;
+        min-height: 56px;
+        background: #fff;
+        box-shadow: $shadow1;
+        padding: 1px;
+
+        .no-asset {
+            color: $light-gray;
+            display: inline-block;
+            vertical-align: middle;
+            line-height: 54px;
+        }
+    }
+
+    .scrollable-container {
+        overflow-y: auto;
+    }
+}
