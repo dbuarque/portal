@@ -13,7 +13,7 @@ export function myAsk(state, action, rootState) {
         case UPDATE_MY_ASK:
             return calculateNewOrder(action.payload, state);
         case UPDATE_ORDERBOOK:
-            if (!state && action.payload && action.payload.bids && action.payload.bids.length > 0) {
+            if ((!state || !state.price) && action.payload && action.payload.bids && action.payload.bids.length > 0) {
                 return {
                     price: [action.payload.bids[0].priceNumerator, action.payload.bids[0].priceDenominator]
                 };

@@ -53,6 +53,9 @@ export class OfferService {
                 sellingAsset,
                 buyingAsset,
                 title: 'Create Offer'
+            },
+            {
+                modalClass: 'sm'
             }
         );
         
@@ -65,10 +68,10 @@ export class OfferService {
             const offerOp = this.stellarServer.sdk.Operation.manageOffer({
                 selling: sellingAsset.type.toLowerCase() === 'native' ?
                     this.stellarServer.sdk.Asset.native() :
-                    new this.stellarServer.sdk.Asset(sellingAsset.code, sellingAsset.issuer),
+                    new this.stellarServer.sdk.Asset(sellingAsset.code, sellingAsset.issuer.accountId || sellingAsset.issuer),
                 buying: buyingAsset.type.toLowerCase() === 'native' ?
                     this.stellarServer.sdk.Asset.native() :
-                    new this.stellarServer.sdk.Asset(buyingAsset.code, buyingAsset.issuer),
+                    new this.stellarServer.sdk.Asset(buyingAsset.code, buyingAsset.issuer.accountId || buyingAsset.issuer),
                 amount: validStellarNumber(amount),
                 price
             });
