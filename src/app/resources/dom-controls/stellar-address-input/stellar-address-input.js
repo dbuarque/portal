@@ -23,6 +23,10 @@ export class StellarAddressInputCustomElement {
         this.onChange = _debounce(this.processInput.bind(this), 350);
     }
 
+    publicKeyChanged() {
+        this.inputValue = this.publicKey;
+    }
+
     async processInput() {
         //We already processed this value, just return
         if (this.inputValue === this.federatedAddress || this.inputValue === this.publicKey) {
