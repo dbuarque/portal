@@ -2,6 +2,10 @@
     border: none !important;
 }
 
+/*.pane-legend > .pane-legend-line > span.pane-legend-line.main {*/
+    /*display: none;*/
+/*}*/
+
 /*.pane-legend .pane-legend-icon-container {*/
     /*display: none;*/
 /*}*/
