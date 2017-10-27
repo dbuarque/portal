@@ -3,6 +3,7 @@
  */
 
 import {computedFrom} from 'aurelia-framework';
+import {shortenAddress} from "app-resources";
 import BigNumber from 'bignumber.js';
 
 export class OfferModal {
@@ -21,8 +22,8 @@ export class OfferModal {
         }
 
         return this.buyingAsset.issuer.homeDomain ||
-            this.buyingAsset.issuer.accountId ||
-            this.buyingAsset.issuer;
+            shortenAddress(this.buyingAsset.issuer.accountId) ||
+            shortenAddress(this.buyingAsset.issuer);
     }
 
     @computedFrom('sellingAsset')
@@ -32,8 +33,8 @@ export class OfferModal {
         }
         
         return this.sellingAsset.issuer.homeDomain ||
-            this.sellingAsset.issuer.accountId ||
-            this.sellingAsset.issuer;
+            shortenAddress(this.sellingAsset.issuer.accountId) ||
+            shortenAddress(this.sellingAsset.issuer);
     }
 
     activate(params) {

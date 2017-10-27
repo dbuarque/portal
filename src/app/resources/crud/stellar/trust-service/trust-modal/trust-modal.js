@@ -49,7 +49,11 @@ export class OfferModal {
 
     async getTrustline() {
         this.loading++;
-        const trustline = await this.accountResource.trustline(this.store.getState().myAccount.accountId, {code: this.code, issuer: this.issuer});
+        const trustline = await this.accountResource.trustline(this.store.getState().myAccount.accountId, {
+            type: this.type,
+            code: this.code,
+            issuer: this.issuer
+        });
         this.newLimit = this.limit = trustline ? trustline.trustLimit : 0;
         this.loading--;
     }
@@ -66,7 +70,7 @@ export class OfferModal {
             this.stellarServer.sdk.Operation.changeTrust({
                 asset: this.type.toLowerCase() === 'native' ?
                     this.stellarServer.sdk.Asset.native() :
-                    new this.stellarServer.sdk.Asset(this.code, this.issuer),
+                    new this.stellarServer.sdk.Asset(this.code, this.issuer.accountId || this.issuer),
                 limit: this.newLimit
             })
         ]);

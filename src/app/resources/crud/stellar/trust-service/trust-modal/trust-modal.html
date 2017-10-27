@@ -2,7 +2,8 @@
     <div class="offer-modal">
         <alert config.bind="alertConfig"></alert>
         <div>
-            Currently, your trust limit for ${code}(${issuer}) is <strong>${limit}</strong>. You can modify your limit below:
+            Currently, your trust limit for ${code & oneTime}(${issuer.homeDomain || issuer.accountId || issuer & oneTime})
+            is <strong>${limit || 0 & oneTime}</strong>. You can modify your limit below:
         </div>
         <div class="form-field">
             <label>New Limit</label>

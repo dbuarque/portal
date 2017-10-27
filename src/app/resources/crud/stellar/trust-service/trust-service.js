@@ -23,6 +23,7 @@ export class TrustService {
 
     /**
      * Initiates a trust modification operation
+     * @param type
      * @param code
      * @param issuer
      * @returns {*}

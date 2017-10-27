@@ -22,6 +22,11 @@
     padding: 2px;
     text-align: left;
     margin-bottom: 0;
+    min-height: 56px;
+
+    table {
+        min-height: 54px;
+    }
 
     .card-body {
         padding: 0;
