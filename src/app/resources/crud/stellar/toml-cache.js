@@ -22,7 +22,8 @@ export class TomlCache {
         }
 
         if (!this.promises[issuer.homeDomain]) {
-            this.promises[issuer.homeDomain] = this.stellarServer.sdk.StellarTomlResolver.resolve(issuer.homeDomain);
+            this.promises[issuer.homeDomain] = this.stellarServer.sdk.StellarTomlResolver.resolve(issuer.homeDomain)
+                .catch(e => null);
         }
 
         return this.promises[issuer.homeDomain];

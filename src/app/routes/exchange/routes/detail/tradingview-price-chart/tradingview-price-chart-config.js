@@ -15,7 +15,7 @@ export default class TradingviewPriceChartConfig {
             timezone: moment.tz.guess(),
             container_id: 'tradingview-price-chart-container',
             datafeed,
-            debug: window.lupoex.env === 'development',
+            debug: false, //window.lupoex.env === 'development',
             library_path: '/assets/charting_library/charting_library/',
             autosize: true,
             toolbar_bg: '#ffffff',

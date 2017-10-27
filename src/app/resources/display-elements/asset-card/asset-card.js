@@ -14,7 +14,7 @@ export class AssetCardCustomElement {
 
     @computedFrom('asset', 'toml')
     get imageSrc() {
-        return this.asset.type === 'native' ?
+        return this.asset.type.toLowerCase() === 'native' ?
             '/assets/stellar-rocket-144x144.png' :
             this.toml && this.toml.image ?
                 this.toml.image :
@@ -23,7 +23,7 @@ export class AssetCardCustomElement {
 
     @computedFrom('asset', 'toml')
     get verified() {
-        return this.asset.type === 'native' || this.toml;
+        return this.asset.type.toLowerCase() === 'native' || this.toml;
     }
 
     @computedFrom('toml')
@@ -37,7 +37,7 @@ export class AssetCardCustomElement {
 
     @computedFrom('asset')
     get homeDomain() {
-        return this.asset.type === 'native' ?
+        return this.asset.type.toLowerCase() === 'native' ?
             'Stellar' :
             this.asset.issuer ?
                 this.asset.issuer.homeDomain :
@@ -46,7 +46,7 @@ export class AssetCardCustomElement {
 
     @computedFrom('asset')
     get issuerAddress() {
-        return this.asset.type === 'native' ?
+        return this.asset.type.toLowerCase() === 'native' ?
             'Native' :
             this.asset.issuer ?
                 shortenAddress(this.asset.issuer.accountId) :
@@ -55,14 +55,14 @@ export class AssetCardCustomElement {
 
     @computedFrom('asset')
     get assetCode() {
-        return this.asset.type === 'native' ?
+        return this.asset.type.toLowerCase() === 'native' ?
             window.lupoex.stellar.nativeAssetCode :
                 this.asset.code;
     }
 
     @computedFrom('asset', 'toml')
     get description() {
-        return this.asset.type === 'native' ?
+        return this.asset.type.toLowerCase() === 'native' ?
             window.lupoex.stellar.nativeAssetCode + ' is the native asset used to power the stellar network.' :
             this.toml && this.toml.description ?
                 this.toml.description :
@@ -76,7 +76,7 @@ export class AssetCardCustomElement {
             return null;
         }
 
-        if (this.asset.type === 'native') {
+        if (this.asset.type.toLowerCase() === 'native') {
             return null;
         }
 

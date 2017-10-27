@@ -14,6 +14,10 @@ export class AssetResource extends BaseResource {
         this.modalService = modalService;
     }
 
+    query(options) {
+        return this.get('/', options);
+    }
+
     codeMatch(match) {
         return this.get('/CodeMatch', {match});
     }

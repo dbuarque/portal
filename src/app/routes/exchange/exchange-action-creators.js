@@ -15,6 +15,10 @@ export class ExchangeActionCreators {
 
     updateAssetPair(assetPair) {
         return async (dispatch, getState) => {
+            if (!assetPair) {
+                return;
+            }
+
             const oldAssetPair = getState().exchange.assetPair;
 
             if (
@@ -27,8 +31,8 @@ export class ExchangeActionCreators {
             }
 
             const assets = await Promise.all([
-                this.assetWithIssuer(assetPair.buying, oldAssetPair),
-                this.assetWithIssuer(assetPair.selling, oldAssetPair)
+                this.assetWithIssuer(assetPair, oldAssetPair, 'buying'),
+                this.assetWithIssuer(assetPair, oldAssetPair, 'selling')
             ]);
 
             return dispatch({
@@ -43,11 +47,18 @@ export class ExchangeActionCreators {
 
     /**
      * Takes a newAsset and returns the asset with the issuer populated (i.e. as a full object)
-     * @param newAsset
+     * @param newAssetPair
      * @param oldAssetPair
+     * @param type
      * @returns {Promise.<*>}
      */
-    async assetWithIssuer(newAsset, oldAssetPair) {
+    async assetWithIssuer(newAssetPair, oldAssetPair, type) {
+        const newAsset = newAssetPair[type];
+
+        if (!newAsset) {
+            return oldAssetPair ? oldAssetPair[type] : null;
+        }
+
         if (typeof newAsset.issuer === 'object') {
             return newAsset;
         }
@@ -77,8 +88,8 @@ export class ExchangeActionCreators {
 }
 
 function compareAssets(newAsset, oldAsset) {
-    if (!oldAsset) {
-        return false;
+    if (!oldAsset || !newAsset) {
+        return !oldAsset && !newAsset;
     }
 
     const newIssuerAddress = newAsset.issuer && newAsset.issuer.accountId ? newAsset.issuer.accountId : newAsset.issuer;

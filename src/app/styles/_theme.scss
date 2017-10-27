@@ -44,11 +44,11 @@
 .btn.primary, .btn-flat.primary, .btn-large.primary {
     transition: .2s ease-out;
 }
-.btn.primary:hover, .btn-flat.primary:hover, .btn-large.primary:hover {
+.btn.primary:hover, .btn.btn-flat.primary:hover, .btn.btn-large.primary:hover {
     background-color: lighten($primary, 30%);
     transition: .2s ease-out;
 }
-.btn.primary:focus, .btn-flat.primary:focus, .btn-large.primary:focus {
+.btn.primary:focus, .btn.btn-flat.primary:focus, .btn.btn-large.primary:focus {
     background-color: lighten($primary, 15%);
     transition: .2s ease-out;
 }

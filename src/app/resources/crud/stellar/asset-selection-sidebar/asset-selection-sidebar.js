@@ -7,7 +7,8 @@ import {AssetSelectionService} from '../asset-selection-service';
 @inject(AssetResource, AssetSelectionService)
 export class AssetSelectionSidebarCustomElement {
 
-    limit = 25;
+    limit = 10;
+    offset = 0;
 
     constructor(assetResource, assetSelectionService) {
         this.assetResource = assetResource;
@@ -27,7 +28,9 @@ export class AssetSelectionSidebarCustomElement {
 
         self.sidenavController.show();
 
-        $("#sidenav-overlay").unbind('click');
+        if (!self.assets) {
+            self.refresh();
+        }
 
         return new Promise((resolve, reject) => {
             self.resolve = resolve;
@@ -36,17 +39,56 @@ export class AssetSelectionSidebarCustomElement {
     }
     
     finish() {
-        this.sidenavController.hide();
         this.resolve(this.asset);
+
+        delete this.resolve;
+        delete this.reject;
+
+        this.sidenavController.hide();
     }
 
-    cancel() {
-        this.sidenavController.hide();
-        this.reject();
+    onHide() {
+        if (this.reject) {
+            this.reject();
+        }
     }
 
     select(asset) {
         this.asset = asset;
+    }
+
+    async loadMore() {
+        this.loading = true;
+        this.offset = this.offset + this.limit;
+
+        const moreAssets = await this.assetResource.query({
+            code: this.code,
+            issuer: this.issuer,
+            offset: this.offset,
+            limit: this.limit
+        });
+
+        this.assets = this.assets.concat(
+            moreAssets.map(a => this.processRawAsset(a))
+        );
+
+        if (moreAssets.length < this.limit) {
+            this.noMore = true;
+        }
+
+        this.loading = false;
+    }
+
+    processRawAsset(rawAsset) {
+        return {
+            type: rawAsset.asset_type,
+            code: rawAsset.asset_code,
+            issuerId: rawAsset.asset_issuer,
+            issuer: {
+                accountId: rawAsset.asset_issuer,
+                homeDomain: rawAsset.home_domain
+            }
+        };
     }
 
     async _refresh() {
@@ -54,36 +96,18 @@ export class AssetSelectionSidebarCustomElement {
         this.refreshing = true;
         this.offset = 0;
 
-        this.assets = await this.assetResource.get({
+        const rawAssets = await this.assetResource.query({
             code: this.code,
             issuer: this.issuer,
             limit: this.limit
         });
+
+        this.assets = rawAssets.map(a => this.processRawAsset(a));
 
         if (this.assets.length < this.limit) {
             this.noMore = true;
         }
 
         this.refreshing = false;
-    }
-
-    async loadMore() {
-        this.loading = true;
-        this.offset = this.offset + this.limit;
-
-        const moreAssets = await this.assetResource.get({
-            code: this.code,
-            issuer: this.issuer,
-            offset: this.offset,
-            limit: this.limit
-        });
-
-        this.assets = this.assets.concat(moreAssets);
-
-        if (moreAssets.length < this.limit) {
-            this.noMore = true;
-        }
-
-        this.loading = false;
     }
 }

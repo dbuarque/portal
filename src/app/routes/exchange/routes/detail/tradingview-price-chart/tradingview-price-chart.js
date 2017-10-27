@@ -79,7 +79,7 @@ export class TradingviewPriceChartCustomElement {
             }));
 
             self.currentResolution = self.config.interval;
-            
+
         }
         else {
             self.widget.setSymbol(self.symbol, this.currentResolution)

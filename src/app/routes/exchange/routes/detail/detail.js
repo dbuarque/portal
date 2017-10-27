@@ -60,33 +60,43 @@ export class Detail {
         if (!this.assetPair.selling || !this.assetPair.buying) {
             this.router.navigateToRoute('choose');
         }
-
-        //this.updateRouteTitle();
     }
-
-    //attached() {
-    //    this.updateRouteTitle();
-    //}
 
     changeOfferType(newOfferType) {
         this.store.dispatch(this.detailActionCreators.updateDisplayedOfferType(newOfferType));
     }
 
     _reselect(asset, type) {
-        this.store.dispatch(
-            this.exchangeActionCreators.updateAssetPair({
-                [type]: asset
-            })
-        );
+        const newAssetPair = {
+            ...this.assetPair,
+            [type]: asset
+        };
+
+        this.goToNewAssetPair(newAssetPair);
     }
 
     _switchAssets() {
-        this.store.dispatch(
-            this.exchangeActionCreators.updateAssetPair({
-                buying: this.assetPair.selling,
-                selling: this.assetPair.buying
-            })
-        );
+        const newAssetPair = {
+            buying: this.assetPair.selling,
+            selling: this.assetPair.buying
+        };
+
+        this.goToNewAssetPair(newAssetPair);
+    }
+
+    goToNewAssetPair(newAssetPair) {
+        const nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
+        const buyingIsNative = newAssetPair.buying.type.toLowerCase() === 'native';
+        const sellingIsNative = newAssetPair.selling.type.toLowerCase() === 'native';
+
+        this.router.navigateToRoute('detail', {
+            buyingType: newAssetPair.buying.type,
+            buyingCode: buyingIsNative ? nativeAssetCode : newAssetPair.buying.code,
+            buyingIssuer: buyingIsNative ? 'Stellar': newAssetPair.buying.issuer.accountId,
+            sellingType: newAssetPair.selling.type,
+            sellingCode: sellingIsNative ? nativeAssetCode : newAssetPair.selling.code,
+            sellingIssuer: sellingIsNative ? 'Stellar': newAssetPair.selling.issuer.accountId
+        });
     }
 
 
