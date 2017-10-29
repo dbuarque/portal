@@ -81,12 +81,12 @@ export class AssetSelectionSidebarCustomElement {
 
     processRawAsset(rawAsset) {
         return {
-            type: rawAsset.asset_type,
-            code: rawAsset.asset_code,
-            issuerId: rawAsset.asset_issuer,
+            type: rawAsset.assetType,
+            code: rawAsset.assetCode,
+            issuerId: rawAsset.assetIssuer,
             issuer: {
-                accountId: rawAsset.asset_issuer,
-                homeDomain: rawAsset.home_domain
+                accountId: rawAsset.assetIssuer,
+                homeDomain: rawAsset.homeDomain
             }
         };
     }

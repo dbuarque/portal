@@ -7,4 +7,9 @@
             margin-bottom: 10px;
         }
     }
+
+    .dashed {
+        border: 1px dashed $gray;
+        padding: 0 3px;
+    }
 }

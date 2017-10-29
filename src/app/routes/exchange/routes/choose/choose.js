@@ -15,7 +15,7 @@ export class Choose {
 
     alertConfig = {
         type: 'info',
-        message: 'Quick select a market from the table below or select one of the dashed assets to search through all available assets.',
+        message: 'Quick select a market from the table below or select one of the <span class="dashed">dashed</span> assets to search through all available assets.',
         dismissible: false
     };
 

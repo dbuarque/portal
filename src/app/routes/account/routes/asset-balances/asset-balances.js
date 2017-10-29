@@ -33,10 +33,13 @@ export class AssetBalances {
 
             const data = $('<span style="margin-right: 10px;">' + this.sanitizeHTML.toView(rowData.trustLimit) + '</span>');
             const modify = $('<a href="javascript:void(0)" class="primary-text">modify</a>&nbsp;')
-                .click(e => {
-                    vm.trustService.modifyLimit(rowData.assetType, rowData.assetCode, rowData.issuerId)
-                        .then(vm.refresh.bind(vm))
-                        .catch(e => {});
+                .click(async () => {
+                    try {
+                        await vm.trustService.modifyLimit(rowData.assetType, rowData.assetCode, rowData.issuerId);
+                    }
+                    catch(e) {}
+
+                    vm.refresh();
                 });
 
             data.appendTo(cell);

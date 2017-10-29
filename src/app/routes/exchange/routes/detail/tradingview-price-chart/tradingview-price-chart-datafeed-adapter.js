@@ -37,11 +37,6 @@ export class TradingviewPriceChartDatafeedAdapter {
     }
 
     async resolveSymbol(ticker, onSymbolResolvedCallback, onResolveErrorCallback) {
-        //const symbolInfo = new TradingviewPriceChartSymbolInfo(ticker, 'TODO');
-        //const assets = await Promise.all([
-        //    this.assetResource.findOne(splitTicker[0], splitTicker[1]),
-        //    this.assetResource.findOne(splitTicker[2], splitTicker[3])
-        //]);
         setTimeout(() => {
             onSymbolResolvedCallback(
                 new TradingviewPriceChartSymbolInfo(ticker, 'TODO')
@@ -61,8 +56,8 @@ export class TradingviewPriceChartDatafeedAdapter {
             const interpretedBars = bars.map(bar => {
                 return {
                     ...bar,
-                    time: moment(bar.begin_ts).valueOf(),
-                    volume: bar.sold_vol
+                    time: moment(bar.begin).valueOf(),
+                    volume: bar.soldVolume
                 };
             });
 
@@ -76,7 +71,7 @@ export class TradingviewPriceChartDatafeedAdapter {
                 );
 
                 if (lastPreviousBar) {
-                    meta.nextTime = moment(lastPreviousBar.begin_ts).valueOf();
+                    meta.nextTime = moment(lastPreviousBar.begin).valueOf();
                 }
                 else {
                     meta.noData = true;

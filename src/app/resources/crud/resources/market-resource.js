@@ -32,7 +32,7 @@ export class MarketResource extends BaseResource {
      * @param assetPair
      * @returns {*}
      */
-    findOne(assetPair) {
+    market(assetPair) {
         return this.get(this.assetPairToUrl.toView(assetPair) + '/FindOne');
     }
 

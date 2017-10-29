@@ -3,7 +3,7 @@ import {combineReducersProvideRootState, restrictReducerToNamespace} from 'au-re
 import {namespace, UPDATE_TOP_TEN_RESULTS, UPDATE_TOP_TEN_ORDER} from "./top-ten-markets-action-types";
 
 const initialState = {
-    order: 'trade_count',
+    order: 'tradeCount',
     results: []
 };
 
@@ -24,7 +24,7 @@ function results(state = [], action) {
     }
 }
 
-function order(state = 'trade_count', action) {
+function order(state = 'tradeCount', action) {
     switch(action.type) {
         case UPDATE_TOP_TEN_ORDER:
             return action.payload;

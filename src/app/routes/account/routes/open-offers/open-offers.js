@@ -25,8 +25,13 @@ export class OpenOffers {
         vm.config.table.columns[6].cellCallback = (cell, rowData) => {
             cell.empty();
             $('<button class="btn error-text btn-small btn-flat" type="button">Cancel</button>')
-                .click(() => {
-                    vm.offerService.cancelOffer(rowData);
+                .click(async () => {
+                    try {
+                        await vm.offerService.cancelOffer(rowData);
+                    }
+                    catch(e) {}
+
+                    vm.refresh();
                 })
                 .appendTo(cell);
         };

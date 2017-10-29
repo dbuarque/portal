@@ -9,7 +9,7 @@ export class SpinnerOverlayCustomElement {
 
     @bindable minHeight = 350;
     @bindable size = '3x';
-    @bindable transparent = false;
+    @bindable cssClasses = '';
     @bindable top = 75;
     @bindable spin;
 

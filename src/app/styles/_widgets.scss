@@ -145,6 +145,10 @@
     i.fa.fa-refresh {
         color: $primary;
     }
+
+    &.background {
+        background: $background;
+    }
 }
 
 .aurelia-crumbs {
