@@ -2,13 +2,22 @@
     <div class="asset-selection-sidebar">
         <a style="display: none" md-sidenav-collapse="ref.bind: sideNav;" md-sidenav-collapse.ref="sidenavController"></a>
         <md-sidenav md-on-sidenav-hide.delegate="onHide($event)" view-model.ref="sideNav" md-edge="right">
-            <div class="header-container" show.bind="asset">
-                <asset-card asset.bind="asset"></asset-card>
-                <br>
-                <button disabled.bind="asset === startingAsset" class="btn primary btn-flat" click.trigger="finish()">
-                    <i class="fa fa-check"></i>&nbsp;select
-                </button>
-                <hr>
+            <div class="header-container">
+                <div show.bind="asset">
+                    <table>
+                        <tr>
+                            <td>
+                                <asset-card asset.bind="asset"></asset-card>
+                            </td>
+                            <td>
+                                <button disabled.bind="asset === startingAsset" class="btn primary btn-flat" click.trigger="finish()">
+                                    <i class="fa fa-check"></i>&nbsp;select
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                    <hr>
+                </div>
                 <input type="text" placeholder="Asset Code" value.bind="code" keyup.trigger="refresh()">
                 <input type="text" placeholder="Issuer Domain/Address" value.bind="issuer" keyup.trigger="refresh()">
             </div>

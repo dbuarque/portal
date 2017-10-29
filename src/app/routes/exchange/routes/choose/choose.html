@@ -8,6 +8,7 @@
                 <getting-started></getting-started>
                 <div class="row asset-pair-row">
                     <div class="col l6 offset-l3 m8 offset-m2 center-text">
+                        <alert config.bind="alertConfig"></alert>
                         <asset-pair-cards switch-assets.bind="switchAssets" reselect.bind="reselect" asset-pair.bind="assetPair"></asset-pair-cards>
                         <br>
                         <button click.trigger="goTrade()" class="btn primary btn-large" disabled.bind="!assetPair.buying || !assetPair.selling">

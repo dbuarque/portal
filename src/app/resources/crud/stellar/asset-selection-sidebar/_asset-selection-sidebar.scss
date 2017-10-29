@@ -1,12 +1,16 @@
 .asset-selection-sidebar {
 
+    .side-nav {
+        height: 100%;
+    }
+
     hr {
         margin-bottom: 0;
     }
 
     .header-container {
         position: absolute;
-        height: 160px;
+        height: 140px;
         padding: 10px;
         padding-bottom: 0;
         text-align: center;
@@ -17,10 +21,10 @@
 
     .scrollable-container {
         position: absolute;
-        top: 170px;
-        bottom: 60px;
+        top: 155px;
         right: 0;
         left: 0;
+        bottom: 0;
         overflow: auto;
         padding: 10px;
         text-align: center;
