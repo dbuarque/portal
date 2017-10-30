@@ -1,0 +1,48 @@
+
+.asset-pair-cards {
+    width: 100%;
+    max-width: 320px;
+    display: inline-block;
+
+    .cards-container {
+        position: relative;
+    }
+
+    .card {
+        margin-bottom: 0;
+    }
+
+    .col1 {
+        padding-right: 15px;
+    }
+
+    .col2 {
+        padding-left: 15px;
+    }
+
+    .fa-exchange {
+        position: absolute;
+        top: 50%;
+        margin-top: -8px;
+        left: 50%;
+        margin-left: -8px;
+        cursor: pointer;
+    }
+
+    hr {
+        position: absolute;
+        left: 50%;
+        right: 50%;
+        margin-left: -15px;
+        margin-right: -15px;
+        z-index: 1;
+
+        &.hr-one {
+            top: 15%;
+        }
+
+        &.hr-two {
+            bottom: 15%;
+        }
+    }
+}

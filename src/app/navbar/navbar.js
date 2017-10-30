@@ -2,35 +2,52 @@
  * Created by Ishai on 3/27/2016.
  */
 import {bindable, inject, computedFrom} from 'aurelia-framework';
-import {AppStore, AlertToaster} from 'global-resources';
+import {Store, connected} from 'au-redux';
+import {AlertToaster} from 'global-resources';
 import {AppActionCreators} from '../app-action-creators';
 
-@inject(AppStore, AppActionCreators, AlertToaster)
+@inject(Store, AppActionCreators, AlertToaster)
 export class Navbar {
+
+    @connected('myAccount')
+    account;
+    
+    @connected('exchange.assetPair')
+    assetPair;
+
     @bindable router;
 
-    constructor(appStore, appActionCreators, toaster) {
-        this.appStore = appStore;
+    @computedFrom('account')
+    get firstFive() {
+        return this.account && this.account.accountId ? this.account.accountId.slice(0, 5) : null;
+    }
+
+    constructor(store, appActionCreators, toaster) {
+        this.store = store;
         this.appActionCreators = appActionCreators;
         this.toaster = toaster;
     }
 
-    bind() {
-        this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
-        this.updateFromStore();
-    }
-
-    unbind() {
-        this.unsubscribeFromStore();
-    }
-
-    updateFromStore() {
-        const newState = this.appStore.getState();
-        this.account = newState.account;
-    }
-
-    goToExchange() {
+    goToExchangeChoose() {
         this.router.navigateToRoute('exchange');
+    }
+
+    goToExchangeDetail() {
+        const nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
+        const buyingIsNative = this.assetPair.buying.type.toLowerCase() === 'native';
+        const sellingIsNative = this.assetPair.selling.type.toLowerCase() === 'native';
+        const buyingType = this.assetPair.buying.type;
+        const buyingCode = buyingIsNative ? nativeAssetCode : this.assetPair.buying.code;
+        const buyingIssuer = buyingIsNative ? 'Stellar': this.assetPair.buying.issuer.accountId;
+        const sellingType = this.assetPair.selling.type;
+        const sellingCode = sellingIsNative ? nativeAssetCode : this.assetPair.selling.code;
+        const sellingIssuer = sellingIsNative ? 'Stellar': this.assetPair.selling.issuer.accountId;
+        
+        const route = this.router.generate('exchange') +
+            '/' + sellingType + '/' + sellingCode + '/' + sellingIssuer +
+            '/' + buyingType + '/' + buyingCode + '/' + buyingIssuer;
+
+        this.router.navigate(route);
     }
 
     login() {
@@ -38,16 +55,11 @@ export class Navbar {
     }
 
     logout() {
+        this.store.dispatch(this.appActionCreators.updateAccount());
         this.toaster.primary('Logged out successfully.');
-        this.appStore.dispatch(this.appActionCreators.setAccount());
     }
 
     goToAccount() {
         this.router.navigateToRoute('account');
-    }
-
-    @computedFrom('account')
-    get firstFive() {
-        return this.account && this.account.id ? this.account.id.slice(0, 5) : null;
     }
 }

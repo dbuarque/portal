@@ -4,117 +4,100 @@
 
 import {inject} from 'aurelia-framework';
 import {appActionTypes} from './app-action-types';
-import {StellarServer, AlertToaster} from 'global-resources';
-import {BaseOfferService} from './resources/crud/stellar/offer-service/base-offer-service';
+import {AlertToaster} from 'global-resources';
+import {AccountResource} from './resources/crud/resources';
 
-const {UPDATE_ACCOUNT, UPDATE_LUPOEX_ACCOUNT, UPDATE_OFFERS} = appActionTypes;
+const {UPDATE_MY_ACCOUNT, UPDATE_MY_ACCOUNT_ID, UPDATE_LUPOEX_ACCOUNT, UPDATE_MY_ACCOUNT_SEQNUM} = appActionTypes;
 
-@inject(StellarServer, AlertToaster, BaseOfferService)
+@inject(AlertToaster, AccountResource)
 export class AppActionCreators {
-    constructor(stellarServer, alertToaster, offerService) {
-        this.stellarServer = stellarServer;
+    constructor(alertToaster, accountResource) {
         this.alertToaster = alertToaster;
-        this.offerService = offerService;
+        this.accountResource = accountResource;
     }
 
-    setAccount(publicKey) {
+    /**
+     *
+     * @param publicKey Account public key
+     * @param [options]
+     * @param [options.force] Force an update (even if the same account is already loaded in the store)
+     * @returns {function(*, *)}
+     */
+    updateAccount(publicKey, options = {}) {
         return async (dispatch, getState) => {
             if (!publicKey) {
                 dispatch({
-                    type: UPDATE_ACCOUNT,
-                    payload: {
-                        account: undefined
-                    }
+                    type: UPDATE_MY_ACCOUNT_ID,
+                    payload: publicKey
                 });
+
+                return dispatch({
+                    type: UPDATE_MY_ACCOUNT
+                });
+            }
+
+            if (getState().myAccount && getState().myAccount.accountId === publicKey && !options.force) {
                 return;
             }
 
-            let account = getState().account;
-
-            account = account || {id: publicKey};
-
             dispatch({
-                type: UPDATE_ACCOUNT,
-                payload: {
-                    account: {
-                        ...account,
-                        updating: true
-                    }
-                }
+                type: UPDATE_MY_ACCOUNT_ID,
+                payload: publicKey
             });
 
             try {
-                account = await this.stellarServer.loadAccount(publicKey);
+                const account = await this.accountResource.account(publicKey, {
+                    handleError: false
+                });
+
+                return dispatch({
+                    type: UPDATE_MY_ACCOUNT,
+                    payload: account
+                });
             }
             catch(e) {
                 //Couldn't find account, let's logout.
-                dispatch(this.setAccount());
-                throw e;
+                return dispatch(this.updateAccount());
             }
-
-            if (account) {
-                account.updating = false;
-            }
-
-            dispatch({
-                type: UPDATE_ACCOUNT,
-                payload: {
-                    account
-                }
-            });
-
-            return account;
         };
     }
 
-    updateAccount() {
-        return (dispatch, getState) => {
-            const account = getState().account;
-
-            if (!account) {
-                return;
-            }
-
-            return dispatch(this.setAccount(account.id));
-        }
-    }
-
-    updateOffers() {
+    updateMySeqnum() {
         return async (dispatch, getState) => {
-            const account = getState().account;
-
-            if (!account) {
-                return;
+            const state = getState();
+            if (!state.myAccount) {
+                throw new Error('Cannot update the seqnum without an account in the store.');
             }
 
-            const offers = await this.offerService.allOffers(account.id);
+            try {
+                const data = await this.accountResource.seqnum(state.myAccount.accountId);
 
-            return dispatch({
-                type: UPDATE_OFFERS,
-                payload: offers
-            });
-        }
+                return dispatch({
+                    type: UPDATE_MY_ACCOUNT_SEQNUM,
+                    payload: data.seqNum
+                });
+            }
+            catch(e) {
+                throw e;
+            }
+        };
     }
 
     updateLupoexAccount() {
         return async (dispatch, getState) => {
             let account;
             try {
-                account = await this.stellarServer.loadAccount(window.lupoex.publicKey);
+                account = await this.accountResource.account(window.lupoex.publicKey);
             }
             catch(e) {
-                this.alertToaster.error('Something is wrong. Do you have an internet connection?');
+                this.alertToaster.networkError();
                 throw e;
             }
 
-            dispatch({
+            return dispatch({
                 type: UPDATE_LUPOEX_ACCOUNT,
-                payload: {
-                    account
-                }
+                payload: account
             });
-
-            return account;
         };
     }
 }

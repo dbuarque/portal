@@ -1,0 +1,108 @@
+.asset-card-container.reselect {
+    border: dashed $gray 1px;
+    min-height: 56px;
+    background: #fff;
+    z-index: 2;
+    box-shadow: $shadow1;
+    cursor: pointer;
+    vertical-align: middle;
+    text-align: center;
+    padding: 1px;
+
+    .no-asset {
+        color: $light-gray;
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 54px;
+    }
+}
+
+.asset-card {
+    z-index: 2;
+    padding: 2px;
+    text-align: left;
+    margin-bottom: 0;
+    min-height: 56px;
+
+    table {
+        min-height: 54px;
+    }
+
+    .card-body {
+        padding: 0;
+    }
+
+    &.verified {
+        //border: 1px solid $success;
+
+        .verification {
+            background: transparent;
+            //border-radius: 7px;
+            //border: 1px solid $success;
+        }
+    }
+
+    &.not-verified {
+        //border: 1px solid $warning;
+
+        .verification {
+            background: transparent;
+            //border-radius: 7px;
+            //border: 1px solid $warning;
+        }
+    }
+
+    i {
+        margin: auto;
+    }
+
+    .home-domain {
+        word-break: break-all;
+    }
+
+    td {
+        padding: 1px;
+
+        &.image-cell {
+            position: relative;
+            width: 42px;
+            background: #fff;
+
+            .image-wrapper, img {
+                height: 40px;
+                width: 40px;
+                text-align: center;
+            }
+
+            .verification {
+                position: absolute;
+                bottom: -2px;
+                left: -2px;
+                background: transparent;
+                padding: 2px;
+                height: auto;
+                top: auto;
+                right: auto;
+                line-height: 14px;
+            }
+        }
+
+        &.description-cell {
+            background: #fff;
+            overflow: hidden;
+            text-align: center;
+
+            .asset-code {
+                font-size: 14px;
+            }
+
+            .home-domain {
+                font-size: 10px;
+            }
+
+            .issuer-address {
+                font-size: 9px;
+            }
+        }
+    }
+}

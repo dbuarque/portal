@@ -4,8 +4,8 @@
 
 import moment from 'moment';
 import {inject} from 'aurelia-framework';
-import _throttle from 'lodash.throttle';
-import _findIndex from 'lodash.findindex';
+import _throttle from 'lodash/throttle';
+import _findIndex from 'lodash/findIndex';
 
 export class InactivityTracker {
 

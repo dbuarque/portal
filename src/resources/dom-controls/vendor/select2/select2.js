@@ -3,7 +3,7 @@
  */
 
 import {inject, bindable, customElement, TaskQueue, bindingMode} from 'aurelia-framework';
-import {EventHelper} from '../../../helpers/helpers';
+import {EventHelper} from '../../../helpers';
 
 @customElement('select2')
 @inject(Element, TaskQueue)

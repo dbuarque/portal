@@ -2,12 +2,13 @@
  * Created by istrauss on 5/8/2017.
  */
 
-import {inject} from 'aurelia-framework'
-import {StellarServer, AppStore, ValidationManager} from 'global-resources';
+import {inject, computedFrom} from 'aurelia-framework'
+import {Store} from 'au-redux';
+import {StellarServer, ValidationManager} from 'global-resources';
 import {AppActionCreators} from '../../../../../app-action-creators';
-import {TrustService} from 'app-resources';
+import {AccountResource, validStellarNumber} from 'app-resources';
 
-@inject(StellarServer, AppStore, ValidationManager, AppActionCreators, TrustService)
+@inject(StellarServer, Store, ValidationManager, AppActionCreators, AccountResource)
 export class OfferModal {
 
     loading = 0;
@@ -21,21 +22,40 @@ export class OfferModal {
             '<p>To learn more about stellar assets and trust see the <a href="https://www.stellar.org/developers/guides/concepts/assets.html" target="_blank">Stellar Asset Concept Documentation</a>.</p>'
     };
 
-    constructor(stellarServer, appStore, validationManager, appActionCreators, trustService) {
+    //@computedFrom('_newLimit')
+    //get newLimit() {
+    //    return this._newLimit;
+    //}
+    //set newLimit(newLimit) {
+    //    this._newLimit = validStellarNumber(newLimit);
+    //}
+
+    constructor(stellarServer, store, validationManager, appActionCreators, accountResource) {
         this.stellarServer = stellarServer;
-        this.appStore = appStore;
+        this.store = store;
         this.validationManager = validationManager;
         this.appActionCreators = appActionCreators;
-        this.trustService = trustService;
+        this.accountResource = accountResource;
     }
 
-    activate(params) {
+    async activate(params) {
         this.modalVM = params.modalVM;
+        this.type = params.passedInfo.type;
         this.code = params.passedInfo.code;
         this.issuer = params.passedInfo.issuer;
 
-        const balance = this.trustService.balance(this.code, this.issuer);
-        this.limit = balance ? balance.limit : 0;
+        this.getTrustline();
+    }
+
+    async getTrustline() {
+        this.loading++;
+        const trustline = await this.accountResource.trustline(this.store.getState().myAccount.accountId, {
+            type: this.type,
+            code: this.code,
+            issuer: this.issuer
+        });
+        this.newLimit = this.limit = trustline ? trustline.trustLimit : 0;
+        this.loading--;
     }
 
     async modifyLimit() {
@@ -48,9 +68,9 @@ export class OfferModal {
 
         this.modalVM.close([
             this.stellarServer.sdk.Operation.changeTrust({
-                asset: this.code === this.nativeAssetCode ?
+                asset: this.type.toLowerCase() === 'native' ?
                     this.stellarServer.sdk.Asset.native() :
-                    new this.stellarServer.sdk.Asset(this.code, this.issuer),
+                    new this.stellarServer.sdk.Asset(this.code, this.issuer.accountId || this.issuer),
                 limit: this.newLimit
             })
         ]);

@@ -5,22 +5,14 @@
             <br>
             <br>
 
-            <div show.bind="type === 'bid'">
+            <div>
                 <strong>
-                    <span class="success-text">Buy</span>
-                    ${buyingAmount} ${buyingCode}(${buyingIssuer || 'Native'})
+                    <span show.one-time="type === 'bid'" class="success-text">Bid</span>
+                    <span show.one-time="type === 'ask'" class="error-text">Ask</span>
+                    ${amount & oneTime} ${sellingAsset.code & oneTime} (${sellingIssuer & oneTime})
                 </strong>
                 for
-                <strong>${sellingAmount} ${sellingCode}(${sellingIssuer || 'Native'})</strong>
-            </div>
-
-            <div show.bind="type === 'ask'">
-                <strong>
-                    <span class="error-text">Sell</span>
-                    ${sellingAmount} ${sellingCode}(${sellingIssuer || 'Native'})
-                </strong>
-                for
-                <strong>${buyingAmount} ${buyingCode}(${buyingIssuer || 'Native'})</strong>
+                <strong>${buyingAmount & oneTime} ${buyingAsset.code & oneTime} (${buyingIssuer & oneTime})</strong>
             </div>
 
             <br>
@@ -32,6 +24,6 @@
                 <i class="fa fa-check"></i>&nbsp;Confirm
             </button>
         </div>
-        <spinner-overlay show.bind="loading > 0"></spinner-overlay>
+        <spinner-overlay spin.bind="loading > 0"></spinner-overlay>
     </div>
 </template>

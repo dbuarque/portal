@@ -7,11 +7,15 @@ import {ModalService} from 'global-resources';
 import BaseResource from './base-resource';
 
 @inject(ModalService)
-export default class AssetResource extends BaseResource {
+export class AssetResource extends BaseResource {
     constructor(modalService) {
         super('/Asset');
 
         this.modalService = modalService;
+    }
+
+    query(options) {
+        return this.get('/', options);
     }
 
     codeMatch(match) {
@@ -24,5 +28,15 @@ export default class AssetResource extends BaseResource {
 
     codeIssuers(code) {
         return this.get('/CodeIssuers', {code});
+    }
+
+    /**
+     * Finds a single asset
+     * @param code
+     * @param issuer
+     * @returns {*}
+     */
+    asset(code, issuer) {
+        return this.get('/' + code + '/' + issuer);
     }
 }

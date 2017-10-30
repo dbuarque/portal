@@ -12,45 +12,70 @@ export default class BaseResource {
         this.client = config.client || Container.instance.get(JsonClient)
     }
 
-    getDataTable(data, settings, additionalFilters) {
-        let query = {
+    dataTablePre(data) {
+        const searchParams = data.columns.reduce((sp, col) => {
+            if (
+                col.searchable
+                && col.search.value
+            ) {
+                sp[col.data] = col.search.value;
+            }
+            return sp;
+        }, {});
+
+            
+        return {
+            ...searchParams,
             offset: data.start,
             limit: data.length,
             order: data.columns[data.order[0].column].data + ':' + data.order[0].dir
         };
-
-        data.columns.forEach(column => {
-            if (column.searchable && column.search.value) {
-                if (column.query) {
-                    query = column.config.query(query, column.search.value);
-                }
-                else {
-                    query[column.data] = 'like:' + '%' + column.search.value + '%';
-                }
-            }
-        });
-
-        Object.assign(query, additionalFilters);
-
-        return this.findAndCount(query)
-            .then(results => {
-                return {
-                    draw: data.draw,
-                    recordsTotal: results.count,
-                    recordsFiltered: results.count,
-                    data: results.rows
-                };
-            })
-            .catch(err => {
-                return {
-                    error: err.message
-                };
-            });
     }
 
-    findAndCount(query) {
-        return this.get('/FindAndCount', query);
+    dataTablePost(data, results) {
+        return {
+            draw: data.draw,
+            recordsTotal: results.count,
+            recordsFiltered: results.count,
+            data: results.rows
+        };
     }
+
+    //getDataTable(data, settings, additionalFilters) {
+    //    let query = {
+    //        offset: data.start,
+    //        limit: data.length,
+    //        order: data.columns[data.order[0].column].data + ':' + data.order[0].dir
+    //    };
+    //
+    //    data.columns.forEach(column => {
+    //        if (column.searchable && column.search.value) {
+    //            if (column.query) {
+    //                query = column.config.query(query, column.search.value);
+    //            }
+    //            else {
+    //                query[column.data] = 'like:' + '%' + column.search.value + '%';
+    //            }
+    //        }
+    //    });
+    //
+    //    Object.assign(query, additionalFilters);
+    //
+    //    return this.findAndCount(query)
+    //        .then(results => {
+    //            return {
+    //                draw: data.draw,
+    //                recordsTotal: results.count,
+    //                recordsFiltered: results.count,
+    //                data: results.rows
+    //            };
+    //        })
+    //        .catch(err => {
+    //            return {
+    //                error: err.message
+    //            };
+    //        });
+    //}
 
     get(action, query, options = {}) {
         options.query = query;

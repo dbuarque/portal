@@ -3,26 +3,39 @@
         <div class="navbar-fixed">
             <nav>
                 <div class="nav-wrapper">
-                    <a href="javascript:void(0)" class="brand-logo" click.delegate="goToExchange()">
+                    <a href="javascript:void(0)" class="brand-logo" click.delegate="goToExchangeChoose()">
                         <img src="/assets/lupoex-logo.png">
                         LuPoEx
                         <span class="brand-desc hide-on-small-only">Lumen Powered Exchange</span>
                     </a>
 
+                    <ul class="left hide-on-med-and-down">
+                        <li>
+                            <a href="javascript:void(0)" md-waves click.delegate="goToExchangeChoose()" title="Go To Markets">
+                                <i class="fa fa-list-ul fa-lg"></i>&nbsp;Markets
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" md-waves if.bind="assetPair" click.delegate="goToExchangeDetail()" title="Go To Markets">
+                                <i class="fa fa-line-chart fa-lg"></i>&nbsp;Exchange
+                            </a>
+                        </li>
+                    </ul>
+
                     <ul class="right hide-on-med-and-down">
                         <li>
-                            <a href="javascript:void(0)" md-waves click.delegate="goToAccount()" if.bind="account">
+                            <a href="javascript:void(0)" md-waves click.delegate="goToAccount()" if.bind="account" title="View Account Details">
                                 <i class="fa fa-user-o fa-lg"></i>
                                 <span style="font-size: 20px; vertical-align: middle;">&nbsp;${firstFive}</span>
                             </a>
                         </li>
                         <li>
-                            <a href="javascript:void(0)" md-waves click.delegate="logout()" if.bind="account">
+                            <a href="javascript:void(0)" md-waves click.delegate="logout()" if.bind="account" title="Log Out">
                                 <i class="fa fa-sign-out fa-lg"></i>
                             </a>
                         </li>
                         <li>
-                            <a href="javascript:void(0)" md-waves click.delegate="login()" if.bind="!account">
+                            <a href="javascript:void(0)" md-waves click.delegate="login()" if.bind="!account" title="Log In/Sign Up">
                                 <i class="fa fa-user-o fa-lg"></i>
                             </a>
                         </li>
@@ -30,12 +43,12 @@
 
                     <ul class="right hide-on-large-only">
                         <li>
-                            <a href="javascript:void(0)" md-waves md-dropdown="activates: user-dd" if.bind="account">
+                            <a href="javascript:void(0)" md-waves md-dropdown="activates: user-dd" if.bind="account" title="View Account Details">
                                 <i class="fa fa-user-o fa-lg"></i>
                             </a>
                         </li>
                         <li>
-                            <a href="javascript:void(0)" md-waves click.delegate="login()" if.bind="!account">
+                            <a href="javascript:void(0)" md-waves click.delegate="login()" if.bind="!account" title="Log In/Sign Up">
                                 <i class="fa fa-user-o fa-lg"></i>
                             </a>
                         </li>

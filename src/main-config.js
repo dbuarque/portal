@@ -2,39 +2,28 @@
  * Created by istrauss on 5/12/2017.
  */
 
-import _merge from 'lodash.merge';
-
-let env;
-
-switch (window.location.hostname) {
-    case 'localhost':
-        env = 'development';
-        break;
-    case 'test.lupoex.com':
-        env = 'test';
-        break;
-    case 'lupoex.com':
-        env = 'production';
-        break;
-    default:
-        throw new Error('Unknown environment');
-}
+import _merge from 'lodash/merge';
 
 const config = {
     development: {
         urls: {
             api: 'http://localhost:1337',
-            horizon: 'https://horizon.stellar.org'
-            //horizon: 'https://horizon-testnet.stellar.org/'
-        },
-        networkMode: 'public'
+            horizon: window.lupoex.networkMode === 'public' ? 'https://horizon.stellar.org' : 'https://horizon-testnet.stellar.org/'
+        }
     },
     test: {
         urls: {
-            api: 'http://test.api.lupoex.com',
+            api: 'https://test.api.lupoex.com',
             horizon: 'https://horizon-testnet.stellar.org/'
         },
         networkMode: 'test'
+    },
+    beta: {
+        urls: {
+            api: 'https://beta.api.lupoex.com',
+            horizon: 'https://horizon.stellar.org'
+        },
+        networkMode: 'public'
     },
     production: {
         urls: {
@@ -49,8 +38,8 @@ const config = {
             minimumNativeBalance: 20
         },
         publicKey: 'GACGNVW44F7GNUVALL2YFEHAVBVWO7WQROZ2ZRSYVL3H7UB4QPEUVJSN',
-        offerFeeFactor: 0.00025
+        offerFeeFactor: 0
     }
 };
 
-Object.assign(window.lupoex, {env}, _merge(config.all, config[env]));
+Object.assign(window.lupoex, _merge(config.all, config[window.lupoex.env]));

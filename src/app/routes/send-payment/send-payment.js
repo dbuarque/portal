@@ -2,15 +2,14 @@
  * Created by istrauss on 5/19/2017.
  */
 
-import {PLATFORM} from 'aurelia-pal';
-import {inject} from 'aurelia-framework';
+import {inject, computedFrom} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
-import {HttpClient} from 'aurelia-fetch-client';
-import {ModalService, AppStore, ValidationManager, StellarServer} from 'global-resources';
-import {TransactionService} from 'app-resources';
+import {Store} from 'au-redux';
+import {ModalService, ValidationManager, StellarServer} from 'global-resources';
+import {AccountResource, TransactionService} from 'app-resources';
 import {AppActionCreators} from '../../app-action-creators';
 
-@inject(Router, HttpClient, ModalService, AppStore, ValidationManager, StellarServer, TransactionService, AppActionCreators)
+@inject(Router, ModalService, Store, ValidationManager, StellarServer, AccountResource, TransactionService, AppActionCreators)
 export class SendPayment {
 
     loading = 0;
@@ -21,12 +20,17 @@ export class SendPayment {
         dismissible: false
     };
 
-    constructor(router, httpClient, modalService, appStore, validationManager, stellarServer, transactionService, appActionCreators) {
+    @computedFrom('type')
+    get isNative() {
+        return this.type.toLowerCase() === 'native';
+    }
+
+    constructor(router, modalService, store, validationManager, stellarServer, accountResource, transactionService, appActionCreators) {
         this.router = router;
-        this.httpClient = httpClient;
         this.modalService = modalService;
-        this.appStore = appStore;
+        this.store = store;
         this.validationManager = validationManager;
+        this.accountResource = accountResource;
         this.transactionService = transactionService;
         this.stellarServer = stellarServer;
         this.appActionCreators = appActionCreators;
@@ -35,7 +39,7 @@ export class SendPayment {
     }
 
     activate(params) {
-        this.nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
+        this.type = params.type;
         this.code = params.code;
         this.issuer = params.issuer;
         this.destination = params.destination;
@@ -64,10 +68,6 @@ export class SendPayment {
         this.step = 'confirm';
     }
 
-    finish() {
-        this.router.navigate('/account/asset-balances');
-    }
-
     tryAgain() {
         this.alertConfig = undefined;
         this.step = 'input';
@@ -75,30 +75,10 @@ export class SendPayment {
 
     refresh() {
         this.amount = undefined;
-        this.memos = [];
+        this.memo = undefined;
         this.validationManager.clear();
         this.step = 'input';
         this.alertConfig = undefined;
-    }
-
-    async generateSuccessMessage(response) {
-        const transactionResponse = await this.httpClient.fetch(response._links.transaction.href);
-        const transaction = await transactionResponse.json();
-        const effectsResponse = await this.stellarServer.effects().forTransaction(transaction.id).call();
-
-        return effectsResponse.records.reduce((html, e) => {
-                let msg = '';
-                switch(e.type) {
-                    case 'account_credited':
-                        msg = 'Sent ' + e.amount + ' ' + (e.asset_type === 'native' ? this.nativeAssetCode : e.asset_code) + ' to account <span style="word-break: break-all;">' + e.account + '</span>.';
-                        break;
-                    case 'account_created':
-                        msg = 'Account <span style="word-break: break-all;">' + e.account + '</span> created with 20 ' + this.nativeAssetCode + '.';
-                        break;
-                }
-
-                return html + '<li>' + msg + '</li>';
-            }, '<ul>') + '</ul>';
     }
 
     async submitConfirmation() {
@@ -109,30 +89,25 @@ export class SendPayment {
             let destinationAccount;
 
             try {
-                destinationAccount = await this.stellarServer.loadAccount(this.destination);
+                destinationAccount = await this.accountResource.account(this.destination, {
+                    handleError: false
+                });
             }
-
             catch(e) {
-                //404 means that account does not exist
-                if (e.data.status !== 404) {
-                    this.alertConfig = {
-                        type: 'error',
-                        message: 'Something is wrong. Your payment could not be sent.'
-                    };
-                    this.loading--;
-                    return;
-                }
+                //failure means that the destinationAccount doesn't exist.
             }
 
             let operations = [];
 
             //Destination account doest exist? Let's try to create it (if the user is sending native asset).
             if (!destinationAccount) {
-                if (this.code === this.nativeAssetCode) {
-                    if (parseInt(this.amount, 10) < 20) {
+                if (this.isNative) {
+                    const mimimumAmount = window.lupoex.stellar.minimumNativeBalance + 1;
+
+                    if (parseInt(this.amount, 10) < mimimumAmount) {
                         this.alertConfig = {
                             type: 'error',
-                            message: 'That destination account does not exist. We cannot create the account with less than ' + window.lupoex.stellar.minimumNativeBalance.toString() + ' ' + window.lupoex.stellar.nativeAssetCode + '.'
+                            message: 'That destination account does not exist. We cannot create the account with less than ' + mimimumAmount + ' ' + window.lupoex.stellar.nativeAssetCode + '.'
                         };
                         this.loading--;
                         return;
@@ -159,7 +134,7 @@ export class SendPayment {
                     this.stellarServer.sdk.Operation.payment({
                         destination: this.destination,
                         amount: this.amount.toString(),
-                        asset: this.code === this.nativeAssetCode ?
+                        asset: this.isNative ?
                             this.stellarServer.sdk.Asset.native() :
                             new this.stellarServer.sdk.Asset(this.code, this.issuer)
                     })
@@ -169,10 +144,7 @@ export class SendPayment {
             try {
                 await this.transactionService.submit(operations, {
                     memo: this.memo ? this.stellarServer.sdk.Memo[this.memoMethodFromType(this.memo.type)](this.memo.value) : undefined,
-                    onSuccess: this.generateSuccessMessage.bind(this)
                 });
-
-                this.appStore.dispatch(this.appActionCreators.updateAccount());
                 this.refresh();
             }
             catch(e) {

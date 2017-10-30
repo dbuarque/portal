@@ -2,73 +2,100 @@
  * Created by istrauss on 1/7/2017.
  */
 
-
 import {inject} from 'aurelia-framework';
-import {namespace, exchangeActionTypes} from './exchange-action-types';
-import {StellarServer} from 'global-resources';
-import {OrderAmountValueConverter, SumOrdersAmountValueConverter} from 'app-resources';
+import {UPDATE_ASSET_PAIR} from './exchange-action-types';
+import {AssetResource} from 'app-resources';
 
-const {UPDATE_ASSET_PAIR, REFRESH_ORDERBOOK} = exchangeActionTypes;
-
-@inject(StellarServer, OrderAmountValueConverter, SumOrdersAmountValueConverter)
+@inject(AssetResource)
 export class ExchangeActionCreators {
 
-    constructor(stellarServer, orderAmount, sumOrdersAmount) {
-        this.stellarServer = stellarServer;
-        this.orderAmount = orderAmount;
-        this.sumOrdersAmount = sumOrdersAmount;
+    constructor(assetResource) {
+        this.assetResource = assetResource;
     }
 
     updateAssetPair(assetPair) {
-        return {
-            type: UPDATE_ASSET_PAIR,
-            payload: {
-                ...assetPair
+        return async (dispatch, getState) => {
+            if (!assetPair) {
+                return;
             }
+
+            const oldAssetPair = getState().exchange.assetPair;
+
+            if (
+                oldAssetPair &&
+                compareAssets(assetPair.buying, oldAssetPair.buying) &&
+                compareAssets(assetPair.selling, oldAssetPair.selling)
+            ) {
+                // newAssetPair is the same as the oldAssetPair. No need to update.
+                return;
+            }
+
+            const assets = await Promise.all([
+                this.assetWithIssuer(assetPair, oldAssetPair, 'buying'),
+                this.assetWithIssuer(assetPair, oldAssetPair, 'selling')
+            ]);
+
+            return dispatch({
+                type: UPDATE_ASSET_PAIR,
+                payload: {
+                    buying: assets[0],
+                    selling: assets[1]
+                }
+            });
         };
     }
 
-    refreshOrderbook() {
-        return async (dispatch, getState) => {
-            const assetPair = getState().exchange.assetPair;
+    /**
+     * Takes a newAsset and returns the asset with the issuer populated (i.e. as a full object)
+     * @param newAssetPair
+     * @param oldAssetPair
+     * @param type
+     * @returns {Promise.<*>}
+     */
+    async assetWithIssuer(newAssetPair, oldAssetPair, type) {
+        const newAsset = newAssetPair[type];
 
-            dispatch({
-                type: REFRESH_ORDERBOOK,
-                payload: {
-                    loading: true
-                }
-            });
-
-            const orderbook = await this.stellarServer.orderbook(
-                    assetPair.selling.code === 'XLM' ? this.stellarServer.sdk.Asset.native() : new this.stellarServer.sdk.Asset(assetPair.selling.code, assetPair.selling.issuer),
-                    assetPair.buying.code === 'XLM' ? this.stellarServer.sdk.Asset.native() : new this.stellarServer.sdk.Asset(assetPair.buying.code, assetPair.buying.issuer)
-                )
-                .call();
-
-            orderbook.asks = orderbook.asks.map((a, index) => {
-                return {
-                    ...a,
-                    buying_amount: this.orderAmount.toView(a, true, false),
-                    selling_amount: this.orderAmount.toView(a, true, true),
-                    buying_depth: this.sumOrdersAmount.toView(orderbook.asks, index, true, false),
-                    selling_depth: this.sumOrdersAmount.toView(orderbook.asks, index, true, true)
-                };
-            });
-
-            orderbook.bids = orderbook.bids.map((b, index) => {
-                return {
-                    ...b,
-                    buying_amount: this.orderAmount.toView(b, false, false),
-                    selling_amount: this.orderAmount.toView(b, false, true),
-                    buying_depth: this.sumOrdersAmount.toView(orderbook.bids, index, false, false),
-                    selling_depth: this.sumOrdersAmount.toView(orderbook.bids, index, false, true)
-                };
-            });
-
-           dispatch({
-               type: REFRESH_ORDERBOOK,
-               payload: orderbook
-           });
+        if (!newAsset) {
+            return oldAssetPair ? oldAssetPair[type] : null;
         }
+
+        if (typeof newAsset.issuer === 'object') {
+            return newAsset;
+        }
+
+        if (oldAssetPair) {
+            if (compareAssets(newAsset, oldAssetPair.selling)) {
+                return oldAssetPair.selling;
+            }
+
+            if (compareAssets(newAsset, oldAssetPair.buying)) {
+                return oldAssetPair.buying;
+            }
+        }
+
+        if (newAsset.type === 'native') {
+            return newAsset;
+        }
+
+        const assetWithIssuer = await this.assetResource.asset(newAsset.code, newAsset.issuer);
+
+        return {
+            code: assetWithIssuer.assetCode,
+            type: assetWithIssuer.assetType,
+            issuer: assetWithIssuer.issuer
+        };
     }
+}
+
+function compareAssets(newAsset, oldAsset) {
+    if (!oldAsset || !newAsset) {
+        return !oldAsset && !newAsset;
+    }
+
+    const newIssuerAddress = newAsset.issuer && newAsset.issuer.accountId ? newAsset.issuer.accountId : newAsset.issuer;
+    const newCode = newAsset.code;
+    const oldIssuerAddress = oldAsset.issuer ? oldAsset.issuer.accountId : newAsset.issuer;
+    const oldCode = oldAsset.code;
+
+    return newIssuerAddress === oldIssuerAddress && newCode === oldCode;
 }

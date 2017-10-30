@@ -1,11 +1,16 @@
 .nav-wrapper {
     margin: 0 auto;
 
+    .left {
+        margin-left: 400px;
+    }
+
     .brand-logo {
         height: 64px;
         line-height: 64px;
         vertical-align: middle;
         margin-left: 15px;
+        color: $primary;
 
         img {
             height: 50px;

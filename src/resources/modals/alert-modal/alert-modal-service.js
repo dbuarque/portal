@@ -2,6 +2,7 @@
  * Created by istrauss on 4/7/2016.
  */
 
+import {PLATFORM} from 'aurelia-pal';
 import {inject} from 'aurelia-framework';
 import ModalService from '../modal/modal-service';
 
@@ -12,9 +13,9 @@ export default class AlertModalService {
     }
     open(type, message, options = {}) {
         let passedInfo = Object.assign({}, {type, message}, options);
-        return this.modalService.open('resources/modals/alert-modal/alert-modal', passedInfo, {
+        return this.modalService.open(PLATFORM.moduleName('resources/modals/alert-modal/alert-modal'), passedInfo, {
             modalClass: 'alert-modal',
-            dismissible: options.confirm ? false : true
+            dismissible: !!options.confirm
         });
     }
 }

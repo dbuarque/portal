@@ -9,9 +9,9 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <!--<div if.bind="destination === lupoexPublicKey" class="card alert alert-warning center-text">
+                    <div if.bind="destination === lupoexPublicKey" class="card alert alert-warning center-text">
                         Hey, that looks like our address. Thanks in advance for the donation.&nbsp;<i class="fa fa-smile-o fa-lg"></i>
-                    </div>-->
+                    </div>
 
                     <alert config.bind="alertConfig"></alert>
 
@@ -21,18 +21,15 @@
                             <div class="row">
                                 <div class="col s12">
                                     <label>Code</label>
-                                    <input type="text" value.bind="code" required title="Code"
-                                           tt-validate="manager.bind: validationManager; key: code;">
+                                    <input type="text" value.one-time="code" disabled title="Code">
                                 </div>
-                                <div class="col s12" if.bind="code !== nativeAssetCode">
+                                <div class="col s12" if.bind="!isNative">
                                     <label>Issuer</label>
-                                    <input type="text" value.bind="issuer" required title="Issuer"
-                                           tt-validate="manager.bind: validationManager; key: issuer;">
+                                    <input type="text" value.one-time="issuer" disabled title="Issuer">
                                 </div>
                                 <div class="col s12">
                                     <label>Amount</label>
-                                    <input stellar-compliant-float type="number" value.bind="amount" required title="Amount"
-                                           tt-validate="manager.bind: validationManager; key: amount;">
+                                    <input type="number" value.bind="amount | validStellarNumber" required title="Amount" tt-validate="manager.bind: validationManager; key: amount;">
                                 </div>
                                 <div class="col s12">
                                     <label>Destination Account</label>
@@ -70,7 +67,7 @@
                                                 <memo-select validation-manager.bind="validationManager" type.bind="memo.type" value.bind="memo.value"></memo-select>
                                             </div>
                                             <div class="col s2" style="padding-top: 20px;">
-                                                <button class="btn btn-small error">
+                                                <button class="btn btn-flat error">
                                                     <i class="fa fa-2x fa-trash-o" click.trigger="removeMemo()"></i>
                                                 </button>
                                             </div>
@@ -78,7 +75,7 @@
                                     </div>
                                 </div>
                                 <br>
-                                <button md-waves type="button" class="btn btn-flat accent btn-small" click.trigger="addMemo()" if.bind="!memo">
+                                <button md-waves type="button" class="btn btn-flat accent" click.trigger="addMemo()" if.bind="!memo">
                                     <i class="fa fa-plus"></i>&nbsp;Add Memo
                                 </button>
                             </div>
@@ -100,7 +97,7 @@
                                 </tr>
                                 <tr>
                                     <td class="label">Issuer</td>
-                                    <td class="value">${code === nativeAssetCode ? 'Native' : issuer}</td>
+                                    <td class="value">${issuer}</td>
                                 </tr>
                                 <tr>
                                     <td class="label">Amount</td>
@@ -136,7 +133,7 @@
                             </div>
                         </div>
                     </div>
-                    <spinner-overlay show.bind="loading > 0"></spinner-overlay>
+                    <spinner-overlay spin.bind="loading > 0"></spinner-overlay>
                 </div>
             </div>
         </div>

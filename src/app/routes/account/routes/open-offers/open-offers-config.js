@@ -3,39 +3,72 @@
  */
 
 import {transient, inject} from 'aurelia-framework';
-import {FormatNumberValueConverter, OrderAmountValueConverter} from 'app-resources';
+import {SanitizeHTMLValueConverter} from 'aurelia-templating-resources';
+import {FormatDateTimeValueConverter} from 'global-resources';
+import {FormatNumberValueConverter} from 'app-resources';
+import {IssuerHtmlValueConverter} from '../../account-value-converters';
 
 @transient()
-@inject(FormatNumberValueConverter, OrderAmountValueConverter)
-export default class AssetBalancesConfig {
+@inject(FormatNumberValueConverter, FormatDateTimeValueConverter, IssuerHtmlValueConverter, SanitizeHTMLValueConverter)
+export default class OpenOffersConfig {
 
-    constructor(formatNumber, orderAmount) {
+    constructor(formatNumber, formatDateTime, issuerHtml, sanitizeHTML) {
         return {
             table: {
+                lengthMenu: [ 10, 25, 100 ],
+                serverSide: true,
+                searchDelay: 500,
                 columns: [
                     {
-                        title: 'Selling',
-                        data: 'selling',
+                        title: 'Offered Amount',
+                        data: 'amount',
+                        searchable: false
+                    },
+                    {
+                        title: 'Offered Asset Code',
+                        data: '_sellingAssetCode',
                         render(cellData, type, rowData) {
-                            return rowData.amount + ' ' + assetLabel(rowData.selling);
+                            return rowData.sellingAssetCode;
                         },
                         searchable: true
                     },
                     {
-                        title: 'Buying',
-                        data: 'buying',
+                        title: 'Offered Asset Issuer',
+                        data: 'sellingIssuerId',
+                        searchable: true,
+                        cellCallback (cell, rowData) {
+                            cell.empty();
+                            let newHtml = issuerHtml.toView(rowData.sellingIssuer);
+                            newHtml = sanitizeHTML.toView(newHtml);
+                            cell.html(newHtml);
+                        }
+                    },
+                    {
+                        title: 'Desired Asset Code',
+                        data: '_buyingAssetCode',
                         render(cellData, type, rowData) {
-                            return orderAmount.toView(rowData, true, false) + ' ' + assetLabel(rowData.buying);
+                            return rowData.buyingAssetCode;
                         },
                         searchable: true
+                    },
+                    {
+                        title: 'Desired Asset Issuer',
+                        data: 'buyingIssuerId',
+                        searchable: true,
+                        cellCallback (cell, rowData) {
+                            cell.empty();
+                            let newHtml = issuerHtml.toView(rowData.buyingIssuer);
+                            newHtml = sanitizeHTML.toView(newHtml);
+                            cell.html(newHtml);
+                        }
                     },
                     {
                         title: 'Price',
                         data: 'price',
+                        searchable: false,
                         render(cellData, type, rowData) {
-                            return formatNumber.toView(parseFloat(rowData.price, 10)) + ' ' + assetCode(rowData.selling) + '/' + assetCode(rowData.buying);
-                        },
-                        searchable: true
+                            return formatNumber.toView(parseFloat(rowData.price, 10)) + ' ' + rowData.sellingAssetCode + '/' + rowData.buyingAssetCode;
+                        }
                     },
                     {
                         title: '',
@@ -48,12 +81,3 @@ export default class AssetBalancesConfig {
         };
     }
 }
-
-function assetLabel (asset) {
-    return asset.asset_type === 'native' ? window.lupoex.stellar.nativeAssetCode + '(Native)' : asset.asset_code + '(' + asset.asset_issuer + ')';
-}
-
-function assetCode(asset) {
-    return asset.asset_type === 'native' ? window.lupoex.stellar.nativeAssetCode : asset.asset_code ;
-}
-

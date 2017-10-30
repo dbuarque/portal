@@ -2,22 +2,22 @@
  * Created by istrauss on 6/29/2017.
  */
 
-import _throttle from 'lodash.throttle';
+import _throttle from 'lodash/throttle';
 import {bindable, inject} from 'aurelia-framework';
-import {EventHelper, AppStore, ObserverManager, ObservationInstruction, StellarServer, AlertToaster} from 'global-resources';
+import {Store} from 'au-redux';
+import {EventHelper, StellarServer, AlertToaster} from 'global-resources';
 import {SecretStore} from 'app-resources';
 import {AppActionCreators} from '../../../../app-action-creators';
 
-@inject(AppStore, ObserverManager, StellarServer, AlertToaster, SecretStore, AppActionCreators)
+@inject(Store, StellarServer, AlertToaster, SecretStore, AppActionCreators)
 export class LoginCustomElement {
 
     @bindable parentElement;
 
     loading = 0;
 
-    constructor(appStore, observerManager, stellarServer, alertToaster, secretStore, appActionCreators) {
-        this.appStore = appStore;
-        this.observerManager = observerManager;
+    constructor(store, stellarServer, alertToaster, secretStore, appActionCreators) {
+        this.store = store;
         this.stellarServer = stellarServer;
         this.alertToaster = alertToaster;
         this.secretStore = secretStore;
@@ -25,12 +25,6 @@ export class LoginCustomElement {
 
         this.onPublicKeyChange = _throttle(this._onPublicKeyChange.bind(this), 250);
         this.onSecretChange = _throttle(this._onSecretChange.bind(this), 250);
-    }
-
-    subscribeObservers() {
-        const instructions = [
-            new ObservationInstruction(this, 'publicKey', this.onPublicKeyChange.bind(this))
-        ]
     }
 
     _onPublicKeyChange() {
@@ -65,20 +59,20 @@ export class LoginCustomElement {
 
         this.loading++;
 
-        try {
-            await this.appStore.dispatch(this.appActionCreators.setAccount(this.publicKey));
+        await this.store.dispatch(this.appActionCreators.updateAccount(this.publicKey));
 
+        if (!this.store.getState().myAccount) {
+            this.alertConfig = {
+                type: 'error',
+                message: 'That account could not be found on the stellar network. Are you sure the account exists?'
+            };
+        }
+        else {
             if (this.secret) {
                 this.secretStore.remember(this.stellarServer.sdk.Keypair.fromSecret(this.secret));
             }
 
             EventHelper.emitEvent(this.parentElement, 'login');
-        }
-        catch(e) {
-            this.alertConfig = {
-                type: 'error',
-                message: 'That account could not be found on the stellar network. Are you sure the account exists?'
-            };
         }
 
         this.loading--;

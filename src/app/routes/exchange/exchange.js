@@ -3,17 +3,13 @@
  */
 
 import {inject} from 'aurelia-framework';
-import {AppStore} from 'global-resources';
 import Config from './exchange-config';
-import {ExchangeActionCreators} from './exchange-action-creators';
 
-@inject(Config, AppStore, ExchangeActionCreators)
+@inject(Config)
 export class Exchange {
 
-    constructor(config, appStore, exchangeActionCreators) {
+    constructor(config) {
         this.config = config;
-        this.appStore = appStore;
-        this.exchangeActionCreators = exchangeActionCreators;
     }
 
     configureRouter(routerConfig, router) {
@@ -23,29 +19,5 @@ export class Exchange {
         this.router = router;
 
         this.router.transformTitle = title => false;
-    }
-
-    bind() {
-        this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
-        this.updateFromStore();
-    }
-
-    unbind() {
-        this.unsubscribeFromStore();
-    }
-
-    updateFromStore() {
-        const newState = this.appStore.getState();
-        const exchange = newState.exchange;
-
-        if (this.assetPair !== exchange.assetPair) {
-            this.assetPair = exchange.assetPair;
-            this.refresh();
-        }
-
-    }
-
-    refresh() {
-        this.appStore.dispatch(this.exchangeActionCreators.refreshOrderbook());
     }
 }

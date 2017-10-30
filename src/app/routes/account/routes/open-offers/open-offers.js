@@ -3,70 +3,64 @@
  */
 
 import {inject} from 'aurelia-framework';
-import {AppStore} from 'global-resources';
-import {OfferService} from 'app-resources';
-import {AppActionCreators} from '../../../../app-action-creators';
+import {connected} from 'au-redux';
+import {AccountResource, OfferService} from 'app-resources';
 import Config from './open-offers-config';
 
-@inject(Config, AppStore, OfferService, AppActionCreators)
+@inject(Config, AccountResource, OfferService)
 export class OpenOffers {
 
+    @connected('myAccount')
+    account;
+
     loading = 0;
-    offers = [];
-
-    constructor(config, appStore, offerService, appActionCreators) {
-        this.config = config;
-        this.appStore = appStore;
-        this.offerService = offerService;
-        this.appActionCreators = appActionCreators;
-
-        this.updateTableConfig();
-    }
-
-    bind() {
-        this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
-        this.updateFromStore();
-    }
-
-    unbind() {
-        this.unsubscribeFromStore();
-    }
-
-    updateFromStore() {
-        const state = this.appStore.getState();
-
-        const oldAccountId = this.account ? this.account.id : undefined;
-
-        this.account = state.account;
-        this.offers = state.offers;
-
-        if (this.account.id !== oldAccountId) {
-            this.refresh();
-        }
-    }
-
-    async refresh() {
-        this.loading++;
-
-        await this.appStore.dispatch(this.appActionCreators.updateOffers());
-
-        this.loading--;
-    }
 
     get refreshing() {
-        return this.account.updating || this.loading > 0;
+        return this.loading > 0;
     }
 
-    updateTableConfig() {
-        let vm = this;
+    get tableConfig() {
+        const vm = this;
 
-        vm.config.table.columns[3].cellCallback = (cell, rowData) => {
+        vm.config.table.columns[6].cellCallback = (cell, rowData) => {
             cell.empty();
             $('<button class="btn error-text btn-small btn-flat" type="button">Cancel</button>')
-                .click(() => {
-                    vm.offerService.cancelOffer(rowData);
+                .click(async () => {
+                    try {
+                        await vm.offerService.cancelOffer(rowData);
+                    }
+                    catch(e) {}
+
+                    vm.refresh();
                 })
                 .appendTo(cell);
         };
+
+        return {
+            ...vm.config.table,
+            ajax: vm.ajax.bind(vm)
+        };
+    }
+
+    constructor(config, accountResource, offerService) {
+        this.config = config;
+        this.accountResource = accountResource;
+        this.offerService = offerService;
+    }
+
+    refresh() {
+        if (this.dataTable) {
+            this.dataTable.dataTable.api().ajax.reload();
+        }
+    }
+
+    async ajax(data, callback, settings) {
+        this.loading++;
+
+        const tableData = await this.accountResource.offersDataTable(this.account.accountId, data, settings);
+
+        callback(tableData);
+
+        this.loading--;
     }
 }

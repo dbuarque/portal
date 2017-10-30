@@ -1,47 +1,54 @@
 <template>
     <div class="create-offer">
         <alert if.bind="alertConfig" config.bind="alertConfig"></alert>
-        <div show.bind="!account">
+        <div if.bind="!account">
             <i>
                 You must <a href="javascript:void(0)" click.trigger="goToLogin()">login</a> to create offers.
             </i>
         </div>
-        <div show.bind="account">
-            <table class="current-balance">
-                <tr>
-                    <td>${assetPair.selling.code} Balance:</td>
-                    <td>${buyingAssetBalance.balance.toFixed(7)}</td>
-                </tr>
-                <tr>
-                    <td>${assetPair.buying.code} Balance:</td>
-                    <td>${sellingAssetBalance.balance.toFixed(7)}</td>
-                </tr>
-            </table>
-            <form submit.trigger="submit()" novalidate>
-                <div class="form-field">
-                    <label>Price (${assetPair.buying.code}/${assetPair.selling.code})</label>
-                    <input type="number" class="form-control" value.bind="price">
-                </div>
-                <div class="form-field">
-                    <label>${assetPair.selling.code}</label>
-                    <input stellar-compliant-float type="number" class="form-control" value.bind="buyingAmount" keyup.trigger="onBuyingAmountChanged()">
-                </div>
-                <div class="form-field">
-                    <label>${assetPair.buying.code}</label>
-                    <input stellar-compliant-float type="number" class="form-control" value.bind="sellingAmount" keyup.trigger="onSellingAmountChanged()">
-                </div>
-                <div if.bind="needsTrustline">
+        <div if.bind="account">
+            <div show.bind="needsTrustline && !myBuyingAsset.trustLimit">
+                <i>
+                    You must <a href="javascript:void(0)" click.trigger="modifyLimit()">trust ${myBuyingAsset.code}</a> to create offers.
+                </i>
+            </div>
+            <div show.bind="!needsTrustline || myBuyingAsset.trustLimit">
+                <table class="current-balance">
+                    <tr>
+                        <td>${assetPair.selling.code} Balance:</td>
+                        <td>${myAssetPair.selling.balance || 0}</td>
+                    </tr>
+                    <tr>
+                        <td>${assetPair.buying.code} Balance:</td>
+                        <td>${myAssetPair.buying.balance || 0}</td>
+                    </tr>
+                </table>
+                <form submit.trigger="submit()" novalidate>
                     <div class="form-field">
-                        <span class.bind="minTrustLine <= buyingAssetBalance.limit ? 'success-text' : 'error-text'">${minTrustLine}/${buyingAssetBalance.limit} Limit</span>
+                        <label>Price (${assetPair.buying.code}/${assetPair.selling.code})</label>
+                        <input type="tel" class="form-control" value.bind="price">
                     </div>
-                    <a href="javascript:void(0)" class="primary-text" click.trigger="modifyLimit()">Learn More/Modify Limit.</a>
-                </div>
-                <div class="center-align form-field">
-                    <button md-waves type="submit" class="btn primary btn-small">
-                        &nbsp;Create Bid
-                    </button>
-                </div>
-            </form>
+                    <div class="form-field">
+                        <label>${assetPair.selling.code}</label>
+                        <input type="tel" class="form-control" value.bind="buyingAmount & reflectModel">
+                    </div>
+                    <div class="form-field">
+                        <label>${assetPair.buying.code}</label>
+                        <input type="tel" class="form-control" value.bind="sellingAmount & reflectModel">
+                    </div>
+                    <div if.bind="needsTrustline && myBuyingAsset.trustLimit">
+                        <div class="form-field">
+                            <span class.bind="minTrustLine <= myBuyingAsset.trustLimit ? 'success-text' : 'error-text'">${minTrustLine}/${myBuyingAsset.trustLimit} Limit</span>
+                        </div>
+                        <a href="javascript:void(0)" class="primary-text" click.trigger="modifyLimit()">Learn More/Modify Limit.</a>
+                    </div>
+                    <div class="center-align form-field">
+                        <button md-waves type="submit" class="btn primary">
+                            &nbsp;Create Bid
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </template>

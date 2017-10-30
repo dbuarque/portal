@@ -12,7 +12,12 @@ export class FooterCustomElement {
         this.router = router;
     }
 
-    //donate() {
-    //    this.router.navigateToRoute('send-payment', {code: window.lupoex.stellar.nativeAssetCode, destination: window.lupoex.publicKey})
-    //}
+    donate() {
+        this.router.navigateToRoute('send-payment', {
+            type: 'Native',
+            code: window.lupoex.stellar.nativeAssetCode,
+            issuer: 'Stellar',
+            destination: window.lupoex.publicKey
+        });
+    }
 }

@@ -2,11 +2,12 @@
     <div class="offer-modal">
         <alert config.bind="alertConfig"></alert>
         <div>
-            Currently, your trust limit for ${code}(${issuer}) is <strong>${limit}</strong>. You can modify your limit below:
+            Currently, your trust limit for ${code & oneTime}(${issuer.homeDomain || issuer.accountId || issuer & oneTime})
+            is <strong>${limit || 0 & oneTime}</strong>. You can modify your limit below:
         </div>
         <div class="form-field">
             <label>New Limit</label>
-            <input stellar-compliant-float type="number" value.bind="newLimit" tt-validate="key:newLimit; manager.bind: validationManager" required title="New Limit">
+            <input type="tel" value.bind="newLimit | validStellarNumber & reflectModel" tt-validate="key:newLimit; manager.bind: validationManager" required title="New Limit">
         </div>
         <br>
         <div class="center-text">
@@ -14,6 +15,6 @@
                 <i class="fa fa-check"></i>&nbsp;Modify Limit
             </button>
         </div>
-        <spinner-overlay show.bind="loading > 0"></spinner-overlay>
+        <spinner-overlay spin.bind="loading > 0"></spinner-overlay>
     </div>
 </template>

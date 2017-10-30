@@ -3,6 +3,7 @@
     -moz-box-shadow: $shadow1;
     box-shadow: $shadow1;
     border-radius: 0;
+    margin-top: 0;
 
     .card-content {
         padding: 0;
@@ -26,10 +27,18 @@
                 display: inline-block;
             }
         }
+
+        &.no-heading {
+            border-top: 1px solid $light-gray;
+        }
     }
 
     .card-body {
         padding: 10px;
+
+        &.no-padding {
+            padding: 0;
+        }
     }
 }
 
@@ -127,5 +136,14 @@
             color: $accent;
             background-color: $background;
         }
+    }
+}
+
+.refresh-button {
+    font-size: 15px;
+    cursor: pointer;
+
+    &:hover {
+        color: $primary;
     }
 }

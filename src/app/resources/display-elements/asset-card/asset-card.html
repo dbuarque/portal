@@ -1,0 +1,33 @@
+<template>
+    <div class="asset-card-container" class.bind="reselect ? 'reselect' : ''" click.trigger="openSidebar()">
+        <div if.bind="!asset" class="no-asset">
+            <i class="fa fa-hand-pointer-o"></i>&nbsp;Select
+        </div>
+        <div if.bind="asset" class="asset-card card" class.bind="verified ? 'verified' : 'not-verified'" title.bind="description">
+            <div class="card-content">
+                <div class="card-body">
+                    <table>
+                        <tr>
+                            <td class="image-cell">
+                                <div class="image-wrapper">
+                                    <img show.bind="loading === 0" src.bind="imageSrc">
+                                    <i show.bind="loading > 0" class="fa fa-refresh primary-text fa-spin"></i>
+                                </div>
+                                <div class="verification">
+                                    <i show.bind="verified" class="fa fa-lg fa-check-circle-o success-text" title.bind="verifiedMessage"></i>
+                                    <i show.bind="!verified" class="fa fa-exclamation-triangle warning-text" title.bind="verifiedMessage"></i>
+                                </div>
+                            </td>
+                            <td class="description-cell">
+                                <div class="asset-code"><strong>${assetCode}</strong></div>
+                                <div show.bind="homeDomain" class="primary-text home-domain">${homeDomain}</div>
+                                <!--<a show.bind="homeDomain" target="_blank" href.bind="homeDomain" class="primary-text home-domain">${homeDomain}</a>-->
+                                <div class="issuer-address">${issuerAddress}</div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

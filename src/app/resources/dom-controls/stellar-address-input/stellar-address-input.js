@@ -2,7 +2,7 @@
  * Created by istrauss on 6/22/2017.
  */
 
-import _debounce from 'lodash.debounce';
+import _debounce from 'lodash/debounce';
 import {inject, bindable, bindingMode} from 'aurelia-framework';
 import {StellarServer} from 'global-resources';
 
@@ -21,6 +21,10 @@ export class StellarAddressInputCustomElement {
         this.stellarServer = stellarServer;
 
         this.onChange = _debounce(this.processInput.bind(this), 350);
+    }
+
+    publicKeyChanged() {
+        this.inputValue = this.publicKey;
     }
 
     async processInput() {

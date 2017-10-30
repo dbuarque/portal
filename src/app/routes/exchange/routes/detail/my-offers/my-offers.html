@@ -6,14 +6,13 @@
                     <div class="card-title">
                         My Offers
                     </div>
-                    <i style="font-size: 15px;" class="fa fa-refresh right" no-collapse click.trigger="refresh()"></i>
                 </div>
                 <div class="card-body">
-                    <div show.bind="asks.length === 0 && bids.length === 0">
+                    <div class="no-offers" show.bind="!anyOffers">
                         <i>You have no open offers for this asset pair.</i>
                     </div>
-                    <div show.bind="asks.length !== 0 || bids.length !== 0">
-                        <table class="highlight striped centered">
+                    <div show.bind="anyOffers">
+                        <table class="highlight centered">
                             <thead>
                                 <tr>
                                     <th>Type</th>
@@ -24,10 +23,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr repeat.for="bid of bids">
+                                <tr repeat.for="bid of myOffers.bids">
                                     <td><span class="success-text"><strong>Bid</strong></span></td>
-                                    <td>${1 / bid.price | toPrecision:7}</td>
-                                    <td>${bid.amount * bid.price | toPrecision:7}</td>
+                                    <td>${1 | divideBy:bid.price | toPrecision:7}</td>
+                                    <td>${bid.amount | multiplyBy:bid.price | toPrecision:7}</td>
                                     <td>${bid.amount | toPrecision:7}</td>
                                     <td>
                                         <a href="javascript:void(0)" class="text-accent" click.trigger="cancel(bid)">
@@ -35,11 +34,11 @@
                                         </a>
                                     </td>
                                 </tr>
-                                <tr repeat.for="ask of asks">
+                                <tr repeat.for="ask of myOffers.asks">
                                     <td><span class="error-text"><strong>Ask</strong></span></td>
                                     <td>${ask.price | toPrecision:7}</td>
                                     <td>${ask.amount | toPrecision:7}</td>
-                                    <td>${ask.amount * ask.price | toPrecision:7}</td>
+                                    <td>${ask.amount | multiplyBy:ask.price | toPrecision:7}</td>
                                     <td>
                                         <a href="javascript:void(0)" class="text-accent" click.trigger="cancel(ask)">
                                             Cancel
@@ -50,7 +49,6 @@
                         </table>
                     </div>
                 </div>
-                <spinner-overlay show.bind="loading > 0" size="2x"></spinner-overlay>
             </div>
         </div>
     </div>

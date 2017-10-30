@@ -1,5 +1,9 @@
 .row {
-    margin: 0 -0.75rem;
+    margin: 0 -0.5rem;
+
+    .col {
+        padding: 0 0.5rem;
+    }
 }
 
 .form-field {
@@ -16,4 +20,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .right-text {
     text-align: right;
+}
+
+.input-field {
+    margin-top: 0;
 }

@@ -4,6 +4,10 @@ const {config: {port : E2E_PORT}} = require('./test/protractor.conf');
 module.exports = {
   scripts: {
     default: 'nps webpack',
+    deps: series(
+        'npm install',
+        'git submodule update --recursive --force'
+    ),
     test: {
       default: 'nps test.jest',
       jest: {
@@ -71,8 +75,7 @@ module.exports = {
           ),
           default: series(
               'nps webpack.build.before',
-              crossEnv('NODE_ENV=production webpack --progress -p --env.production --env.extractCss'),
-              'gzipme dist/stellar-sdk.min.js'
+              crossEnv('NODE_ENV=production webpack --progress -p --env.production --env.extractCss')
           ),
           serve: series.nps(
               'webpack.build.production',

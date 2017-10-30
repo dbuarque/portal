@@ -2,7 +2,7 @@
  * Created by istrauss on 4/13/2016.
  */
 
-import _findIndex from 'lodash.findindex';
+import _findIndex from 'lodash/findIndex';
 import ValidationInstructionParticipant from './validation-instruction-participant';
 
 /**

@@ -5,13 +5,15 @@
 import {inject} from 'aurelia-dependency-injection';
 import {ModalService} from 'global-resources';
 import BaseResource from './base-resource';
+import {AssetPairToUrlValueConverter} from '../value-converters';
 
-@inject(ModalService)
-export default class MarketResource extends BaseResource {
-    constructor(modalService) {
+@inject(ModalService, AssetPairToUrlValueConverter)
+export class MarketResource extends BaseResource {
+    constructor(modalService, assetPairToUrl) {
         super('/Market');
 
         this.modalService = modalService;
+        this.assetPairToUrl = assetPairToUrl;
     }
 
     /**
@@ -27,18 +29,61 @@ export default class MarketResource extends BaseResource {
 
     /**
      * Finds a single market
-     * @param soldAssetCode
-     * @param soldAssetIssuer
-     * @param boughtAssetCode
-     * @param boughtAssetIssuer
+     * @param assetPair
      * @returns {*}
      */
-    findOne(soldAssetCode, soldAssetIssuer, boughtAssetCode, boughtAssetIssuer) {
-        return this.get('/FindOne', {
-            soldAssetCode,
-            soldAssetIssuer,
-            boughtAssetCode,
-            boughtAssetIssuer
+    market(assetPair) {
+        return this.get(this.assetPairToUrl.toView(assetPair) + '/FindOne');
+    }
+
+    /**
+     * Finds a single market
+     * @param assetPair
+     * @returns {*}
+     */
+    orderbook(assetPair) {
+        return this.get(this.assetPairToUrl.toView(assetPair) + '/Orderbook');
+    }
+
+    /**
+     * Gets a list of ticker data.
+     * @param resolution
+     * @param assetPair
+     * @param [from]
+     * @param [to]
+     * @returns {*}
+     */
+    bars(resolution, assetPair, from, to) {
+        const action = this.assetPairToUrl.toView(assetPair) + '/Bars';
+        return this.get(action, {
+            resolution,
+            from,
+            to
         });
+    }
+
+    /**
+     * Gets a list of ticker data.
+     * @param resolution
+     * @param assetPair
+     * @param [priorto]
+     * @returns {*}
+     */
+    lastPriorBar(resolution, assetPair, priorto) {
+        const action = this.assetPairToUrl.toView(assetPair) + '/LastPriorBar';
+        return this.get(action, {
+            resolution,
+            priorto
+        });
+    }
+
+    /**
+     * Returns the most recent trades for an assetPair
+     * @param assetPair
+     * @returns {*}
+     */
+    recentTrades(assetPair) {
+        const action = this.assetPairToUrl.toView(assetPair) + '/RecentTrades';
+        return this.get(action);
     }
 }

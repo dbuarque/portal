@@ -8,9 +8,12 @@
 
     <!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/stellar-sdk/0.7.3/stellar-sdk.min.js"></script>-->
-    <script src="/stellar-sdk.min.js"></script>
 
     <style>
+        html, body {
+            background: #edf9fd
+        }
+
         .splash {
             text-align: center;
             margin: 10% 0 0 0;
@@ -31,19 +34,37 @@
         }
     </style>
 
+    <% if (htmlWebpackPlugin.options.metadata.production) { %>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-107386084-1"></script>
+
+        <script>
+            lupoex = {
+                env: '%env%'
+            };
+        </script>
+    <% } %>
+    <% if (!htmlWebpackPlugin.options.metadata.production) { %>
+        <script>
+            lupoex = {
+                env: 'development',
+                networkMode: 'public'
+            };
+        </script>
+    <% } %>
+
     <!-- imported CSS are concatenated and added automatically -->
-    <script>
-        lupoex = {};
-    </script>
 </head>
 <body aurelia-app="main">
 <div class="splash">
     <div class="message">LuPoEx</div>
     <i class="fa fa-refresh fa-spin fa-2x"></i>
 </div>
+
+<!--<script src="/stellar-sdk.min.js"></script>-->
 <% if (htmlWebpackPlugin.options.metadata.server) { %>
 <!-- Webpack Dev Server reload -->
 <script src="/webpack-dev-server.js"></script>
 <% } %>
+<script src="/assets/charting_library/charting_library/charting_library.min.js"></script>
 </body>
 </html>

@@ -2,20 +2,27 @@
  * Created by istrauss on 4/22/2016.
  */
 
-import _findIndex from 'lodash.findindex';
+import _findIndex from 'lodash/findIndex';
 import {inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
-import {AppStore} from 'global-resources';
+import {Store, connected} from 'au-redux';
 import Config from './account-config';
 
-@inject(Config, EventAggregator, AppStore)
+@inject(Config, EventAggregator, Store)
 export class Account {
 
-    constructor(config, eventAggregator, appStore) {
+    @connected('myAccount')
+    account;
+
+    get routableRoutes() {
+        return this.config.routes.filter(r => !r.redirect);
+    }
+
+    constructor(config, eventAggregator, store) {
         this.config = config;
         this.eventAggregator = eventAggregator;
 
-        this.appStore = appStore;
+        this.store = store;
     }
 
     configureRouter(routerConfig, router) {
@@ -28,20 +35,11 @@ export class Account {
     }
 
     canActivate() {
-        const account = this.appStore.getState().account;
+        const account = this.store.getState().myAccount;
 
         if (!account) {
             return new Redirect('login');
         }
-    }
-
-    activate() {
-        this.unsubscribeFromStore = this.appStore.subscribe(this.updateFromStore.bind(this));
-        this.updateFromStore();
-    }
-
-    unbind() {
-        this.unsubscribeFromStore();
     }
 
     attached() {
@@ -85,9 +83,7 @@ export class Account {
         }
     }
 
-    updateFromStore() {
-        this.account = this.appStore.getState().account;
-
+    accountChanged() {
         if (!this.account) {
             this.router.parent.navigateToRoute('exchange');
         }

@@ -1,4 +1,5 @@
-# Lupoex Client
+# lupoex-client
+
 ## Getting started
 
 Before you start, make sure you have a recent version of [NodeJS](http://nodejs.org/) environment *>=6.0* with NPM 3 or Yarn.
@@ -115,10 +116,4 @@ To run all the unit test suites and the E2E tests, you may simply run:
 
 ```shell
 npm start -- test.all
-```
-
-## Running the docker container
-
-```shell
-docker run -d -p 8080:80 --name lupoex-client lupoex-client
 ```

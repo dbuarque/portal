@@ -3,22 +3,34 @@
  */
 
 import {inject} from 'aurelia-framework';
-import {EventHelper, AppStore} from 'global-resources';
+import {Store, connected} from 'au-redux';
 import {MarketResource} from 'app-resources';
 import {ExchangeActionCreators} from '../../../exchange-action-creators';
+import {MarketToAssetPairValueConverter} from "../choose-value-converters";
+import {TopTenMarketsActionCreators} from "./top-ten-markets-action-creators";
 
-@inject(Element, AppStore, MarketResource, ExchangeActionCreators)
+@inject(Element, Store, MarketResource, ExchangeActionCreators, MarketToAssetPairValueConverter, TopTenMarketsActionCreators)
 export class TopTenMarkets {
 
-    markets = [];
-    loading = 0;
-    order = 'trade_count';
+    @connected('exchange.assetPair')
+    assetPair;
 
-    constructor(element, appStore, marketResource, exchangeActionCreators) {
+    @connected('exchange.choose.topTenMarkets.results')
+    markets = [];
+
+    @connected('exchange.choose.topTenMarkets.order')
+    order;
+
+    loading = 0;
+    nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
+
+    constructor(element, store, marketResource, exchangeActionCreators, marketToAssetPair, topTenMarketsActionCreators) {
         this.element = element;
-        this.appStore = appStore;
+        this.store = store;
         this.marketResource = marketResource;
         this.exchangeActionCreators = exchangeActionCreators;
+        this.marketToAssetPair = marketToAssetPair;
+        this.topTenMarketsActionCreators = topTenMarketsActionCreators;
     }
 
     bind() {
@@ -28,34 +40,36 @@ export class TopTenMarkets {
     async refresh() {
         this.loading++;
 
-        this.markets = await this.marketResource.topTen(this.order);
+        await this.store.dispatch(
+            this.topTenMarketsActionCreators.refreshTopTenMarkets()
+        );
+
+        if (!this.assetPair && this.markets.length > 0) {
+            await this.store.dispatch(
+                this.exchangeActionCreators.updateAssetPair(
+                    this.marketToAssetPair.toView(this.markets[0])
+                )
+            )
+        }
 
         this.loading--;
     }
 
-    changeOrder(newOrder) {
-        if (newOrder === this.order) {
-            return;
-        }
+    async changeOrder(newOrder) {
+        this.loading++;
 
-        this.order = newOrder;
-        this.refresh();
+        await this.store.dispatch(
+            this.topTenMarketsActionCreators.updateTopTenMarketsOrder(newOrder)
+        );
+
+        this.loading--;
     }
 
-    goToMarket(market) {
-        const nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
-
-        this.appStore.dispatch(this.exchangeActionCreators.updateAssetPair({
-            buying: {
-                code:  market.bought_asset_type === 'native' ? nativeAssetCode : market.bought_asset_code,
-                issuer: market.bought_asset_type === 'native' ? undefined : market.bought_asset_issuer
-            },
-            selling: {
-                code: market.sold_asset_type === 'native' ? nativeAssetCode : market.sold_asset_code,
-                issuer: market.sold_asset_type === 'native' ? undefined : market.sold_asset_issuer
-            }
-        }));
-
-        EventHelper.emitEvent(this.element, 'load');
+    chooseMarket(market) {
+        this.store.dispatch(
+            this.exchangeActionCreators.updateAssetPair(
+                this.marketToAssetPair.toView(market)
+            )
+        );
     }
 }

@@ -4,23 +4,26 @@
 
 import {inject} from 'aurelia-dependency-injection';
 import {Redirect} from 'aurelia-router';
-import {AppStore} from 'global-resources';
+ import {Store} from 'au-redux';
 import {AccountSyncer} from '../../crud/local-storage/account-syncer';
 
-@inject(AppStore, AccountSyncer)
+@inject(Store, AccountSyncer)
 export default class AuthenticateStep {
 
-    constructor(appStore, accountSyncer) {
-        this.appStore = appStore;
+    constructor(store, accountSyncer) {
+        this.store = store;
         this.accountSyncer = accountSyncer;
     }
 
     async run(navigationInstruction, next) {
-        await this.accountSyncer.init();
+        let account = this.store.getState().myAccount;
 
-        const account = this.appStore.getState().account;
+        if (!account) {
+            await this.accountSyncer.syncToStore();
+            account = this.store.getState().myAccount;
+        }
 
-        if (navigationInstruction.config.accountRequired && !(account && account.id)) {
+        if (navigationInstruction.config.accountRequired && !(account && account.accountId)) {
             return next.cancel(new Redirect('login'));
         }
 

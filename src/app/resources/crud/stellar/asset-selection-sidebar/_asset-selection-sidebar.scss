@@ -1,0 +1,41 @@
+.asset-selection-sidebar {
+
+    .side-nav {
+        height: 100%;
+    }
+
+    hr {
+        margin-bottom: 0;
+    }
+
+    .header-container {
+        position: absolute;
+        height: 140px;
+        padding: 10px;
+        padding-bottom: 0;
+        text-align: center;
+        top: 0;
+        right: 0;
+        left: 0;
+    }
+
+    .scrollable-container {
+        position: absolute;
+        top: 155px;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        overflow: auto;
+        padding: 10px;
+        text-align: center;
+
+        .asset-card {
+            cursor: pointer;
+        }
+    }
+
+    .asset-card-container {
+        width: 145px;
+        display: inline-block;
+    }
+}

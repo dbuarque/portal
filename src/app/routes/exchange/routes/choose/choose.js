@@ -4,24 +4,59 @@
 
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
-import {AppStore} from 'global-resources';
+import {Store, connected} from 'au-redux';
+import {ExchangeActionCreators} from '../../exchange-action-creators';
 
-@inject(Router, AppStore)    
+@inject(Router, Store, ExchangeActionCreators)
 export class Choose {
 
-    constructor(router, appStore) {
+    @connected('exchange.assetPair')
+    assetPair;
+
+    alertConfig = {
+        type: 'info',
+        message: 'Quick select a market from the table below or select one of the <span class="dashed">dashed</span> assets to search through all available assets.',
+        dismissible: false
+    };
+
+    constructor(router, store, exchangeActionCreators) {
         this.router = router;
-        this.appStore = appStore;
+        this.store = store;
+        this.exchangeActionCreators = exchangeActionCreators;
+
+        this.switchAssets = this._switchAssets.bind(this);
+        this.reselect = this._reselect.bind(this);
     }
-    
-    load(e) {
+
+    goTrade(e) {
         const nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
-        const assetPair = this.appStore.getState().exchange.assetPair;
+        const buyingIsNative = this.assetPair.buying.type.toLowerCase() === 'native';
+        const sellingIsNative = this.assetPair.selling.type.toLowerCase() === 'native';
+
         this.router.navigateToRoute('detail', {
-            buyingCode: assetPair.buying.code,
-            buyingIssuer: assetPair.buying.code === nativeAssetCode ? 'native': assetPair.buying.issuer,
-            sellingCode: assetPair.selling.code,
-            sellingIssuer: assetPair.selling.code === nativeAssetCode ? 'native': assetPair.selling.issuer
-        })
+            buyingType: this.assetPair.buying.type,
+            buyingCode: buyingIsNative ? nativeAssetCode : this.assetPair.buying.code,
+            buyingIssuer: buyingIsNative ? 'Stellar': this.assetPair.buying.issuer.accountId,
+            sellingType: this.assetPair.selling.type,
+            sellingCode: sellingIsNative ? nativeAssetCode : this.assetPair.selling.code,
+            sellingIssuer: sellingIsNative ? 'Stellar': this.assetPair.selling.issuer.accountId
+        });
+    }
+
+    _reselect(asset, type) {
+        this.store.dispatch(
+            this.exchangeActionCreators.updateAssetPair({
+                [type]: asset
+            })
+        );
+    }
+
+    _switchAssets() {
+        this.store.dispatch(
+            this.exchangeActionCreators.updateAssetPair({
+                buying: this.assetPair.selling,
+                selling: this.assetPair.buying
+            })
+        );
     }
 }

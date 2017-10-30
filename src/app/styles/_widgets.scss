@@ -11,128 +11,144 @@
         height: auto;
     }
 
-  button {
-    margin-right: 5px;
-  }
-
-  table.dataTable {
-    margin: 0;
-    border-bottom: 1px $gray solid;
-    overflow: hidden;
-
-    thead {
-      input {
-        border-bottom: 1px #fff solid;
-      }
+    button {
+        margin-right: 5px;
     }
 
-    tr {
+    table.dataTable {
+        margin: 0;
+        border-bottom: 1px $gray solid;
+        overflow: hidden;
 
-      th, td {
-        text-align: center;
-        border-color: $gray;
+        thead {
+            input {
+                border-bottom: 1px #fff solid;
+            }
+        }
 
-        &:first-child {
+        th.left-align, td.left-align {
+            text-align: left !important;
+        }
 
-          &:before {
-            border-radius: 0 !important;
-            background-color: #fff !important;
-            border: 1px solid $primary !important;
-            box-shadow: none !important;
+        tr {
+
+            th {
+                padding: 8px 0;
+            }
+
+            td {
+                padding: 8px 10px;
+            }
+
+            th, td {
+                text-align: center;
+                border-color: $gray;
+
+                &:first-child {
+
+                    &:before {
+                        border-radius: 0 !important;
+                        background-color: #fff !important;
+                        border: 1px solid $primary !important;
+                        box-shadow: none !important;
+                        color: $primary !important;
+                    }
+                }
+            }
+
+            &.parent {
+
+                td {
+
+                    &:before {
+                        border: 1px solid $error !important;
+                        color: $error !important;
+                    }
+                }
+            }
+        }
+
+        tr.child {
+
+            table {
+                tbody {
+                    box-shadow: inset 0 1px 1px 1px rgba(0,0,0,0.13);
+                    display: block;
+                    padding: 5px;
+                }
+            }
+        }
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button:not(.disabled) {
+        padding: 5px;
+        border: 1px solid transparent;
+        border-radius: 0;
+
+        &:hover, &:focus {
             color: $primary !important;
-          }
+            background: transparent;
+            border: 1px solid transparent;
         }
-      }
 
-      &.parent {
+        &.current {
+            background: #fff !important;
+            color: $primary;
+            border-color: $primary;
 
-        td {
-
-          &:before {
-            border: 1px solid $error !important;
-            color: $error !important;
-          }
+            &:hover, &:focus {
+                color: $primary;
+                border-color: $primary;
+            }
         }
-      }
     }
-
-    tr.child {
-
-      table {
-        tbody {
-          box-shadow: inset 0 1px 1px 1px rgba(0,0,0,0.13);
-          display: block;
-          padding: 5px;
-        }
-      }
-    }
-  }
-
-  .dataTables_wrapper .dataTables_paginate .paginate_button:not(.disabled) {
-    padding: 5px;
-    border: 1px solid transparent;
-    border-radius: 0;
-
-    &:hover, &:focus {
-      color: $primary !important;
-      background: transparent;
-      border: 1px solid transparent;
-    }
-
-    &.current {
-      background: #fff !important;
-      color: $primary;
-      border-color: $primary;
-
-      &:hover, &:focus {
-        color: $primary;
-        border-color: $primary;
-      }
-    }
-  }
 }
 
 .breadcrumbs {
-  .crumb {
-    color: $accent-text;
+    .crumb {
+        color: $accent-text;
 
-    &.final-crumb {
-      color: $primary-text;
+        &.final-crumb {
+            color: $primary-text;
+        }
     }
-  }
 }
 
 .trumbowyg {
-  border-color: #bbb;
-  margin: 0 !important;
+    border-color: #bbb;
+    margin: 0 !important;
 
-  .trumbowyg-button-pane {
-    background: #fff;
+    .trumbowyg-button-pane {
+        background: #fff;
 
-    .trumbowyg-active {
-      background-color: $accent;
+        .trumbowyg-active {
+            background-color: $accent;
 
-      &:hover {
-        background-color: $accent;
-      }
+            &:hover {
+                background-color: $accent;
+            }
+        }
     }
-  }
 
-  .trumbowyg-editor {
-    background: #fff;
-  }
+    .trumbowyg-editor {
+        background: #fff;
+    }
 }
 
 .aurelia-crumbs {
-  a:hover {
-    text-decoration: underline !important;
-  }
+    a:hover {
+        text-decoration: underline !important;
+    }
 }
 
 .spinner-overlay {
-  i.fa.fa-refresh {
-    color: $primary;
-  }
+    i.fa.fa-refresh {
+        color: $primary;
+    }
+
+    &.background {
+        background: $background;
+    }
 }
 
 .aurelia-crumbs {

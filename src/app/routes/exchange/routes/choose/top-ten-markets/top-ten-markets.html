@@ -1,45 +1,105 @@
 <template>
-    <require from="./top-ten-markets-value-converters"></require>
+    <require from="../choose-value-converters"></require>
     <div class="top-ten-markets">
         <div class="card">
             <div class="card-content">
                 <div class="card-heading">
                     <div class="card-title">
-                        Top Ten Markets
+                        Top Markets
                     </div>
-                    <i style="font-size: 15px;" class="fa fa-refresh right" no-collapse click.trigger="refresh()"></i>
+                    <i class="fa fa-refresh right refresh-button" no-collapse click.trigger="refresh()"></i>
                 </div>
                 <div class="card-body">
                     <div show.bind="markets.length === 0">
                         <i>No markets trading in the last 24 hours.</i>
                     </div>
                     <div show.bind="markets.length > 0">
-                        <table class="centered bordered">
+                        <table class="hide-on-small-only centered bordered">
                             <thead>
                                 <tr>
                                     <th>
                                         Market
                                     </th>
-                                    <th click.delegate="changeOrder('trade_count')" class.bind="order !== 'trade_count' ? 'sortable' : ''">
-                                        Volume (#Trades)
-                                        <span show.bind="order === 'trade_count'">&nbsp;<i class="fa fa-caret-down primary-text"></i></span>
+                                    <th click.delegate="changeOrder('tradeCount')" class.bind="order !== 'tradeCount' ? 'sortable' : ''">
+                                        Trades (#)
+                                        <span show.bind="order === 'tradeCount'">&nbsp;<i class="fa fa-caret-down primary-text"></i></span>
                                     </th>
-                                    <th click.delegate="changeOrder('percent_gain')" class.bind="order !== 'percent_gain' ? 'sortable' : ''">
+                                    <th>
+                                        Sold Volume
+                                    </th>
+                                    <th>
+                                        Bought Volume
+                                    </th>
+                                    <th click.delegate="changeOrder('percentGain')" class.bind="order !== 'percentGain' ? 'sortable' : ''">
                                         Change (%)
-                                        <span show.bind="order === 'percent_gain'">&nbsp;<i class="fa fa-caret-down primary-text"></i></span>
+                                        <span show.bind="order === 'percentGain'">&nbsp;<i class="fa fa-caret-down primary-text"></i></span>
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr repeat.for="market of markets" click.trigger="goToMarket(market)">
-                                    <td>${market | assetPair}</td>
-                                    <td>${market.trade_count}</td>
-                                    <td innerhtml.bind="market.percent_gain | percentGain"></td>
+                                <tr repeat.for="market of markets" click.delegate="chooseMarket(market)">
+                                    <td>
+                                        <asset-pair-cards asset-pair.one-time="market | marketToAssetPair"></asset-pair-cards>
+                                    </td>
+                                    <td>${market.tradeCount & oneTime}</td>
+                                    <td>
+                                        ${market.soldVolume | formatNumber:3}&nbsp;${market.soldAssetType.toLowerCase() === 'native' ? nativeAssetCode : market.soldAssetCode}
+                                    </td>
+                                    <td>
+                                        ${market.boughtVolume | formatNumber:3}&nbsp;${market.boughtAssetType.toLowerCase() === 'native' ? nativeAssetCode : market.boughtAssetCode}
+                                    </td>
+                                    <td innerhtml.bind="market.percentGain | percentGain | sanitizeHTML"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="hide-on-med-and-up centered bordered">
+                            <tbody>
+                                <tr repeat.for="market of markets" click.delegate="chooseMarket(market)">
+                                    <td>
+                                        <asset-pair-cards asset-pair.one-time="market | marketToAssetPair"></asset-pair-cards>
+                                        <div class="show-on-small-only">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        Change (%)
+                                                    </td>
+                                                    <td>
+                                                        <span innerhtml.one-time="market.percentGain | percentGain | sanitizeHTML"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Trades (#)
+                                                    </td>
+                                                    <td>
+                                                        ${market.tradeCount & oneTime}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Sold Volume
+                                                    </td>
+                                                    <td>
+                                                        ${market.soldVolume}&nbsp;${market.soldAssetType.toLowerCase() === 'native' ? nativeAssetCode : market.soldAssetCode}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Bought Volume
+                                                    </td>
+                                                    <td>
+                                                        ${market.boughtVolume}&nbsp;${market.boughtAssetType.toLowerCase() === 'native' ? nativeAssetCode : market.boughtAssetCode}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <spinner-overlay show.bind="loading > 0"></spinner-overlay>
+                    <spinner-overlay size="2x" spin.bind="loading > 0"></spinner-overlay>
                 </div>
             </div>
         </div>
