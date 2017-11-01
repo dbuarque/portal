@@ -89,6 +89,12 @@ export class AccountResource extends BaseResource {
         return this.dataTablePost(data, results);
     }
 
+    async accountDataDataTable(accountId, data, settings) {
+        const query = this.dataTablePre(data);
+        const results = await this.accountData(accountId, query);
+        return this.dataTablePost(data, results);
+    }
+
     /**
      * Gets account data for an account
      * @param accountId

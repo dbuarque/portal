@@ -2,7 +2,7 @@
  * Created by istrauss on 4/25/2017.
  */
 
-import {inject, bindable} from 'aurelia-framework';
+import {inject, computedFrom} from 'aurelia-framework';
 import {SanitizeHTMLValueConverter} from 'aurelia-templating-resources';
 import {Router} from 'aurelia-router';
 import {connected} from 'au-redux';
@@ -17,10 +17,12 @@ export class AssetBalances {
 
     loading = 0;
 
+    @computedFrom('loading')
     get refreshing() {
         return this.loading > 0;
     }
 
+    @computedFrom('config')
     get tableConfig() {
         const vm = this;
 

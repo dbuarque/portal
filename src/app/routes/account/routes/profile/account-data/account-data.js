@@ -1,25 +1,16 @@
-/**
- * Created by Ishai on 9/24/2017.
- */
-
 
 import {inject, computedFrom} from 'aurelia-framework';
 import {connected} from 'au-redux';
 import {AccountResource} from 'app-resources';
-import Config from './effect-history-config';
+import Config from './account-data-config';
 
 @inject(Config, AccountResource)
-export class EffectHistory {
+export class AccountDataCustomElement {
 
     @connected('myAccount')
     account;
 
     loading = 0;
-
-    @computedFrom('loading')
-    get refreshing() {
-        return this.loading > 0;
-    }
 
     @computedFrom('config')
     get tableConfig() {
@@ -43,7 +34,7 @@ export class EffectHistory {
     async ajax(data, callback, settings) {
         this.loading++;
 
-        const tableData = await this.accountResource.effectsDataTable(this.account.accountId, data, settings);
+        const tableData = await this.accountResource.accountDataDataTable(this.account.accountId, data, settings);
 
         callback(tableData);
 
