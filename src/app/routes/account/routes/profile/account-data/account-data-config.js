@@ -26,6 +26,9 @@ export default class OpenOffersConfig {
                     {
                         title: 'Value',
                         data: 'dataValue',
+                        render(cellData, type, rowData) {
+                            return atob(rowData.dataValue);
+                        },
                         orderable: false
                     },
                     {
