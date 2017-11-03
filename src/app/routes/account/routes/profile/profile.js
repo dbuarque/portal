@@ -30,6 +30,8 @@ export class Profile {
             force: true
         }));
 
+        this.accountData.refresh();
+
         this.loading--;
     }
 }

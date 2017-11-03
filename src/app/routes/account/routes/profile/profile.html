@@ -1,6 +1,8 @@
 <template>
+    <require from="./account-data/account-data"></require>
+
     <div class="row">
-        <div class="col m12">
+        <div class="col">
             <div class="center-text" style="font-size: 14px; word-break: break-all">
                 <strong>${account.accountId}</strong>
             </div>
@@ -41,7 +43,7 @@
                 </div>
             </div>
         </div>
-        <div class="col m6">
+        <div class="col l6">
             <div class="card" collapsible-card="is-open:true">
                 <div class="card-content">
                     <div class="card-heading">
@@ -58,23 +60,9 @@
                     </div>
                 </div>
             </div>
-            <div class="card" collapsible-card="is-open:true">
-                <div class="card-content">
-                    <div class="card-heading">
-                        <div class="card-title">
-                            Other Data
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <ul class="collection"if.bind="account.data | objectIsNotEmpty">
-                            <li repeat.for="datum of account.data | objectToArray" class="collection-item">
-                                ${datum.key}: ${datum.value}
-                            </li>
-                        </ul>
-                        <i if.bind="account.data | objectIsEmpty">There is no data for account: ${account.accountId | shortenAddress:6}</i>
-                    </div>
-                </div>
-            </div>
+        </div>
+        <div class="col l6">
+            <account-data view-model.ref="accountData"></account-data>
         </div>
     </div>
 </template>

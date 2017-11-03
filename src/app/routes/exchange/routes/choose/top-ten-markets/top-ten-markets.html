@@ -43,10 +43,10 @@
                                     </td>
                                     <td>${market.tradeCount & oneTime}</td>
                                     <td>
-                                        ${market.soldVolume | formatNumber:3}&nbsp;${market.soldAssetType.toLowerCase() === 'native' ? nativeAssetCode : market.soldAssetCode}
+                                        ${market.soldVolume | formatNumber:3 & oneTime}&nbsp;${market.soldAssetType.toLowerCase() === 'native' ? nativeAssetCode : market.soldAssetCode & oneTime}
                                     </td>
                                     <td>
-                                        ${market.boughtVolume | formatNumber:3}&nbsp;${market.boughtAssetType.toLowerCase() === 'native' ? nativeAssetCode : market.boughtAssetCode}
+                                        ${market.boughtVolume | formatNumber:3 & oneTime}&nbsp;${market.boughtAssetType.toLowerCase() === 'native' ? nativeAssetCode : market.boughtAssetCode & oneTime}
                                     </td>
                                     <td innerhtml.bind="market.percentGain | percentGain | sanitizeHTML"></td>
                                 </tr>
@@ -81,7 +81,7 @@
                                                         Sold Volume
                                                     </td>
                                                     <td>
-                                                        ${market.soldVolume}&nbsp;${market.soldAssetType.toLowerCase() === 'native' ? nativeAssetCode : market.soldAssetCode}
+                                                        ${market.soldVolume | formatNumber:3 & oneTime}&nbsp;${market.soldAssetType.toLowerCase() === 'native' ? nativeAssetCode : market.soldAssetCode & oneTime}
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -89,7 +89,7 @@
                                                         Bought Volume
                                                     </td>
                                                     <td>
-                                                        ${market.boughtVolume}&nbsp;${market.boughtAssetType.toLowerCase() === 'native' ? nativeAssetCode : market.boughtAssetCode}
+                                                        ${market.boughtVolume | formatNumber:3 & oneTime}&nbsp;${market.boughtAssetType.toLowerCase() === 'native' ? nativeAssetCode : market.boughtAssetCode & oneTime}
                                                     </td>
                                                 </tr>
                                             </table>

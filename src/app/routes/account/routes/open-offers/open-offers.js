@@ -2,7 +2,7 @@
  * Created by Ishai on 4/30/2017.
  */
 
-import {inject} from 'aurelia-framework';
+import {inject, computedFrom} from 'aurelia-framework';
 import {connected} from 'au-redux';
 import {AccountResource, OfferService} from 'app-resources';
 import Config from './open-offers-config';
@@ -15,10 +15,12 @@ export class OpenOffers {
 
     loading = 0;
 
+    @computedFrom('loading')
     get refreshing() {
         return this.loading > 0;
     }
 
+    @computedFrom('config')
     get tableConfig() {
         const vm = this;
 
