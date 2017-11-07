@@ -18,10 +18,18 @@ const nodeModulesDir = path.resolve(__dirname, 'node_modules');
 const baseUrl = '/';
 
 const cssRules = [
-    { loader: 'css-loader' },
+    {
+        loader: 'css-loader'
+    },
     {
         loader: 'postcss-loader',
         options: { plugins: () => [require('autoprefixer')({ browsers: ['last 2 versions'] })]}
+    }
+];
+const scssRules = [
+    ...cssRules,
+    {
+        loader: 'sass-loader' // compiles SASS to CSS
     }
 ];
 
@@ -75,9 +83,23 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
                 // because Aurelia would try to require it again in runtime
                 use: cssRules
             },
+            // Same rationale as CSS above
+            {
+                test: /\.scss$/i,
+                issuer: [{ not: [{ test: /\.html$/i }] }],
+                use: extractCss ? ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: scssRules,
+                }) : ['style-loader', ...scssRules],
+            },
+            {
+                test: /\.scss$/i,
+                issuer: [{ test: /\.html$/i }],
+                // Same rationale as CSS above
+                use: scssRules,
+            },
             { test: /\.html$/i, loader: 'html-loader' },
             { test: /\.js$/i, loader: 'babel-loader', exclude: nodeModulesDir },
-            { test: /\.scss$/, loaders: ['raw-loader'] },
             { test: /\.d.ts$/, loaders: ['ignore-loader'] },
             { test: /\.json$/i, loader: 'json-loader' },
             // use Bluebird as the global Promise implementation:

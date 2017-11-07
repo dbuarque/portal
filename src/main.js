@@ -4,7 +4,8 @@ import 'font-awesome/css/font-awesome.css';
 import './third-party-css';
 import 'babel-polyfill';
 import './main-config';
-import '!style-loader!css-loader!sass-loader!./main.scss';
+//!style-loader!css-loader!sass-loader!
+import './main.scss';
 import {Store} from 'au-redux';
 import {app as rootReducer} from './app/reducers';
 import {applyMiddleware, compose} from 'redux';

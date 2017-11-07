@@ -1,19 +1,17 @@
-/**
- * Created by istrauss on 1/7/2017.
- */
-
 import {inject} from 'aurelia-framework';
-import {UPDATE_ASSET_PAIR} from './exchange-action-types';
-import {AssetResource} from 'app-resources';
+import {actionCreator} from 'au-redux';
+import {UPDATE_ASSET_PAIR} from '../exchange.action-types';
+import {AssetResource, assetsAreDifferent} from 'app-resources';
 
+@actionCreator()
 @inject(AssetResource)
-export class ExchangeActionCreators {
+export class UpdateAssetPairActionCreator {
 
     constructor(assetResource) {
         this.assetResource = assetResource;
     }
 
-    updateAssetPair(assetPair) {
+    create(assetPair) {
         return async (dispatch, getState) => {
             if (!assetPair) {
                 return;
@@ -23,8 +21,8 @@ export class ExchangeActionCreators {
 
             if (
                 oldAssetPair &&
-                compareAssets(assetPair.buying, oldAssetPair.buying) &&
-                compareAssets(assetPair.selling, oldAssetPair.selling)
+                !assetsAreDifferent(assetPair.buying, oldAssetPair.buying) &&
+                !assetsAreDifferent(assetPair.selling, oldAssetPair.selling)
             ) {
                 // newAssetPair is the same as the oldAssetPair. No need to update.
                 return;
@@ -64,11 +62,11 @@ export class ExchangeActionCreators {
         }
 
         if (oldAssetPair) {
-            if (compareAssets(newAsset, oldAssetPair.selling)) {
+            if (!assetsAreDifferent(newAsset, oldAssetPair.selling)) {
                 return oldAssetPair.selling;
             }
 
-            if (compareAssets(newAsset, oldAssetPair.buying)) {
+            if (!assetsAreDifferent(newAsset, oldAssetPair.buying)) {
                 return oldAssetPair.buying;
             }
         }
@@ -82,20 +80,8 @@ export class ExchangeActionCreators {
         return {
             code: assetWithIssuer.assetCode,
             type: assetWithIssuer.assetType,
-            issuer: assetWithIssuer.issuer
+            issuer: assetWithIssuer.issuer,
+            issuerId: assetWithIssuer.issuerId
         };
     }
-}
-
-function compareAssets(newAsset, oldAsset) {
-    if (!oldAsset || !newAsset) {
-        return !oldAsset && !newAsset;
-    }
-
-    const newIssuerAddress = newAsset.issuer && newAsset.issuer.accountId ? newAsset.issuer.accountId : newAsset.issuer;
-    const newCode = newAsset.code;
-    const oldIssuerAddress = oldAsset.issuer ? oldAsset.issuer.accountId : newAsset.issuer;
-    const oldCode = oldAsset.code;
-
-    return newIssuerAddress === oldIssuerAddress && newCode === oldCode;
 }

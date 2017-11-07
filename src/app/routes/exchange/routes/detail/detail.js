@@ -5,14 +5,17 @@
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {Store, connected} from 'au-redux';
-import {ExchangeActionCreators} from '../../exchange-action-creators';
+import {UpdateAssetPairActionCreator} from '../../action-creators';
 import {DetailActionCreators} from './detail-action-creators';
 import {OrderbookUpdater} from './orderbook-updater';
 import {RecentTradesUpdater} from './recent-trades-updater';
 import {MyOffersUpdater} from './my-offers-updater';
 import {MyAssetPairUpdater} from './my-asset-pair-updater';
     
-@inject(Router, Store, ExchangeActionCreators, DetailActionCreators, OrderbookUpdater, RecentTradesUpdater, MyOffersUpdater, MyAssetPairUpdater)
+@inject(
+    Router, Store, UpdateAssetPairActionCreator, DetailActionCreators, OrderbookUpdater,
+    RecentTradesUpdater, MyOffersUpdater, MyAssetPairUpdater
+)
 export class Detail {
 
     @connected('myAccount')
@@ -24,10 +27,13 @@ export class Detail {
     @connected('exchange.detail.displayedOfferType')
     displayedOfferType;
     
-    constructor(router, store, exchangeActionCreators, detailActionCreators, orderbookUpdater, recentTradesUpdater, myOffersUpdater, myAssetPairUpdater) {
+    constructor(
+        router, store, updateAssetPair, detailActionCreators, orderbookUpdater,
+        recentTradesUpdater, myOffersUpdater, myAssetPairUpdater
+    ) {
         this.router = router;
         this.store = store;
-        this.exchangeActionCreators = exchangeActionCreators;
+        this.updateAssetPair = updateAssetPair;
         this.detailActionCreators = detailActionCreators;
 
         this.switchAssets = this._switchAssets.bind(this);
@@ -40,20 +46,18 @@ export class Detail {
     }
     
     async activate(params) {
-        await this.store.dispatch(this.exchangeActionCreators.updateAssetPair(
-            {
-                buying: {
-                    code: params.buyingCode,
-                    issuer: params.buyingType.toLowerCase() === 'native' ? null : params.buyingIssuer,
-                    type: params.buyingType
-                },
-                selling: {
-                    code: params.sellingCode,
-                    issuer: params.sellingType.toLowerCase() === 'native' ? null : params.sellingIssuer,
-                    type: params.sellingType
-                }
+        await this.updateAssetPair.dispatch({
+            buying: {
+                code: params.buyingCode,
+                issuer: params.buyingType.toLowerCase() === 'native' ? null : params.buyingIssuer,
+                type: params.buyingType
+            },
+            selling: {
+                code: params.sellingCode,
+                issuer: params.sellingType.toLowerCase() === 'native' ? null : params.sellingIssuer,
+                type: params.sellingType
             }
-        ));
+        });
     }
 
     assetPairChanged() {
@@ -98,7 +102,6 @@ export class Detail {
             sellingIssuer: sellingIsNative ? 'Stellar': newAssetPair.selling.issuer.accountId
         });
     }
-
 
     //updateRouteTitle() {
     //    if (!this.router.currentInstruction || !this.assetPair) {

@@ -19,5 +19,8 @@ export function assetsAreDifferent(a, b) {
         return false;
     }
 
-    return a.code !== b.code || a.issuerId !== b.issuerId;
+    const aIssuer = a.issuer ? (a.issuer.accountId || a.issuer) : null;
+    const bIssuer = b.issuer ? (b.issuer.accountId || b.issuer) : null;
+
+    return a.code !== b.code || aIssuer !== bIssuer;
 }

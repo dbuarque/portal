@@ -3,7 +3,7 @@
  */
 
 import {createNamespace} from 'au-redux';
-import {namespace as exchangeNamespace} from '../../exchange-action-types';
+import {namespace as exchangeNamespace} from '../../exchange.action-types';
 
 export const namespace = exchangeNamespace + '_DETAIL';
 

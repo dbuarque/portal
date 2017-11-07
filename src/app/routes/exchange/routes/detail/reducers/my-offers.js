@@ -2,7 +2,7 @@
  * Created by istrauss on 9/18/2017.
  */
 
-import {UPDATE_ASSET_PAIR} from '../../../exchange-action-types';
+import {UPDATE_ASSET_PAIR} from '../../../exchange.action-types';
 import {detailActionTypes} from '../detail-action-types';
 import {isNewAssetPair} from './helpers';
 

@@ -4,10 +4,10 @@
 
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
-import {Store, connected} from 'au-redux';
-import {ExchangeActionCreators} from '../../exchange-action-creators';
+import {connected} from 'au-redux';
+import {UpdateAssetPairActionCreator} from '../../action-creators';
 
-@inject(Router, Store, ExchangeActionCreators)
+@inject(Router, UpdateAssetPairActionCreator)
 export class Choose {
 
     @connected('exchange.assetPair')
@@ -19,10 +19,9 @@ export class Choose {
         dismissible: false
     };
 
-    constructor(router, store, exchangeActionCreators) {
+    constructor(router, updateAssetPair) {
         this.router = router;
-        this.store = store;
-        this.exchangeActionCreators = exchangeActionCreators;
+        this.updateAssetPair = updateAssetPair;
 
         this.switchAssets = this._switchAssets.bind(this);
         this.reselect = this._reselect.bind(this);
@@ -44,19 +43,15 @@ export class Choose {
     }
 
     _reselect(asset, type) {
-        this.store.dispatch(
-            this.exchangeActionCreators.updateAssetPair({
-                [type]: asset
-            })
-        );
+        this.updateAssetPair.dispatch({
+            [type]: asset
+        });
     }
 
     _switchAssets() {
-        this.store.dispatch(
-            this.exchangeActionCreators.updateAssetPair({
-                buying: this.assetPair.selling,
-                selling: this.assetPair.buying
-            })
-        );
+        this.updateAssetPair.dispatch({
+            buying: this.assetPair.selling,
+            selling: this.assetPair.buying
+        });
     }
 }

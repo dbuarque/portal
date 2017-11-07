@@ -2,15 +2,13 @@
 import {inject} from 'aurelia-framework';
 import {MarketResource} from 'app-resources';
 import {UPDATE_TOP_TEN_ORDER, UPDATE_TOP_TEN_RESULTS} from "./top-ten-markets-action-types";
-import {ExchangeActionCreators} from "../../../exchange-action-creators";
 import {MarketToAssetPairValueConverter} from '../choose-value-converters';
 
-@inject(MarketResource, ExchangeActionCreators, MarketToAssetPairValueConverter)
+@inject(MarketResource, MarketToAssetPairValueConverter)
 export class TopTenMarketsActionCreators {
 
-    constructor(marketResource, exchangeActionCreators, marketToAssetPair) {
+    constructor(marketResource, marketToAssetPair) {
         this.marketResource = marketResource;
-        this.exchangeActionCreators = exchangeActionCreators;
         this.marketToAssetPair = marketToAssetPair;
     }
 

@@ -3,9 +3,9 @@
  */
 
 import {inject} from 'aurelia-framework';
-import Config from './exchange-config';
+import {ExchangeConfig} from './exchange.config';
 
-@inject(Config)
+@inject(ExchangeConfig)
 export class Exchange {
 
     constructor(config) {

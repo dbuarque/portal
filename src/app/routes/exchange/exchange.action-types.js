@@ -4,5 +4,4 @@
 
 export const namespace = 'EXCHANGE';
 
-export const UPDATE_ASSET_PAIR = namespace + '_UPDATE_ASSET_PAIR';
-
+export const UPDATE_ASSET_PAIR = namespace + '/UPDATE_ASSET_PAIR';
