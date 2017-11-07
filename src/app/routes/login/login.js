@@ -4,18 +4,16 @@
 
 import {inject} from 'aurelia-framework';
 import {Router, Redirect} from 'aurelia-router';
- import {Store} from 'au-redux';
-import {AppActionCreators} from '../../app-action-creators';
+import {Store} from 'au-redux';
 
-@inject(Router, Store, AppActionCreators)
+@inject(Router, Store)
 export class Login {
 
     action = 'login';
 
-    constructor(router, store, appActionCreators) {
+    constructor(router, store) {
         this.router = router;
         this.store = store;
-        this.appActionCreators = appActionCreators;
     }
 
     onLoginSuccess() {

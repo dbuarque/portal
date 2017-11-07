@@ -8,7 +8,7 @@ import {isNewAssetPair} from './helpers';
 
 const {UPDATE_MY_ASSET_PAIR} = detailActionTypes;
 
-export function myAssetPair(state, action, rootState) {
+export function myAssetPair(state, action) {
     switch (action.type) {
         case UPDATE_MY_ASSET_PAIR:
             return {
@@ -16,11 +16,7 @@ export function myAssetPair(state, action, rootState) {
                 buying: action.payload.buying || {}
             };
         case UPDATE_ASSET_PAIR:
-            if (!action.payload) {
-                return undefined;
-            }
-
-            return isNewAssetPair(action.payload, rootState.exchange.assetPair) ? undefined : state;
+            return null;
         default:
             return state;
     }

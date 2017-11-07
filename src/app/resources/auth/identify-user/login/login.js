@@ -7,21 +7,21 @@ import {bindable, inject} from 'aurelia-framework';
 import {Store} from 'au-redux';
 import {EventHelper, StellarServer, AlertToaster} from 'global-resources';
 import {SecretStore} from 'app-resources';
-import {AppActionCreators} from '../../../../app-action-creators';
+import {UpdateAccountActionCreator} from '../../../../action-creators';
 
-@inject(Store, StellarServer, AlertToaster, SecretStore, AppActionCreators)
+@inject(Store, StellarServer, AlertToaster, SecretStore, UpdateAccountActionCreator)
 export class LoginCustomElement {
 
     @bindable parentElement;
 
     loading = 0;
 
-    constructor(store, stellarServer, alertToaster, secretStore, appActionCreators) {
+    constructor(store, stellarServer, alertToaster, secretStore, updateAccount) {
         this.store = store;
         this.stellarServer = stellarServer;
         this.alertToaster = alertToaster;
         this.secretStore = secretStore;
-        this.appActionCreators = appActionCreators;
+        this.updateAccount = updateAccount;
 
         this.onPublicKeyChange = _throttle(this._onPublicKeyChange.bind(this), 250);
         this.onSecretChange = _throttle(this._onSecretChange.bind(this), 250);
@@ -59,7 +59,7 @@ export class LoginCustomElement {
 
         this.loading++;
 
-        await this.store.dispatch(this.appActionCreators.updateAccount(this.publicKey));
+        await this.updateAccount.dispatch(this.publicKey);
 
         if (!this.store.getState().myAccount) {
             this.alertConfig = {

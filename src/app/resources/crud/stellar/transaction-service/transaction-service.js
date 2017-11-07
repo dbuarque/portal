@@ -7,19 +7,19 @@ import {inject} from 'aurelia-framework';
 import {Store} from 'au-redux';
 import {StellarServer, ModalService, SpinnerModalService, AlertToaster} from 'global-resources';
 import {SecretStore} from '../../../auth/secret-store/secret-store';
-import {AppActionCreators} from '../../../../app-action-creators';
+import {UpdateMySeqnumActionCreator} from '../../../../action-creators';
 
-@inject(StellarServer, ModalService, SpinnerModalService, Store, AlertToaster, SecretStore, AppActionCreators)
+@inject(StellarServer, ModalService, SpinnerModalService, Store, AlertToaster, SecretStore, UpdateMySeqnumActionCreator)
 export class TransactionService {
 
-    constructor(stellarServer, modalService, spinnerModalService, store, alertToaster, secretStore, appActionCreators) {
+    constructor(stellarServer, modalService, spinnerModalService, store, alertToaster, secretStore, udpateMySeqnum) {
         this.stellarServer = stellarServer;
         this.modalService = modalService;
         this.spinnerModalService = spinnerModalService;
         this.store = store;
         this.alertToaster = alertToaster;
         this.secretStore = secretStore;
-        this.appActionCreators = appActionCreators;
+        this.udpateMySeqnum = udpateMySeqnum;
     }
 
     /**
@@ -34,9 +34,7 @@ export class TransactionService {
 
         try {
             // Update the account sequence number.
-            await this.store.dispatch(
-                this.appActionCreators.updateMySeqnum()
-            );
+            await this.udpateMySeqnum.dispatch();
 
             let account = this.store.getState().myAccount;
 

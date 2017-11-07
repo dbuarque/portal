@@ -4,8 +4,7 @@
 
 import {inject} from 'aurelia-framework';
 import {connected, Store} from 'au-redux';
-import {AccountResource} from 'app-resources';
-import {AccountStream} from '../../../../account-stream';
+import {AccountResource, AccountStream} from 'app-resources';
 import {DetailActionCreators} from './detail-action-creators';
 
 @inject(Store, AccountResource, AccountStream, DetailActionCreators)

@@ -8,7 +8,7 @@ import {isNewAssetPair, calculateNewOrder} from './helpers';
 
 const {UPDATE_ORDERBOOK, UPDATE_MY_ASK} = detailActionTypes;
 
-export function myAsk(state, action, rootState) {
+export function myAsk(state, action) {
     switch (action.type) {
         case UPDATE_MY_ASK:
             return calculateNewOrder(action.payload, state);
@@ -21,11 +21,7 @@ export function myAsk(state, action, rootState) {
 
             return state;
         case UPDATE_ASSET_PAIR:
-            if (!action.payload) {
-                return undefined;
-            }
-
-            return isNewAssetPair(action.payload, rootState.exchange.assetPair) ? undefined : state;
+            return null;
         default:
             return state;
     }

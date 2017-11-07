@@ -9,7 +9,7 @@ import {isNewAssetPair} from './helpers';
 
 const {UPDATE_ORDERBOOK} = detailActionTypes;
 
-export function orderbook(state, action, rootState) {
+export function orderbook(state, action) {
     switch (action.type) {
         case UPDATE_ORDERBOOK:
             if (!action.payload) {
@@ -21,11 +21,7 @@ export function orderbook(state, action, rootState) {
                 asks: _mapOrders(action.payload.asks)
             };
         case UPDATE_ASSET_PAIR:
-            if (!action.payload) {
-                return undefined;
-            }
-
-            return isNewAssetPair(action.payload, rootState.exchange.assetPair) ? undefined : state;
+            return null;
         default:
             return state;
     }

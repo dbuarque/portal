@@ -8,7 +8,7 @@ import {isNewAssetPair, calculateNewOrder} from './helpers';
 
 const {UPDATE_ORDERBOOK, UPDATE_MY_BID} = detailActionTypes;
 
-export function myBid(state, action, rootState) {
+export function myBid(state, action) {
     switch (action.type) {
         case UPDATE_MY_BID:
             return calculateNewOrder(action.payload, state);
@@ -21,11 +21,7 @@ export function myBid(state, action, rootState) {
 
             return state;
         case UPDATE_ASSET_PAIR:
-            if (!action.payload) {
-                return undefined;
-            }
-
-            return isNewAssetPair(action.payload, rootState.exchange.assetPair) ? undefined : state;
+            return null;
         default:
             return state;
     }

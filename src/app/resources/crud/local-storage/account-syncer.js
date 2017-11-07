@@ -2,20 +2,18 @@
  * Created by Ishai on 4/28/2017.
  */
 
-import _throttle from 'lodash/throttle';
 import {inject} from 'aurelia-framework';
-import {Store, connected} from 'au-redux';
-import {AppActionCreators} from '../../../app-action-creators';
+import {connected} from 'au-redux';
+import {UpdateAccountActionCreator} from '../../../action-creators';
 
-@inject(Store, AppActionCreators)
+@inject(UpdateAccountActionCreator)
 export class AccountSyncer {
 
     @connected('myAccount.accountId')
     accountId;
 
-    constructor(store, appActionCreators) {
-        this.store = store;
-        this.appActionCreators = appActionCreators;
+    constructor(updateAccount) {
+        this.updateAccount = updateAccount;
 
         window.addEventListener('storage', this.syncToStore.bind(this));
         this.syncToStore();
@@ -26,7 +24,7 @@ export class AccountSyncer {
         const localAccountId = localStorage.getItem('account-id');
 
         if (this.accountId !== localAccountId) {
-            await this.store.dispatch(this.appActionCreators.updateAccount(localAccountId));
+            await this.updateAccount.dispatch(localAccountId);
         }
     }
 

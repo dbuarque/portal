@@ -7,9 +7,8 @@ import {Router} from 'aurelia-router';
 import {Store} from 'au-redux';
 import {ModalService, ValidationManager, StellarServer} from 'global-resources';
 import {AccountResource, TransactionService} from 'app-resources';
-import {AppActionCreators} from '../../app-action-creators';
 
-@inject(Router, ModalService, Store, ValidationManager, StellarServer, AccountResource, TransactionService, AppActionCreators)
+@inject(Router, ModalService, Store, ValidationManager, StellarServer, AccountResource, TransactionService)
 export class SendPayment {
 
     loading = 0;
@@ -25,7 +24,7 @@ export class SendPayment {
         return this.type.toLowerCase() === 'native';
     }
 
-    constructor(router, modalService, store, validationManager, stellarServer, accountResource, transactionService, appActionCreators) {
+    constructor(router, modalService, store, validationManager, stellarServer, accountResource, transactionService) {
         this.router = router;
         this.modalService = modalService;
         this.store = store;
@@ -33,7 +32,6 @@ export class SendPayment {
         this.accountResource = accountResource;
         this.transactionService = transactionService;
         this.stellarServer = stellarServer;
-        this.appActionCreators = appActionCreators;
 
         this.lupoexPublicKey = window.lupoex.publicKey;
     }

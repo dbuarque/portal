@@ -8,16 +8,12 @@ import {isNewAssetPair} from './helpers';
 
 const {UPDATE_MY_OFFERS} = detailActionTypes;
 
-export function myOffers(state, action, rootState) {
+export function myOffers(state, action) {
     switch (action.type) {
         case UPDATE_MY_OFFERS:
             return action.payload;
         case UPDATE_ASSET_PAIR:
-            if (!action.payload) {
-                return undefined;
-            }
-
-            return isNewAssetPair(action.payload, rootState.exchange.assetPair) ? undefined : state;
+            return null;
         default:
             return state;
     }

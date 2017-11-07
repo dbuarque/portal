@@ -3,6 +3,7 @@
  */
 
 import {combineReducersProvideRootState, restrictReducerToNamespace} from 'au-redux';
+import {assetPairsAreDifferent} from "app-resources";
 import {namespace, UPDATE_ASSET_PAIR} from './exchange-action-types';
 import choose from './routes/choose/reducers';
 import detail from './routes/detail/reducers';
@@ -17,7 +18,7 @@ export const exchange = restrictReducerToNamespace(
 );
 
 function assetPair(state, action) {
-    return action.type === UPDATE_ASSET_PAIR ?
+    return action.type === UPDATE_ASSET_PAIR && assetPairsAreDifferent(state, action.payload) ?
         {
             ...state,
             ...action.payload

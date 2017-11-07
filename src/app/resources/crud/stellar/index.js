@@ -7,3 +7,5 @@ export * from './offer-service/offer-service';
 export * from './trust-service/trust-service';
 export * from './toml-cache';
 export * from './asset-selection-service';
+export * from './account-stream';
+export * from './account-effect-alerter';
