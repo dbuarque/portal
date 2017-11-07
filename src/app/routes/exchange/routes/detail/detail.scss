@@ -1,0 +1,50 @@
+@import '../../../../../app/styles/styles';
+
+.exchange {
+    .detail {
+
+        th {
+            padding: 5px;
+        }
+
+        .card .card-content {
+
+            .card-heading {
+                padding: 5px;
+                color: $primary;
+            }
+
+            .card-title {
+                margin-bottom: 0;
+            }
+        }
+
+        .create-offer-card {
+
+            .card-content {
+
+                .card-heading {
+                    padding: 0;
+
+                    .tabs {
+                        height: 29px;
+
+                        .tab {
+                            height: 29px;
+                            line-height: 29px;
+                            font-weight: bold;
+                            text-transform: none;
+                        }
+                    }
+                }
+            }
+        }
+
+        @import "tradingview-price-chart/tradingview-price-chart";
+        @import "orderbook/orderbook";
+        @import "my-offers/my-offers";
+        @import "recent-trades/recent-trades";
+        @import "orderbook-chart/orderbook-chart";
+        @import "create-offer/create-offer";
+    }
+}

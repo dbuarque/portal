@@ -2,7 +2,7 @@
 import {inject, computedFrom} from 'aurelia-framework';
 import {connected} from 'au-redux';
 import {AccountResource} from 'app-resources';
-import Config from './account-data-config';
+import Config from './account-data.config';
 
 @inject(Config, AccountResource)
 export class AccountDataCustomElement {

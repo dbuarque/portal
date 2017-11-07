@@ -2,6 +2,7 @@
  * Created by istrauss on 3/16/2017.
  */
 
+import './exchange.scss';
 import {inject} from 'aurelia-framework';
 import {ExchangeConfig} from './exchange.config';
 

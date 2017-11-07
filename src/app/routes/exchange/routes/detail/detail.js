@@ -2,6 +2,7 @@
  * Created by istrauss on 5/21/2017.
  */
 
+import './detail.scss';
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {Store, connected} from 'au-redux';

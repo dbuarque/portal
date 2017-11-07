@@ -3,13 +3,16 @@
  */
 
 import {inject} from 'aurelia-framework';
-import {Store, connected} from 'au-redux';
+import {connected} from 'au-redux';
 import {MarketResource} from 'app-resources';
 import {UpdateAssetPairActionCreator} from '../../../action-creators';
-import {MarketToAssetPairValueConverter} from "../choose-value-converters";
-import {TopTenMarketsActionCreators} from "./top-ten-markets-action-creators";
+import {MarketToAssetPairValueConverter} from "../choose.value-converters";
+import {UpdateTopTenMarketsOrderActionCreator, RefreshTopTenMarketsActionCreator} from "./action-creators";
 
-@inject(Element, Store, MarketResource, UpdateAssetPairActionCreator, MarketToAssetPairValueConverter, TopTenMarketsActionCreators)
+@inject(
+    MarketResource, UpdateAssetPairActionCreator,
+    MarketToAssetPairValueConverter, UpdateTopTenMarketsOrderActionCreator, RefreshTopTenMarketsActionCreator
+)
 export class TopTenMarkets {
 
     @connected('exchange.assetPair')
@@ -24,13 +27,12 @@ export class TopTenMarkets {
     loading = 0;
     nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
 
-    constructor(element, store, marketResource, updateAssetPair, marketToAssetPair, topTenMarketsActionCreators) {
-        this.element = element;
-        this.store = store;
+    constructor(marketResource, updateAssetPair, marketToAssetPair, updateTopTenMarkets, refreshTopTenMarkets) {
         this.marketResource = marketResource;
         this.updateAssetPair = updateAssetPair;
         this.marketToAssetPair = marketToAssetPair;
-        this.topTenMarketsActionCreators = topTenMarketsActionCreators;
+        this.updateTopTenMarkets = updateTopTenMarkets;
+        this.refreshTopTenMarkets = refreshTopTenMarkets;
     }
 
     bind() {
@@ -40,9 +42,7 @@ export class TopTenMarkets {
     async refresh() {
         this.loading++;
 
-        await this.store.dispatch(
-            this.topTenMarketsActionCreators.refreshTopTenMarkets()
-        );
+        await this.refreshTopTenMarkets.dispatch();
 
         if (!this.assetPair && this.markets.length > 0) {
             await this.updateAssetPair.dispatch(
@@ -56,9 +56,7 @@ export class TopTenMarkets {
     async changeOrder(newOrder) {
         this.loading++;
 
-        await this.store.dispatch(
-            this.topTenMarketsActionCreators.updateTopTenMarketsOrder(newOrder)
-        );
+        await this.updateTopTenMarkets.dispatch(newOrder);
 
         this.loading--;
     }

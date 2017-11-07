@@ -18,7 +18,7 @@ export class AppConfig {
                 {
                     route: ['exchange'],
                     name: 'exchange',
-                    moduleId: PLATFORM.moduleName('./routes/exchange/exchange'),
+                    moduleId: PLATFORM.moduleName('./routes/exchange/exchange', 'exchange'),
                     title: 'Exchange'
                 },
                 {
@@ -31,7 +31,7 @@ export class AppConfig {
                 {
                     route: ['account'],
                     name: 'account',
-                    moduleId: PLATFORM.moduleName('./routes/account/account'),
+                    moduleId: PLATFORM.moduleName('./routes/account/account', 'account'),
                     accountRequired: true,
                     title: 'Account',
                     breadcrumb: true

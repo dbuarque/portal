@@ -1,5 +1,5 @@
 
-import {namespace as chooseNamespace} from '../choose-action-types';
+import {namespace as chooseNamespace} from '../choose.action-types';
 
 export const namespace = chooseNamespace + '_TOP_TEN';
 

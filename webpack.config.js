@@ -42,6 +42,7 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
             //'resources': path.resolve( __dirname, 'src', 'resources'),
             'global-resources': path.resolve( __dirname, 'src', 'resources'),
             'app-resources': path.resolve( __dirname, 'src', 'app', 'resources'),
+            'app-styles': path.resolve( __dirname, 'src', 'app', 'styles', 'styles.scss'),
             '$': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.js'),
             'jquery': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.js'),
             'moment-timezone': path.resolve(__dirname, 'node_modules/moment-timezone/builds/moment-timezone-with-data-2012-2022'),
@@ -57,7 +58,7 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
         publicPath: baseUrl,
         filename: production ? '[name].[chunkhash].bundle.js' : '[name].[hash].bundle.js',
         sourceMapFilename: production ? '[name].[chunkhash].bundle.map' : '[name].[hash].bundle.map',
-        chunkFilename: production ? '[chunkhash].chunk.js' : '[hash].chunk.js'
+        chunkFilename: production ? '[name].[chunkhash].chunk.js' : '[name].[hash].chunk.js',
     },
     devServer: {
         contentBase: baseUrl,
