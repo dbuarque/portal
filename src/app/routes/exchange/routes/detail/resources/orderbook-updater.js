@@ -3,22 +3,21 @@
  */
 
 import {inject} from 'aurelia-framework';
-import {connected, Store} from 'au-redux';
+import {connected} from 'au-redux';
 import {MarketResource} from 'app-resources';
 import {MarketStream} from './market-stream';
-import {DetailActionCreators} from './detail-action-creators';
+import {UpdateOrderbookActionCreator} from '../action-creators';
 
-@inject(Store, MarketResource, MarketStream, DetailActionCreators)
-export class RecentTradesUpdater {
+@inject(MarketResource, MarketStream, UpdateOrderbookActionCreator)
+export class OrderbookUpdater {
 
     @connected('exchange.assetPair')
     assetPair;
 
-    constructor(store, marketResource, marketStream, detailActionCreators) {
-        this.store = store;
+    constructor(marketResource, marketStream, updateOrderbook) {
         this.marketResource = marketResource;
         this.marketStream = marketStream;
-        this.detailActionCreators = detailActionCreators;
+        this.updateOrderbook = updateOrderbook;
     }
 
     init() {
@@ -37,18 +36,16 @@ export class RecentTradesUpdater {
         }
 
         // First simply get the new orderbook.
-        const newTrades = await this.marketResource.recentTrades(this.assetPair);
-        this.store.dispatch(this.detailActionCreators.updateRecentTrades(newTrades));
+        const newOrderbook = await this.marketResource.orderbook(this.assetPair);
+        this.updateOrderbook.dispatch(newOrderbook);
 
         // Now, subscribe to changes.
         this.unsubscribeFromStream = this.marketStream.subscribe(payload => {
-            if (payload.type !== 'trades') {
+            if (payload.type !== 'orderbook') {
                 return;
             }
 
-            this.store.dispatch(
-                this.detailActionCreators.updateRecentTrades(payload.payload.trades.reverse())
-            );
+            this.updateOrderbook.dispatch(payload.payload);
         });
     }
 }

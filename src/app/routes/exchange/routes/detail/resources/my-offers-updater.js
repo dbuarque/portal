@@ -3,11 +3,11 @@
  */
 
 import {inject} from 'aurelia-framework';
-import {connected, Store} from 'au-redux';
+import {connected} from 'au-redux';
 import {AccountResource} from 'app-resources';
-import {DetailActionCreators} from './detail-action-creators';
+import {UpdateMyOffersActionCreator} from '../action-creators';
 
-@inject(Store, AccountResource, DetailActionCreators)
+@inject(AccountResource, UpdateMyOffersActionCreator)
 export class MyOffersUpdater {
 
     @connected('exchange.assetPair')
@@ -16,10 +16,9 @@ export class MyOffersUpdater {
     @connected('myAccount')
     account;
 
-    constructor(store, accountResource, detailActionCreators) {
-        this.store = store;
+    constructor(accountResource, updateMyOffers) {
         this.marketResource = accountResource;
-        this.detailActionCreators = detailActionCreators;
+        this.updateMyOffers = updateMyOffers;
     }
 
     init() {
@@ -44,11 +43,7 @@ export class MyOffersUpdater {
             return;
         }
 
-        this.interval = setInterval(this.updateMyOffers.bind(this), 60 * 1000);
-        this.updateMyOffers();
-    }
-
-    async updateMyOffers() {
-        this.store.dispatch(this.detailActionCreators.updateMyOffers());
+        this.interval = setInterval(this.updateMyOffers.dispatch.bind(this.updateMyOffers), 60 * 1000);
+        this.updateMyOffers.dispatch();
     }
 }

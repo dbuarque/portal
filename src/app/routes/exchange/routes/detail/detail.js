@@ -5,16 +5,13 @@
 import './detail.scss';
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
-import {Store, connected} from 'au-redux';
+import {connected} from 'au-redux';
 import {UpdateAssetPairActionCreator} from '../../action-creators';
-import {DetailActionCreators} from './detail-action-creators';
-import {OrderbookUpdater} from './orderbook-updater';
-import {RecentTradesUpdater} from './recent-trades-updater';
-import {MyOffersUpdater} from './my-offers-updater';
-import {MyAssetPairUpdater} from './my-asset-pair-updater';
+import {UpdateDisplayedOfferTypeActionCreator} from './action-creators';
+import {OrderbookUpdater, RecentTradesUpdater, MyOffersUpdater, MyAssetPairUpdater} from './resources';
     
 @inject(
-    Router, Store, UpdateAssetPairActionCreator, DetailActionCreators, OrderbookUpdater,
+    Router, UpdateAssetPairActionCreator, UpdateDisplayedOfferTypeActionCreator, OrderbookUpdater,
     RecentTradesUpdater, MyOffersUpdater, MyAssetPairUpdater
 )
 export class Detail {
@@ -29,13 +26,12 @@ export class Detail {
     displayedOfferType;
     
     constructor(
-        router, store, updateAssetPair, detailActionCreators, orderbookUpdater,
+        router, updateAssetPair, updateDisplayedOfferType, orderbookUpdater,
         recentTradesUpdater, myOffersUpdater, myAssetPairUpdater
     ) {
         this.router = router;
-        this.store = store;
         this.updateAssetPair = updateAssetPair;
-        this.detailActionCreators = detailActionCreators;
+        this.updateDisplayedOfferType = updateDisplayedOfferType;
 
         this.switchAssets = this._switchAssets.bind(this);
         this.reselect = this._reselect.bind(this);
@@ -68,7 +64,7 @@ export class Detail {
     }
 
     changeOfferType(newOfferType) {
-        this.store.dispatch(this.detailActionCreators.updateDisplayedOfferType(newOfferType));
+        this.updateDisplayedOfferType.dispatch(newOfferType);
     }
 
     _reselect(asset, type) {

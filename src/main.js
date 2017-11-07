@@ -1,10 +1,8 @@
-
 import {PLATFORM} from 'aurelia-pal';
 import 'font-awesome/css/font-awesome.css';
 import './third-party-css';
 import 'babel-polyfill';
 import './main-config';
-//!style-loader!css-loader!sass-loader!
 import './main.scss';
 import {Store} from 'au-redux';
 import {app as rootReducer} from './app/reducers';

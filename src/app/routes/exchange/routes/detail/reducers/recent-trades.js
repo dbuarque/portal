@@ -1,7 +1,5 @@
 import {UPDATE_ASSET_PAIR} from '../../../exchange.action-types';
-import {detailActionTypes} from '../detail-action-types';
-
-const {UPDATE_RECENT_TRADES} = detailActionTypes;
+import {UPDATE_RECENT_TRADES} from '../detail.action-types';
 
 export function recentTrades(state = [], action) {
     switch (action.type) {

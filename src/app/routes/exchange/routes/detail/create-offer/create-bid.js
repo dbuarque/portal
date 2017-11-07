@@ -7,9 +7,9 @@ import {inject, Container, computedFrom} from 'aurelia-framework';
 import {connected} from 'au-redux';
 import {validStellarNumber} from 'app-resources';
 import {CreateOffer} from './create-offer';
-import {DetailActionCreators} from '../detail-action-creators';
+import {UpdateMyBidActionCreator} from '../action-creators';
 
-@inject(Container, DetailActionCreators)
+@inject(Container, UpdateMyBidActionCreator)
 export class CreateBidCustomElement extends CreateOffer {
 
     @connected('exchange.detail.myBid')
@@ -28,11 +28,11 @@ export class CreateBidCustomElement extends CreateOffer {
             );
     }
     set price(newPrice) {
-        this.store.dispatch(this.detailActionCreators.updateMyBid({
+        this.updateMyBid.dispatch({
             price: newPrice ?
                 (new BigNumber(newPrice)).toFraction().reverse() :
                 newPrice
-        }));
+        });
     }
 
     @computedFrom('myBid')
@@ -40,9 +40,9 @@ export class CreateBidCustomElement extends CreateOffer {
         return this.myBid ? this.myBid.sellingAmount : undefined;
     };
     set sellingAmount(newAmount) {
-        this.store.dispatch(this.detailActionCreators.updateMyBid({
+        this.updateMyBid.dispatch({
             sellingAmount: newAmount
-        }));
+        });
     }
 
     @computedFrom('myBid')
@@ -50,9 +50,9 @@ export class CreateBidCustomElement extends CreateOffer {
         return this.myBid ? this.myBid.buyingAmount : undefined;
     };
     set buyingAmount(newAmount) {
-        this.store.dispatch(this.detailActionCreators.updateMyBid({
+        this.updateMyBid.dispatch({
             buyingAmount: newAmount
-        }));
+        });
     }
 
     @computedFrom('assetPair')
@@ -74,10 +74,10 @@ export class CreateBidCustomElement extends CreateOffer {
     get myBuyingAsset() {
         return this.myAssetPair ? this.myAssetPair.selling : {};
     }
-    
-    constructor(container, detailActionCreators) {
+
+    constructor(container, updateMyBid) {
         super(container);
 
-        this.detailActionCreators = detailActionCreators;
+        this.updateMyBid = updateMyBid;
     }
 }

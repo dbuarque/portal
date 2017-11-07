@@ -4,12 +4,9 @@
 
 import BigNumber from 'bignumber.js';
 import {UPDATE_ASSET_PAIR} from '../../../exchange.action-types';
-import {detailActionTypes} from '../detail-action-types';
-import {isNewAssetPair} from './helpers';
+import {UPDATE_ORDERBOOK} from '../detail.action-types';
 
-const {UPDATE_ORDERBOOK} = detailActionTypes;
-
-export function orderbook(state, action) {
+export function orderbook(state = null, action) {
     switch (action.type) {
         case UPDATE_ORDERBOOK:
             if (!action.payload) {

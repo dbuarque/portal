@@ -3,12 +3,9 @@
  */
 
 import {UPDATE_ASSET_PAIR} from '../../../exchange.action-types';
-import {detailActionTypes} from '../detail-action-types';
-import {isNewAssetPair} from './helpers';
+import {UPDATE_MY_OFFERS} from '../detail.action-types';
 
-const {UPDATE_MY_OFFERS} = detailActionTypes;
-
-export function myOffers(state, action) {
+export function myOffers(state = [], action) {
     switch (action.type) {
         case UPDATE_MY_OFFERS:
             return action.payload;

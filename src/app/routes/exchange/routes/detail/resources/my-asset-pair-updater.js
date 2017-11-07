@@ -3,11 +3,11 @@
  */
 
 import {inject} from 'aurelia-framework';
-import {connected, Store} from 'au-redux';
+import {connected} from 'au-redux';
 import {AccountResource, AccountStream} from 'app-resources';
-import {DetailActionCreators} from './detail-action-creators';
+import {UpdateMyAssetPairActionCreator} from '../action-creators';
 
-@inject(Store, AccountResource, AccountStream, DetailActionCreators)
+@inject(AccountResource, AccountStream, UpdateMyAssetPairActionCreator)
 export class MyAssetPairUpdater {
 
     @connected('exchange.assetPair')
@@ -16,11 +16,10 @@ export class MyAssetPairUpdater {
     @connected('myAccount')
     account;
 
-    constructor(store, accountResource, accountStream, detailActionCreators) {
-        this.store = store;
+    constructor(accountResource, accountStream, updateMyAssetPair) {
         this.marketResource = accountResource;
         this.accountStream = accountStream;
-        this.detailActionCreators = detailActionCreators;
+        this.updateMyAssetPair = updateMyAssetPair;
     }
 
     init() {
@@ -50,8 +49,8 @@ export class MyAssetPairUpdater {
         }
 
         this.unsubscribeFromStream = this.accountStream.subscribe(this._handleAccountEffects.bind(this));
-        this.interval = setInterval(this.updateMyAssetPair.bind(this), 60 * 1000);
-        this.updateMyAssetPair();
+        this.interval = setInterval(this.updateMyAssetPair.dispatch.bind(this.updateMyAssetPair), 60 * 1000);
+        this.updateMyAssetPair.dispatch();
     }
 
     _handleAccountEffects(msg) {
@@ -66,9 +65,5 @@ export class MyAssetPairUpdater {
                 return;
             }
         }
-    }
-
-    async updateMyAssetPair() {
-        this.store.dispatch(this.detailActionCreators.updateMyAssetPair());
     }
 }

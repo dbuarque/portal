@@ -5,9 +5,9 @@
 import BigNumber from 'bignumber.js';
 import {computedFrom} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
-import {Store, connected} from 'au-redux';
+import {connected} from 'au-redux';
 import {TrustService, OfferService, validStellarNumber} from 'app-resources';
-import {DetailActionCreators} from '../detail-action-creators';
+import {UpdateMyAssetPairActionCreator, UpdateMyOffersActionCreator} from '../action-creators';
 
 export class CreateOffer {
 
@@ -32,10 +32,10 @@ export class CreateOffer {
     
     constructor(container) {
         this.router = container.get(Router);
-        this.store = container.get(Store);
         this.trustService = container.get(TrustService);
         this.offerService = container.get(OfferService);
-        this.detailActionCreators = container.get(DetailActionCreators);
+        this.updateMyAssetPair = container.get(UpdateMyAssetPairActionCreator);
+        this.updateMyOffers = container.get(UpdateMyOffersActionCreator);
     }
 
     goToLogin() {
@@ -98,12 +98,8 @@ export class CreateOffer {
                 this.buyingAsset
             );
 
-            this.store.dispatch(
-                this.detailActionCreators.updateMyOffers()
-            );
-            this.store.dispatch(
-                this.detailActionCreators.updateMyAssetPair()
-            );
+            this.updateMyOffers.dispatch();
+            this.updateMyAssetPair.dispatch();
         }
         catch(e) {}
     }
