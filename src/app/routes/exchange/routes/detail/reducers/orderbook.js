@@ -10,7 +10,7 @@ export function orderbook(state = null, action) {
     switch (action.type) {
         case UPDATE_ORDERBOOK:
             if (!action.payload) {
-                return undefined;
+                return null;
             }
 
             return {

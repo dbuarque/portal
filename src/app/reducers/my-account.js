@@ -1,4 +1,3 @@
-import _isEqual from 'lodash/isEqual';
 import {UPDATE_MY_ACCOUNT_ID, UPDATE_MY_ACCOUNT, UPDATE_MY_ACCOUNT_SEQNUM} from '../app.action-types';
 
 export function myAccount(state = null, action) {
@@ -9,9 +8,9 @@ export function myAccount(state = null, action) {
                     ...state,
                     accountId: action.payload
                 } :
-                undefined;
+                null;
         case UPDATE_MY_ACCOUNT:
-            return !_isEqual(state, action.payload) ? action.payload : state;
+            return action.payload || null;
         case UPDATE_MY_ACCOUNT_SEQNUM:
             return {
                 ...state,

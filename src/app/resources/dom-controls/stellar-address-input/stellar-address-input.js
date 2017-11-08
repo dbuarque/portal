@@ -2,8 +2,7 @@
  * Created by istrauss on 6/22/2017.
  */
 
-import _debounce from 'lodash/debounce';
-import {inject, bindable, bindingMode} from 'aurelia-framework';
+import {inject, bindable, bindingMode, computedFrom} from 'aurelia-framework';
 import {StellarServer} from 'global-resources';
 
 @inject(StellarServer)
@@ -13,58 +12,49 @@ export class StellarAddressInputCustomElement {
     @bindable({defaultBindingMode: bindingMode.twoWay}) federatedAddress;
     @bindable({defaultBindingMode: bindingMode.twoWay}) memoType;
     @bindable({defaultBindingMode: bindingMode.twoWay}) memo;
-
-    loading = 0;
-    numProcesses = 0;
-
-    constructor(stellarServer) {
-        this.stellarServer = stellarServer;
-
-        this.onChange = _debounce(this.processInput.bind(this), 350);
-    }
-
-    publicKeyChanged() {
-        this.inputValue = this.publicKey;
-    }
-
-    async processInput() {
+    
+    @computedFrom('intermediateValue', 'federatedAddress', 'publicKey')
+    get inputValue() {
+        return this.intermediateValue || this.federatedAddress || this.publicKey;
+    }    
+    set inputValue(newValue) {
         //We already processed this value, just return
-        if (this.inputValue === this.federatedAddress || this.inputValue === this.publicKey) {
+        if (newValue === this.federatedAddress || newValue === this.publicKey) {
             return;
         }
 
+        this.intermediateValue = newValue;
+        this.federatedAddress = undefined;
+        this.publicKey = undefined;
+        this.memo = undefined;
+        this.memoType = undefined;
+
         this.loading++;
+        this.numCalls++;
+        const callNum = this.numCalls;
 
-        this.numProcesses++;
-        let processNum = this.numProcesses;
+        this.stellarServer.sdk.FederationServer.resolve(newValue)
+            .then(response => {
+                if (callNum !== this.numCalls) {
+                    this.loading--;
+                    return;
+                }
 
-        let federatedAddress = undefined;
-        let publicKey = undefined;
-        let memo = undefined;
-        let memoType = undefined;
-
-        try {
-            const response = await this.stellarServer.sdk.FederationServer.resolve(this.inputValue);
-
-            if (processNum !== this.numProcesses) {
-                this.loading--;
-                return;
-            }
-
-            publicKey = response.account_id;
-            federatedAddress = this.inputValue !== publicKey ? this.inputValue : undefined;
-            memoType = response.memo_type;
-            memo = response.memo;
-        }
-        catch(e) {}
-
-        Object.assign(this, {
-            federatedAddress,
-            publicKey,
-            memoType,
-            memo
-        });
+                this.intermediateValue = undefined;
+                this.publicKey = response.account_id;
+                this.federatedAddress = newValue !== this.publicKey ? newValue : undefined;
+                this.memoType = response.memo_type;
+                this.memo = response.memo;
+            })
+            .catch(e => {});
 
         this.loading--;
+    }
+
+    loading = 0;
+    numCalls = 0;
+
+    constructor(stellarServer) {
+        this.stellarServer = stellarServer;
     }
 }

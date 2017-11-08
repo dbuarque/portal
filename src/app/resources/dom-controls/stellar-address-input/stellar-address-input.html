@@ -1,13 +1,13 @@
 <template>
     <div class="stellar-address-input">
         <label class="accent-text">-- enter public key or federated address --</label>
-        <input value.bind="inputValue" keyup.trigger="onChange()" change.trigger="onChange()"><br>
-        <div show.bind="inputValue">
-            <i class="fa fa-refresh fa-spin primary-text" show.bind="loading > 0"></i>
-            <div show.bind="loading === 0">
-                <span show.bind="!publicKey" class="error-text"><i class="fa fa-exclamation-circle"></i>&nbsp;Invalid Account Address</span>
-                <span show.bind="publicKey && !federatedAddress" class="success-text"><i class="fa fa-check-circle-o"></i>&nbsp;Valid Account Address</span>
-                <span show.bind="publicKey && federatedAddress" style="word-break: break-all" class="success-text"><i class="fa fa-check-circle-o"></i>&nbsp;Valid Federated Address. Maps to ${publicKey}</span>
+        <input value.bind="inputValue"><br>
+        <div if.bind="inputValue">
+            <i class="fa fa-refresh fa-spin primary-text" if.bind="loading > 0"></i>
+            <div if.bind="loading === 0">
+                <span if.bind="!publicKey" class="error-text"><i class="fa fa-exclamation-circle"></i>&nbsp;Invalid Account Address</span>
+                <span if.bind="publicKey && !federatedAddress" class="success-text"><i class="fa fa-check-circle-o"></i>&nbsp;Valid Account Address</span>
+                <span if.bind="publicKey && federatedAddress" style="word-break: break-all" class="success-text"><i class="fa fa-check-circle-o"></i>&nbsp;Valid Federated Address. Maps to ${publicKey | shortenAddress:6}</span>
             </div>
         </div>
     </div>

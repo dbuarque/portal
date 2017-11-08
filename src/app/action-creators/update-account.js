@@ -26,7 +26,8 @@ export class UpdateAccountActionCreator {
                 });
 
                 return dispatch({
-                    type: UPDATE_MY_ACCOUNT
+                    type: UPDATE_MY_ACCOUNT,
+                    payload: null
                 });
             }
 
