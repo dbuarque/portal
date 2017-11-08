@@ -6,9 +6,9 @@
 import {inject, computedFrom} from 'aurelia-framework';
 import {connected} from 'au-redux';
 import {AccountResource} from 'app-resources';
-import Config from './effect-history-config';
+import {EffectHistoryConfig} from './effect-history.config';
 
-@inject(Config, AccountResource)
+@inject(EffectHistoryConfig, AccountResource)
 export class EffectHistory {
 
     @connected('myAccount')

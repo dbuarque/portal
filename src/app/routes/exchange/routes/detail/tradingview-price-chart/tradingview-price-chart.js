@@ -3,13 +3,12 @@
  */
 
 import moment from 'moment';
-import {inject, bindable} from 'aurelia-framework';
+import {inject} from 'aurelia-framework';
 import {Store, connected} from 'au-redux';
-import Config from './tradingview-price-chart-config';
-import {TradingviewBarsRealtimeUpdater} from './tradingview-bars-realtime-updater';
-import {timeFrameToAmountScale} from './tradingview-price-chart-utils'
+import {TradingviewPriceChartConfig} from './tradingview-price-chart.config';
+import {timeFrameToAmountScale, BarsRealtimeUpdater} from './resources';
 
-@inject(Config, Store, TradingviewBarsRealtimeUpdater)
+@inject(TradingviewPriceChartConfig, Store, BarsRealtimeUpdater)
 export class TradingviewPriceChartCustomElement {
 
     @connected('exchange.assetPair')

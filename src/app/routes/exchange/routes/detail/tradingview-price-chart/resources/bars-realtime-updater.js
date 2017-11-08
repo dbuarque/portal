@@ -8,7 +8,7 @@ import moment from 'moment';
 import {LastBarTracker} from './last-bar-tracker';
 
 @inject(LastBarTracker)
-export class TradingviewBarsRealtimeUpdater {
+export class BarsRealtimeUpdater {
 
     started = false;
     lastBar;

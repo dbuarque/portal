@@ -6,7 +6,7 @@ import {PLATFORM} from 'aurelia-pal';
 import {transient} from 'aurelia-framework';
 
 @transient()
-export default class AppConfig {
+export class AccountConfig {
 
     constructor() {
         return {

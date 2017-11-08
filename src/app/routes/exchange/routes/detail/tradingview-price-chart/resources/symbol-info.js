@@ -4,7 +4,7 @@
 
 import moment from 'moment-timezone';
 
-export class TradingviewPriceChartSymbolInfo {
+export class SymbolInfo {
 
     type = 'bitcoin';
     session = '24x7';

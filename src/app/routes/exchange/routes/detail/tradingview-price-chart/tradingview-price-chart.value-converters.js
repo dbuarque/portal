@@ -1,7 +1,7 @@
 
 import BigNumber from 'bignumber.js';
 import moment from 'moment';
-import {resolutionToSeconds, timeFrameToAmountScale} from './tradingview-price-chart-utils';
+import {resolutionToSeconds, timeFrameToAmountScale} from './resources';
 
 export class DisableTimeframeValueConverter {
     toView(timeframe, currentResolution) {

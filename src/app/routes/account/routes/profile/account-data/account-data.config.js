@@ -9,7 +9,7 @@ import {FormatDateTimeValueConverter} from 'global-resources';
 
 @transient()
 @inject(FormatDateTimeValueConverter, SanitizeHTMLValueConverter)
-export default class OpenOffersConfig {
+export class AccountDataConfig {
 
     constructor(formatDateTime, sanitizeHTML) {
         return {

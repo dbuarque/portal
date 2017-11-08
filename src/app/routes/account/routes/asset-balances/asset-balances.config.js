@@ -4,11 +4,11 @@
 
 import {transient, inject} from 'aurelia-framework';
 import {SanitizeHTMLValueConverter} from 'aurelia-templating-resources';
-import {IssuerHtmlValueConverter} from '../../account-value-converters';
+import {IssuerHtmlValueConverter} from '../../account.value-converters';
 
 @transient()
 @inject(IssuerHtmlValueConverter, SanitizeHTMLValueConverter)
-export default class AssetBalancesConfig {
+export class AssetBalancesConfig {
 
     constructor(issuerHtml, sanitizeHTML) {
         return {

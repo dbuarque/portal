@@ -4,11 +4,11 @@
 
 import moment from 'moment-timezone';
 import {transient, inject} from 'aurelia-framework';
-import {TradingviewPriceChartDatafeedAdapter} from './tradingview-price-chart-datafeed-adapter';
+import {DatafeedAdapter} from './resources';
 
 @transient()
-@inject(TradingviewPriceChartDatafeedAdapter)
-export default class TradingviewPriceChartConfig {
+@inject(DatafeedAdapter)
+export class TradingviewPriceChartConfig {
     constructor(datafeed) {
         return {
             interval: '15',

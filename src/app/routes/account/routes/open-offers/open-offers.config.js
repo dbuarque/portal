@@ -4,15 +4,14 @@
 
 import {transient, inject} from 'aurelia-framework';
 import {SanitizeHTMLValueConverter} from 'aurelia-templating-resources';
-import {FormatDateTimeValueConverter} from 'global-resources';
 import {FormatNumberValueConverter} from 'app-resources';
-import {IssuerHtmlValueConverter} from '../../account-value-converters';
+import {IssuerHtmlValueConverter} from '../../account.value-converters';
 
 @transient()
-@inject(FormatNumberValueConverter, FormatDateTimeValueConverter, IssuerHtmlValueConverter, SanitizeHTMLValueConverter)
-export default class OpenOffersConfig {
+@inject(FormatNumberValueConverter, IssuerHtmlValueConverter, SanitizeHTMLValueConverter)
+export class OpenOffersConfig {
 
-    constructor(formatNumber, formatDateTime, issuerHtml, sanitizeHTML) {
+    constructor(formatNumber, issuerHtml, sanitizeHTML) {
         return {
             table: {
                 lengthMenu: [ 10, 25, 100 ],

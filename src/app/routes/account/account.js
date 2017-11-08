@@ -7,9 +7,9 @@ import _findIndex from 'lodash/findIndex';
 import {inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {Store, connected} from 'au-redux';
-import Config from './account-config';
+import {AccountConfig} from './account.config';
 
-@inject(Config, EventAggregator, Store)
+@inject(AccountConfig, EventAggregator, Store)
 export class Account {
 
     @connected('myAccount')

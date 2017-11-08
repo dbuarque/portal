@@ -5,12 +5,12 @@
 import moment from 'moment-timezone';
 import {inject} from 'aurelia-framework';
 import {MarketResource} from 'app-resources';
-import {TradingviewPriceChartSymbolInfo} from './tradingview-price-chart-symbol-info';
-import {TradingviewBarsRealtimeUpdater} from './tradingview-bars-realtime-updater';
-import {resolutionToSeconds} from './tradingview-price-chart-utils';
+import {SymbolInfo} from './symbol-info';
+import {BarsRealtimeUpdater} from './bars-realtime-updater';
+import {resolutionToSeconds} from './helpers';
 
-@inject(MarketResource, TradingviewBarsRealtimeUpdater)
-export class TradingviewPriceChartDatafeedAdapter {
+@inject(MarketResource, BarsRealtimeUpdater)
+export class DatafeedAdapter {
 
     configurationData = {
         exchanges: [],
@@ -33,13 +33,13 @@ export class TradingviewPriceChartDatafeedAdapter {
 
     searchSymbolsByName(userInput, exchange, symbolType, onResultReadyCallback) {
         // Not implemented for now (searching stellar assets by name is hard to due code+issuer combination, maybe sometime in the future?)
-        throw new Error('TradingviewPriceChartDatafeedAdapter.searchSymbolsByName() is not implemented.');
+        throw new Error('DatafeedAdapter.searchSymbolsByName() is not implemented.');
     }
 
     async resolveSymbol(ticker, onSymbolResolvedCallback, onResolveErrorCallback) {
         setTimeout(() => {
             onSymbolResolvedCallback(
-                new TradingviewPriceChartSymbolInfo(ticker, 'TODO')
+                new SymbolInfo(ticker, 'TODO')
             );
         }, 0);
     }
@@ -98,11 +98,11 @@ export class TradingviewPriceChartDatafeedAdapter {
     }
 
     getMarks(symbolInfo, startDate, endDate, onDataCallback, resolution) {
-        throw new Error('TradingviewPriceChartDatafeedAdapter.getMarks() is not implemented.');
+        throw new Error('DatafeedAdapter.getMarks() is not implemented.');
     }
 
     getTimescaleMarks(symbolInfo, startDate, endDate, onDataCallback, resolution) {
-        throw new Error('TradingviewPriceChartDatafeedAdapter.getTimescaleMarks() is not implemented.');
+        throw new Error('DatafeedAdapter.getTimescaleMarks() is not implemented.');
     }
 
     getServerTime(callback) {

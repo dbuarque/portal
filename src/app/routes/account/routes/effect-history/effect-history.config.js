@@ -9,7 +9,7 @@ import {ShortenAddressValueConverter, userFriendlyEffectMessage} from 'app-resou
 
 @transient()
 @inject(SanitizeHTMLValueConverter, FormatDateTimeValueConverter, ShortenAddressValueConverter)
-export default class EffectHistoryConfig {
+export class EffectHistoryConfig {
 
     constructor(sanitizeHTML, formatDateTime, shortenAddress) {
         const self = this;
