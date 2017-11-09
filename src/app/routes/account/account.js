@@ -5,6 +5,7 @@
 import './account.scss';
 import _findIndex from 'lodash/findIndex';
 import {inject} from 'aurelia-framework';
+import {Redirect} from 'aurelia-router';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {Store, connected} from 'au-redux';
 import {AccountConfig} from './account.config';

@@ -14,7 +14,9 @@ export class AccountSyncer {
 
     constructor(updateAccount) {
         this.updateAccount = updateAccount;
+    }
 
+    init() {
         window.addEventListener('storage', this.syncToStore.bind(this));
         this.syncToStore();
         this.bind();

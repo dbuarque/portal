@@ -32,17 +32,17 @@ export class TransactionService {
     async submit(operations, options = {}) {
         let transaction;
 
+        // Update the account sequence number.
+        await this.udpateMySeqnum.dispatch();
+
+        let account = this.store.getState().myAccount;
+
+        if (!account) {
+            this.alertToaster.error('You cannot submit a transaction to the network without being logged in. Please log in and try again.');
+            throw new Error('You cannot submit a transaction to the network without being logged in. Please log in and try again.');
+        }
+
         try {
-            // Update the account sequence number.
-            await this.udpateMySeqnum.dispatch();
-
-            let account = this.store.getState().myAccount;
-
-            if (!account) {
-                this.alertToaster.error('You cannot submit a transaction to the network without being logged in. Please log in and try again.');
-                throw new Error('You cannot submit a transaction to the network without being logged in. Please log in and try again.');
-            }
-
             // Get a transaction builder with the newly obtained account sequence number.
             const transactionBuilder = new this.stellarServer.sdk.TransactionBuilder(
                 new this.stellarServer.sdk.Account(account.accountId, account.seqNum)
@@ -60,20 +60,25 @@ export class TransactionService {
 
             // Build the transaction
             transaction = transactionBuilder.build();
-
-            // Delegate the actual signing of the transaction to the secretStore (which will prompt the user for their secret key if it does not yet have it).
-            await this.secretStore.sign(transaction);
         }
         catch(e) {
             this.alertToaster.error('An unexpected error occurred while trying to submit your transaction to the network (perhaps you didn\'t sign the transaction with your secret key?). Your transaction was not submitted to the network.');
-            return;
+            throw e;
         }
 
-        let transactionResponse;
+        let signedTransaction = this.secretStore.canSign ?
+            await this.secretStore.sign(transaction) :
+            await this.modalService.open(
+                PLATFORM.moduleName('app/resources/crud/stellar/transaction-service/sign-transaction-modal/sign-transaction-modal'),
+                {
+                    title: 'Sign Transaction',
+                    transaction
+                }
+            );
 
         try {
             // Finally, attempt to submit the transaction to the network.
-            const transactionSubmissionPromise = this.stellarServer.submitTransaction(transaction);
+            const transactionSubmissionPromise = this.stellarServer.submitTransaction(signedTransaction);
             this.spinnerModalService.open('Submitting to network...', transactionSubmissionPromise);
             await transactionSubmissionPromise;
         }

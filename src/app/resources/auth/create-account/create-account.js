@@ -17,7 +17,7 @@ export class CreateAccountCustomElement {
 
     createAccountHelpAlertConfig = {
         type: 'info',
-        message: 'Want some extra help creating your stellar account? Check out our in depth guide to <a href="http://docs.lupoex.com/getting-started/create-an-account/" target="_blank">creating a stellar account</a>.',
+        message: '',
         dismissible: false
     };
 

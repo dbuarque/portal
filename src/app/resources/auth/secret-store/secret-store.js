@@ -11,6 +11,10 @@ import {InactivityTracker} from '../inactivity-tracker';
 @inject(ModalService, StellarServer, Store, AlertToaster, InactivityTracker)
 export class SecretStore {
 
+    get canSign() {
+        return !!this._keypair;
+    }
+
     constructor(modalService, stellarServer, store, alertToaster, inactivityTracker) {
         this.modalService = modalService;
         this.stellarServer = stellarServer;
@@ -20,39 +24,11 @@ export class SecretStore {
     }
 
     async sign(transaction) {
-        let keypair;
         if (!this._keypair) {
-            const result = await this.modalService.open(PLATFORM.moduleName('app/resources/auth/secret-store/authenticate-modal/authenticate-modal'),
-                {
-                    title: 'Authenticate'
-                },
-                {
-                    modalClass: 'md'
-                }
-            );
-
-            keypair = this.stellarServer.sdk.Keypair.fromSecret(result.secret);
-
-            const account = this.store.getState().myAccount;
-
-            if (!account) {
-                this.alertToaster.error('You cannot authenticate with your secret key before logging in. Please log in and try again.');
-                throw new Error('You cannot authenticate with your secret key before logging in. Please log in and try again.');
-            }
-            if (account.accountId !== keypair.publicKey()) {
-                this.alertToaster.error('Sorry, the secret key provided did not match your account. Please try again.');
-                return this.sign(transaction);
-            }
-
-            if (result.remember) {
-                this.remember(keypair);
-            }
-        }
-        else {
-            keypair = this._keypair;
+            throw new Error('There is no secret to sign with.');
         }
 
-        transaction.sign(keypair);
+        transaction.sign(this._keypair);
 
         return transaction;
     }

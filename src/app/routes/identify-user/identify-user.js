@@ -26,7 +26,7 @@ export class IdentifyUser {
 
     accountChanged() {
         if (this.account) {
-            return new Redirect('account');
+            this.router.navigateToRoute('account');
         }
     }
 
