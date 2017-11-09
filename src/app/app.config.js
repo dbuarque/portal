@@ -23,8 +23,8 @@ export class AppConfig {
                 },
                 {
                     route: ['login'],
-                    name: 'login',
-                    moduleId: PLATFORM.moduleName('./routes/login/login'),
+                    name: 'identify-user',
+                    moduleId: PLATFORM.moduleName('./routes/identify-user/identify-user'),
                     title: 'Login',
                     breadcrumb: true
                 },

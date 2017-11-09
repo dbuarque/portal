@@ -16,7 +16,7 @@
                         <label>Secret Key&nbsp;
                             <i class="primary-text fa fa-question-circle-o" md-tooltip="text: Logging in with you secret key will cause your secret key to be stored (until you log out or close/refresh this browser tab) so that you can create transactions.;"></i>
                         </label>
-                        <input type="password" value.bind="secret" change.trigger="onSecretChange()">
+                        <input type="password" value.bind="secretKey">
                     </div>
                     <div class="cols center-align form-field">
                         <button md-waves type="submit" class="btn primary">

@@ -1,8 +1,6 @@
 <template>
-    <require from="../../resources/auth/identify-user/identify-user"></require>
-    <require from="../../resources/auth/identify-user/identify-user-action-title-value-converter"></require>
-    <div class="login">
-        <div class="login-container">
+    <div class="identify-user">
+        <div class="identify-user-container">
             <div class="card">
                 <div class="card-content">
                     <div class="card-heading">
@@ -14,7 +12,12 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <identify-user initial-message.bind="initialMessage" action.bind="action" login.trigger="onLoginSuccess($event)"></identify-user>
+                        <div id="action-login" if.bind="action === 'login'">
+                            <login login.trigger="onLoginSuccess($event)"></login>
+                        </div>
+                        <div id="action-createAccount" if.bind="action === 'createAccount'">
+                            <create-account></create-account>
+                        </div>
                     </div>
                 </div>
             </div>

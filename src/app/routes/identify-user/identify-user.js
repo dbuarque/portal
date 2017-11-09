@@ -4,27 +4,29 @@
 
 import {inject} from 'aurelia-framework';
 import {Router, Redirect} from 'aurelia-router';
-import {Store} from 'au-redux';
+import {connected} from 'au-redux';
 
-@inject(Router, Store)
-export class Login {
+@inject(Router)
+export class IdentifyUser {
+
+    @connected('myAccount')
+    account;
 
     action = 'login';
 
-    constructor(router, store) {
+    constructor(router) {
         this.router = router;
-        this.store = store;
-    }
-
-    onLoginSuccess() {
-        this.router.navigateToRoute('account');
     }
 
     canActivate() {
-        const account = this.store.getState().myAccount;
-
-        if (account && account.accountId) {
+        if (this.account) {
             return new Redirect('exchange');
+        }
+    }
+
+    accountChanged() {
+        if (this.account) {
+            return new Redirect('account');
         }
     }
 
