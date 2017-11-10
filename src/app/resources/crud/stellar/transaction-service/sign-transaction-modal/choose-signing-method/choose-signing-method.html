@@ -1,0 +1,25 @@
+<template>
+    <div class="choose-signing-method">
+        <alert-card title="Sign Your Transaction" type="info">
+            <div>
+                In order to perform any operation (i.e. send a payment, create an offer etc.) on the stellar network,
+                you need to sign with your account's secret key. Please choose a method of signing below:
+            </div>
+        </alert-card>
+        <ul ref="list">
+            <li repeat.for="method of methods | objectToArray" click.delegate="methodChosen({method: method.key})">
+                <table>
+                    <tr>
+                        <td>
+                            <h6 class="primary-text"><a>${method.value.title & oneTime}</a></h6>
+                            <div>${method.value.description & oneTime}</div>
+                        </td>
+                        <td width="85px" class="center-text primary-text">
+                            <i class="fa fa-3x fa-chevron-right"></i>
+                        </td>
+                    </tr>
+                </table>
+            </li>
+        </ul>
+    </div>
+</template>

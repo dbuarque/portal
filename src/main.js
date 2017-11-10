@@ -55,8 +55,9 @@ export async function configure(aurelia) {
                 .useSwitch()
                 .useTabs()
                 .useTooltip()
+                .useTransitions()
                 .useWaves();
-        } )
+        })
         .feature(PLATFORM.moduleName('resources/index'))
         .feature(PLATFORM.moduleName('app/resources/index'));
 

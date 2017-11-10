@@ -73,6 +73,9 @@ export class TransactionService {
                 {
                     title: 'Sign Transaction',
                     transaction
+                },
+                {
+                    modalClass: 'md'
                 }
             );
 

@@ -8,6 +8,7 @@ export class SignWithProvidedSecretCustomElement {
 
     @bindable() transactionSigned;
     @bindable() transaction;
+    @bindable() back;
 
     constructor(validationManager, stellarServer, store, secretStore) {
         this.validationManager = validationManager;
@@ -49,8 +50,8 @@ export class SignWithProvidedSecretCustomElement {
             );
         }
 
-        this.transactionSigned(
-            this.transaction.sign(keypair)
-        );
+        this.transactionSigned({
+            signedTransaction: this.transaction.sign(keypair)
+        });
     }
 }

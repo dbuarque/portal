@@ -1,23 +1,14 @@
 <template>
+    <require from="./choose-signing-method/choose-signing-method"></require>
     <require from="./sign-with-provided-secret/sign-with-provided-secret"></require>
+    <require from="./sign-manually/sign-manually"></require>
     <div class="sign-transaction-modal">
-        <alert-card type="info">
-            <div>
-                In order to perform any operation (i.e. send a payment, create an offer etc.) on the stellar network,
-                you need to sign with your account's secret key. Please provide your secret key below.
-                Have no fear, your secret key will not leave the browser (we just store it in memory for the signing). As soon as you close this tab,
-                refresh this tab or logout, your secret key will be forgotten from the browser's memory.
-            </div>
-        </alert-card>
-        <div class="card-content" collapsible-card is-open.bind="true">
-            <div class="card-heading">
-                <div class="card-title">
-                    Enter Secret Key
-                </div>
-            </div>
-            <div class="card-body">
-                <sign-with-provided-secret></sign-with-provided-secret>
-            </div>
-        </div>
+        <choose-signing-method show.bind="!method" methods.bind="methods" method-chosen.call="methodChosen(method)"></choose-signing-method>
+
+        <sign-with-provided-secret show.bind="method === 'signWithProvidedSecret'" back.call="methodChosen()"
+                                   transaction.bind="transaction" transaction-signed.call="transactionSigned(signedTransaction)"></sign-with-provided-secret>
+
+        <sign-manually show.bind="method === 'signManually'" back.call="methodChosen()"
+                       transaction.bind="transaction" transaction-signed.call="transactionSigned(signedTransaction)"></sign-manually>
     </div>
 </template>
