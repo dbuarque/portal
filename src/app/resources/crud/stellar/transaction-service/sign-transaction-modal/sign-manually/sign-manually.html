@@ -1,5 +1,37 @@
 <template>
-    <button md-waves type="button" class="btn gray" click.trigger="back()">
-        <i class="fa fa-arrow-left"></i>&nbsp;Back
-    </button>
+    <div class="sign-manually">
+        <form novalidate focus-input submit.trigger="sign()">
+            <div class="row">
+                <div class="col s12">
+                    <div class="form-field">
+                        <label>
+                            Transaction XDR
+                            <i class="primary-text fa fa-clipboard" md-tooltip="text.bind: rememberExplanation;"></i>
+                        </label>
+                        <code>
+                            <button type="button" class="btn btn-primary">
+                                Copy&nbsp;<i class="fa fa-clipboard"></i>
+                            </button>
+                            ${transactionXDR}
+                        </code>
+                    </div>
+                    <div class="form-field">
+                        <label>
+                            Signed Transaction XDR
+                            <textarea value.bind="signedTransactionXDR"></textarea>
+                        </label>&nbsp;<md-checkbox md-checked.bind="remember"></md-checkbox>
+                    </div>
+                    <br>
+                    <div class="cols center-align form-field">
+                        <button md-waves type="button" class="btn gray" click.trigger="back()">
+                            <i class="fa fa-arrow-left"></i>&nbsp;Back
+                        </button>
+                        <button md-waves type="submit" class="btn primary">
+                            <i class="fa fa-lock"></i>&nbsp;Sign
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 </template>
