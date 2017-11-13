@@ -1,25 +1,27 @@
 <template>
     <div class="sign-manually">
-        <form novalidate focus-input submit.trigger="sign()">
+        <form novalidate focus-input submit.trigger="submitToNetwork()">
             <div class="row">
                 <div class="col s12">
                     <div class="form-field">
                         <label>
-                            Transaction XDR
-                            <i class="primary-text fa fa-clipboard" md-tooltip="text.bind: rememberExplanation;"></i>
+                            Transaction Envelope XDR (Base 64 Encoded)
+                            <span show.bind="!displayCopySuccess" class="primary-text copy-label">
+                                <i class="fa fa-clipboard"></i>
+                            </span>
+                            <span show.bind="displayCopySuccess" class="success-text">
+                                <i class="fa fa-check"></i>&nbsp;Copied!
+                            </span>
                         </label>
-                        <code>
-                            <button type="button" class="btn btn-primary">
-                                Copy&nbsp;<i class="fa fa-clipboard"></i>
-                            </button>
-                            ${transactionXDR}
-                        </code>
+                        <div class="copy-transaction">
+                            ${transactionEnvelopeXDR}
+                        </div>
                     </div>
                     <div class="form-field">
                         <label>
-                            Signed Transaction XDR
-                            <textarea value.bind="signedTransactionXDR"></textarea>
-                        </label>&nbsp;<md-checkbox md-checked.bind="remember"></md-checkbox>
+                            If you would like lupoex to submit your transaction to the network, enter the signed transaction below as a base 64 encoded string.
+                            <textarea class="materialize-textarea" value.bind="signedTransactionEnvelopeXDR"></textarea>
+                        </label>
                     </div>
                     <br>
                     <div class="cols center-align form-field">
@@ -27,7 +29,7 @@
                             <i class="fa fa-arrow-left"></i>&nbsp;Back
                         </button>
                         <button md-waves type="submit" class="btn primary">
-                            <i class="fa fa-lock"></i>&nbsp;Sign
+                            Submit&nbsp;<i class="fa fa-arrow-right"></i>
                         </button>
                     </div>
                 </div>

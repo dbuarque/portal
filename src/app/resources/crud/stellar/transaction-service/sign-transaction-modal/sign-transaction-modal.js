@@ -15,7 +15,7 @@ export class SignTransactionModal {
 
     activate(params) {
         this.modalVM = params.modalVM;
-        this.transaction = params.transaction;
+        this.transaction = params.passedInfo.transaction;
     }
 
     methodChosen(method) {
