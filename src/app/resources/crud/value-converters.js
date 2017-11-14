@@ -10,7 +10,7 @@ export class AssetUrlValueConverter {
             'Stellar' :
             (asset.issuer.accountId || asset.issuer);
 
-        return '/' + asset.code + '/' + issuerAddress;
+        return '/' + asset.type + '/' + asset.code + '/' + issuerAddress;
     }
 }
 
