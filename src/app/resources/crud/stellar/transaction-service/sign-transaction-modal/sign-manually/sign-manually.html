@@ -1,6 +1,13 @@
 <template>
     <div class="sign-manually">
         <form novalidate focus-input submit.trigger="submitToNetwork()">
+            <alert-card type="info" title="Sign Your Transaction Manually Below">
+                <div>
+                    Below is your raw transaction envelope xdr. Please copy and sign it with the method of your choice.
+                    Once it is signed, you can submit it by any method you like (i.e. your favorite wallet, transaction builder or lupoex).
+                    If you would like to use lupoex to submit your transaction to the network, you must reenter the signed transaction below as a base 64 encoded string.
+                </div>
+            </alert-card>
             <div class="row">
                 <div class="col s12">
                     <div class="form-field">
@@ -19,16 +26,16 @@
                     </div>
                     <div class="form-field">
                         <label>
-                            If you would like lupoex to submit your transaction to the network, enter the signed transaction below as a base 64 encoded string.
-                            <textarea class="materialize-textarea" value.bind="signedTransactionEnvelopeXDR"></textarea>
+                            Signed Transaction Envelope XDR (Base 64 Encoded)
                         </label>
+                        <textarea class="materialize-textarea" value.bind="signedTransactionEnvelopeXDR" cols="30" rows="5"></textarea>
                     </div>
                     <br>
                     <div class="cols center-align form-field">
                         <button md-waves type="button" class="btn gray" click.trigger="back()">
                             <i class="fa fa-arrow-left"></i>&nbsp;Back
                         </button>
-                        <button md-waves type="submit" class="btn primary">
+                        <button disabled.bind="!signedTransactionEnvelopeXDR" md-waves type="submit" class="btn primary">
                             Submit&nbsp;<i class="fa fa-arrow-right"></i>
                         </button>
                     </div>
