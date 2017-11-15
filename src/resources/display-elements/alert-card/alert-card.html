@@ -1,0 +1,14 @@
+<template>
+    <div class="card alert-card" show.bind="!hide">
+        <div class="card-content">
+            <div class="card-heading">
+                <i class.bind="iconClasses"></i>
+                ${title}
+                <i style="font-size: 15px; cursor: pointer;" class="fa fa-times right" click.trigger="hide = true"></i>
+            </div>
+            <div class="card-body">
+                <slot></slot>
+            </div>
+        </div>
+    </div>
+</template>

@@ -3,17 +3,14 @@
  */
 
 import BigNumber from 'bignumber.js';
-import {UPDATE_ASSET_PAIR} from '../../../exchange-action-types';
-import {detailActionTypes} from '../detail-action-types';
-import {isNewAssetPair} from './helpers';
+import {UPDATE_ASSET_PAIR} from '../../../exchange.action-types';
+import {UPDATE_ORDERBOOK} from '../detail.action-types';
 
-const {UPDATE_ORDERBOOK} = detailActionTypes;
-
-export function orderbook(state, action, rootState) {
+export function orderbook(state = null, action) {
     switch (action.type) {
         case UPDATE_ORDERBOOK:
             if (!action.payload) {
-                return undefined;
+                return null;
             }
 
             return {
@@ -21,11 +18,7 @@ export function orderbook(state, action, rootState) {
                 asks: _mapOrders(action.payload.asks)
             };
         case UPDATE_ASSET_PAIR:
-            if (!action.payload) {
-                return undefined;
-            }
-
-            return isNewAssetPair(action.payload, rootState.exchange.assetPair) ? undefined : state;
+            return null;
         default:
             return state;
     }

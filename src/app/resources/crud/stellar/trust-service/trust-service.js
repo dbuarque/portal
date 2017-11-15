@@ -7,18 +7,16 @@ import {inject} from 'aurelia-framework';
 import {Store} from 'au-redux';
 import {StellarServer, ModalService, AlertToaster} from 'global-resources';
 import {TransactionService} from '../transaction-service/transaction-service';
-import {AppActionCreators} from '../../../../app-action-creators';
 
-@inject(StellarServer, ModalService, Store, AlertToaster, TransactionService, AppActionCreators)
+@inject(StellarServer, ModalService, Store, AlertToaster, TransactionService)
 export class TrustService {
 
-    constructor(stellarServer, modalService, store, alertToaster, transactionService, appActionCreators) {
+    constructor(stellarServer, modalService, store, alertToaster, transactionService) {
         this.stellarServer = stellarServer;
         this.modalService = modalService;
         this.store = store;
         this.alertToaster = alertToaster;
         this.transactionService = transactionService;
-        this.appActionCreators = appActionCreators;
     }
 
     /**

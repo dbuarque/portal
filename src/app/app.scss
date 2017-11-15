@@ -1,0 +1,58 @@
+@import 'styles/styles';
+@import 'resources/resources';
+
+body {
+    overflow-y: scroll;
+
+    &.modal-open {
+        overflow-y: hidden;
+        margin-right: 17px;
+    }
+}
+
+html, body {
+    background-color: $background;
+
+    .toast-container-wrapper {
+        z-index: 99999;
+    }
+
+    .page-wrapper {
+        padding: 15px;
+        margin: 0 auto;
+    }
+
+    .home-link {
+        a {
+            color: #757575 !important;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+.splash {
+    width: 100%;
+    text-align: center;
+
+    .message {
+        font-size: 30px;
+    }
+}
+
+@media all and (max-width: 1200px) {
+    body {
+
+        .page-wrapper {
+            padding: 20px 2px;
+            overflow: hidden;
+        }
+    }
+}
+
+@import "routes/identify-user/identify-user";
+@import "routes/send-payment/send-payment";
+@import "navbar/navbar";
+@import "footer/footer";

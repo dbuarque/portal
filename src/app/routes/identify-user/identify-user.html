@@ -1,0 +1,26 @@
+<template>
+    <div class="identify-user">
+        <div class="identify-user-container">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-heading">
+                        <div class="tabs">
+                            <ul md-tabs="fixed: true;" md-tabs.ref="loginTabs"  class="z-depth-1">
+                                <li class="tab col s3"><a  class="${action === 'login' ? 'active' : '' & oneTime}" href="javascript:void(0)" click.trigger="changeAction('login')"  href="#action-login">Login</a></li>
+                                <li class="tab col s3"><a  class="${action === 'createAccount' ? 'active' : '' & oneTime}" href="javascript:void(0)" click.trigger="changeAction('createAccount')"  href="#action-createAccount">Create Account</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="action-login" if.bind="action === 'login'">
+                            <login login.trigger="onLoginSuccess($event)"></login>
+                        </div>
+                        <div id="action-createAccount" if.bind="action === 'createAccount'">
+                            <create-account></create-account>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

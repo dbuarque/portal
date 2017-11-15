@@ -1,0 +1,18 @@
+.card.alert-card {
+
+    .card-content {
+
+        .card-heading {
+            border-top: none;
+            border-bottom: none;
+            padding: 0 5px 0 5px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .card-body {
+            padding: 5px;
+            font-size: 13px;
+        }
+    }
+}

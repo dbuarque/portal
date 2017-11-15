@@ -2,7 +2,7 @@
  * Created by istrauss on 9/18/2017.
  */
 
-import {combineReducersProvideRootState, restrictReducerToNamespace} from 'au-redux';
+import {combineReducers} from 'redux';
 import {orderbook} from './orderbook';
 import {myOffers} from './my-offers';
 import {myAssetPair} from './my-asset-pair';
@@ -11,7 +11,7 @@ import {myAsk} from './my-ask';
 import {displayedOfferType} from './displayed-offer-type';
 import {recentTrades} from './recent-trades';
 
-export default combineReducersProvideRootState({
+export default combineReducers({
     myBid,
     myAsk,
     orderbook,

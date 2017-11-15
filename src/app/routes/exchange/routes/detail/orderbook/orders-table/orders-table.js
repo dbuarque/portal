@@ -5,9 +5,9 @@
 import BigNumber from 'bignumber.js';
 import {inject, bindable, computedFrom} from 'aurelia-framework';
 import {connected, Store} from 'au-redux';
-import {DetailActionCreators} from '../../detail-action-creators';
+import {UpdateMyAskActionCreator, UpdateMyBidActionCreator} from '../../action-creators';
 
-@inject(Store, DetailActionCreators)
+@inject(Store, UpdateMyAskActionCreator, UpdateMyBidActionCreator)
 export class OrdersTableCustomElement {
 
     @connected('exchange.assetPair')
@@ -29,21 +29,22 @@ export class OrdersTableCustomElement {
         return this.orderbook ? this.orderbook[this.type] : undefined;
     }
 
-    constructor(store, detailActionCreators) {
+    constructor(store, updateMyAsk, updateMyBid) {
         this.store = store;
-        this.detailActionCreators = detailActionCreators;
+        this.updateMyAsk = updateMyAsk;
+        this.updateMyBid = updateMyBid;
     }
 
     updateNewOrderPrice(order) {
         if (this.type === 'bids') {
-            this.store.dispatch(this.detailActionCreators.updateMyAsk({
+            this.updateMyAsk.dispatch({
                 price: [order.priceNumerator, order.priceDenominator]
-            }));
+            });
         }
         else {
-            this.store.dispatch(this.detailActionCreators.updateMyBid({
+            this.updateMyBid.dispatch({
                 price: [order.priceDenominator, order.priceNumerator]
-            }));
+            });
         }
     }
 

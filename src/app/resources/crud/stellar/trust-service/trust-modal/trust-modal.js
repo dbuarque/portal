@@ -5,10 +5,9 @@
 import {inject, computedFrom} from 'aurelia-framework'
 import {Store} from 'au-redux';
 import {StellarServer, ValidationManager} from 'global-resources';
-import {AppActionCreators} from '../../../../../app-action-creators';
-import {AccountResource, validStellarNumber} from 'app-resources';
+import {AccountResource} from 'app-resources';
 
-@inject(StellarServer, Store, ValidationManager, AppActionCreators, AccountResource)
+@inject(StellarServer, Store, ValidationManager, AccountResource)
 export class OfferModal {
 
     loading = 0;
@@ -22,19 +21,10 @@ export class OfferModal {
             '<p>To learn more about stellar assets and trust see the <a href="https://www.stellar.org/developers/guides/concepts/assets.html" target="_blank">Stellar Asset Concept Documentation</a>.</p>'
     };
 
-    //@computedFrom('_newLimit')
-    //get newLimit() {
-    //    return this._newLimit;
-    //}
-    //set newLimit(newLimit) {
-    //    this._newLimit = validStellarNumber(newLimit);
-    //}
-
-    constructor(stellarServer, store, validationManager, appActionCreators, accountResource) {
+    constructor(stellarServer, store, validationManager, accountResource) {
         this.stellarServer = stellarServer;
         this.store = store;
         this.validationManager = validationManager;
-        this.appActionCreators = appActionCreators;
         this.accountResource = accountResource;
     }
 

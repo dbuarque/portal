@@ -2,11 +2,11 @@
  * Created by Ishai on 5/2/2017.
  */
 
-import {inject, bindable} from 'aurelia-framework';
+import {inject} from 'aurelia-framework';
 import {Store, connected} from 'au-redux';
-import {AppActionCreators} from '../../../../app-action-creators';
+import {UpdateAccountActionCreator} from '../../../../action-creators';
 
-@inject(Store, AppActionCreators)
+@inject(Store, UpdateAccountActionCreator)
 export class Profile {
 
     @connected('myAccount')
@@ -18,17 +18,17 @@ export class Profile {
         return this.loading > 0;
     }
 
-    constructor(store, appActionCreators) {
+    constructor(store, updateAccount) {
         this.store = store;
-        this.appActionCreators = appActionCreators;
+        this.updateAccount = updateAccount;
     }
 
     async refresh() {
         this.loading++;
 
-        await this.store.dispatch(this.appActionCreators.updateAccount(this.account.accountId, {
+        await this.updateAccount.dispatch(this.account.accountId, {
             force: true
-        }));
+        });
 
         this.accountData.refresh();
 

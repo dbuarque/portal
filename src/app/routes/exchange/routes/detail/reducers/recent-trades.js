@@ -1,20 +1,12 @@
+import {UPDATE_ASSET_PAIR} from '../../../exchange.action-types';
+import {UPDATE_RECENT_TRADES} from '../detail.action-types';
 
-import {UPDATE_ASSET_PAIR} from '../../../exchange-action-types';
-import {detailActionTypes} from '../detail-action-types';
-import {isNewAssetPair} from './helpers';
-
-const {UPDATE_RECENT_TRADES} = detailActionTypes;
-
-export function recentTrades(state = [], action, rootState) {
+export function recentTrades(state = [], action) {
     switch (action.type) {
         case UPDATE_RECENT_TRADES:
             return action.payload.concat(state).slice(0, 10);
         case UPDATE_ASSET_PAIR:
-            if (!action.payload) {
-                return [];
-            }
-
-            return isNewAssetPair(action.payload, rootState.exchange.assetPair) ? [] : state;
+            return null;
         default:
             return state;
     }

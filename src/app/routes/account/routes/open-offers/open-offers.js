@@ -5,9 +5,9 @@
 import {inject, computedFrom} from 'aurelia-framework';
 import {connected} from 'au-redux';
 import {AccountResource, OfferService} from 'app-resources';
-import Config from './open-offers-config';
+import {OpenOffersConfig} from './open-offers.config';
 
-@inject(Config, AccountResource, OfferService)
+@inject(OpenOffersConfig, AccountResource, OfferService)
 export class OpenOffers {
 
     @connected('myAccount')

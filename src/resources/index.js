@@ -23,6 +23,7 @@ export function configure(config) {
         PLATFORM.moduleName('./validation/tt-validate/tt-validate'),
         PLATFORM.moduleName('./custom-attributes/collapsible-card/collapsible-card'),
         PLATFORM.moduleName('./modals/modal/modal-anchor'),
-        PLATFORM.moduleName('./display-elements/alert/alert')
+        PLATFORM.moduleName('./display-elements/alert/alert'),
+        PLATFORM.moduleName('./display-elements/alert-card/alert-card')
     );
 }

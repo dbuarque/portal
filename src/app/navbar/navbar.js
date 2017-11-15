@@ -2,11 +2,11 @@
  * Created by Ishai on 3/27/2016.
  */
 import {bindable, inject, computedFrom} from 'aurelia-framework';
-import {Store, connected} from 'au-redux';
+import {connected} from 'au-redux';
 import {AlertToaster} from 'global-resources';
-import {AppActionCreators} from '../app-action-creators';
+import {UpdateAccountActionCreator} from '../action-creators';
 
-@inject(Store, AppActionCreators, AlertToaster)
+@inject(UpdateAccountActionCreator, AlertToaster)
 export class Navbar {
 
     @connected('myAccount')
@@ -22,9 +22,8 @@ export class Navbar {
         return this.account && this.account.accountId ? this.account.accountId.slice(0, 5) : null;
     }
 
-    constructor(store, appActionCreators, toaster) {
-        this.store = store;
-        this.appActionCreators = appActionCreators;
+    constructor(updateAccount, toaster) {
+        this.updateAccount = updateAccount;
         this.toaster = toaster;
     }
 
@@ -55,7 +54,7 @@ export class Navbar {
     }
 
     logout() {
-        this.store.dispatch(this.appActionCreators.updateAccount());
+        this.updateAccount.dispatch();
         this.toaster.primary('Logged out successfully.');
     }
 

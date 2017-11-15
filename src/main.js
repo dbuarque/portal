@@ -1,12 +1,11 @@
-
 import {PLATFORM} from 'aurelia-pal';
 import 'font-awesome/css/font-awesome.css';
 import './third-party-css';
 import 'babel-polyfill';
 import './main-config';
-import '!style-loader!css-loader!sass-loader!./main.scss';
+import './main.scss';
 import {Store} from 'au-redux';
-import {app as rootReducer} from './app/app-reducers';
+import {app as rootReducer} from './app/reducers';
 import {applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
 
@@ -56,8 +55,9 @@ export async function configure(aurelia) {
                 .useSwitch()
                 .useTabs()
                 .useTooltip()
+                .useTransitions()
                 .useWaves();
-        } )
+        })
         .feature(PLATFORM.moduleName('resources/index'))
         .feature(PLATFORM.moduleName('app/resources/index'));
 

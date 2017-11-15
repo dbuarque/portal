@@ -2,13 +2,11 @@
  * Created by istrauss on 9/18/2017.
  */
 
-import {UPDATE_ASSET_PAIR} from '../../../exchange-action-types';
-import {detailActionTypes} from '../detail-action-types';
-import {isNewAssetPair, calculateNewOrder} from './helpers';
+import {UPDATE_ASSET_PAIR} from '../../../exchange.action-types';
+import {UPDATE_ORDERBOOK, UPDATE_MY_ASK} from '../detail.action-types';
+import {calculateNewOrder} from './helpers';
 
-const {UPDATE_ORDERBOOK, UPDATE_MY_ASK} = detailActionTypes;
-
-export function myAsk(state, action, rootState) {
+export function myAsk(state = null, action) {
     switch (action.type) {
         case UPDATE_MY_ASK:
             return calculateNewOrder(action.payload, state);
@@ -21,11 +19,7 @@ export function myAsk(state, action, rootState) {
 
             return state;
         case UPDATE_ASSET_PAIR:
-            if (!action.payload) {
-                return undefined;
-            }
-
-            return isNewAssetPair(action.payload, rootState.exchange.assetPair) ? undefined : state;
+            return null;
         default:
             return state;
     }

@@ -5,20 +5,6 @@
 import BigNumber from 'bignumber.js';
 import {validStellarNumber} from 'app-resources';
 
-export function isNewAssetPair(oldAssetPair, newAssetPair) {
-    return oldAssetPair && newAssetPair &&
-        !(
-            (oldAssetPair.buying ? oldAssetPair.buying.code : oldAssetPair.buying) ===
-            (newAssetPair.buying ? newAssetPair.buying.code : newAssetPair.buying) &&
-            (oldAssetPair.buying ? oldAssetPair.buying.issuer : oldAssetPair.buying) ===
-            (newAssetPair.buying ? newAssetPair.buying.issuer : newAssetPair.buying) &&
-            (oldAssetPair.selling ? oldAssetPair.selling.code : oldAssetPair.selling) ===
-            (newAssetPair.selling ? newAssetPair.selling.code : newAssetPair.selling) &&
-            (oldAssetPair.selling ? oldAssetPair.selling.issuer : oldAssetPair.selling) ===
-            (newAssetPair.selling ? newAssetPair.selling.issuer : newAssetPair.selling)
-        );
-}
-
 export function calculateNewOrder(newState, oldState = {}) {
     const clonedNewState = Object.keys(newState).reduce((_clone, key) => ({
         ..._clone,
