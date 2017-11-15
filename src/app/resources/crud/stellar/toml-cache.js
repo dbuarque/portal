@@ -35,7 +35,7 @@ export class TomlCache {
         }
 
         const issuerToml = await this.issuerToml(issuer);
-        return issuerToml ?
+        return issuerToml && issuerToml.CURRENCIES?
             _find(issuerToml.CURRENCIES, currency => currency.issuer === issuer.accountId && currency.code === assetCode) :
             null;
     }
