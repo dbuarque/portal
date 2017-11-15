@@ -33,10 +33,10 @@ export class Choose {
         const sellingIsNative = this.assetPair.selling.type.toLowerCase() === 'native';
 
         this.router.navigateToRoute('detail', {
-            buyingType: this.assetPair.buying.type,
+            buyingType: this.assetPair.buying.type.replace('credit_', ''),
             buyingCode: buyingIsNative ? nativeAssetCode : this.assetPair.buying.code,
             buyingIssuer: buyingIsNative ? 'Stellar': this.assetPair.buying.issuer.accountId,
-            sellingType: this.assetPair.selling.type,
+            sellingType: this.assetPair.selling.type.replace('credit_', ''),
             sellingCode: sellingIsNative ? nativeAssetCode : this.assetPair.selling.code,
             sellingIssuer: sellingIsNative ? 'Stellar': this.assetPair.selling.issuer.accountId
         });
