@@ -19,7 +19,7 @@ export class SignWithProvidedSecretCustomElement {
     constructor(validationManager, stellarServer, store, secretStore) {
         this.validationManager = validationManager;
         this.stellarServer = stellarServer;
-        this.secretStore = store;
+        this.store = store;
         this.secretStore = secretStore;
     }
 
@@ -56,8 +56,10 @@ export class SignWithProvidedSecretCustomElement {
             );
         }
 
+        this.transaction.sign(keypair);
+
         this.transactionSigned({
-            signedTransaction: this.transaction.sign(keypair)
+            signedTransaction: this.transaction
         });
     }
 }

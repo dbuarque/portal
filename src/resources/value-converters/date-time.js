@@ -21,3 +21,9 @@ export class FormatTimeValueConverter {
         return moment(dateTime).format('h:mm:ss a');
     }
 }
+
+export class TimeAgoValueConverter {
+    toView(dateTime, noAgo) {
+        return moment(dateTime).fromNow(noAgo);
+    }
+}

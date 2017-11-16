@@ -4,6 +4,7 @@ import './third-party-css';
 import 'babel-polyfill';
 import './main-config';
 import './main.scss';
+import moment from 'moment';
 import {Store} from 'au-redux';
 import {app as rootReducer} from './app/reducers';
 import {applyMiddleware, compose} from 'redux';
@@ -15,6 +16,25 @@ Bluebird.config({
 });
 
 import './third-party';
+
+moment.updateLocale('en', {
+    relativeTime : {
+        future: "in %s",
+        past:   "%s ago",
+        s  : '%ds',
+        ss : '%ds',
+        m:  "%dm",
+        mm: "%dm",
+        h:  "%dh",
+        hh: "%dh",
+        d:  "%dd",
+        dd: "%dd",
+        M:  "%dmo",
+        MM: "%dmo",
+        y:  "%dy",
+        yy: "%dy"
+    }
+});
 
 try {
     Waves.displayEffect = function() {};

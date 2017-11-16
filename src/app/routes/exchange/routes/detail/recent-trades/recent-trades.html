@@ -11,7 +11,7 @@
                 </div>
                 <div class="card-body">
                     <div class="no-trades" show.bind="!anyTrades">
-                        <i>There are no trades for this asset pair.</i>
+                        <i>There have been no trades for this asset pair for the last 24 hours.</i>
                     </div>
                     <div show.bind="anyTrades">
                         <table class="highlight centered">
@@ -21,6 +21,7 @@
                                 <th>Price (${assetPair.buying.code}/${assetPair.selling.code})</th>
                                 <th>Amount (${assetPair.selling.code})</th>
                                 <th>Amount (${assetPair.buying.code})</th>
+                                <th>Time Ago</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -28,12 +29,13 @@
                             <tr repeat.for="trade of trades">
                                 <!-- If seller initiates it is a buy, otherwise it is a sell -->
                                 <td>
-                                    <span show.bind="trade | isABuy" class="success-text"><strong>Buy</strong></span>
-                                    <span show.bind="trade | isASell" class="error-text"><strong>Sell</strong></span>
+                                    <span show.bind="trade | isABuy & oneTime" class="success-text"><strong>Buy</strong></span>
+                                    <span show.bind="trade | isASell & oneTime" class="error-text"><strong>Sell</strong></span>
                                 </td>
                                 <td>${trade.details.bought_amount | divideBy:trade.details.sold_amount | toPrecision:7}</td>
-                                <td>${trade.details.sold_amount | toPrecision:7}</td>
-                                <td>${trade.details.bought_amount | toPrecision:7}</td>
+                                <td>${trade.details.sold_amount | toPrecision:7 & oneTime}</td>
+                                <td>${trade.details.bought_amount | toPrecision:7 & oneTime}</td>
+                                <td>${trade.operation.transaction.ledger.closedAt | timeAgo:true & signal:'update-timeago-signal'}</td>
                             </tr>
                             </tbody>
                         </table>
