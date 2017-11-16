@@ -1,8 +1,8 @@
 import {bindable, inject, computedFrom} from 'aurelia-framework';
 import Clipboard from 'clipboard';
-import {ValidationManager, RequiredValidator, StellarServer} from 'global-resources';
+import {StellarServer} from 'global-resources';
 
-@inject(Element, ValidationManager, StellarServer)
+@inject(Element, StellarServer)
 export class SignManuallyCustomElement {
 
     @bindable() transactionSigned;
@@ -16,41 +16,9 @@ export class SignManuallyCustomElement {
         return this.transaction.toEnvelope().toXDR('base64');
     }
 
-    constructor(element, validationManager, stellarServer) {
+    constructor(element, stellarServer) {
         this.element = element;
-        this.validationManager = validationManager;
         this.stellarServer = stellarServer;
-
-        const self = this;
-
-        self.validationManager.addInstructions([
-            {
-                key: 'signedTransactionEnvelopeXDR',
-                title: 'Signed Transaction',
-                validators: [
-                    new RequiredValidator(),
-                    {
-                        message: '@title is not a valid stellar transaction',
-                        validate(value) {
-                            let signedTransaction;
-                            try {
-                                signedTransaction = new self.stellarServer.sdk.Transaction(value);
-                            }
-                            catch(e) {}
-
-                            return !!signedTransaction;
-                        }
-                    },
-                    {
-                        message: '@title is not the same as the original transaction',
-                        validate(value) {
-                            const signedTransaction = new self.stellarServer.sdk.Transaction(value);
-                            return self.transaction.hash() === signedTransaction.hash();
-                        }
-                    }
-                ]
-            }
-        ])
     }
 
     attached() {
@@ -77,13 +45,33 @@ export class SignManuallyCustomElement {
     }
 
     submitToNetwork() {
-        if (!this.validationManager.validate()) {
+        let signedTransaction;
+        try {
+            signedTransaction = new this.stellarServer.sdk.Transaction(this.signedTransactionEnvelopeXDR);
+        }
+        catch (e) {
+            this.errorMessage = 'The input signed transaction is not a valid stellar transaction.';
+            return;
+        }
+
+        if (
+            !this.compareHashes(
+                this.transaction.hash(),
+                signedTransaction.hash()
+            )
+        ) {
+            this.errorMessage = 'The input signed transaction is not the same as the original transaction.';
             return;
         }
 
         this.transactionSigned({
-            signedTransaction: new this.stellarServer.sdk.Transaction(this.signedTransactionEnvelopeXDR)
+            signedTransaction
         });
     }
 
+    compareHashes(hash1, hash2) {
+        return hash1.length === hash2.length && hash1.reduce((result, hash1Byte, index) => {
+            return result && hash1Byte === hash2[index];
+        }, true);
+    }
 }

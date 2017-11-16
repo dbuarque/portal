@@ -18,28 +18,28 @@ Bluebird.config({
 import './third-party';
 
 moment.updateLocale('en', {
-    relativeTime : {
-        future: "in %s",
-        past:   "%s ago",
-        s  : '%ds',
-        ss : '%ds',
-        m:  "%dm",
-        mm: "%dm",
-        h:  "%dh",
-        hh: "%dh",
-        d:  "%dd",
-        dd: "%dd",
-        M:  "%dmo",
-        MM: "%dmo",
-        y:  "%dy",
-        yy: "%dy"
+    relativeTime: {
+        future: 'in %s',
+        past: '%s ago',
+        s: '%ds',
+        ss: '%ds',
+        m: '%dm',
+        mm: '%dm',
+        h: '%dh',
+        hh: '%dh',
+        d: '%dd',
+        dd: '%dd',
+        M: '%dmo',
+        MM: '%dmo',
+        y: '%dy',
+        yy: '%dy'
     }
 });
 
 try {
     Waves.displayEffect = function() {};
 }
-catch(e) {}
+catch (e) {}
 
 export async function configure(aurelia) {
     //Create the store

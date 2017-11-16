@@ -8,6 +8,9 @@
                     If you would like to use lupoex to submit your transaction to the network, you must reenter the signed transaction below as a base 64 encoded string.
                 </div>
             </alert-card>
+            <alert-card show.bind="errorMessage" title="Errors With Your Input" type="error">
+                <div>${errorMessage}</div>
+            </alert-card>
             <div class="row">
                 <div class="col s12">
                     <div class="form-field">
