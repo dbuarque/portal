@@ -23,7 +23,7 @@ export default class BaseResource {
             return sp;
         }, {});
 
-            
+
         return {
             ...searchParams,
             offset: data.start,

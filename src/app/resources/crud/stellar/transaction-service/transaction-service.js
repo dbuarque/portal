@@ -7,18 +7,20 @@ import {inject} from 'aurelia-framework';
 import {Store} from 'au-redux';
 import {StellarServer, ModalService, SpinnerModalService, AlertToaster} from 'global-resources';
 import {SecretStore} from '../../../auth/secret-store/secret-store';
+import {TransactionResource} from '../../resources';
 import {UpdateMySeqnumActionCreator} from '../../../../action-creators';
 
-@inject(StellarServer, ModalService, SpinnerModalService, Store, AlertToaster, SecretStore, UpdateMySeqnumActionCreator)
+@inject(StellarServer, ModalService, SpinnerModalService, Store, AlertToaster, SecretStore, TransactionResource, UpdateMySeqnumActionCreator)
 export class TransactionService {
 
-    constructor(stellarServer, modalService, spinnerModalService, store, alertToaster, secretStore, udpateMySeqnum) {
+    constructor(stellarServer, modalService, spinnerModalService, store, alertToaster, secretStore, transactionResource, udpateMySeqnum) {
         this.stellarServer = stellarServer;
         this.modalService = modalService;
         this.spinnerModalService = spinnerModalService;
         this.store = store;
         this.alertToaster = alertToaster;
         this.secretStore = secretStore;
+        this.transactionResource = transactionResource;
         this.udpateMySeqnum = udpateMySeqnum;
     }
 
@@ -61,7 +63,7 @@ export class TransactionService {
             // Build the transaction
             transaction = transactionBuilder.build();
         }
-        catch(e) {
+        catch (e) {
             this.alertToaster.error('An unexpected error occurred while trying to submit your transaction to the network (perhaps you didn\'t sign the transaction with your secret key?). Your transaction was not submitted to the network.');
             throw e;
         }
@@ -81,11 +83,11 @@ export class TransactionService {
 
         try {
             // Finally, attempt to submit the transaction to the network.
-            const transactionSubmissionPromise = this.stellarServer.submitTransaction(signedTransaction);
+            const transactionSubmissionPromise = this.transactionResource.submitTransaction(signedTransaction);
             this.spinnerModalService.open('Submitting to network...', transactionSubmissionPromise);
             await transactionSubmissionPromise;
         }
-        catch(e) {
+        catch (e) {
             let errorMessage;
 
             if (e.message) {
@@ -109,7 +111,7 @@ export class TransactionService {
                     }
                 );
             }
-            catch(e) {}
+            catch (e) {}
 
             throw e;
         }

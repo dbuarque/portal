@@ -30,7 +30,7 @@ export class SignManuallyCustomElement {
             self.$copyButton[0],
             {
                 text: () => {
-                    return self.transactionEnvelopeXDR
+                    return self.transactionEnvelopeXDR;
                 }
             });
 

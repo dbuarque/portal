@@ -17,7 +17,7 @@ export default class JsonClient extends ApiClient {
             config
                 .withDefaults({
                     headers: {
-                        'content-type': 'application/json',
+                        'Content-Type': 'application/json',
                         'Accept': 'application/json',
                         'X-Requested-With': 'Fetch'
                     }
