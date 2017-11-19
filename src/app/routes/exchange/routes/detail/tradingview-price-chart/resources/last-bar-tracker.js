@@ -61,7 +61,7 @@ export class LastBarTracker {
                         ...lpb,
                         time: moment(lpb.begin).valueOf(),
                         volume: lpb.soldVolume
-                    }
+                    };
                 });
         }
 
@@ -108,7 +108,7 @@ export class LastBarTracker {
         const lastPriorBar = await this.get();
 
         await this._updateBarWithNewTrades(lastPriorBar, payload);
-        
+
         this._notifySubscribers(lastPriorBar);
     }
 
@@ -133,8 +133,10 @@ export class LastBarTracker {
         const price = new BigNumber(trade.details.bought_amount).dividedBy(trade.details.sold_amount).toString(10);
         Object.assign(bar, {
             ...{
-                high: bar.high ? BigNumber.max(bar.high, price).toString(10) : price,
-                low: bar.low ?  BigNumber.min(bar.low, price).toString(10) : price,
+                // Only respect the bar's previous open, low, high if it had volume. Otherwise, they aren't real.
+                open: bar.volume ? bar.open : price,
+                low: bar.volume && bar.low ? BigNumber.min(bar.low, price).toString(10) : price,
+                high: bar.volume && bar.high ? BigNumber.max(bar.high, price).toString(10) : price,
                 close: price,
                 boughtVolume: parseFloat((new BigNumber(bar.boughtVolume)).add(trade.details.bought_amount).toString(10), 10),
                 soldVolume: parseFloat((new BigNumber(bar.soldVolume)).add(trade.details.sold_amount).toString(10), 10),
