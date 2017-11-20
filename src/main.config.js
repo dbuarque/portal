@@ -7,7 +7,7 @@ import _merge from 'lodash/merge';
 const config = {
     development: {
         urls: {
-            api: 'http://localhost:1337',
+            api: 'http://localhost:1337'
         }
     },
     test: {
@@ -24,7 +24,7 @@ const config = {
     },
     production: {
         urls: {
-            api: 'https://v3.api.lupoex.com'
+            api: 'https://api.lupoex.com'
         },
         networkMode: 'public'
     },
