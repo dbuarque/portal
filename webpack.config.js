@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const { AureliaPlugin, ModuleDependenciesPlugin  } = require('aurelia-webpack-plugin');
+const { AureliaPlugin  } = require('aurelia-webpack-plugin');
 const { optimize: { CommonsChunkPlugin }, ProvidePlugin, IgnorePlugin } = require('webpack');
 
 // config helpers:
@@ -90,14 +90,14 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
                 issuer: [{ not: [{ test: /\.html$/i }] }],
                 use: extractCss ? ExtractTextPlugin.extract({
                     fallback: 'style-loader',
-                    use: scssRules,
-                }) : ['style-loader', ...scssRules],
+                    use: scssRules
+                }) : ['style-loader', ...scssRules]
             },
             {
                 test: /\.scss$/i,
                 issuer: [{ test: /\.html$/i }],
                 // Same rationale as CSS above
-                use: scssRules,
+                use: scssRules
             },
             { test: /\.html$/i, loader: 'html-loader' },
             { test: /\.js$/i, loader: 'babel-loader', exclude: nodeModulesDir },

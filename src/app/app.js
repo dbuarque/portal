@@ -1,11 +1,10 @@
-import './app.scss';
 import {HttpClient} from 'aurelia-fetch-client';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {Router} from 'aurelia-router';
 import {AppConfig} from './app.config';
 import {inject} from 'aurelia-framework';
 import {Store} from 'au-redux';
-import {WakeEventEmitter} from "global-resources";
+import {WakeEventEmitter} from 'global-resources';
 import {JsonClient, PageTracker, AccountEffectAlerter, AccountSyncer} from 'app-resources';
 
 @inject(AppConfig, HttpClient, EventAggregator, Router, Store, WakeEventEmitter, JsonClient, PageTracker, AccountEffectAlerter, AccountSyncer)
@@ -54,7 +53,7 @@ export class App {
 
     activate() {
         this.jsonClient.configure();
-        
+
         return this.accountSyncer.init();
     }
 }
