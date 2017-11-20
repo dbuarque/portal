@@ -4,13 +4,14 @@
 
 import {inject} from 'aurelia-framework';
 import {connected} from 'au-redux';
+import {EventHelper} from 'global-resources';
 import {MarketResource} from 'app-resources';
 import {UpdateAssetPairActionCreator} from '../../../action-creators';
-import {MarketToAssetPairValueConverter} from "../choose.value-converters";
-import {UpdateTopTenMarketsOrderActionCreator, RefreshTopTenMarketsActionCreator} from "./action-creators";
+import {MarketToAssetPairValueConverter} from '../choose.value-converters';
+import {UpdateTopTenMarketsOrderActionCreator, RefreshTopTenMarketsActionCreator} from './action-creators';
 
 @inject(
-    MarketResource, UpdateAssetPairActionCreator,
+    Element, MarketResource, UpdateAssetPairActionCreator,
     MarketToAssetPairValueConverter, UpdateTopTenMarketsOrderActionCreator, RefreshTopTenMarketsActionCreator
 )
 export class TopTenMarkets {
@@ -27,7 +28,8 @@ export class TopTenMarkets {
     loading = 0;
     nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
 
-    constructor(marketResource, updateAssetPair, marketToAssetPair, updateTopTenMarkets, refreshTopTenMarkets) {
+    constructor(element, marketResource, updateAssetPair, marketToAssetPair, updateTopTenMarkets, refreshTopTenMarkets) {
+        this.element = element;
         this.marketResource = marketResource;
         this.updateAssetPair = updateAssetPair;
         this.marketToAssetPair = marketToAssetPair;
@@ -47,7 +49,7 @@ export class TopTenMarkets {
         if (!this.assetPair && this.markets.length > 0) {
             await this.updateAssetPair.dispatch(
                 this.marketToAssetPair.toView(this.markets[0])
-            )
+            );
         }
 
         this.loading--;
@@ -64,6 +66,11 @@ export class TopTenMarkets {
     chooseMarket(market) {
         this.updateAssetPair.dispatch(
             this.marketToAssetPair.toView(market)
+        );
+
+        EventHelper.emitEvent(
+            this.element,
+            'go-trade'
         );
     }
 }
