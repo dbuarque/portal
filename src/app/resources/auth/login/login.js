@@ -2,13 +2,14 @@
  * Created by istrauss on 6/29/2017.
  */
 
+import * as StellarSdk from 'stellar-sdk';
 import {computedFrom, inject} from 'aurelia-framework';
 import {Store} from 'au-redux';
-import {StellarServer, AlertToaster} from 'global-resources';
+import {AlertToaster} from 'global-resources';
 import {SecretStore} from 'app-resources';
 import {UpdateAccountActionCreator} from '../../../action-creators';
 
-@inject(Store, StellarServer, AlertToaster, SecretStore, UpdateAccountActionCreator)
+@inject(Store, AlertToaster, SecretStore, UpdateAccountActionCreator)
 export class LoginCustomElement {
 
     loading = 0;
@@ -20,7 +21,7 @@ export class LoginCustomElement {
     set publicKey(newValue) {
         this._publicKey = newValue;
 
-        const keypair = this._secretKey ? this.stellarServer.sdk.Keypair.fromSecret(this._secretKey) : undefined;
+        const keypair = this._secretKey ? StellarSdk.Keypair.fromSecret(this._secretKey) : undefined;
 
         if (!keypair || keypair.publicKey() !== this._publicKey) {
             this._secretKey = undefined;
@@ -34,13 +35,12 @@ export class LoginCustomElement {
     set secretKey(newValue) {
         this._secretKey = newValue;
 
-        const keypair = this._secretKey ? this.stellarServer.sdk.Keypair.fromSecret(this._secretKey) : undefined;
+        const keypair = this._secretKey ? StellarSdk.Keypair.fromSecret(this._secretKey) : undefined;
         this._publicKey = keypair ? keypair.publicKey() : undefined;
     }
 
-    constructor(store, stellarServer, alertToaster, secretStore, updateAccount) {
+    constructor(store, alertToaster, secretStore, updateAccount) {
         this.store = store;
-        this.stellarServer = stellarServer;
         this.alertToaster = alertToaster;
         this.secretStore = secretStore;
         this.updateAccount = updateAccount;
@@ -48,7 +48,7 @@ export class LoginCustomElement {
 
     async login() {
         if (!this.publicKey) {
-            this.alertToaster.error('You must enter either a valid account address or valid secret key to login.')
+            this.alertToaster.error('You must enter either a valid account address or valid secret key to login.');
         }
 
         this.loading++;
@@ -63,7 +63,7 @@ export class LoginCustomElement {
         }
         else {
             if (this.secretKey) {
-                this.secretStore.remember(this.stellarServer.sdk.Keypair.fromSecret(this.secretKey));
+                this.secretStore.remember(StellarSdk.Keypair.fromSecret(this.secretKey));
             }
         }
 

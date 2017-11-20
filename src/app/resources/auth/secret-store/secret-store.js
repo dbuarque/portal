@@ -5,19 +5,18 @@
 import {PLATFORM} from 'aurelia-pal';
 import {inject} from 'aurelia-framework';
 import {Store} from 'au-redux';
-import {ModalService, StellarServer, AlertToaster} from 'global-resources';
+import {ModalService, AlertToaster} from 'global-resources';
 import {InactivityTracker} from '../inactivity-tracker';
 
-@inject(ModalService, StellarServer, Store, AlertToaster, InactivityTracker)
+@inject(ModalService, Store, AlertToaster, InactivityTracker)
 export class SecretStore {
 
     get canSign() {
         return !!this._keypair;
     }
 
-    constructor(modalService, stellarServer, store, alertToaster, inactivityTracker) {
+    constructor(modalService, store, alertToaster, inactivityTracker) {
         this.modalService = modalService;
-        this.stellarServer = stellarServer;
         this.store = store;
         this.alertToaster = alertToaster;
         this.inactivityTracker = inactivityTracker;
@@ -46,7 +45,7 @@ export class SecretStore {
                 //If the modal does not throw then that means the user selected not to forget the secret.
                 return;
             }
-            catch(e) {}
+            catch (e) {}
         }
         this._secret = undefined;
         this.alertToaster.primary('Secret key has been removed from memory.');

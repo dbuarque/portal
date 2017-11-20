@@ -2,13 +2,14 @@
  * Created by istrauss on 5/19/2017.
  */
 
+import * as StellarSdk from 'stellar-sdk';
 import {inject, computedFrom} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {Store} from 'au-redux';
-import {ModalService, ValidationManager, StellarServer} from 'global-resources';
+import {ModalService, ValidationManager} from 'global-resources';
 import {AccountResource, TransactionService} from 'app-resources';
 
-@inject(Router, ModalService, Store, ValidationManager, StellarServer, AccountResource, TransactionService)
+@inject(Router, ModalService, Store, ValidationManager, AccountResource, TransactionService)
 export class SendPayment {
 
     loading = 0;
@@ -24,14 +25,13 @@ export class SendPayment {
         return this.type.toLowerCase() === 'native';
     }
 
-    constructor(router, modalService, store, validationManager, stellarServer, accountResource, transactionService) {
+    constructor(router, modalService, store, validationManager, accountResource, transactionService) {
         this.router = router;
         this.modalService = modalService;
         this.store = store;
         this.validationManager = validationManager;
         this.accountResource = accountResource;
         this.transactionService = transactionService;
-        this.stellarServer = stellarServer;
 
         this.lupoexPublicKey = window.lupoex.publicKey;
     }
@@ -60,7 +60,7 @@ export class SendPayment {
             this.memo = {
                 type: this.memoTypeTitle(this.requiredMemoType),
                 value: this.requiredMemo
-            }
+            };
         }
 
         this.step = 'confirm';
@@ -91,7 +91,7 @@ export class SendPayment {
                     handleError: false
                 });
             }
-            catch(e) {
+            catch (e) {
                 //failure means that the destinationAccount doesn't exist.
             }
 
@@ -112,7 +112,7 @@ export class SendPayment {
                     }
 
                     operations.push(
-                        this.stellarServer.sdk.Operation.createAccount({
+                        StellarSdk.Operation.createAccount({
                             destination: this.destination,
                             startingBalance: this.amount.toString()
                         })
@@ -129,27 +129,27 @@ export class SendPayment {
             }
             else {
                 operations.push(
-                    this.stellarServer.sdk.Operation.payment({
+                    StellarSdk.Operation.payment({
                         destination: this.destination,
                         amount: this.amount.toString(),
                         asset: this.isNative ?
-                            this.stellarServer.sdk.Asset.native() :
-                            new this.stellarServer.sdk.Asset(this.code, this.issuer)
+                            StellarSdk.Asset.native() :
+                            new StellarSdk.Asset(this.code, this.issuer)
                     })
                 );
             }
 
             try {
                 await this.transactionService.submit(operations, {
-                    memo: this.memo ? this.stellarServer.sdk.Memo[this.memoMethodFromType(this.memo.type)](this.memo.value) : undefined,
+                    memo: this.memo ? new StellarSdk.Memo[this.memoMethodFromType(this.memo.type)](this.memo.value) : undefined
                 });
                 this.refresh();
             }
-            catch(e) {
+            catch (e) {
                 this.tryAgain();
             }
         }
-        catch(e) {
+        catch (e) {
             this.alertConfig = {
                 type: 'error',
                 message: e.message || 'Something is wrong, can\'t submit the payment to the network'

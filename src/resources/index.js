@@ -8,7 +8,7 @@ export * from './workers';
 export * from './modals';
 export * from './validation';
 export * from './value-converters';
-export * from './stellar';
+//export * from './stellar';
 export * from './decorators';
 
 export function configure(config) {

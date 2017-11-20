@@ -2,10 +2,9 @@
  * Created by istrauss on 6/22/2017.
  */
 
-import {inject, bindable, bindingMode, computedFrom} from 'aurelia-framework';
-import {StellarServer} from 'global-resources';
+import {bindable, bindingMode, computedFrom} from 'aurelia-framework';
+import * as StellarSdk from 'stellar-sdk';
 
-@inject(StellarServer)
 export class StellarAddressInputCustomElement {
 
     @bindable({
@@ -27,11 +26,11 @@ export class StellarAddressInputCustomElement {
         defaultBindingMode: bindingMode.twoWay
     })
     memo;
-    
+
     @computedFrom('_inputValue', 'federatedAddress', 'publicKey')
     get inputValue() {
         return this._inputValue || this.federatedAddress || this.publicKey;
-    }    
+    }
     set inputValue(newValue) {
         this._inputValue = newValue;
 
@@ -39,7 +38,7 @@ export class StellarAddressInputCustomElement {
         this.numCalls++;
         const callNum = this.numCalls;
 
-        this.stellarServer.sdk.FederationServer.resolve(newValue || '')
+        StellarSdk.FederationServer.resolve(newValue || '')
             .then(response => {
                 if (callNum !== this.numCalls) {
                     this.loading--;
@@ -76,10 +75,6 @@ export class StellarAddressInputCustomElement {
 
     loading = 0;
     numCalls = 0;
-
-    constructor(stellarServer) {
-        this.stellarServer = stellarServer;
-    }
 
     publicKeyChanged() {
         this.inputValue = this.publicKey;

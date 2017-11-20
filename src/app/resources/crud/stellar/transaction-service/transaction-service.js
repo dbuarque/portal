@@ -4,17 +4,17 @@
 
 import {PLATFORM} from 'aurelia-pal';
 import {inject} from 'aurelia-framework';
+import * as StellarSdk from 'stellar-sdk';
 import {Store} from 'au-redux';
-import {StellarServer, ModalService, SpinnerModalService, AlertToaster} from 'global-resources';
+import {ModalService, SpinnerModalService, AlertToaster} from 'global-resources';
 import {SecretStore} from '../../../auth/secret-store/secret-store';
 import {TransactionResource} from '../../resources';
 import {UpdateMySeqnumActionCreator} from '../../../../action-creators';
 
-@inject(StellarServer, ModalService, SpinnerModalService, Store, AlertToaster, SecretStore, TransactionResource, UpdateMySeqnumActionCreator)
+@inject(ModalService, SpinnerModalService, Store, AlertToaster, SecretStore, TransactionResource, UpdateMySeqnumActionCreator)
 export class TransactionService {
 
-    constructor(stellarServer, modalService, spinnerModalService, store, alertToaster, secretStore, transactionResource, udpateMySeqnum) {
-        this.stellarServer = stellarServer;
+    constructor(modalService, spinnerModalService, store, alertToaster, secretStore, transactionResource, udpateMySeqnum) {
         this.modalService = modalService;
         this.spinnerModalService = spinnerModalService;
         this.store = store;
@@ -46,8 +46,8 @@ export class TransactionService {
 
         try {
             // Get a transaction builder with the newly obtained account sequence number.
-            const transactionBuilder = new this.stellarServer.sdk.TransactionBuilder(
-                new this.stellarServer.sdk.Account(account.accountId, account.seqNum)
+            const transactionBuilder = new StellarSdk.TransactionBuilder(
+                new StellarSdk.Account(account.accountId, account.seqNum)
             );
 
             // Add the operations to the transaction.
@@ -111,7 +111,7 @@ export class TransactionService {
                     }
                 );
             }
-            catch (e) {}
+            catch (e2) {}
 
             throw e;
         }

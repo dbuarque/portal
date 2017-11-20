@@ -8,27 +8,23 @@ const config = {
     development: {
         urls: {
             api: 'http://localhost:1337',
-            horizon: window.lupoex.networkMode === 'public' ? 'https://horizon.stellar.org' : 'https://horizon-testnet.stellar.org/'
         }
     },
     test: {
         urls: {
-            api: 'https://test.api.lupoex.com',
-            horizon: 'https://horizon-testnet.stellar.org/'
+            api: 'https://test.api.lupoex.com'
         },
         networkMode: 'test'
     },
     beta: {
         urls: {
-            api: 'https://beta.api.lupoex.com',
-            horizon: 'https://horizon.stellar.org'
+            api: 'https://beta.api.lupoex.com'
         },
         networkMode: 'public'
     },
     production: {
         urls: {
-            api: 'https://v3.api.lupoex.com',
-            horizon: 'https://horizon.stellar.org'
+            api: 'https://v3.api.lupoex.com'
         },
         networkMode: 'public'
     },

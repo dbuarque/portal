@@ -4,16 +4,16 @@
 
 import {PLATFORM} from 'aurelia-pal';
 import {inject} from 'aurelia-framework';
+import * as StellarSdk from 'stellar-sdk';
 import {Store} from 'au-redux';
-import {StellarServer, ModalService, AlertToaster} from 'global-resources';
+import {ModalService, AlertToaster} from 'global-resources';
 import {MAX_STELLAR_NUMBER} from '../../../constants';
 import {TransactionService} from '../transaction-service/transaction-service';
 
-@inject(StellarServer, ModalService, Store, AlertToaster, TransactionService)
+@inject(ModalService, Store, AlertToaster, TransactionService)
 export class TrustService {
 
-    constructor(stellarServer, modalService, store, alertToaster, transactionService) {
-        this.stellarServer = stellarServer;
+    constructor(modalService, store, alertToaster, transactionService) {
         this.modalService = modalService;
         this.store = store;
         this.alertToaster = alertToaster;
@@ -56,8 +56,8 @@ export class TrustService {
     }
 
     submitNewTrustLimit(assetType, code, issuer, trustLimit) {
-        const changeTrustOp = this.stellarServer.sdk.Operation.changeTrust({
-            asset: new this.stellarServer.sdk.Asset(code, issuer.accountId || issuer),
+        const changeTrustOp = StellarSdk.Operation.changeTrust({
+            asset: new StellarSdk.Asset(code, issuer.accountId || issuer),
             limit: trustLimit
         });
 

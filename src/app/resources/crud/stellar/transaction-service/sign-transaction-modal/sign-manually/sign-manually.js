@@ -1,8 +1,8 @@
 import {bindable, inject, computedFrom} from 'aurelia-framework';
 import Clipboard from 'clipboard';
-import {StellarServer} from 'global-resources';
+import * as StellarSdk from 'stellar-sdk';
 
-@inject(Element, StellarServer)
+@inject(Element)
 export class SignManuallyCustomElement {
 
     @bindable() transactionSigned;
@@ -16,9 +16,8 @@ export class SignManuallyCustomElement {
         return this.transaction.toEnvelope().toXDR('base64');
     }
 
-    constructor(element, stellarServer) {
+    constructor(element) {
         this.element = element;
-        this.stellarServer = stellarServer;
     }
 
     attached() {
@@ -47,7 +46,7 @@ export class SignManuallyCustomElement {
     submitToNetwork() {
         let signedTransaction;
         try {
-            signedTransaction = new this.stellarServer.sdk.Transaction(this.signedTransactionEnvelopeXDR);
+            signedTransaction = new StellarSdk.Transaction(this.signedTransactionEnvelopeXDR);
         }
         catch (e) {
             this.errorMessage = 'The input signed transaction is not a valid stellar transaction.';

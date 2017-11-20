@@ -1,9 +1,10 @@
 import {bindable, inject} from 'aurelia-framework';
-import {ValidationManager, StellarServer} from 'global-resources';
+import * as StellarSdk from 'stellar-sdk';
+import {ValidationManager} from 'global-resources';
 import {Store} from 'au-redux';
-import {SecretStore} from "app-resources";
+import {SecretStore} from 'app-resources';
 
-@inject(ValidationManager, StellarServer, Store, SecretStore)
+@inject(ValidationManager, Store, SecretStore)
 export class SignWithProvidedSecretCustomElement {
 
     @bindable() transactionSigned;
@@ -16,9 +17,8 @@ export class SignWithProvidedSecretCustomElement {
         'so you can create additional transactions without entering it again. Even when you select this option, ' +
         'we do not store it anywhere but in the memory of the browser. As soon as you close or refresh this tab, the secret will be forgotten.';
 
-    constructor(validationManager, stellarServer, store, secretStore) {
+    constructor(validationManager, store, secretStore) {
         this.validationManager = validationManager;
-        this.stellarServer = stellarServer;
         this.store = store;
         this.secretStore = secretStore;
     }
@@ -32,11 +32,11 @@ export class SignWithProvidedSecretCustomElement {
             return;
         }
 
-        const keypair = this.stellarServer.sdk.Keypair.fromSecret(this.secret);
+        const keypair = StellarSdk.Keypair.fromSecret(this.secret);
         const account = this.store.getState().myAccount;
 
         if (!account) {
-            this.errorMessage = 'Hey, you aren\'t logged in. You can\'t create a transaction without being logged in first silly. Please login and try again.'
+            this.errorMessage = 'Hey, you aren\'t logged in. You can\'t create a transaction without being logged in first silly. Please login and try again.';
             return;
         }
 

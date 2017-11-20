@@ -2,10 +2,9 @@
  * Created by istrauss on 6/29/2017.
  */
 
-import {inject, computedFrom} from 'aurelia-framework';
-import {StellarServer} from 'global-resources';
+import {computedFrom} from 'aurelia-framework';
+import * as StellarSdk from 'stellar-sdk';
 
-@inject(StellarServer)
 export class CreateAccountCustomElement {
 
     changellyAlertConfig = {
@@ -21,12 +20,8 @@ export class CreateAccountCustomElement {
         dismissible: false
     };
 
-    constructor(stellarServer) {
-        this.stellarServer = stellarServer;
-    }
-
     generateKeypair() {
-        this.newKeypair = this.stellarServer.sdk.Keypair.random();
+        this.newKeypair = StellarSdk.Keypair.random();
         this.newPublicKey = this.newKeypair.publicKey();
         this.newSecret = this.newKeypair.secret();
     }
