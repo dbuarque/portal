@@ -6,7 +6,7 @@ export function recentTrades(state = [], action) {
         case UPDATE_RECENT_TRADES:
             return action.payload.concat(state).slice(0, 10);
         case UPDATE_ASSET_PAIR:
-            return null;
+            return [];
         default:
             return state;
     }

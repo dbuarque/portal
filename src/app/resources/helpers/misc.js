@@ -3,5 +3,5 @@
  */
 
 export function shortenAddress(address, numLetters = 4) {
-    return address.slice(0, numLetters) + '...' + address.slice(address.length - numLetters);
+    return address ? address.slice(0, numLetters) + '...' + address.slice(address.length - numLetters) : address;
 }

@@ -2,12 +2,12 @@
  * Created by istrauss on 5/8/2017.
  */
 
-import {inject, computedFrom} from 'aurelia-framework'
+import {inject} from 'aurelia-framework';
 import {Store} from 'au-redux';
-import {StellarServer, ValidationManager} from 'global-resources';
+import {ValidationManager} from 'global-resources';
 import {AccountResource} from 'app-resources';
 
-@inject(StellarServer, Store, ValidationManager, AccountResource)
+@inject(Store, ValidationManager, AccountResource)
 export class OfferModal {
 
     loading = 0;
@@ -21,8 +21,7 @@ export class OfferModal {
             '<p>To learn more about stellar assets and trust see the <a href="https://www.stellar.org/developers/guides/concepts/assets.html" target="_blank">Stellar Asset Concept Documentation</a>.</p>'
     };
 
-    constructor(stellarServer, store, validationManager, accountResource) {
-        this.stellarServer = stellarServer;
+    constructor(store, validationManager, accountResource) {
         this.store = store;
         this.validationManager = validationManager;
         this.accountResource = accountResource;
@@ -56,14 +55,7 @@ export class OfferModal {
         this.modalVM.dismissible = false;
         this.loading++;
 
-        this.modalVM.close([
-            this.stellarServer.sdk.Operation.changeTrust({
-                asset: this.type.toLowerCase() === 'native' ?
-                    this.stellarServer.sdk.Asset.native() :
-                    new this.stellarServer.sdk.Asset(this.code, this.issuer.accountId || this.issuer),
-                limit: this.newLimit
-            })
-        ]);
+        this.modalVM.close(this.newLimit);
     }
 
     cancel() {

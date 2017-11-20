@@ -36,7 +36,7 @@ export class CreateAskCustomElement extends CreateOffer {
     @computedFrom('myAsk')
     get sellingAmount() {
         return this.myAsk ? this.myAsk.sellingAmount : undefined;
-    };
+    }
     set sellingAmount(newAmount) {
         this.updateMyAsk.dispatch({
             sellingAmount: newAmount
@@ -46,7 +46,7 @@ export class CreateAskCustomElement extends CreateOffer {
     @computedFrom('myAsk')
     get buyingAmount() {
         return this.myAsk ? this.myAsk.buyingAmount : undefined;
-    };
+    }
     set buyingAmount(newAmount) {
         this.updateMyAsk.dispatch({
             buyingAmount: newAmount

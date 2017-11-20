@@ -33,7 +33,7 @@ export class TradingviewPriceChartCustomElement {
 
     attached() {
         this.isAttached = true;
-        this.updateChart()
+        this.updateChart();
     }
 
     detached() {
@@ -50,7 +50,7 @@ export class TradingviewPriceChartCustomElement {
                 // Will error out because the #tradingview-price-chart-container no longer can be accessed via the DOM
                 this.widget.remove();
             }
-            catch(e) {}
+            catch (e) {}
 
             delete this.widget;
         }
@@ -64,24 +64,26 @@ export class TradingviewPriceChartCustomElement {
 
     updateChart() {
         const self = this;
-        
+
         if (!self.isAttached) {
             return;
         }
 
         if (!self.widget) {
             self.config.symbol = self.symbol;
-            self.widget = new TradingView.widget(self.config);
-            self.widget.onChartReady((() => {
+
+            const Widget = TradingView.widget;
+            self.widget = new Widget(self.config);
+
+            self.widget.onChartReady(() => {
                 self.intervalSubscriptionObj = self.widget.chart().onIntervalChanged();
                 self.intervalSubscriptionObj.subscribe(self, self.onIntervalChanged);
-            }));
+            });
 
             self.currentResolution = self.config.interval;
-
         }
         else {
-            self.widget.setSymbol(self.symbol, this.currentResolution)
+            self.widget.setSymbol(self.symbol, this.currentResolution);
         }
     }
 

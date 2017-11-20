@@ -21,15 +21,35 @@ export class CreateOffer {
     myAssetPair;
 
     @computedFrom('buyingAsset')
-    get needsTrustline() {
-        return this.buyingAsset ? this.buyingAsset.type.toLowerCase() !== 'native' : false;
+    get isBuyingNative() {
+        return this.buyingAsset ? this.buyingAsset.type.toLowerCase() === 'native' : false;
+    }
+
+    @computedFrom('isNotBuyingNative', 'myBuyingAsset')
+    get trustsBuyingAsset() {
+        return this.isBuyingNative || (this.myBuyingAsset && this.myBuyingAsset.trustLimit);
+    }
+
+    @computedFrom('myBuyingAsset')
+    get isAuthorizedForBuyingAsset() {
+        return this.isBuyingNative ||
+            !(
+                this.buyingAsset.issuer &&
+                this.buyingAsset.issuer.flags &&
+                this.buyingAsset.issuer.flags.AuthRequired
+            ) ||
+            (
+                this.myBuyingAsset &&
+                this.myBuyingAsset.flags &&
+                this.myBuyingAsset.flags.Authorized
+            );
     }
 
     @computedFrom('myBuyingAsset', 'buyingAmount')
     get minTrustLine() {
         return this.myBuyingAsset && this.myBuyingAsset.balance ? (new BigNumber(this.myBuyingAsset.balance)).plus(this.buyingAmount || 0).toString(10) : undefined;
     }
-    
+
     constructor(container) {
         this.router = container.get(Router);
         this.trustService = container.get(TrustService);
@@ -42,11 +62,13 @@ export class CreateOffer {
         this.router.parent.navigateToRoute('login');
     }
 
-    async modifyLimit() {
+    async maxOutTrustLimit() {
         try {
-            await this.trustService.modifyLimit(this.buyingAsset.type, this.buyingAsset.code, this.buyingAsset.issuer);
+            await this.trustService.maxOutTrustLimit(this.buyingAsset.type, this.buyingAsset.code, this.buyingAsset.issuer);
+
+            this.updateMyAssetPair.dispatch();
         }
-        catch(e) {}
+        catch (e) {}
     }
 
     validate() {
@@ -72,7 +94,7 @@ export class CreateOffer {
             message: alertMessage
         } : undefined;
 
-        return !this.alertConfig
+        return !this.alertConfig;
     }
 
     async submit() {
@@ -101,6 +123,6 @@ export class CreateOffer {
             this.updateMyOffers.dispatch();
             this.updateMyAssetPair.dispatch();
         }
-        catch(e) {}
+        catch (e) {}
     }
 }

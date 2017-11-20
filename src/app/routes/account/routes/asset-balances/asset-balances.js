@@ -39,7 +39,7 @@ export class AssetBalances {
                     try {
                         await vm.trustService.modifyLimit(rowData.assetType, rowData.assetCode, rowData.issuerId);
                     }
-                    catch(e) {}
+                    catch (e) {}
 
                     vm.refresh();
                 });
