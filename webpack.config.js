@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const { AureliaPlugin, ModuleDependenciesPlugin  } = require('aurelia-webpack-plugin');
+const { AureliaPlugin  } = require('aurelia-webpack-plugin');
 const { optimize: { CommonsChunkPlugin }, ProvidePlugin, IgnorePlugin } = require('webpack');
 
 // config helpers:
@@ -18,10 +18,18 @@ const nodeModulesDir = path.resolve(__dirname, 'node_modules');
 const baseUrl = '/';
 
 const cssRules = [
-    { loader: 'css-loader' },
+    {
+        loader: 'css-loader'
+    },
     {
         loader: 'postcss-loader',
         options: { plugins: () => [require('autoprefixer')({ browsers: ['last 2 versions'] })]}
+    }
+];
+const scssRules = [
+    ...cssRules,
+    {
+        loader: 'sass-loader' // compiles SASS to CSS
     }
 ];
 
@@ -34,6 +42,7 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
             //'resources': path.resolve( __dirname, 'src', 'resources'),
             'global-resources': path.resolve( __dirname, 'src', 'resources'),
             'app-resources': path.resolve( __dirname, 'src', 'app', 'resources'),
+            'app-styles': path.resolve( __dirname, 'src', 'app', 'styles', 'styles.scss'),
             '$': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.js'),
             'jquery': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.js'),
             'moment-timezone': path.resolve(__dirname, 'node_modules/moment-timezone/builds/moment-timezone-with-data-2012-2022'),
@@ -49,7 +58,7 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
         publicPath: baseUrl,
         filename: production ? '[name].[chunkhash].bundle.js' : '[name].[hash].bundle.js',
         sourceMapFilename: production ? '[name].[chunkhash].bundle.map' : '[name].[hash].bundle.map',
-        chunkFilename: production ? '[chunkhash].chunk.js' : '[hash].chunk.js'
+        chunkFilename: production ? '[name].[chunkhash].chunk.js' : '[name].[hash].chunk.js',
     },
     devServer: {
         contentBase: baseUrl,
@@ -75,9 +84,23 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
                 // because Aurelia would try to require it again in runtime
                 use: cssRules
             },
+            // Same rationale as CSS above
+            {
+                test: /\.scss$/i,
+                issuer: [{ not: [{ test: /\.html$/i }] }],
+                use: extractCss ? ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: scssRules
+                }) : ['style-loader', ...scssRules]
+            },
+            {
+                test: /\.scss$/i,
+                issuer: [{ test: /\.html$/i }],
+                // Same rationale as CSS above
+                use: scssRules
+            },
             { test: /\.html$/i, loader: 'html-loader' },
             { test: /\.js$/i, loader: 'babel-loader', exclude: nodeModulesDir },
-            { test: /\.scss$/, loaders: ['raw-loader'] },
             { test: /\.d.ts$/, loaders: ['ignore-loader'] },
             { test: /\.json$/i, loader: 'json-loader' },
             // use Bluebird as the global Promise implementation:

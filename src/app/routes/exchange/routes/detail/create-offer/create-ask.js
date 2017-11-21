@@ -7,9 +7,9 @@ import {inject, Container, computedFrom} from 'aurelia-framework';
 import {connected} from 'au-redux';
 import {validStellarNumber} from 'app-resources';
 import {CreateOffer} from './create-offer';
-import {DetailActionCreators} from '../detail-action-creators';
+import {UpdateMyAskActionCreator} from '../action-creators';
 
-@inject(Container, DetailActionCreators)
+@inject(Container, UpdateMyAskActionCreator)
 export class CreateAskCustomElement extends CreateOffer {
 
     @connected('exchange.detail.myAsk')
@@ -28,29 +28,29 @@ export class CreateAskCustomElement extends CreateOffer {
             );
     }
     set price(newPrice) {
-        this.store.dispatch(this.detailActionCreators.updateMyAsk({
+        this.updateMyAsk.dispatch({
             price: newPrice ? (new BigNumber(newPrice)).toFraction() : newPrice
-        }));
+        });
     }
 
     @computedFrom('myAsk')
     get sellingAmount() {
         return this.myAsk ? this.myAsk.sellingAmount : undefined;
-    };
+    }
     set sellingAmount(newAmount) {
-        this.store.dispatch(this.detailActionCreators.updateMyAsk({
+        this.updateMyAsk.dispatch({
             sellingAmount: newAmount
-        }));
+        });
     }
 
     @computedFrom('myAsk')
     get buyingAmount() {
         return this.myAsk ? this.myAsk.buyingAmount : undefined;
-    };
+    }
     set buyingAmount(newAmount) {
-        this.store.dispatch(this.detailActionCreators.updateMyAsk({
+        this.updateMyAsk.dispatch({
             buyingAmount: newAmount
-        }));
+        });
     }
 
     @computedFrom('assetPair')
@@ -73,10 +73,10 @@ export class CreateAskCustomElement extends CreateOffer {
         return this.myAssetPair ? this.myAssetPair.buying : {};
     }
 
-    constructor(container, detailActionCreators) {
+    constructor(container, updateMyAsk) {
         super(container);
 
-        this.detailActionCreators = detailActionCreators;
+        this.updateMyAsk = updateMyAsk;
     }
 
     bind() {

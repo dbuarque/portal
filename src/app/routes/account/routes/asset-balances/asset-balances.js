@@ -7,9 +7,9 @@ import {SanitizeHTMLValueConverter} from 'aurelia-templating-resources';
 import {Router} from 'aurelia-router';
 import {connected} from 'au-redux';
 import {AccountResource, TrustService} from 'app-resources';
-import Config from './asset-balances-config';
+import {AssetBalancesConfig} from './asset-balances.config';
 
-@inject(Config, SanitizeHTMLValueConverter, Router, AccountResource, TrustService)
+@inject(AssetBalancesConfig, SanitizeHTMLValueConverter, Router, AccountResource, TrustService)
 export class AssetBalances {
 
     @connected('myAccount')
@@ -39,7 +39,7 @@ export class AssetBalances {
                     try {
                         await vm.trustService.modifyLimit(rowData.assetType, rowData.assetCode, rowData.issuerId);
                     }
-                    catch(e) {}
+                    catch (e) {}
 
                     vm.refresh();
                 });

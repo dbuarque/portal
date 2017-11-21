@@ -1,0 +1,11 @@
+.choose-signing-method {
+    overflow-x: hidden;
+
+    li {
+        cursor: pointer;
+
+        &:hover {
+            background: $background;
+        }
+    }
+}

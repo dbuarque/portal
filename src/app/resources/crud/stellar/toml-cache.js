@@ -1,16 +1,9 @@
-
+import * as StellarSdk from 'stellar-sdk';
 import _find from 'lodash/find';
-import {inject} from 'aurelia-framework';
-import {StellarServer} from 'global-resources';
 
-@inject(StellarServer)
 export class TomlCache {
 
     promises = {};
-
-    constructor(stellarServer) {
-        this.stellarServer = stellarServer;
-    }
 
     refresh() {
         this.promises = {};
@@ -22,7 +15,7 @@ export class TomlCache {
         }
 
         if (!this.promises[issuer.homeDomain]) {
-            this.promises[issuer.homeDomain] = this.stellarServer.sdk.StellarTomlResolver.resolve(issuer.homeDomain)
+            this.promises[issuer.homeDomain] = StellarSdk.StellarTomlResolver.resolve(issuer.homeDomain)
                 .catch(e => null);
         }
 

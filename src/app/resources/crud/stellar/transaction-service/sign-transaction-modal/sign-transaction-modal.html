@@ -1,0 +1,14 @@
+<template>
+    <require from="./choose-signing-method/choose-signing-method"></require>
+    <require from="./sign-with-provided-secret/sign-with-provided-secret"></require>
+    <require from="./sign-manually/sign-manually"></require>
+    <div class="sign-transaction-modal">
+        <choose-signing-method show.bind="!method" methods.bind="methods" method-chosen.call="methodChosen(method)"></choose-signing-method>
+
+        <sign-with-provided-secret show.bind="method === 'signWithProvidedSecret'" back.call="methodChosen()"
+                                   transaction.bind="transaction" transaction-signed.call="transactionSigned(signedTransaction)"></sign-with-provided-secret>
+
+        <sign-manually show.bind="method === 'signManually'" back.call="methodChosen()"
+                       transaction.bind="transaction" transaction-signed.call="transactionSigned(signedTransaction)"></sign-manually>
+    </div>
+</template>

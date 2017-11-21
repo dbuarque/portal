@@ -5,17 +5,17 @@
 import BigNumber from 'bignumber.js';
 import {PLATFORM} from 'aurelia-pal';
 import {inject} from 'aurelia-framework';
+import * as StellarSdk from 'stellar-sdk';
 import {Store} from 'au-redux';
-import {StellarServer, ModalService, AlertToaster} from 'global-resources';
+import {ModalService, AlertToaster} from 'global-resources';
 import {validStellarNumber} from '../../../helpers';
 import {AccountResource} from '../../resources';
 import {TransactionService} from '../transaction-service/transaction-service';
 
-@inject(StellarServer, ModalService, Store, AlertToaster, AccountResource, TransactionService)
+@inject(ModalService, Store, AlertToaster, AccountResource, TransactionService)
 export class OfferService {
 
-    constructor(stellarServer, modalService, store, alertToaster, accountResource, transactionService) {
-        this.stellarServer = stellarServer;
+    constructor(modalService, store, alertToaster, accountResource, transactionService) {
         this.modalService = modalService;
         this.store = store;
         this.alertToaster = alertToaster;
@@ -58,20 +58,20 @@ export class OfferService {
                 modalClass: 'sm'
             }
         );
-        
+
         const operations = [];
 
         try {
             //const fee = await this.calculateFee(amount, sellingAsset);
             //const sellingAmount = (new BigNumber(amount)).minus(fee).toFixed(7);
 
-            const offerOp = this.stellarServer.sdk.Operation.manageOffer({
+            const offerOp = StellarSdk.Operation.manageOffer({
                 selling: sellingAsset.type.toLowerCase() === 'native' ?
-                    this.stellarServer.sdk.Asset.native() :
-                    new this.stellarServer.sdk.Asset(sellingAsset.code, sellingAsset.issuer.accountId || sellingAsset.issuer),
+                    StellarSdk.Asset.native() :
+                    new StellarSdk.Asset(sellingAsset.code, sellingAsset.issuer.accountId || sellingAsset.issuer),
                 buying: buyingAsset.type.toLowerCase() === 'native' ?
-                    this.stellarServer.sdk.Asset.native() :
-                    new this.stellarServer.sdk.Asset(buyingAsset.code, buyingAsset.issuer.accountId || buyingAsset.issuer),
+                    StellarSdk.Asset.native() :
+                    new StellarSdk.Asset(buyingAsset.code, buyingAsset.issuer.accountId || buyingAsset.issuer),
                 amount: validStellarNumber(amount),
                 price
             });
@@ -79,25 +79,24 @@ export class OfferService {
             operations.push(offerOp);
 
             // if (fee && fee > 0) {
-            //     const feePaymentOp = this.stellarServer.sdk.Operation.payment({
+            //     const feePaymentOp = StellarSdk.Operation.payment({
             //         destination: window.lupoex.publicKey,
             //         asset: sellingAsset.code === nativeAssetCode ?
-            //             this.stellarServer.sdk.Asset.native() :
-            //             new this.stellarServer.sdk.Asset(sellingAsset.code, sellingAsset.issuer),
+            //             StellarSdk.Asset.native() :
+            //             new StellarSdk.Asset(sellingAsset.code, sellingAsset.issuer),
             //         amount: fee.toString()
             //     });
             //
             //     operations.push(feePaymentOp);
             // }
         }
-        catch(e) {
+        catch (e) {
             this.alertToaster.error('Unexpected error occured. Please check your inputs. Your offer was NOT submitted to the network.');
-            console.log(JSON.stringify(e));
             throw e;
         }
 
         //const options = {
-        //    memo: this.stellarServer.sdk.Memo.text('offer_via_lupoex')
+        //    memo: StellarSdk.Memo.text('offer_via_lupoex')
         //};
 
         await this.transactionService.submit(operations);
@@ -123,13 +122,13 @@ export class OfferService {
 
     async cancelOffer(offer) {
         const operations = [
-            this.stellarServer.sdk.Operation.manageOffer({
+            StellarSdk.Operation.manageOffer({
                 buying: offer.buyingAssetType.toLowerCase() === 'native' ?
-                    this.stellarServer.sdk.Asset.native() :
-                    new this.stellarServer.sdk.Asset(offer.buyingAssetCode, offer.buyingIssuerId),
+                    StellarSdk.Asset.native() :
+                    new StellarSdk.Asset(offer.buyingAssetCode, offer.buyingIssuerId),
                 selling: offer.sellingAssetType.toLowerCase() === 'native' ?
-                    this.stellarServer.sdk.Asset.native() :
-                    new this.stellarServer.sdk.Asset(offer.sellingAssetCode, offer.sellingIssuerId),
+                    StellarSdk.Asset.native() :
+                    new StellarSdk.Asset(offer.sellingAssetCode, offer.sellingIssuerId),
                 amount: '0',
                 price: offer.price,
                 offerId: offer.offerId

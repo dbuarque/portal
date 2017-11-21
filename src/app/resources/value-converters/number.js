@@ -7,13 +7,13 @@ import {validStellarNumber} from '../helpers';
 
 export class DivideByValueConverter {
     toView(n, d) {
-        return (new BigNumber(n)).dividedBy(d);
+        return n && d ? (new BigNumber(n)).dividedBy(d) : 0;
     }
 }
 
 export class MultiplyByValueConverter {
     toView(n1, n2) {
-        return (new BigNumber(n1)).times(n2)
+        return n1 && n2 ? (new BigNumber(n1)).times(n2) : 0;
     }
 }
 

@@ -2,13 +2,15 @@
  * Created by istrauss on 4/22/2016.
  */
 
+import './account.scss';
 import _findIndex from 'lodash/findIndex';
 import {inject} from 'aurelia-framework';
+import {Redirect} from 'aurelia-router';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {Store, connected} from 'au-redux';
-import Config from './account-config';
+import {AccountConfig} from './account.config';
 
-@inject(Config, EventAggregator, Store)
+@inject(AccountConfig, EventAggregator, Store)
 export class Account {
 
     @connected('myAccount')

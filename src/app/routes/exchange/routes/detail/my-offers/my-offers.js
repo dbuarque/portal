@@ -3,11 +3,11 @@
  */
 
 import {inject, computedFrom} from 'aurelia-framework';
-import {connected, Store} from 'au-redux';
+import {connected} from 'au-redux';
 import {OfferService} from 'app-resources';
-import {DetailActionCreators} from '../detail-action-creators';
+import {UpdateMyOffersActionCreator} from '../action-creators';
 
-@inject(Store, OfferService, DetailActionCreators)
+@inject(OfferService, UpdateMyOffersActionCreator)
 export class MyOffersCustomElement {
 
     @connected('exchange.assetPair')
@@ -25,16 +25,13 @@ export class MyOffersCustomElement {
             );
     }
 
-    constructor(store, offerService, detailActionCreators) {
-        this.store = store;
+    constructor(offerService, updateMyOffers) {
         this.offerService = offerService;
-        this.detailActionCreators = detailActionCreators;
+        this.updateMyOffers = updateMyOffers;
     }
 
     async cancel(offer) {
         await this.offerService.cancelOffer(offer);
-        this.store.dispatch(
-            this.detailActionCreators.updateMyOffers()
-        );
+        this.updateMyOffers.dispatch();
     }
 }

@@ -1,4 +1,4 @@
-
+import {MAX_STELLAR_NUMBER} from '../constants';
 import BigNumber from 'bignumber.js';
 
 const defaultOptions = {
@@ -27,7 +27,7 @@ export function validStellarNumber(original, options = {}) {
         ...defaultOptions,
         ...options
     };
-    const max = "922337203685.4775807";
+    const max = MAX_STELLAR_NUMBER.toString();
     const stringForm = result instanceof BigNumber ? result.valueOf() : result.toString();
 
     // Get rid of all non digits or decimals.

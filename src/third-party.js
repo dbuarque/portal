@@ -7,4 +7,4 @@ import 'materialize-css';
 import 'tooltipster';
 import 'datatables.net';
 import 'datatables.net-responsive';
-import 'select2';
+//import 'select2';
