@@ -17,8 +17,9 @@ export class UpdateAssetPairActionCreator {
                 return;
             }
 
-            assetPair.buying.type = assetPair.buying.type.replace('credit_', '');
-            assetPair.selling.type = assetPair.selling.type.replace('credit_', '');
+            Object.keys(assetPair).forEach(key => {
+                assetPair[key].type = assetPair[key].type.replace('credit_', '');
+            });
 
             const oldAssetPair = getState().exchange.assetPair;
 

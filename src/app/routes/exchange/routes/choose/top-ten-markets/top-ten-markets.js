@@ -63,8 +63,8 @@ export class TopTenMarkets {
         this.loading--;
     }
 
-    chooseMarket(market) {
-        this.updateAssetPair.dispatch(
+    async chooseMarket(market) {
+        await this.updateAssetPair.dispatch(
             this.marketToAssetPair.toView(market)
         );
 
