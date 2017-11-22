@@ -33,7 +33,7 @@ export class MyOffersUpdater {
     accountChanged(){
         this.restart();
     }
-    
+
     restart() {
         if (this.interval) {
             clearInterval(this.interval);

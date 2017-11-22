@@ -26,6 +26,17 @@ export class OrderbookUpdater {
     }
 
     async assetPairChanged() {
+        // First simply get the new orderbook if there is an assetPair.
+        if (this.assetPair) {
+            const newOrderbook = await this.marketResource.orderbook(this.assetPair);
+            this.updateOrderbook.dispatch(newOrderbook);
+        }
+
+        // Now, subscribe to changes (subscribeToStream will simply unsubscribe in the case of no assetPair).
+        this.subscribeToStream();
+    }
+
+    subscribeToStream() {
         if (this.unsubscribeFromStream) {
             this.unsubscribeFromStream();
             this.unsubscribeFromStream = undefined;
@@ -35,11 +46,6 @@ export class OrderbookUpdater {
             return;
         }
 
-        // First simply get the new orderbook.
-        const newOrderbook = await this.marketResource.orderbook(this.assetPair);
-        this.updateOrderbook.dispatch(newOrderbook);
-
-        // Now, subscribe to changes.
         this.unsubscribeFromStream = this.marketStream.subscribe(payload => {
             if (payload.type !== 'orderbook') {
                 return;

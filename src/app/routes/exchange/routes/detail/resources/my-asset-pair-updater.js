@@ -31,10 +31,10 @@ export class MyAssetPairUpdater {
         this.restart();
     }
 
-    accountChanged(){
+    accountChanged() {
         this.restart();
     }
-    
+
     restart() {
         if (this.interval) {
             clearInterval(this.interval);
@@ -58,7 +58,7 @@ export class MyAssetPairUpdater {
             return;
         }
 
-        for(let i = 0; i < msg.payload.length; i++) {
+        for (let i = 0; i < msg.payload.length; i++) {
             // If a trade or trustline modification comes through, just call restart() which will update myAssetPair and restard the autoupdate interval.
             if (msg.payload[i].type === 'TRADE' || msg.payload[i].type.indexOf('TRUSTLINE') > -1) {
                 this.restart();

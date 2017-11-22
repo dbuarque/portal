@@ -26,6 +26,17 @@ export class RecentTradesUpdater {
     }
 
     async assetPairChanged() {
+        // First simply get the new orderbook if there is an assetPair.
+        if (this.assetPair) {
+            const newTrades = await this.marketResource.recentTrades(this.assetPair);
+            this.updateRecentTrades.dispatch(newTrades);
+        }
+
+        // Now, subscribe to changes (subscribeToStream will simply unsubscribe if there is no assetPair).
+        this.subscribeToStream();
+    }
+
+    subscribeToStream() {
         if (this.unsubscribeFromStream) {
             this.unsubscribeFromStream();
             this.unsubscribeFromStream = undefined;
@@ -34,10 +45,6 @@ export class RecentTradesUpdater {
         if (!this.assetPair) {
             return;
         }
-
-        // First simply get the new orderbook.
-        const newTrades = await this.marketResource.recentTrades(this.assetPair);
-        this.updateRecentTrades.dispatch(newTrades);
 
         // Now, subscribe to changes.
         this.unsubscribeFromStream = this.marketStream.subscribe(payload => {
