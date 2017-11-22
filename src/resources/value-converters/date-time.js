@@ -23,7 +23,13 @@ export class FormatTimeValueConverter {
 }
 
 export class TimeAgoValueConverter {
-    toView(dateTime, noAgo) {
-        return moment(dateTime).fromNow(noAgo);
+    toView(dateTime, withoutSuffix) {
+        const mom = moment(dateTime);
+
+        if (mom >= moment()) {
+            return 'now';
+        }
+
+        return mom.fromNow(withoutSuffix);
     }
 }
