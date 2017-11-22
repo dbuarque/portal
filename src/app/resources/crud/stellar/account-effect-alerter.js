@@ -16,7 +16,7 @@ export class AccountEffectAlerter {
     }
 
     init() {
-        this.accountStream.subscribe(this._handleAccountEffects.bind(this))
+        this.accountStream.subscribe(this._handleAccountEffects.bind(this));
     }
 
     _handleAccountEffects(msg) {
@@ -37,17 +37,17 @@ export class AccountEffectAlerter {
                 const msg = userFriendlyEffectMessage(e);
 
                 return msg ?
-                    {
-                        msg,
-                        type: this._alertType(e)
-                    } :
-                    null;
+                {
+                    msg,
+                    type: this._alertType(e)
+                } :
+                null;
             })
             .filter(alert => !!alert);
     }
 
     _alertType(e) {
-        switch(e.type) {
+        switch (e.type) {
             default:
                 return 'success';
         }
