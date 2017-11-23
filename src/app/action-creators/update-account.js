@@ -1,5 +1,5 @@
 import {inject} from 'aurelia-framework';
-import {actionCreator} from "au-redux";
+import {actionCreator} from 'au-redux';
 import {AccountResource} from '../resources/crud/resources';
 import {UPDATE_MY_ACCOUNT_ID, UPDATE_MY_ACCOUNT} from '../app.action-types';
 
@@ -8,6 +8,10 @@ import {UPDATE_MY_ACCOUNT_ID, UPDATE_MY_ACCOUNT} from '../app.action-types';
 export class UpdateAccountActionCreator {
     constructor(accountResource) {
         this.accountResource = accountResource;
+
+        this.dispatch(
+            localStorage.getItem('account-id')
+        );
     }
 
     /**
@@ -18,42 +22,40 @@ export class UpdateAccountActionCreator {
      * @returns {function(*, *)}
      */
     create(publicKey, options = {}) {
-        return async (dispatch, getState) => {
-            if (!publicKey) {
-                dispatch({
-                    type: UPDATE_MY_ACCOUNT_ID,
-                    payload: publicKey
-                });
-
-                return dispatch({
-                    type: UPDATE_MY_ACCOUNT,
-                    payload: null
-                });
-            }
-
+        return async(dispatch, getState) => {
             if (getState().myAccount && getState().myAccount.accountId === publicKey && !options.force) {
                 return;
             }
 
+            // There are times (especially on app startup) that we need an accountId in the store synchronously.
             dispatch({
                 type: UPDATE_MY_ACCOUNT_ID,
                 payload: publicKey
             });
 
-            try {
-                const account = await this.accountResource.account(publicKey, {
-                    handleError: false
-                });
+            let account = null;
 
-                return dispatch({
-                    type: UPDATE_MY_ACCOUNT,
-                    payload: account
-                });
+            if (publicKey) {
+                try {
+                    account = await this.accountResource.account(publicKey, {
+                        handleError: false
+                    });
+                }
+                catch (e) {
+                    // Couldn't find account. We want to logout so let's just leave the account null.
+                }
             }
-            catch(e) {
-                //Couldn't find account, let's logout.
-                return dispatch(this.create());
-            }
+
+            dispatch({
+                type: UPDATE_MY_ACCOUNT,
+                payload: account
+            });
+
+            account && account.accountId ?
+                localStorage.setItem('account-id', account.accountId) :
+                localStorage.removeItem('account-id');
+
+            return account;
         };
     }
 }

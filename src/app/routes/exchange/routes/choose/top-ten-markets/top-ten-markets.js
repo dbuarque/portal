@@ -46,11 +46,11 @@ export class TopTenMarkets {
 
         await this.refreshTopTenMarkets.dispatch();
 
-        if (!this.assetPair && this.markets.length > 0) {
-            await this.updateAssetPair.dispatch(
-                this.marketToAssetPair.toView(this.markets[0])
-            );
-        }
+        //if (!this.assetPair && this.markets.length > 0) {
+        //    await this.updateAssetPair.dispatch(
+        //        this.marketToAssetPair.toView(this.markets[0])
+        //    );
+        //}
 
         this.loading--;
     }

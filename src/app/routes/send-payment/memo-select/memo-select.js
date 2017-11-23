@@ -5,7 +5,6 @@
 import {bindable, bindingMode} from 'aurelia-framework';
 
 export class MemoSelectCustomElement {
-
     @bindable({defaultBindingMode: bindingMode.twoWay}) type;
     @bindable({defaultBindingMode: bindingMode.twoWay}) value;
     @bindable validationManager;

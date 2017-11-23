@@ -13,7 +13,9 @@
                         Hey, that looks like our address. Thanks in advance for the donation.&nbsp;<i class="fa fa-smile-o fa-lg"></i>
                     </div>
 
-                    <alert config.bind="alertConfig"></alert>
+                    <alert-card type="info" title="Careful! Payments Are Permenant">
+                        Once made, payments are <strong>irreversible</strong>. Please be sure to verify every detail of your payment before confirming.
+                    </alert-card>
 
                     <div class="form-container">
 
@@ -39,20 +41,16 @@
                             </div>
 
                             <div class="accent-text" show.bind="requiredMemo">
-                                <div class="card alert alert-info">
+                                <br>
+                                <alert-card type="success" title="Your Federated Address Requires A Memo" dismissible.bind="false">
+                                    You entered a federated destination address which requires a specific memo to be submitted along with the transaction.
+                                    When you submit your payment, the memo
                                     <strong>
-                                        <i class="fa fa-info-circle primary-text"></i>
+                                        <span class="primary-text">${requiredMemo}</span>
+                                        (<span class="primary-text">${requiredMemoType}</span>)
                                     </strong>
-                                    <span>
-                                        You entered a federated destination address which requires a specific memo to be submitted along with the transaction.
-                                        <br>
-                                        When you submit your payment, the memo:
-                                        <br>
-                                        <strong>${requiredMemo} (type ${requiredMemoType})</strong>
-                                        <br>
-                                        will be included automatically.
-                                    </span>
-                                </div>
+                                    will be included automatically.
+                                </alert-card>
                             </div>
 
                             <div show.bind="!requiredMemo">

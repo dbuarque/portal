@@ -4,7 +4,7 @@
             <div class="card-heading">
                 <i class.bind="iconClasses"></i>
                 ${title}&nbsp;
-                <i style="font-size: 15px; cursor: pointer;" class="fa fa-times right" click.trigger="hide = true"></i>
+                <i show.bind="dismissible" style="font-size: 15px; cursor: pointer;" class="fa fa-times right" click.trigger="hide = true"></i>
             </div>
             <div class="card-body">
                 <slot></slot>

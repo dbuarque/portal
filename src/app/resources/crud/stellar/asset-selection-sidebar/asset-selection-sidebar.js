@@ -6,7 +6,6 @@ import {AssetSelectionService} from '../asset-selection-service';
 
 @inject(AssetResource, AssetSelectionService)
 export class AssetSelectionSidebarCustomElement {
-
     limit = 10;
     offset = 0;
 
@@ -23,7 +22,7 @@ export class AssetSelectionSidebarCustomElement {
 
     open(asset) {
         const self = this;
-        
+
         self.startingAsset = self.asset = asset;
 
         self.sidenavController.show();
@@ -37,7 +36,7 @@ export class AssetSelectionSidebarCustomElement {
             self.reject = reject;
         });
     }
-    
+
     finish() {
         this.resolve(this.asset);
 

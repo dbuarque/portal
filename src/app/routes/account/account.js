@@ -12,7 +12,6 @@ import {AccountConfig} from './account.config';
 
 @inject(AccountConfig, EventAggregator, Store)
 export class Account {
-
     @connected('myAccount')
     account;
 

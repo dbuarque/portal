@@ -4,31 +4,28 @@
 
 import * as StellarSdk from 'stellar-sdk';
 import {inject, computedFrom} from 'aurelia-framework';
-import {Router} from 'aurelia-router';
-import {Store} from 'au-redux';
+import {Router, Redirect} from 'aurelia-router';
+import {Store, connected} from 'au-redux';
 import {ModalService, ValidationManager} from 'global-resources';
 import {AccountResource, TransactionService} from 'app-resources';
 
-@inject(Router, ModalService, Store, ValidationManager, AccountResource, TransactionService)
+@inject(Router, Store, ModalService, ValidationManager, AccountResource, TransactionService)
 export class SendPayment {
+    @connected('myAccount')
+    account;
 
     loading = 0;
     step = 'input';
-    confirmInfoAlertConfig = {
-        type: 'info',
-        message: 'Once made, payments are <strong>irreversible</strong>. Please be sure to verify every detail of your payment before confirming. Confirm the details of your payment below. ',
-        dismissible: false
-    };
 
     @computedFrom('type')
     get isNative() {
         return this.type.toLowerCase() === 'native';
     }
 
-    constructor(router, modalService, store, validationManager, accountResource, transactionService) {
+    constructor(router, store, modalService, validationManager, accountResource, transactionService) {
         this.router = router;
-        this.modalService = modalService;
         this.store = store;
+        this.modalService = modalService;
         this.validationManager = validationManager;
         this.accountResource = accountResource;
         this.transactionService = transactionService;
@@ -36,11 +33,25 @@ export class SendPayment {
         this.lupoexPublicKey = window.lupoex.publicKey;
     }
 
+    canActivate() {
+        const account = this.store.getState().myAccount;
+
+        if (!account) {
+            return new Redirect('login');
+        }
+    }
+
     activate(params) {
         this.type = params.type;
         this.code = params.code;
         this.issuer = params.issuer;
         this.destination = params.destination;
+    }
+
+    accountChanged() {
+        if (!this.account) {
+            this.router.parent.navigateToRoute('exchange');
+        }
     }
 
     addMemo() {
