@@ -5,19 +5,17 @@ import {AppConfig} from './app.config';
 import {inject} from 'aurelia-framework';
 import {Store} from 'au-redux';
 import {WakeEventEmitter} from 'global-resources';
-import {JsonClient, PageTracker, AccountEffectAlerter, AccountSyncer} from 'app-resources';
+import {JsonClient, PageTracker, AccountEffectAlerter} from 'app-resources';
 
-@inject(AppConfig, HttpClient, EventAggregator, Router, Store, WakeEventEmitter, JsonClient, PageTracker, AccountEffectAlerter, AccountSyncer)
+@inject(AppConfig, HttpClient, EventAggregator, Router, Store, WakeEventEmitter, JsonClient, PageTracker, AccountEffectAlerter)
 export class App {
-
-    constructor(appConfig, httpClient, eventAggregator, router, store, wakeEventEmitter, jsonClient, pageTracker, accountEffectAlerter, accountSyncer) {
+    constructor(appConfig, httpClient, eventAggregator, router, store, wakeEventEmitter, jsonClient, pageTracker, accountEffectAlerter) {
         this.config = appConfig;
         this.eventAggregator = eventAggregator;
         this.router = router;
         this.store = store;
         this.jsonClient = jsonClient;
         this.pageTracker = pageTracker;
-        this.accountSyncer = accountSyncer;
 
         // We only want to enable page refresh on wake outside of development because pausing the debugger
         // on a breakpoint will trigger a "wake" event and refresh the page (which can get VERY annoying).
@@ -53,7 +51,5 @@ export class App {
 
     activate() {
         this.jsonClient.configure();
-
-        return this.accountSyncer.init();
     }
 }

@@ -3,7 +3,7 @@
         <a style="display: none" md-sidenav-collapse="ref.bind: sideNav;" md-sidenav-collapse.ref="sidenavController"></a>
         <md-sidenav md-on-sidenav-hide.delegate="onHide($event)" view-model.ref="sideNav" md-edge="right">
             <div class="header-container">
-                <div show.bind="asset">
+                <div if.bind="asset">
                     <table>
                         <tr>
                             <td>

@@ -16,7 +16,6 @@ export class AssetUrlValueConverter {
 
 @inject(AssetUrlValueConverter)
 export class AssetPairToUrlValueConverter {
-
     constructor(assetUrl) {
         this.assetUrl = assetUrl;
     }

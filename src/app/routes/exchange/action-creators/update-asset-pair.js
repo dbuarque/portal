@@ -5,14 +5,23 @@ import {AssetResource, assetsAreDifferent} from 'app-resources';
 
 @actionCreator()
 @inject(AssetResource)
-export class UpdateAssetPairActionCreator {
-
+export class UpdateAssetPairActionCreator{
     constructor(assetResource) {
         this.assetResource = assetResource;
+
+        const localAssetPair = JSON.parse(
+            localStorage.getItem('asset_pair')
+        );
+
+        if (localAssetPair) {
+            this.dispatch(
+                localAssetPair
+            );
+        }
     }
 
     create(assetPair) {
-        return async (dispatch, getState) => {
+        return async(dispatch, getState) => {
             if (!assetPair) {
                 return;
             }
@@ -37,13 +46,32 @@ export class UpdateAssetPairActionCreator {
                 this.assetWithIssuer(assetPair, oldAssetPair, 'selling')
             ]);
 
-            return dispatch({
+            assetPair = {
+                buying: assets[0],
+                selling: assets[1]
+            };
+
+            dispatch({
                 type: UPDATE_ASSET_PAIR,
-                payload: {
-                    buying: assets[0],
-                    selling: assets[1]
-                }
+                payload: assetPair
             });
+
+            if (assetPair.buying && assetPair.selling) {
+                localStorage.setItem('asset_pair', JSON.stringify({
+                    buying: {
+                        type: assetPair.buying.type,
+                        code: assetPair.buying.code,
+                        issuer: assetPair.buying.issuerId
+                    },
+                    selling: {
+                        type: assetPair.selling.type,
+                        code: assetPair.selling.code,
+                        issuer: assetPair.selling.issuerId
+                    }
+                }));
+            }
+
+            return assetPair;
         };
     }
 
@@ -79,7 +107,7 @@ export class UpdateAssetPairActionCreator {
             return newAsset;
         }
 
-        const assetWithIssuer = await this.assetResource.asset(newAsset.code, newAsset.issuer);
+        const assetWithIssuer = await this.assetResource.asset(newAsset.type, newAsset.code, newAsset.issuer);
 
         return {
             code: assetWithIssuer.assetCode,

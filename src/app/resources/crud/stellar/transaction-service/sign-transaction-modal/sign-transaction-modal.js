@@ -1,5 +1,4 @@
 export class SignTransactionModal {
-
     methods = {
         signWithProvidedSecret: {
             title: 'Enter Your Secret Key',

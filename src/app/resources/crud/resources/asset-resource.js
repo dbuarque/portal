@@ -5,13 +5,15 @@
 import {inject} from 'aurelia-dependency-injection';
 import {ModalService} from 'global-resources';
 import BaseResource from './base-resource';
+import {AssetUrlValueConverter} from '../value-converters';
 
-@inject(ModalService)
+@inject(ModalService, AssetUrlValueConverter)
 export class AssetResource extends BaseResource {
-    constructor(modalService) {
+    constructor(modalService, assetUrl) {
         super('/Asset');
 
         this.modalService = modalService;
+        this.assetUrl = assetUrl;
     }
 
     query(options) {
@@ -32,11 +34,18 @@ export class AssetResource extends BaseResource {
 
     /**
      * Finds a single asset
+     * @param type
      * @param code
      * @param issuer
      * @returns {*}
      */
-    asset(code, issuer) {
-        return this.get('/' + code + '/' + issuer);
+    asset(type, code, issuer) {
+        return this.get(
+            this.assetUrl.toView({
+                type,
+                code,
+                issuer
+            })
+        );
     }
 }

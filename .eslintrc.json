@@ -1,8 +1,13 @@
 {
     "extends": "./node_modules/aurelia-tools/.eslintrc.json",
     "rules": {
-        "indent": ["error", 4, {"SwitchCase": 1 }],
+        "indent": [2, 4, {
+            "SwitchCase": 1,
+            "flatTernaryExpressions": true
+        }],
         "brace-style": 0,
-        "no-empty": [2, {"allowEmptyCatch": true}]
+        "no-empty": [2, {
+            "allowEmptyCatch": true
+        }]
     }
 }
