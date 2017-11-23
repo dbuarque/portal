@@ -1,7 +1,7 @@
 import {inject} from 'aurelia-framework';
 import {actionCreator} from 'au-redux';
 import {AccountResource} from '../resources/crud/resources';
-import {UPDATE_MY_ACCOUNT} from '../app.action-types';
+import {UPDATE_MY_ACCOUNT_ID, UPDATE_MY_ACCOUNT} from '../app.action-types';
 
 @actionCreator()
 @inject(AccountResource)
@@ -26,6 +26,12 @@ export class UpdateAccountActionCreator {
             if (getState().myAccount && getState().myAccount.accountId === publicKey && !options.force) {
                 return;
             }
+
+            // There are times (especially on app startup) that we need an accountId in the store synchronously.
+            dispatch({
+                type: UPDATE_MY_ACCOUNT_ID,
+                payload: publicKey
+            });
 
             let account = null;
 

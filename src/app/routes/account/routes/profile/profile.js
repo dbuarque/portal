@@ -8,7 +8,6 @@ import {UpdateAccountActionCreator} from '../../../../action-creators';
 
 @inject(Store, UpdateAccountActionCreator)
 export class Profile {
-
     @connected('myAccount')
     account;
 

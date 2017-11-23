@@ -45,12 +45,13 @@ export class StellarAddressInputCustomElement {
                     return;
                 }
 
+                this._inputValue = undefined;
+
                 const publicKey = response.account_id;
                 const federatedAddress = newValue !== this.publicKey ? newValue : undefined;
 
                 if (this.publicKey !== publicKey || this.federatedAddress !== federatedAddress) {
-                    this._inputValue = undefined;
-                    this.publicKey = publicKey;
+                    this.publicKey = this.resolvedPublicKey = publicKey;
                     this.federatedAddress = federatedAddress;
                     this.memoType = response.memo_type;
                     this.memo = response.memo;
@@ -77,6 +78,8 @@ export class StellarAddressInputCustomElement {
     numCalls = 0;
 
     publicKeyChanged() {
-        this.inputValue = this.publicKey;
+        if (this.publicKey !== this.resolvedPublicKey) {
+            this.inputValue = this.publicKey;
+        }
     }
 }

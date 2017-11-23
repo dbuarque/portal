@@ -5,7 +5,7 @@ import {AssetResource, assetsAreDifferent} from 'app-resources';
 
 @actionCreator()
 @inject(AssetResource)
-export class UpdateAssetPairActionCreator{
+export class UpdateAssetPairActionCreator {
     constructor(assetResource) {
         this.assetResource = assetResource;
 
@@ -61,12 +61,12 @@ export class UpdateAssetPairActionCreator{
                     buying: {
                         type: assetPair.buying.type,
                         code: assetPair.buying.code,
-                        issuer: assetPair.buying.issuerId
+                        issuer: assetPair.buying.issuer ? assetPair.buying.issuer.accountId : null
                     },
                     selling: {
                         type: assetPair.selling.type,
                         code: assetPair.selling.code,
-                        issuer: assetPair.selling.issuerId
+                        issuer: assetPair.selling.issuer ? assetPair.selling.issuer.accountId : null
                     }
                 }));
             }
