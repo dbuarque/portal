@@ -56,7 +56,7 @@ export class TradingviewPriceChartConfig {
             studies_overrides: {
                 'volume.volume.color.0': '#83daf2',
                 'volume.volume.color.1': '#83daf2',
-                'volume.volume.transparency': 99
+                'volume.volume.transparency': 100
             },
             supported_resolutions: [
                 { text: '1min', resolution: '1', description: '1 Minute' },
