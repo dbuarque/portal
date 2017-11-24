@@ -47,7 +47,8 @@
         <script>
             lupoex = {
                 env: 'development',
-                networkMode: 'public'
+                networkMode: '<% htmlWebpackPlugin.options.metadata.publicNetwork ? 'public' : 'test' %>',
+                remoteBackend: '<% !!htmlWebpackPlugin.options.metadata.remoteBackend %>' === 'true'
             };
         </script>
     <% } %>
@@ -62,9 +63,14 @@
 
 <!--<script src="/stellar-sdk.min.js"></script>-->
 <% if (htmlWebpackPlugin.options.metadata.server) { %>
-<!-- Webpack Dev Server reload -->
-<script src="/webpack-dev-server.js"></script>
+    <!-- Webpack Dev Server reload -->
+    <script src="/webpack-dev-server.js"></script>
 <% } %>
-<script src="/assets/charting_library/charting_library/charting_library.min.js"></script>
+
+<% if (htmlWebpackPlugin.options.metadata.remoteBackend) { %>
+    <script src="https://lupoex.com/assets/charting_library/charting_library/charting_library.min.js"></script>
+<% } else { %>
+    <script src="/assets/charting_library/charting_library/charting_library.min.js"></script>
+<% } %>
 </body>
 </html>

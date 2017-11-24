@@ -33,7 +33,7 @@ const scssRules = [
     }
 ];
 
-module.exports = ({production, server, extractCss, coverage} = {}) => ({
+module.exports = ({production, server, extractCss, coverage, remoteBackend, publicNetwork} = {}) => ({
     resolve: {
         extensions: ['.js'],
         modules: [srcDir, 'node_modules'],
@@ -134,14 +134,14 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
         }),
         new HtmlWebpackPlugin({
             template: 'index.ejs',
-            filename: production ? 'index.html.tmpl': 'index.html',
+            filename: production ? 'index.html.tmpl' : 'index.html',
             minify: production ? {
                 removeComments: true,
                 collapseWhitespace: true
             } : undefined,
             metadata: {
                 // available in index.ejs //
-                title, server, baseUrl, production
+                title, server, baseUrl, production, remoteBackend, publicNetwork
             }
         }),
         new IgnorePlugin(
