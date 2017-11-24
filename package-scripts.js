@@ -4,8 +4,6 @@ const {config: {port: E2E_PORT}} = require('./test/protractor.conf');
 module.exports = {
     scripts: {
         default: 'nps webpack',
-        remoteTest: 'nps webpack.server.remoteTest',
-        remotePublic: 'nps webpack.server.remotePublic',
         deps: series(
             'npm install',
             'git submodule update --recursive --force'
@@ -86,11 +84,9 @@ module.exports = {
                 }
             },
             server: {
-                default: 'webpack-dev-server -d --devtool \'#eval\' --inline --env.server',
-                extractCss: 'webpack-dev-server -d --devtool \'#eval\' --inline --env.server --env.extractCss',
-                hmr: 'webpack-dev-server -d --devtool \'#eval\' --inline --hot --env.server',
-                remoteTest: 'webpack-dev-server -d --devtool \'#eval\' --inline --hot --env.remoteBackend',
-                remotePublic: 'webpack-dev-server -d --devtool \'#eval\' --inline --hot --env.remoteBackend --env.publicNetwork'
+                default: `webpack-dev-server -d --devtool '#eval' --inline --env.server ${process.env.REMOTE_BACKEND ? '--env.remoteBackend' : ''} ${process.env.PUBLIC_NETWORK ? '--env.publicNetwork' : ''}`,
+                extractCss: `webpack-dev-server -d --devtool '#eval' --inline --env.server --env.extractCss ${process.env.REMOTE_BACKEND ? '--env.remoteBackend' : ''} ${process.env.PUBLIC_NETWORK ? '--env.publicNetwork' : ''}`,
+                hmr: `webpack-dev-server -d --devtool '#eval' --inline --hot --env.server ${process.env.REMOTE_BACKEND ? '--env.remoteBackend' : ''} ${process.env.PUBLIC_NETWORK ? '--env.publicNetwork' : ''}`
             }
         },
         serve: 'http-server dist --cors'

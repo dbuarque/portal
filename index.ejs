@@ -44,15 +44,24 @@
         </script>
     <% } %>
     <% if (!htmlWebpackPlugin.options.metadata.production) { %>
-        <script>
-            lupoex = {
-                env: 'development',
-                networkMode: '<% htmlWebpackPlugin.options.metadata.publicNetwork ? 'public' : 'test' %>',
-                remoteBackend: '<% !!htmlWebpackPlugin.options.metadata.remoteBackend %>' === 'true'
-            };
-        </script>
-    <% } %>
+    <script>
+        lupoex = {
+            env: 'development'
+        };
 
+        <% if (htmlWebpackPlugin.options.metadata.publicNetwork) { %>
+            lupoex.networkMode = 'public';
+        <% } else { %>
+            lupoex.networkMode = 'test';
+        <% } %>
+
+        <% if (htmlWebpackPlugin.options.metadata.remoteBackend) { %>
+            lupoex.remoteBackend = true;
+        <% } else { %>
+            lupoex.remoteBackend = false;
+        <% } %>
+    </script>
+    <% } %>
     <!-- imported CSS are concatenated and added automatically -->
 </head>
 <body aurelia-app="main">
@@ -67,10 +76,6 @@
     <script src="/webpack-dev-server.js"></script>
 <% } %>
 
-<% if (htmlWebpackPlugin.options.metadata.remoteBackend) { %>
-    <script src="https://lupoex.com/assets/charting_library/charting_library/charting_library.min.js"></script>
-<% } else { %>
-    <script src="/assets/charting_library/charting_library/charting_library.min.js"></script>
-<% } %>
+<script src="/assets/charting_library/charting_library/charting_library.min.js"></script>
 </body>
 </html>
