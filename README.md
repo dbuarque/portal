@@ -21,7 +21,7 @@ git submodule update --init update src/resources/au-redux
 This will clone the au-redux dependency as a git submodule.
 
 Additionally, if you have github access to the tradingview charting_library (which this repo uses) you can run:
-**Don't worry, most people do not have access to this repo (unless you are internal to lupoex). You can still run the app locally.**
+**Don't worry, most people do not have access to this repo (unless you are internal to lupoex). You can still run the app locally without it.**
  ```
  git submodule update --init update assets/charting_library
  ```
@@ -43,7 +43,7 @@ will automatically build and reload the app.
 #### Environment Variables
 1. `REMOTE_BACKEND`
    If you are not internal to lupoex, then you will not have access to a couple of things that are necessary for the functioning of the app,
-   (the lupoex API as well as the tradingview charting_library both of which are not open source as of this time. In order to run the app locally,
+   (the lupoex API as well as the tradingview charting_library both of which are not open source as of this time). In order to run the app locally,
    you will need to set `REMOTE_BACKEND` to true like so:
    ```shell
    REMOTE_BACKEND=true npm start
