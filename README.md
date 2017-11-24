@@ -21,7 +21,7 @@ git submodule update --init update src/resources/au-redux
 This will clone the au-redux dependency as a git submodule.
 
 Additionally, if you have github access to the tradingview charting_library (which this repo uses) you can run:
-**Don't worry, most people do not have access to this repo (unless you are internal to lupoex). You can still run the app locally. **
+**Don't worry, most people do not have access to this repo (unless you are internal to lupoex). You can still run the app locally.**
  ```
  git submodule update --init update assets/charting_library
  ```
@@ -39,7 +39,7 @@ This command starts the webpack development server that serves the build bundles
 You can now browse the skeleton app at http://localhost:8080 (or the next available port, notice the output of the command). Changes in the code
 will automatically build and reload the app.
 
-**There are some environment variables that can be set (and in some cases must be set)**
+**Below are some environment variables that can be set (and in some cases must be set):**
 #### Environment Variables
 1. `REMOTE_BACKEND`
    If you are not internal to lupoex, then you will not have access to a couple of things that are necessary for the functioning of the app,
@@ -56,7 +56,7 @@ will automatically build and reload the app.
    PUBLIC_NETWORK=true npm start
    ```
    
-Of course, both environment variables can be run in one command:
+Both environment variables can be run in one command:
 ```shell
 REMOTE_BACKEND=true PUBLIC_NETWORK=true npm start
 ```
