@@ -8,6 +8,11 @@ Before you start, make sure you have a recent version of [NodeJS](http://nodejs.
 
 From the project folder, execute the following commands:
 
+```
+git checkout develop
+```
+unless you want to run master.
+
 ```shell
 npm install
 ```
@@ -69,6 +74,18 @@ If you wish to try out the experimental Hot Module Reload, you may run your appl
 npm start -- webpack.server.hmr
 ```
 Of course, `PUBLIC_NETWORK` and `REMOTE_BACKEND` can be used in this mode as well.
+
+## Updating your project
+
+To update your project to the latest execute the following commands:
+```
+git pull
+```
+
+```
+npm run deps
+```
+**The above command (npm run deps) should also be run after switching between branches that have different dependencies**
 
 ## Bundling
 

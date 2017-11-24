@@ -66,8 +66,14 @@ module.exports = ({production, server, extractCss, coverage, remoteBackend, publ
         historyApiFallback: true,
         proxy: remoteBackend ?
             {
-                '/assets/charting_library': {
-                    target: publicNetwork ? 'https://lupoex.com' : 'https://test.lupoex.com'
+                '/assets/charting_library/*': {
+                    target: {
+                        host: publicNetwork ? 'lupoex.com' : 'test.lupoex.com',
+                        protocol: "https:",
+                        port: 443
+                    },
+                    secure: false,
+                    changeOrigin: true
                 }
             } :
             undefined
