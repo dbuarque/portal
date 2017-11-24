@@ -16,14 +16,14 @@ build and bundle the app. There is no need to install Webpack globally.
 
 Then, execute the following command
 ```
-git submodule update --init update src/resources/au-redux
+git submodule update --init src/resources/au-redux
 ```
 This will clone the au-redux dependency as a git submodule.
 
 Additionally, if you have github access to the tradingview charting_library (which this repo uses) you can run:
 **Don't worry, most people do not have access to this repo (unless you are internal to lupoex). You can still run the app locally without it.**
  ```
- git submodule update --init update assets/charting_library
+ git submodule update --init assets/charting_library
  ```
 This will clone the tradingview charting_library dependency as a git submodule.
 
