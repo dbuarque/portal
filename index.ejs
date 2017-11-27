@@ -44,14 +44,24 @@
         </script>
     <% } %>
     <% if (!htmlWebpackPlugin.options.metadata.production) { %>
-        <script>
-            lupoex = {
-                env: 'development',
-                networkMode: 'public'
-            };
-        </script>
-    <% } %>
+    <script>
+        lupoex = {
+            env: 'development'
+        };
 
+        <% if (htmlWebpackPlugin.options.metadata.publicNetwork) { %>
+            lupoex.networkMode = 'public';
+        <% } else { %>
+            lupoex.networkMode = 'test';
+        <% } %>
+
+        <% if (htmlWebpackPlugin.options.metadata.remoteBackend) { %>
+            lupoex.remoteBackend = true;
+        <% } else { %>
+            lupoex.remoteBackend = false;
+        <% } %>
+    </script>
+    <% } %>
     <!-- imported CSS are concatenated and added automatically -->
 </head>
 <body aurelia-app="main">
@@ -62,9 +72,10 @@
 
 <!--<script src="/stellar-sdk.min.js"></script>-->
 <% if (htmlWebpackPlugin.options.metadata.server) { %>
-<!-- Webpack Dev Server reload -->
-<script src="/webpack-dev-server.js"></script>
+    <!-- Webpack Dev Server reload -->
+    <script src="/webpack-dev-server.js"></script>
 <% } %>
+
 <script src="/assets/charting_library/charting_library/charting_library.min.js"></script>
 </body>
 </html>

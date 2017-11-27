@@ -84,9 +84,9 @@ module.exports = {
                 }
             },
             server: {
-                default: `webpack-dev-server -d --devtool '#eval' --inline --env.server`,
-                extractCss: `webpack-dev-server -d --devtool '#eval' --inline --env.server --env.extractCss`,
-                hmr: `webpack-dev-server -d --devtool '#eval' --inline --hot --env.server`
+                default: `webpack-dev-server -d --devtool '#eval' --inline --env.server ${process.env.REMOTE_BACKEND ? '--env.remoteBackend' : ''} ${process.env.PUBLIC_NETWORK ? '--env.publicNetwork' : ''}`,
+                extractCss: `webpack-dev-server -d --devtool '#eval' --inline --env.server --env.extractCss ${process.env.REMOTE_BACKEND ? '--env.remoteBackend' : ''} ${process.env.PUBLIC_NETWORK ? '--env.publicNetwork' : ''}`,
+                hmr: `webpack-dev-server -d --devtool '#eval' --inline --hot --env.server ${process.env.REMOTE_BACKEND ? '--env.remoteBackend' : ''} ${process.env.PUBLIC_NETWORK ? '--env.publicNetwork' : ''}`
             }
         },
         serve: 'http-server dist --cors'

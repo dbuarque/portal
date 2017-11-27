@@ -7,7 +7,10 @@ import _merge from 'lodash/merge';
 const config = {
     development: {
         urls: {
-            api: 'http://localhost:1337'
+            api: window.lupoex.remoteBackend ?
+                window.lupoex.networkMode === 'public' ?
+                    'https://api.lupoex.com' : 'https://test.api.lupoex.com' :
+                'http://localhost:1337'
         }
     },
     test: {

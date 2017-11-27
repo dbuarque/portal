@@ -1,6 +1,6 @@
 {
     "name": "lupoex-client",
-    "version": "3.3.0",
+    "version": "3.3.1",
     "description": "Lupoex Client App.",
     "main": "dist/main.js",
     "productName": "Lupoex Client App",
@@ -92,8 +92,8 @@
         "karma-mocha-reporter": "2.2.3",
         "karma-webpack": "2.0.4",
         "node-sass": "4.5.3",
-        "nps": "5.6.0",
-        "nps-utils": "1.2.0",
+        "nps": "5.7.1",
+        "nps-utils": "1.5.0",
         "postcss-loader": "2.0.6",
         "protractor": "5.1.2",
         "raw-loader": "0.5.1",

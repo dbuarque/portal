@@ -2,18 +2,39 @@
 
 ## Getting started
 
-Before you start, make sure you have a recent version of [NodeJS](http://nodejs.org/) environment *>=6.0* with NPM 3 or Yarn.
+Before you start, make sure you have a recent version of [NodeJS](http://nodejs.org/) environment *>=8.0* with NPM 5.
+
+### Installing the dependencies
 
 From the project folder, execute the following commands:
+
+```
+git checkout develop
+```
+unless you want to run master.
 
 ```shell
 npm install
 ```
-
 This will install all required dependencies, including a local version of Webpack that is going to
 build and bundle the app. There is no need to install Webpack globally. 
 
-To run the app execute the following command:
+Then, execute the following command
+```
+git submodule update --init src/resources/au-redux
+```
+This will clone the au-redux dependency as a git submodule.
+
+Additionally, if you have github access to the tradingview charting_library (which this repo uses) you can run:
+**Don't worry, most people do not have access to this repo (unless you are internal to lupoex). You can still run the app locally without it.**
+ ```
+ git submodule update --init assets/charting_library
+ ```
+This will clone the tradingview charting_library dependency as a git submodule.
+
+### Running the app
+
+The basic command to run the app locally is:
 
 ```shell
 npm start
@@ -23,18 +44,48 @@ This command starts the webpack development server that serves the build bundles
 You can now browse the skeleton app at http://localhost:8080 (or the next available port, notice the output of the command). Changes in the code
 will automatically build and reload the app.
 
-### Running with Hot Module Reload
+**Below are some environment variables that can be set (and in some cases must be set):**
+#### Environment Variables
+1. `REMOTE_BACKEND`
+   If you are not internal to lupoex, then you will not have access to a couple of things that are necessary for the functioning of the app,
+   (the lupoex API as well as the tradingview charting_library both of which are not open source as of this time). In order to run the app locally,
+   you will need to set `REMOTE_BACKEND` to true like so:
+   ```shell
+   REMOTE_BACKEND=true npm start
+   ```
+    
+2. `PUBLIC_NETWORK`
+   You can run the app against the public or test stellar networks. By default, the app will run agains the test network. If you would like to run the application
+   against the the public network, you must set `PUBLIC_NETWORK` to true like so:
+   ```shell
+   PUBLIC_NETWORK=true npm start
+   ```
+   
+Both environment variables can be run in one command:
+```shell
+REMOTE_BACKEND=true PUBLIC_NETWORK=true npm start
+```
+
+#### Running with Hot Module Reload
 
 If you wish to try out the experimental Hot Module Reload, you may run your application with the following command:
 
 ```shell
 npm start -- webpack.server.hmr
 ```
+Of course, `PUBLIC_NETWORK` and `REMOTE_BACKEND` can be used in this mode as well.
 
-## Feature configuration
+## Updating your project
 
-Most of the configuration will happen in the `webpack.config.js` file.
-There, you may configure advanced loader features or add direct SASS or LESS loading support.
+To update your project to the latest execute the following commands:
+```
+git pull
+```
+
+```
+npm run deps
+```
+**The above command (npm run deps) should also be run after switching between branches that have different dependencies**
 
 ## Bundling
 
@@ -54,6 +105,17 @@ npm start -- serve
 
 The production bundle includes all files that are required for deployment.
 
+## Deploying
+To tag a version execute:
+```
+./tag.sh sitename version
+```
+
+To actually deploy execute:
+```
+./deploy.sh environment sitename
+```
+<!--
 ## Running The Tests
 
 This skeleton provides three frameworks for running tests.
@@ -117,3 +179,4 @@ To run all the unit test suites and the E2E tests, you may simply run:
 ```shell
 npm start -- test.all
 ```
+-->

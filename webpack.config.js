@@ -33,7 +33,7 @@ const scssRules = [
     }
 ];
 
-module.exports = ({production, server, extractCss, coverage} = {}) => ({
+module.exports = ({production, server, extractCss, coverage, remoteBackend, publicNetwork} = {}) => ({
     resolve: {
         extensions: ['.js'],
         modules: [srcDir, 'node_modules'],
@@ -58,12 +58,25 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
         publicPath: baseUrl,
         filename: production ? '[name].[chunkhash].bundle.js' : '[name].[hash].bundle.js',
         sourceMapFilename: production ? '[name].[chunkhash].bundle.map' : '[name].[hash].bundle.map',
-        chunkFilename: production ? '[name].[chunkhash].chunk.js' : '[name].[hash].chunk.js',
+        chunkFilename: production ? '[name].[chunkhash].chunk.js' : '[name].[hash].chunk.js'
     },
     devServer: {
         contentBase: baseUrl,
         // serve index.html for all 404 (required for push-state)
-        historyApiFallback: true
+        historyApiFallback: true,
+        proxy: remoteBackend ?
+            {
+                '/assets/charting_library/*': {
+                    target: {
+                        host: publicNetwork ? 'lupoex.com' : 'test.lupoex.com',
+                        protocol: "https:",
+                        port: 443
+                    },
+                    secure: false,
+                    changeOrigin: true
+                }
+            } :
+            undefined
     },
     module: {
         rules: [
@@ -134,14 +147,14 @@ module.exports = ({production, server, extractCss, coverage} = {}) => ({
         }),
         new HtmlWebpackPlugin({
             template: 'index.ejs',
-            filename: production ? 'index.html.tmpl': 'index.html',
+            filename: production ? 'index.html.tmpl' : 'index.html',
             minify: production ? {
                 removeComments: true,
                 collapseWhitespace: true
             } : undefined,
             metadata: {
                 // available in index.ejs //
-                title, server, baseUrl, production
+                title, server, baseUrl, production, remoteBackend, publicNetwork
             }
         }),
         new IgnorePlugin(
