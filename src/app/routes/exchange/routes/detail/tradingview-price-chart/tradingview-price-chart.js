@@ -3,12 +3,12 @@
  */
 
 import moment from 'moment';
-import {inject} from 'aurelia-framework';
+import {inject, TaskQueue} from 'aurelia-framework';
 import {Store, connected} from 'au-redux';
 import {TradingviewPriceChartConfig} from './tradingview-price-chart.config';
 import {timeFrameToAmountScale, BarsRealtimeUpdater} from './resources';
 
-@inject(TradingviewPriceChartConfig, Store, BarsRealtimeUpdater)
+@inject(TaskQueue, TradingviewPriceChartConfig, Store, BarsRealtimeUpdater)
 export class TradingviewPriceChartCustomElement {
 
     @connected('exchange.assetPair')
@@ -25,15 +25,20 @@ export class TradingviewPriceChartCustomElement {
             null;
     }
 
-    constructor(config, store, rtUpdater) {
+    constructor(taskQueue, config, store, rtUpdater) {
+        this.taskQueue = taskQueue;
         this.config = config;
         this.store = store;
         this.rtUpdater = rtUpdater;
     }
 
     attached() {
-        this.isAttached = true;
-        this.updateChart();
+        const self = this;
+
+        self.isAttached = true;
+        this.taskQueue.queueTask(() => {
+            self.updateChart();
+        });
     }
 
     detached() {
@@ -72,8 +77,7 @@ export class TradingviewPriceChartCustomElement {
         if (!self.widget) {
             self.config.symbol = self.symbol;
 
-            const Widget = TradingView.widget;
-            self.widget = new Widget(self.config);
+            self.widget = new TradingView.widget(self.config);
 
             self.widget.onChartReady(() => {
                 self.intervalSubscriptionObj = self.widget.chart().onIntervalChanged();
@@ -83,7 +87,7 @@ export class TradingviewPriceChartCustomElement {
             self.currentResolution = self.config.interval;
         }
         else {
-            self.widget.setSymbol(self.symbol, this.currentResolution);
+            self.widget.setSymbol(self.symbol, self.currentResolution);
         }
     }
 

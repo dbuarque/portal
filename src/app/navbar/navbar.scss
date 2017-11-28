@@ -42,6 +42,20 @@ nav .nav-wrapper i {
     }
 }
 
+@media all and (min-width: 992px) {
+    .nav-wrapper {
+        margin: 0 auto;
+
+        .left {
+            margin-left: 400px;
+        }
+
+        .brand-logo {
+            left: 0;
+        }
+    }
+}
+
 @media all and (max-width: 600px) {
     .nav-wrapper {
         .brand-logo {

@@ -8,7 +8,6 @@ import {ExchangeConfig} from './exchange.config';
 
 @inject(ExchangeConfig)
 export class Exchange {
-
     constructor(config) {
         this.config = config;
     }

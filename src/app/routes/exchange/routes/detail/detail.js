@@ -24,7 +24,7 @@ export class Detail {
 
     @connected('exchange.detail.displayedOfferType')
     displayedOfferType;
-    
+
     constructor(
         router, updateAssetPair, updateDisplayedOfferType, orderbookUpdater,
         recentTradesUpdater, myOffersUpdater, myAssetPairUpdater
@@ -41,9 +41,9 @@ export class Detail {
         myOffersUpdater.init();
         myAssetPairUpdater.init();
     }
-    
-    async activate(params) {
-        await this.updateAssetPair.dispatch({
+
+    activate(params) {
+        return this.updateAssetPair.dispatch({
             buying: {
                 code: params.buyingCode,
                 issuer: params.buyingType.toLowerCase() === 'native' ? null : params.buyingIssuer,
