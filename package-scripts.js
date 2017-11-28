@@ -84,9 +84,9 @@ module.exports = {
                 }
             },
             server: {
-                default: `webpack-dev-server -d --devtool '#eval' --inline --env.server ${process.env.REMOTE_BACKEND ? '--env.remoteBackend' : ''} ${process.env.PUBLIC_NETWORK ? '--env.publicNetwork' : ''}`,
-                extractCss: `webpack-dev-server -d --devtool '#eval' --inline --env.server --env.extractCss ${process.env.REMOTE_BACKEND ? '--env.remoteBackend' : ''} ${process.env.PUBLIC_NETWORK ? '--env.publicNetwork' : ''}`,
-                hmr: `webpack-dev-server -d --devtool '#eval' --inline --hot --env.server ${process.env.REMOTE_BACKEND ? '--env.remoteBackend' : ''} ${process.env.PUBLIC_NETWORK ? '--env.publicNetwork' : ''}`
+                default: `webpack-dev-server -d --devtool '#eval' --inline --env.server ${process.env.REMOTE_BACKEND ? '--env.remoteBackend' : ''} ${process.env.PUBLIC_NETWORK ? '--env.publicNetwork' : ''} ${process.env.USE_HTTPS ? '--env.useHttps' : ''}`,
+                extractCss: `webpack-dev-server -d --devtool '#eval' --inline --env.server --env.extractCss ${process.env.REMOTE_BACKEND ? '--env.remoteBackend' : ''} ${process.env.PUBLIC_NETWORK ? '--env.publicNetwork' : ''} ${process.env.USE_HTTPS ? '--env.useHttps' : ''}`,
+                hmr: `webpack-dev-server -d --devtool '#eval' --inline --hot --env.server ${process.env.REMOTE_BACKEND ? '--env.remoteBackend' : ''} ${process.env.PUBLIC_NETWORK ? '--env.publicNetwork' : ''} ${process.env.USE_HTTPS ? '--env.useHttps' : ''}`
             }
         },
         serve: 'http-server dist --cors'

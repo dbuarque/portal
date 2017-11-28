@@ -1,3 +1,4 @@
+const fs = require('fs');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -33,7 +34,7 @@ const scssRules = [
     }
 ];
 
-module.exports = ({production, server, extractCss, coverage, remoteBackend, publicNetwork} = {}) => ({
+module.exports = ({production, server, extractCss, coverage, remoteBackend, publicNetwork, useHttps} = {}) => ({
     resolve: {
         extensions: ['.js'],
         modules: [srcDir, 'node_modules'],
@@ -64,7 +65,16 @@ module.exports = ({production, server, extractCss, coverage, remoteBackend, publ
         contentBase: baseUrl,
         // serve index.html for all 404 (required for push-state)
         historyApiFallback: true,
-        https: true,
+        https: useHttps ?
+            {
+                key: fs.readFileSync(
+                    path.resolve(__dirname, 'dev-assets', 'server.key')
+                ),
+                cert: fs.readFileSync(
+                    path.resolve(__dirname, 'dev-assets', 'server.cert')
+                )
+            } :
+            false,
         proxy: remoteBackend ?
             {
                 '/assets/charting_library/*': {
