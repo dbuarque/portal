@@ -12,7 +12,6 @@ import {MarketStream} from '../../resources';
 @subscriptionService()
 @inject(MarketResource, MarketStream)
 export class LastBarTracker {
-
     _resolution;
     _lastPriorBar;
     _assetPair;
@@ -115,18 +114,19 @@ export class LastBarTracker {
     async _updateBarWithNewTrades(bar, ledgerTradesPayload) {
         if (this._tradesBelongToNextBar(bar, ledgerTradesPayload)) {
             Object.assign(bar, {
+                lastLedgerSequence: bar.lastLedgerSequence,
                 ...this._emptyBar,
                 time: this.timeToBarTime(ledgerTradesPayload.ledger.closed_at)
             });
         }
 
-        if (bar.lastLedgerSequence > ledgerTradesPayload.ledger.sequence) {
+        if (bar.lastLedgerSequence >= ledgerTradesPayload.ledger.sequence) {
             return;
         }
 
         bar.lastLedgerSequence = ledgerTradesPayload.ledger.sequence;
 
-        ledgerTradesPayload.trades.forEach(this._addTradeToBar.bind(this, bar));
+        ledgerTradesPayload.trades.reverse().forEach(this._addTradeToBar.bind(this, bar));
     }
 
     _addTradeToBar(bar, trade) {

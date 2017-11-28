@@ -64,12 +64,13 @@ module.exports = ({production, server, extractCss, coverage, remoteBackend, publ
         contentBase: baseUrl,
         // serve index.html for all 404 (required for push-state)
         historyApiFallback: true,
+        https: true,
         proxy: remoteBackend ?
             {
                 '/assets/charting_library/*': {
                     target: {
                         host: publicNetwork ? 'lupoex.com' : 'test.lupoex.com',
-                        protocol: "https:",
+                        protocol: 'https:',
                         port: 443
                     },
                     secure: false,
