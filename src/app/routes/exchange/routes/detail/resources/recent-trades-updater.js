@@ -52,8 +52,9 @@ export class RecentTradesUpdater {
                 return;
             }
 
+            // reverse() is needed because we want to dispatch the trades last to first in order of execution.
             this.updateRecentTrades.dispatch(
-                payload.payload.trades.reverse()
+                payload.payload.trades.slice().reverse()
             );
         });
     }

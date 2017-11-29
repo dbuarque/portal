@@ -66,29 +66,12 @@ will automatically build and reload the app.
     ```shell
     USE_HTTPS=true npm start
     ```
-   **Because this application uses websockets to live reload in development, you may run into issues in todays browsers. Because the browser, does not trust the self signed certificate,**
-   **On startup, the app may intermittently disconnect from the websocket connection and cause a page reload (which may happen over and over again)**
-   **To prevent this, you need your browser to trust the self signed certificate located in `dev-assets` see the Trusting Certificates section below for more details**
+   **Is your application auto reloading (loop-wise) on start? If so, see the Troubleshooting section...**
    
 Both environment variables can be run in one command:
 ```shell
 REMOTE_BACKEND=true PUBLIC_NETWORK=true USE_HTTPS=true npm start
 ```
-
-#### Trusting Certificates
-If you are running in https mode you will want to trust the certificate located in `dev-assets`. 
-
-To trust a certificate on windows:
-1. Open up the start menu and open up the Run Application (search for `run`)
-2. Type `mmc` and click ok
-3. File > Add/Remove Snap In
-4. Select `Certificates` and click Add >
-5. Select `Computer Account` then `Local Computer` and click finish
-6. Click `Ok` to close the `Add or Remove Snap-ins` window.
-7. Double click `Certificates` and the right click `Trusted Root Certification Authorities`
-8. In the toolbar that comes up (from the right-click) select All Tasks > Import
-9. Complete the Certificate Import Wizard using `dev-assets/server.cert` 
-10. Your browser should now trust the certificate and you should no longer get the intermittent page reload.
 
 #### Running with Hot Module Reload
 
@@ -139,6 +122,26 @@ To actually deploy execute:
 ```
 ./deploy.sh environment sitename
 ```
+
+## Troubleshooting
+
+1. **Why is my application reloading itself again and again in development mode?**
+   Are you running with `USE_HTTPS=true` enabled? If so, you need to trust the security certificate located in `dev-assets`. See the Trusting Certificates section below.
+
+### Trusting Certificates
+If you are running in https mode you will want to trust the certificate located in `dev-assets`. 
+
+To trust a certificate on windows:
+1. Open up the start menu and open up the Run Application (search for `run`)
+2. Type `mmc` and click ok
+3. File > Add/Remove Snap In
+4. Select `Certificates` and click Add >
+5. Select `Computer Account` then `Local Computer` and click finish
+6. Click `Ok` to close the `Add or Remove Snap-ins` window.
+7. Double click `Certificates` and the right click `Trusted Root Certification Authorities`
+8. In the toolbar that comes up (from the right-click) select All Tasks > Import
+9. Complete the Certificate Import Wizard using `dev-assets/server.cert` 
+10. Your browser should now trust the certificate and you should no longer get the intermittent page reload.
 <!--
 ## Running The Tests
 
