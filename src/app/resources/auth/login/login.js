@@ -8,6 +8,7 @@ import {Store} from 'au-redux';
 import {AlertToaster} from 'global-resources';
 import {SecretStore} from 'app-resources';
 import {UpdateAccountActionCreator} from '../../../action-creators';
+import StellarLedger from 'stellar-ledger-api';
 
 @inject(Store, AlertToaster, SecretStore, UpdateAccountActionCreator)
 export class LoginCustomElement {
@@ -39,14 +40,49 @@ export class LoginCustomElement {
         this._publicKey = keypair ? keypair.publicKey() : undefined;
     }
 
+    get bip32Path() {
+        return this._bip32Path;
+    }
+    set bip32Path(newValue) {
+        this._bip32Path = newValue;
+    }
+
+    get ledgerConnected() {
+        return this._ledgerConnected;
+    }
+
+    connectLedger() {
+        new StellarLedger.Api(new StellarLedger.comm(Number.MAX_VALUE))
+            .connect(() => {
+                this._ledgerConnected = true;
+            }, (err) => {
+                console.log('Error connecting Ledger');
+                console.log(err);
+            });
+    }
+
     constructor(store, alertToaster, secretStore, updateAccount) {
         this.store = store;
         this.alertToaster = alertToaster;
         this.secretStore = secretStore;
         this.updateAccount = updateAccount;
+        this._ledgerConnected = false;
+        this._bip32Path = "44'/148'/0'";
+        this.connectLedger();
     }
 
     async login() {
+        if (this._ledgerConnected) {
+            let self = this;
+            await new StellarLedger.Api(new StellarLedger.comm(5))
+                .getPublicKey_async(this._bip32Path, true, true)
+                .then((result) => {
+                    self._publicKey = result.publicKey;
+            }).catch((err) => {
+                console.log('Error getting public key from Ledger');
+                console.log(err);
+            });
+        }
         if (!this.publicKey) {
             this.alertToaster.error('You must enter either a valid account address or valid secret key to login.');
         }
@@ -69,4 +105,5 @@ export class LoginCustomElement {
 
         this.loading--;
     }
+
 }
