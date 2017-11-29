@@ -1,0 +1,25 @@
+<template>
+    <div class="login">
+        <div class="login-container">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-heading">
+                        <div class="card-title">
+                            Login
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <label>Login With My</label>
+                            <select md-select value.two-way="loginMethod" change.trigger="changeLoginMethod()" title="Login Method">
+                                <option repeat.for="method of loginMethods" model.bind="method">${method.label}</option>
+                            </select>
+                            <br>
+                            <router-view></router-view>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

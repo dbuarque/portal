@@ -5,7 +5,6 @@
 import {bindable, bindingMode} from 'aurelia-framework';
 
 export class Bip32PathInputCustomElement {
-
     @bindable({
         defaultBindingMode: bindingMode.twoWay
     })
@@ -23,6 +22,7 @@ export class Bip32PathInputCustomElement {
             this.bip32Path = newValue;
         }
     }
+
     checkBip32Path(path) {
         this.isValidBip32Path = true;
         if (!path.startsWith("44'/148'")) {
@@ -35,5 +35,4 @@ export class Bip32PathInputCustomElement {
             }
         });
     }
-
 }

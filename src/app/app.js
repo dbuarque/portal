@@ -37,10 +37,6 @@ export class App {
     }
 
     configureRouter(routerConfig, router) {
-        if (window.lupoex.env !== 'development') {
-            this.pageTracker.init();
-        }
-
         routerConfig.options.pushState = true;
         routerConfig.map(this.config.routes);
 
@@ -50,6 +46,10 @@ export class App {
     }
 
     activate() {
+        if (window.lupoex.env !== 'development') {
+            this.pageTracker.init();
+        }
+
         this.jsonClient.configure();
     }
 }

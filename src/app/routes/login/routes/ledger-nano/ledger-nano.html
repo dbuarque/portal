@@ -1,0 +1,35 @@
+<template>
+    <form novalidate focus-input submit.trigger="login()">
+        <alert-card title="Input Error" show.bind="errorMessage" type="error">
+            ${errorMessage}
+        </alert-card>
+        <div class="row">
+            <div class="col s12">
+                <div>
+                    <div class="center-text">
+                        <button show.bind="!ledgerConnected" md-waves class="btn btn-flat accent" click.trigger="connectLedger()">
+                            Connect Ledger
+                        </button>
+                    </div>
+                    <br>
+                    <alert-card title="No Ledger Connected" show.bind="!ledgerConnected && ledgerConnectionFailed" show.bind="warningMessage" type="warning">
+                        A Ledger Nano S could not be found. Please ensure that you have:
+                        <ol>
+                            <li>Installed the Stellar app from Ledger app store on to your ledger device.</li>
+                            <li>Enabled browser support from your ledger device</li>
+                            <li>Physically connected your ledger device.</li>
+                        </ol>
+                        Additionally, please note that as of now support for the Ledger Nano S is only available on the Chrome and Opera browsers.
+                    </alert-card>
+                    <bip32-path-input if.bind="ledgerConnected" bip32-path.bind="bip32Path" title="BIP32 path"></bip32-path-input>
+                </div>
+                <div show.bind="ledgerConnected" class="cols center-align form-field">
+                    <button md-waves type="submit" class="btn primary">
+                        <i class="fa fa-check"></i>&nbsp;Login
+                    </button>
+                </div>
+            </div>
+        </div>
+        <spinner-overlay min-height="150" spin.bind="loading > 0"></spinner-overlay>
+    </form>
+</template>

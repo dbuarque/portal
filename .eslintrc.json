@@ -9,6 +9,9 @@
         "no-empty": [2, {
             "allowEmptyCatch": true
         }],
-        "no-nested-ternary": 0
+        "no-nested-ternary": 0,
+        "no-console": [2, {
+            "allow": ["warn", "error"]
+        }]
     }
 }
