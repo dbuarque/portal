@@ -1,12 +1,10 @@
 import {bindable, inject} from 'aurelia-framework';
 import * as StellarSdk from 'stellar-sdk';
-import {ValidationManager} from 'global-resources';
 import {Store} from 'au-redux';
 import StellarLedger from 'stellar-ledger-api';
 
 @inject(Store)
 export class SignWithLedgerCustomElement {
-
     @bindable() transactionSigned;
     @bindable() transaction;
     @bindable() back;
@@ -28,18 +26,28 @@ export class SignWithLedgerCustomElement {
         }
 
         const keypair = StellarSdk.Keypair.fromPublicKey(account.accountId);
+        const bip32Path = this.store.getState().bip32Path;
+        const Comm = StellarLedger.comm;
 
-        const bip32Path = "44'/148'/0'"; // TODO: get from store
-        await new StellarLedger.Api(new StellarLedger.comm(60)).signTx_async(bip32Path, this.transaction).then((result) => {
-            this.transaction.signatures.push(new StellarSdk.xdr.DecoratedSignature({hint: keypair.signatureHint(), signature: result.signature}));
+        await new StellarLedger.Api(
+            new Comm(60)
+        )
+            .signTx_async(bip32Path, this.transaction)
+            .then((result) => {
+                this.transaction.signatures.push(
+                    new StellarSdk.xdr.DecoratedSignature({
+                        hint: keypair.signatureHint(),
+                        signature: result.signature
+                    })
+                );
 
-            this.transactionSigned({
-                signedTransaction: this.transaction
+                this.transactionSigned({
+                    signedTransaction: this.transaction
+                });
+            })
+            .catch((err) => {
+                console.error(err);
+                this.errorMessage = err;
             });
-        }).catch((err) => {
-            console.log(err);
-            this.errorMessage = err;
-        });
-
     }
 }
