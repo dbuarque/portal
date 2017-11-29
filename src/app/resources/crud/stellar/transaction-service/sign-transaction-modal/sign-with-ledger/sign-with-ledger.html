@@ -1,0 +1,25 @@
+<template>
+    <div class="sign-with-ledger">
+        <alert-card type="info" title="Sign Your Transaction With Ledger">
+            <div>
+                Make sure your Ledger is Connected and the Stellar app open.
+                Click the 'Sign' button and you will be prompted on your device.
+            </div>
+        </alert-card>
+        <alert-card show.bind="errorMessage" title="Error with your Ledger" type="error">
+            <div>${errorMessage}</div>
+        </alert-card>
+        <form novalidate focus-input submit.trigger="sign()">
+            <div class="row">
+                <div class="cols center-align form-field">
+                    <button md-waves type="button" class="btn gray" click.trigger="back()">
+                        <i class="fa fa-arrow-left"></i>&nbsp;Back
+                    </button>
+                    <button md-waves type="submit" class="btn primary">
+                        <i class="fa fa-lock"></i>&nbsp;Sign
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</template>

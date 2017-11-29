@@ -18,6 +18,14 @@
                         </label>
                         <input type="password" value.bind="secretKey">
                     </div>
+                    <br/>
+                    <h5 class="center">Or</h5>
+                    <div>
+                        <label>Connect Ledger Nano S
+                            <i class="primary-text fa fa-question-circle-o" md-tooltip="text: Available on Chrome and Opera. Install the Stellar app from Ledger and enable browser support in the app settings."></i>
+                        </label>
+                        <bip32-path-input if.bind="ledgerConnected" bip32-path.bind="bip32Path" title="BIP32 path"></bip32-path-input>
+                    </div>
                     <div class="cols center-align form-field">
                         <button md-waves type="submit" class="btn primary">
                             <i class="fa fa-check"></i>&nbsp;Login
