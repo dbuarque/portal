@@ -106,27 +106,37 @@ export class LastBarTracker {
 
         const lastPriorBar = await this.get();
 
+        if (lastPriorBar && lastPriorBar.lastLedgerSequence >= payload.ledger.sequence) {
+            return;
+        }
+
         await this._updateBarWithNewTrades(lastPriorBar, payload);
 
         this._notifySubscribers(lastPriorBar);
     }
 
     async _updateBarWithNewTrades(bar, ledgerTradesPayload) {
+        // If there is no bar, then create an empty one.
+        if (!bar) {
+            this._lastPriorBar = bar = {
+                ...this._emptyBar,
+                time: this.timeToBarTime(ledgerTradesPayload.ledger.closed_at)
+            };
+        }
+
+        // If these trades belong to the next bar then empty it.
         if (this._tradesBelongToNextBar(bar, ledgerTradesPayload)) {
             Object.assign(bar, {
-                lastLedgerSequence: bar.lastLedgerSequence,
                 ...this._emptyBar,
                 time: this.timeToBarTime(ledgerTradesPayload.ledger.closed_at)
             });
         }
 
-        if (bar.lastLedgerSequence >= ledgerTradesPayload.ledger.sequence) {
-            return;
-        }
-
+        // Update the bar lastLedgerSequence.
         bar.lastLedgerSequence = ledgerTradesPayload.ledger.sequence;
 
-        ledgerTradesPayload.trades.reverse().forEach(this._addTradeToBar.bind(this, bar));
+        // Add the trades to the bar.
+        ledgerTradesPayload.trades.forEach(this._addTradeToBar.bind(this, bar));
     }
 
     _addTradeToBar(bar, trade) {
