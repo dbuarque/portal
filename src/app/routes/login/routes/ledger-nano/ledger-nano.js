@@ -1,11 +1,10 @@
 import {inject} from 'aurelia-framework';
 import {Store, connected} from 'au-redux';
-import StellarLedger from 'stellar-ledger-api';
 import {ValidationManager} from 'global-resources';
-import {SecretStore} from 'app-resources';
+import {SecretStore, LedgerHwService} from 'app-resources';
 import {UpdateAccountActionCreator, UpdateBip32PathActionCreator} from '../../../../action-creators';
 
-@inject(Store, ValidationManager, SecretStore, UpdateAccountActionCreator, UpdateBip32PathActionCreator)
+@inject(Store, ValidationManager, SecretStore, LedgerHwService, UpdateAccountActionCreator, UpdateBip32PathActionCreator)
 export class PublicKey {
     @connected('bip32Path')
     get bip32Path() {
@@ -17,58 +16,28 @@ export class PublicKey {
 
     loading = 0;
     publicKey;
-    ledgerConnected = false;
+    ledgerConnected;
 
-    constructor(store, validationManager, secretStore, updateAccount, updateBip32Path) {
+    constructor(store, validationManager, secretStore, ledgerHwService, updateAccount, updateBip32Path) {
         this.store = store;
         this.validationManager = validationManager;
         this.secretStore = secretStore;
+        this.ledgerHwService = ledgerHwService;
         this.updateAccount = updateAccount;
         this.updateBip32Path = updateBip32Path;
     }
 
-    connectLedger() {
-        const self = this;
-
-        self.loading++;
-
-        const Comm = StellarLedger.comm;
-        new StellarLedger.Api(
-            new Comm(Number.MAX_VALUE)
-        )
-            .connect(() => {
-                self.ledgerConnected = true;
-                self.loading--;
-            }, (err) => {
-                console.warn('Error connecting Ledger');
-                console.warn(err);
-                self.ledgerConnectionFailed = true;
-                self.loading--;
-            });
-    }
-
-    async getPublicKeyFromLedger() {
-        const Comm = StellarLedger.comm;
-
-        return new StellarLedger.Api(
-            new Comm(5)
-        )
-            .getPublicKey_async(this.bip32Path, true, true)
-            .then((result) => {
-                return result.publicKey;
-            })
-            .catch((err) => {
-                console.error('Error getting public key from Ledger');
-                console.error(err);
-                return null;
-            });
+    async connectLedger() {
+        this.loading++;
+        this.ledgerConnected = await this.ledgerHwService.connectLedger();
+        this.loading--;
     }
 
     async login() {
         this.loading++;
 
         if (this.ledgerConnected) {
-            this.publicKey = await this.getPublicKeyFromLedger();
+            this.publicKey = await this.ledgerHwService.getPublicKeyFromLedger(this.bip32Path);
         }
 
         if (!this.publicKey) {
