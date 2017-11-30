@@ -11,15 +11,14 @@ export class SignWithLedgerCustomElement {
     @bindable() back;
 
     loading = 0;
+    ledgerConnected;
 
     constructor(store, ledgerHwService) {
         this.store = store;
         this.ledgerHwService = ledgerHwService;
     }
 
-    activate(params) {
-        this.modalVM = params.modalVM;
-
+    bind(params) {
         this.connectLedger();
     }
 

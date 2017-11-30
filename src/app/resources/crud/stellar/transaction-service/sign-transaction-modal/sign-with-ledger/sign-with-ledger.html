@@ -6,8 +6,8 @@
                 Once the ledger is connected, click the 'Sign' button and you will be prompted on your device.
             </div>
         </alert-card>
-        <div show.bind="ledgerConnected === false">
-            <alert-card title="No Ledger Connected" type="warning">
+        <div show.bind="!ledgerConnected">
+            <alert-card title="No Ledger Connected" type="warning" show.bind="ledgerConnected === false">
                 A Ledger Nano S could not be found. Please ensure that you have:
                 <ol>
                     <li>Installed the Stellar app from Ledger app store on to your ledger device.</li>
@@ -17,6 +17,9 @@
                 Additionally, please note that as of now support for the Ledger Nano S is only available on the Chrome and Opera browsers.
             </alert-card>
             <div class="center-text">
+                <button md-waves type="button" class="btn gray" click.trigger="back()">
+                    <i class="fa fa-arrow-left"></i>&nbsp;Back
+                </button>
                 <button class="btn accent" click.trigger="connectLedger()">
                     <i class="fa fa-refresh"></i>&nbsp;Try Again
                 </button>
