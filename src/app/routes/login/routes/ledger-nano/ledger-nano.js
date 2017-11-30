@@ -41,7 +41,7 @@ export class PublicKey {
         }
 
         if (!this.publicKey) {
-            this.errorMessage = 'The public key you entered is invalid.';
+            this.errorMessage = 'Something is wrong, a valid stellar account could not be detected.';
             this.loading--;
             return;
         }

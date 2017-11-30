@@ -2,11 +2,11 @@
     <div class="sign-with-ledger">
         <alert-card type="info" title="Sign Your Transaction With Ledger">
             <div>
-                Make sure your Ledger is Connected and the Stellar app open.
-                Click the 'Sign' button and you will be prompted on your device.
+                Make sure your Ledger is Connected, the Stellar app open and that browser support is enabled.
+                Once the ledger is connected, click the 'Sign' button and you will be prompted on your device.
             </div>
         </alert-card>
-        <div show.bind="!ledgerConnected">
+        <div show.bind="ledgerConnected === false">
             <alert-card title="No Ledger Connected" type="warning">
                 A Ledger Nano S could not be found. Please ensure that you have:
                 <ol>
@@ -39,6 +39,6 @@
                 </div>
             </form>
         </div>
-        <spinner-overlay spin.bind="loading > 0"></spinner-overlay>
+        <spinner-overlay min-height="150" spin.bind="loading > 0"></spinner-overlay>
     </div>
 </template>

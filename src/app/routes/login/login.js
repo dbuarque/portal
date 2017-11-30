@@ -4,10 +4,11 @@
 
 import {inject} from 'aurelia-framework';
 import {Redirect} from 'aurelia-router';
+import {EventAggregator} from 'aurelia-event-aggregator';
 import {connected} from 'au-redux';
 import {LoginConfig} from './login.config';
 
-@inject(LoginConfig)
+@inject(LoginConfig, EventAggregator)
 export class IdentifyUser {
     @connected('myAccount')
     account;
@@ -27,8 +28,9 @@ export class IdentifyUser {
         }
     ];
 
-    constructor(config) {
+    constructor(config, eventAggregator) {
         this.config = config;
+        this.eventAggregator = eventAggregator;
     }
 
     canActivate() {
@@ -38,7 +40,11 @@ export class IdentifyUser {
     }
 
     attached() {
-        this.loginMethod = this.loginMethods.find(m => m.routeName === this.router.currentInstruction.config.name);
+        this.subscription = this.eventAggregator.subscribe('router:navigation:success', this.syncLoginMethodFromRouter.bind(this));
+    }
+
+    detached() {
+        this.subscription.dispose();
     }
 
     configureRouter(routerConfig, router) {
@@ -54,6 +60,10 @@ export class IdentifyUser {
         if (this.account) {
             this.router.parent.navigateToRoute('account');
         }
+    }
+
+    syncLoginMethodFromRouter() {
+        this.loginMethod = this.loginMethods.find(m => m.routeName === this.router.currentInstruction.config.name);
     }
 
     changeLoginMethod() {

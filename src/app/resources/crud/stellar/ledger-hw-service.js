@@ -1,12 +1,12 @@
 import StellarLedger from 'stellar-ledger-api';
 
 export class LedgerHwService {
-    connectLedger() {
+    connectLedger(timeout = 5) {
         const Comm = StellarLedger.comm;
 
         return new Promise((resolve, reject) => {
             new StellarLedger.Api(
-                new Comm(Number.MAX_VALUE)
+                new Comm(timeout)
             )
                 .connect(
                     () => {
@@ -21,11 +21,11 @@ export class LedgerHwService {
         });
     }
 
-    getPublicKeyFromLedger(bip32Path) {
+    getPublicKeyFromLedger(bip32Path, timeout = 5) {
         const Comm = StellarLedger.comm;
 
         return new StellarLedger.Api(
-            new Comm(5)
+            new Comm(timeout)
         )
             .getPublicKey_async(bip32Path, true, true)
             .then((result) => {

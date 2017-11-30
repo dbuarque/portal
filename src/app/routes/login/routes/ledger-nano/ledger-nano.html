@@ -6,20 +6,32 @@
         <div class="row">
             <div class="col s12">
                 <div>
-                    <div class="center-text">
-                        <button show.bind="!ledgerConnected" md-waves class="btn btn-flat accent" click.trigger="connectLedger()">
+                    <div class="center-text" show.bind="!ledgerConnected">
+                        <alert-card type="info" title="Sign Your Transaction With Ledger">
+                            <div>
+                                Make sure your Ledger is Connected, the Stellar app open and that browser support is enabled. Then, click the 'Connect' button below.
+                            </div>
+                        </alert-card>
+                        <button md-waves class="btn btn-flat accent" click.trigger="connectLedger()">
                             Connect Ledger
                         </button>
+                        <br>
+                        <alert-card title="No Ledger Connected" show.bind="ledgerConnected === false" type="warning">
+                            A Ledger Nano S could not be found. Please ensure that you have:
+                            <ol>
+                                <li>Installed the Stellar app from Ledger app store on to your ledger device.</li>
+                                <li>Enabled browser support from your ledger device</li>
+                                <li>Physically connected your ledger device.</li>
+                            </ol>
+                            Additionally, please note that as of now support for the Ledger Nano S is only available on the Chrome and Opera browsers.
+                        </alert-card>
                     </div>
-                    <br>
-                    <alert-card title="No Ledger Connected" show.bind="ledgerConnected === false" type="warning">
-                        A Ledger Nano S could not be found. Please ensure that you have:
-                        <ol>
-                            <li>Installed the Stellar app from Ledger app store on to your ledger device.</li>
-                            <li>Enabled browser support from your ledger device</li>
-                            <li>Physically connected your ledger device.</li>
-                        </ol>
-                        Additionally, please note that as of now support for the Ledger Nano S is only available on the Chrome and Opera browsers.
+                    <alert-card show.bind="ledgerConnected" type="info" title="Sign Your Transaction With Ledger">
+                        <div>
+                            Ledger devices support multiple accounts that can be accessed by BIP32 paths. Use the input below to specify the BIP32 path on the ledger device.
+                            If you are unsure as to what a BIP32 path is, then just leave it as the default value (it will use your default ledger account).
+                            When you are ready, click the 'Login' button below and your Stellar public address will be obtained from your ledger device.
+                        </div>
                     </alert-card>
                     <bip32-path-input if.bind="ledgerConnected" bip32-path.bind="bip32Path" title="BIP32 path"></bip32-path-input>
                 </div>

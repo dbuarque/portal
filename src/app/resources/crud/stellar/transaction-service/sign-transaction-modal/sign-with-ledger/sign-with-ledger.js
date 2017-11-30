@@ -1,6 +1,7 @@
 import {bindable, inject} from 'aurelia-framework';
 import * as StellarSdk from 'stellar-sdk';
 import {Store} from 'au-redux';
+import StellarLedger from 'stellar-ledger-api';
 import {LedgerHwService} from '../../../ledger-hw-service';
 
 @inject(Store, LedgerHwService)
