@@ -8,6 +8,6 @@ export class UpdateRecentTradesActionCreator {
         return {
             type: UPDATE_RECENT_TRADES,
             payload: recentTrades
-        }
+        };
     }
 }

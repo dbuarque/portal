@@ -4,12 +4,11 @@
 
 import {Container} from 'aurelia-framework';
 import JsonClient from '../clients/json-client';
-import {AlertModalService} from 'global-resources';
 
 export default class BaseResource {
     constructor(resourceUrl, config = {}) {
         this.resourceUrl = resourceUrl;
-        this.client = config.client || Container.instance.get(JsonClient)
+        this.client = config.client || Container.instance.get(JsonClient);
     }
 
     dataTablePre(data) {

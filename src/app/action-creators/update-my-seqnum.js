@@ -1,5 +1,5 @@
 import {inject} from 'aurelia-framework';
-import {actionCreator} from "au-redux";
+import {actionCreator} from 'au-redux';
 import {AccountResource} from '../resources/crud/resources';
 import {UPDATE_MY_ACCOUNT_SEQNUM} from '../app.action-types';
 
@@ -25,7 +25,7 @@ export class UpdateMySeqnumActionCreator {
                     payload: data.seqNum
                 });
             }
-            catch(e) {
+            catch (e) {
                 throw e;
             }
         };

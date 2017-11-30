@@ -2,13 +2,17 @@
     <require from="./choose-signing-method/choose-signing-method"></require>
     <require from="./sign-with-provided-secret/sign-with-provided-secret"></require>
     <require from="./sign-manually/sign-manually"></require>
+    <require from="./sign-with-ledger/sign-with-ledger"></require>
     <div class="sign-transaction-modal">
         <choose-signing-method show.bind="!method" methods.bind="methods" method-chosen.call="methodChosen(method)"></choose-signing-method>
 
-        <sign-with-provided-secret show.bind="method === 'signWithProvidedSecret'" back.call="methodChosen()"
+        <sign-with-provided-secret if.bind="method === 'signWithProvidedSecret'" back.call="methodChosen()"
                                    transaction.bind="transaction" transaction-signed.call="transactionSigned(signedTransaction)"></sign-with-provided-secret>
 
-        <sign-manually show.bind="method === 'signManually'" back.call="methodChosen()"
+        <sign-manually if.bind="method === 'signManually'" back.call="methodChosen()"
                        transaction.bind="transaction" transaction-signed.call="transactionSigned(signedTransaction)"></sign-manually>
+        <sign-with-ledger if.bind="method === 'signWithLedger'" back.call="methodChosen()"
+                          transaction.bind="transaction" transaction-signed.call="transactionSigned(signedTransaction)"></sign-with-ledger>
+
     </div>
 </template>

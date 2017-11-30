@@ -8,7 +8,9 @@ import {AssetResource, assetsAreDifferent} from 'app-resources';
 export class UpdateAssetPairActionCreator {
     constructor(assetResource) {
         this.assetResource = assetResource;
+    }
 
+    initFromStore() {
         const localAssetPair = JSON.parse(
             localStorage.getItem('asset_pair')
         );

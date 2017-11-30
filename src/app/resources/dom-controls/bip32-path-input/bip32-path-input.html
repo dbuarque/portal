@@ -1,0 +1,11 @@
+<template>
+    <div class="bip32-path-input">
+        <label class="accent-text">-- enter BIP32 path or leave at default --</label>
+        <input value.bind="inputValue" placeholder="BIP32 path: 44'/148'/n'"><br>
+        <div if.bind="inputValue">
+            <div>
+                <span if.bind="!isValidBip32Path" class="error-text"><i class="fa fa-exclamation-circle"></i>&nbsp;Invalid BIP32 path</span>
+            </div>
+        </div>
+    </div>
+</template>

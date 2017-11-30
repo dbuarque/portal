@@ -7,7 +7,6 @@ import ApiClient from './api-client';
 
 @inject(Container)
 export default class JsonClient extends ApiClient {
-
     constructor(container) {
         super(container);
     }

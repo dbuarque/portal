@@ -9,7 +9,6 @@ import HttpErrorHandler from '../http-error-handler';
 
 @inject(Container)
 export default class ApiClient extends HttpClient {
-
     constructor(container) {
         super();
 

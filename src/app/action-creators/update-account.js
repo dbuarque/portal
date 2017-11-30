@@ -8,7 +8,9 @@ import {UPDATE_MY_ACCOUNT_ID, UPDATE_MY_ACCOUNT} from '../app.action-types';
 export class UpdateAccountActionCreator {
     constructor(accountResource) {
         this.accountResource = accountResource;
+    }
 
+    initFromStore() {
         this.dispatch(
             localStorage.getItem('account-id')
         );
