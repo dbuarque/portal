@@ -1,0 +1,15 @@
+.sign-with-ledger {
+    .copy-label i {
+        cursor: pointer;
+    }
+
+    .copy-transaction {
+        font-size: 12px;
+        color: $primary;
+        word-break: break-all;
+    }
+
+    .materialize-textarea {
+        font-size: 12px;
+    }
+}

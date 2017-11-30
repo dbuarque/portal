@@ -23,10 +23,6 @@ export class SignWithProvidedSecretCustomElement {
         this.secretStore = secretStore;
     }
 
-    activate(params) {
-        this.modalVM = params.modalVM;
-    }
-
     sign() {
         if (!this.validationManager.validate()) {
             return;
