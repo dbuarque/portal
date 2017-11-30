@@ -12,7 +12,7 @@
                     <stellar-address-input public-key.bind="publicKey" title="Account Address"></stellar-address-input>
                 </div>
                 <div class="cols center-align form-field">
-                    <button md-waves type="submit" class="btn primary">
+                    <button md-waves type="submit" class="btn primary" disabled.bind="!publicKey">
                         <i class="fa fa-check"></i>&nbsp;Login
                     </button>
                 </div>

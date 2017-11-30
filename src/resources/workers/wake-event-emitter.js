@@ -4,8 +4,7 @@ import {EventAggregator} from 'aurelia-event-aggregator';
 
 @inject(EventAggregator)
 export class WakeEventEmitter {
-
-    TIMEOUT = 10000;
+    TIMEOUT = 30000;
 
     constructor(eventAggregator) {
         this.eventAggregator = eventAggregator;

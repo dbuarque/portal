@@ -5,7 +5,9 @@ import {UPDATE_BIP_32_PATH} from '../app.action-types';
 export class UpdateBip32PathActionCreator {
     constructor(assetResource) {
         this.assetResource = assetResource;
+    }
 
+    initFromStore() {
         const bip32Path = localStorage.getItem('bip_32_path') || "44'/148'/0'";
 
         if (bip32Path) {
