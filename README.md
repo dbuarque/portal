@@ -142,6 +142,7 @@ To trust a certificate on windows:
 8. In the toolbar that comes up (from the right-click) select All Tasks > Import
 9. Complete the Certificate Import Wizard using `dev-assets/server.cert` 
 10. Your browser should now trust the certificate and you should no longer get the intermittent page reload.
+
 <!--
 ## Running The Tests
 

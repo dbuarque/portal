@@ -5,11 +5,14 @@
 import './exchange.scss';
 import {inject} from 'aurelia-framework';
 import {ExchangeConfig} from './exchange.config';
+import {UpdateAssetPairActionCreator} from './action-creators';
 
-@inject(ExchangeConfig)
+@inject(ExchangeConfig, UpdateAssetPairActionCreator)
 export class Exchange {
-    constructor(config) {
+    constructor(config, updateAssetPair) {
         this.config = config;
+
+        updateAssetPair.initFromStore();
     }
 
     configureRouter(routerConfig, router) {
