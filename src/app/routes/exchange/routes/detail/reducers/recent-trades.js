@@ -4,7 +4,9 @@ import {UPDATE_RECENT_TRADES} from '../detail.action-types';
 export function recentTrades(state = [], action) {
     switch (action.type) {
         case UPDATE_RECENT_TRADES:
-            return action.payload.concat(state).slice(0, 10);
+            return action.payload.replace ?
+                action.payload.trades :
+                action.payload.trades.concat(state).slice(0, 10);
         case UPDATE_ASSET_PAIR:
             return [];
         default:
