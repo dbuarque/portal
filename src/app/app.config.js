@@ -7,7 +7,6 @@ import {transient} from 'aurelia-framework';
 
 @transient()
 export class AppConfig {
-
     constructor() {
         return {
             routes: [
