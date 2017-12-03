@@ -33,10 +33,16 @@
                             <div class="tabs">
                                 <ul md-tabs="fixed: true;" md-tabs.ref="offerTabs" class="z-depth-1">
                                     <li>
-                                        <a class="${displayedOfferType === 'ask' ? 'active' : ''}" click.trigger="changeOfferType('ask')" href="#ask-tab">Sell ${assetPair.selling.code}</a>
+                                        <a class="${displayedOfferType === 'bid' ? 'active' : ''}" click.trigger="changeOfferType('bid')" href="#bid-tab">
+                                            Create Bid
+                                            <i class="primary-text fa fa-question-circle-o" md-tooltip="text.bind: 'Bid your ' + assetPair.buying.code  + ' to receive ' + assetPair.selling.code;"></i>
+                                        </a>
                                     </li>
                                     <li>
-                                        <a class="${displayedOfferType === 'bid' ? 'active' : ''}" click.trigger="changeOfferType('bid')" href="#bid-tab">Buy ${assetPair.selling.code}</a>
+                                        <a class="${displayedOfferType === 'ask' ? 'active' : ''}" click.trigger="changeOfferType('ask')" href="#ask-tab">
+                                            Create Ask
+                                            <i class="primary-text fa fa-question-circle-o" md-tooltip="text.bind: 'Ask ' + assetPair.buying.code  + ' for your ' + assetPair.selling.code;"></i>
+                                        </a>
                                     </li>
                                 </ul>
                             </div>
