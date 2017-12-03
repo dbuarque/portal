@@ -62,12 +62,12 @@
                             <input type="tel" class="form-control" value.bind="price">
                         </div>
                         <div class="form-field">
-                            <label>${assetPair.selling.code}</label>
-                            <input type="tel" class="form-control" value.bind="buyingAmount & reflectModel">
+                            <label>Offer ${assetPair.buying.code}</label>
+                            <input type="tel" class="form-control" value.bind="sellingAmount & reflectModel">
                         </div>
                         <div class="form-field">
-                            <label>${assetPair.buying.code}</label>
-                            <input type="tel" class="form-control" value.bind="sellingAmount & reflectModel">
+                            <label>To Receive ${assetPair.selling.code}</label>
+                            <input type="tel" class="form-control" value.bind="buyingAmount & reflectModel">
                         </div>
                         <!--<div if.bind="needsTrustline && myBuyingAsset.trustLimit">-->
                         <!--<div class="form-field">-->

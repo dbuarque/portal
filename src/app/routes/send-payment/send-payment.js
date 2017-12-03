@@ -5,7 +5,7 @@
 import * as StellarSdk from 'stellar-sdk';
 import {inject, computedFrom} from 'aurelia-framework';
 import {Router, Redirect} from 'aurelia-router';
-import {Store, connected} from 'au-redux';
+import {Store, connected} from 'aurelia-redux-connect';
 import {ModalService, ValidationManager} from 'global-resources';
 import {AccountResource, TransactionService} from 'app-resources';
 

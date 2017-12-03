@@ -4,7 +4,7 @@
 
 import BigNumber from 'bignumber.js';
 import {inject, Container, computedFrom} from 'aurelia-framework';
-import {connected} from 'au-redux';
+import {connected} from 'aurelia-redux-connect';
 import {validStellarNumber} from 'app-resources';
 import {CreateOffer} from './create-offer';
 import {UpdateMyAskActionCreator} from '../action-creators';

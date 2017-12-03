@@ -4,7 +4,7 @@
 
 
 import {inject, computedFrom} from 'aurelia-framework';
-import {connected} from 'au-redux';
+import {connected} from 'aurelia-redux-connect';
 import {AccountResource} from 'app-resources';
 import {EffectHistoryConfig} from './effect-history.config';
 

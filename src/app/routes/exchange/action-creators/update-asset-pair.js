@@ -1,5 +1,5 @@
 import {inject} from 'aurelia-framework';
-import {actionCreator} from 'au-redux';
+import {actionCreator} from 'aurelia-redux-connect';
 import {UPDATE_ASSET_PAIR} from '../exchange.action-types';
 import {AssetResource, assetsAreDifferent} from 'app-resources';
 

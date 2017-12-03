@@ -4,7 +4,7 @@
 
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
-import {connected} from 'au-redux';
+import {connected} from 'aurelia-redux-connect';
 import {UpdateAssetPairActionCreator} from '../../action-creators';
 
 @inject(Router, UpdateAssetPairActionCreator)

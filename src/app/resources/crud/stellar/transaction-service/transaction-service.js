@@ -5,7 +5,7 @@
 import {PLATFORM} from 'aurelia-pal';
 import {inject} from 'aurelia-framework';
 import * as StellarSdk from 'stellar-sdk';
-import {Store} from 'au-redux';
+import {Store} from 'aurelia-redux-connect';
 import {ModalService, SpinnerModalService, AlertToaster} from 'global-resources';
 import {SecretStore} from '../../../auth/secret-store/secret-store';
 import {TransactionResource} from '../../resources';

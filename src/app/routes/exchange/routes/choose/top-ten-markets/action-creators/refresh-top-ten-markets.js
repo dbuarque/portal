@@ -1,5 +1,5 @@
 import {inject} from 'aurelia-framework';
-import {actionCreator} from 'au-redux';
+import {actionCreator} from 'aurelia-redux-connect';
 import {MarketResource} from 'app-resources';
 import {UPDATE_TOP_TEN_RESULTS} from '../top-ten-markets.action-types';
 

@@ -3,7 +3,7 @@
  */
 
 import {inject} from 'aurelia-framework';
-import {connected} from 'au-redux';
+import {connected} from 'aurelia-redux-connect';
 import {MarketResource} from 'app-resources';
 import {MarketStream} from './market-stream';
 import {UpdateRecentTradesActionCreator} from '../action-creators';

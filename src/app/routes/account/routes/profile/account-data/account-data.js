@@ -1,6 +1,6 @@
 
 import {inject, computedFrom} from 'aurelia-framework';
-import {connected} from 'au-redux';
+import {connected} from 'aurelia-redux-connect';
 import {AccountResource} from 'app-resources';
 import {AccountDataConfig} from './account-data.config';
 

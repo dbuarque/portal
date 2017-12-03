@@ -1,5 +1,5 @@
 import {inject} from 'aurelia-framework';
-import {actionCreator} from 'au-redux';
+import {actionCreator} from 'aurelia-redux-connect';
 import {AccountResource} from '../resources/crud/resources';
 import {UPDATE_MY_ACCOUNT_SEQNUM} from '../app.action-types';
 

@@ -4,7 +4,7 @@
 
 import {inject} from 'aurelia-framework';
 import BigNumber from 'bignumber.js';
-import {Store} from 'au-redux';
+import {Store} from 'aurelia-redux-connect';
 
 export class BuyingAmountValueConverter {
     toView(order) {

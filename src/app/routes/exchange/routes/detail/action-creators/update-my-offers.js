@@ -1,5 +1,5 @@
 import {inject} from 'aurelia-framework';
-import {actionCreator} from 'au-redux';
+import {actionCreator} from 'aurelia-redux-connect';
 import {UPDATE_MY_OFFERS} from '../detail.action-types';
 import {AccountResource} from 'app-resources';
 

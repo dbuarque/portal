@@ -3,7 +3,7 @@
  */
 
 import {inject} from 'aurelia-framework';
-import {Store} from 'au-redux';
+import {Store} from 'aurelia-redux-connect';
 import {ValidationManager} from 'global-resources';
 import {AccountResource} from 'app-resources';
 

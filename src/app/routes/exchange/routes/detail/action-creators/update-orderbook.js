@@ -1,4 +1,4 @@
-import {actionCreator} from 'au-redux';
+import {actionCreator} from 'aurelia-redux-connect';
 import {UPDATE_ORDERBOOK} from '../detail.action-types';
 
 @actionCreator()

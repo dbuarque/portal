@@ -13,9 +13,22 @@
                 <div show.bind="orderbook.bids.length > 0 || orderbook.asks.length > 0">
                     <table class="current-data" show.bind="currentData">
                         <tr>
-                            <td>Price:<br>${currentData.price | toPrecision:7}</td>
-                            <td>Depth(${assetPair.selling.code}):<br> ${currentData.sellingDepth | toPrecision:7}</td>
-                            <td>Depth(${assetPair.buying.code}):<br> ${currentData.buyingDepth | toPrecision:7}</td>
+                            <td>Price&nbsp;(${assetPair.buying.code}/${assetPair.selling.code})
+                                <div class.bind="currentData.type === 'bid' ? 'success-text' : 'error-text'">
+                                    <strong>${currentData.price | formatNumber:7}</strong>
+                                </div>
+                            </td>
+                            <td>Depth&nbsp;(${assetPair.selling.code})
+                                <div class.bind="currentData.type === 'bid' ? 'success-text' : 'error-text'">
+                                    <strong>${currentData.sellingDepth | formatNumber:7}</strong>
+                                </div>
+                            </td>
+                            <td>Depth&nbsp;(${assetPair.buying.code})
+                                <br>
+                                <div class.bind="currentData.type === 'bid' ? 'success-text' : 'error-text'">
+                                    <strong>${currentData.buyingDepth | formatNumber:7}</strong>
+                                </div>
+                            </td>
                         </tr>
                     </table>
                     <div class="chart"></div>

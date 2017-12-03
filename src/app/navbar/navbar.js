@@ -2,7 +2,7 @@
  * Created by Ishai on 3/27/2016.
  */
 import {bindable, inject, computedFrom} from 'aurelia-framework';
-import {connected} from 'au-redux';
+import {connected} from 'aurelia-redux-connect';
 import {AlertToaster} from 'global-resources';
 import {UpdateAccountActionCreator} from '../action-creators';
 

@@ -7,7 +7,7 @@ import _findIndex from 'lodash/findIndex';
 import {inject} from 'aurelia-framework';
 import {Redirect} from 'aurelia-router';
 import {EventAggregator} from 'aurelia-event-aggregator';
-import {Store, connected} from 'au-redux';
+import {Store, connected} from 'aurelia-redux-connect';
 import {AccountConfig} from './account.config';
 
 @inject(AccountConfig, EventAggregator, Store)

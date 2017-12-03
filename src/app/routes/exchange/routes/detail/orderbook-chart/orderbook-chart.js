@@ -5,12 +5,11 @@
 import _throttle from 'lodash/throttle';
 import {inject} from 'aurelia-framework';
 import techan from 'techan';
-import {Store, connected} from 'au-redux';
+import {Store, connected} from 'aurelia-redux-connect';
 import {FormatNumberValueConverter} from 'app-resources';
 
 @inject(Element, Store, FormatNumberValueConverter)
 export class OrderbookChartCustomElement {
-
     @connected('exchange.assetPair')
     assetPair;
 
@@ -37,7 +36,6 @@ export class OrderbookChartCustomElement {
         this.$chart = this.$element.find('.chart');
 
         this.margin = {top: 0, right: 3, bottom: 20, left: 100};
-        const parentHeight = this.$element.parent().width();
         this.width = this.$element.parent().width() - this.margin.left - this.margin.right;
         this.height = 230;
 
@@ -47,7 +45,8 @@ export class OrderbookChartCustomElement {
         this.y = d3.scaleLinear().range([this.height, 0]);
 
         this.xAxis = d3.axisBottom(this.x)
-            .tickFormat(num => this.formatNumber.toView(num, 3));
+            .tickFormat(num => this.formatNumber.toView(num, 3))
+            .ticks(6);
 
         this.yAxis = d3.axisLeft(this.y)
             .tickFormat(num => this.formatNumber.toView(num, 3));
@@ -68,12 +67,12 @@ export class OrderbookChartCustomElement {
             .axis(this.yAxis)
             .orient('left')
             .width(90)
-            .format(num => this.formatNumber.toView(num));
+            .format(num => this.formatNumber.toView(num, 3));
 
         this.xAnnotation = techan.plot.axisannotation()
             .axis(this.xAxis)
             .orient('bottom')
-            .format(num => this.formatNumber.toView(num))
+            .format(num => this.formatNumber.toView(num, 3))
             .width(65)
             .translate([0, this.height]);
 
@@ -82,16 +81,16 @@ export class OrderbookChartCustomElement {
             .yScale(this.y)
             .xAnnotation([this.xAnnotation])
             .yAnnotation([this.yAnnotation])
-            .on("enter", this.enter.bind(this))
-            .on("out", this.out.bind(this))
-            .on("move", this.move.bind(this));
+            .on('enter', this.enter.bind(this))
+            .on('out', this.out.bind(this))
+            .on('move', this.move.bind(this));
 
-        this.svg = d3.select(this.$chart[0]).append("svg")
-            .attr("class", "main-chart")
-            .attr("width", this.width + this.margin.left + this.margin.right)
-            .attr("height", this.height + this.margin.top + this.margin.bottom)
-            .append("g")
-            .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
+        this.svg = d3.select(this.$chart[0]).append('svg')
+            .attr('class', 'main-chart')
+            .attr('width', this.width + this.margin.left + this.margin.right)
+            .attr('height', this.height + this.margin.top + this.margin.bottom)
+            .append('g')
+            .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
 
         this.isAttached = true;
 
@@ -116,9 +115,23 @@ export class OrderbookChartCustomElement {
         ) {
             return;
         }
-        
-        const xStart = this.orderbook.bids.length > 0 ? this.orderbook.bids[this.orderbook.bids.length - 1].price : this.orderbook.asks[0].price;
-        const xEnd = this.orderbook.asks.length > 0 ? this.orderbook.asks[this.orderbook.asks.length - 1].price : this.orderbook.bids[0].price;
+
+        this.bids = this.orderbook.bids;
+        this.asks = this.orderbook.asks;
+
+        if (this.bids.length > 0 && this.asks.length > 0) {
+            const median = (parseFloat(this.bids[0].price, 10) + parseFloat(this.asks[0].price, 10)) / 2;
+            const asksDepth = parseFloat(this.asks[this.asks.length - 1].price, 10) - median;
+            const bidsDepth = median - parseFloat(this.bids[this.bids.length - 1].price, 10);
+            const depth = Math.min(asksDepth, bidsDepth);
+            const minPrice = median - depth;
+            const maxPrice = median + depth;
+            this.bids = this.bids.filter(b => b.price >= minPrice);
+            this.asks = this.asks.filter(a => a.price <= maxPrice);
+        }
+
+        const xStart = this.bids.length > 0 ? this.bids[this.bids.length - 1].price : this.asks[0].price;
+        const xEnd = this.asks.length > 0 ? this.asks[this.asks.length - 1].price : this.bids[0].price;
         const xDomain = [
             parseFloat(xStart.toString().slice(0, 10), 10),
             parseFloat(xEnd.toString().slice(0, 10), 10)
@@ -127,15 +140,15 @@ export class OrderbookChartCustomElement {
 
         yDomain[1] = Math.max.apply(
             undefined,
-            this.orderbook.bids
+            this.bids
                 .map(b => b.sellingDepth)
                 .concat(
-                    this.orderbook.asks.map(a => a.sellingDepth)
+                    this.asks.map(a => a.sellingDepth)
                 )
                 .map(s => parseFloat(s.toString().slice(0, 10), 10))
         );
 
-        yDomain[1] = yDomain[1] * (1 + 50/this.height);
+        yDomain[1] = yDomain[1] * (1 + 50 / this.height);
 
         this.x.domain(xDomain);
         this.y.domain(yDomain);
@@ -144,40 +157,40 @@ export class OrderbookChartCustomElement {
         const yDomainWidth = this.calculateAxisWidth(yDomain);
 
         this.svg.append('text')
-            .attr("x", this.height * 0.45)
-            .attr("y", 20 + yDomainWidth * 7)
-            .attr("transform", "rotate(90)")
-            .text("Depth (" + this.assetPair.selling.code + ")");
+            .attr('x', this.height * 0.45)
+            .attr('y', 20 + yDomainWidth * 7)
+            .attr('transform', 'rotate(90)')
+            .text('Depth (' + this.assetPair.selling.code + ')');
 
-        const xAxisSvg = this.svg.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + this.height + ")")
+        const xAxisSvg = this.svg.append('g')
+            .attr('class', 'x axis')
+            .attr('transform', 'translate(0,' + this.height + ')')
             .call(this.xAxis);
 
-        xAxisSvg.append("path")
-            .attr("class", "axis-line")
-            .attr("d", "M -" + this.margin.left + ",0 V -0.5 H " + (this.width + this.margin.right) + " V 0");
+        xAxisSvg.append('path')
+            .attr('class', 'axis-line')
+            .attr('d', 'M -' + this.margin.left + ',0 V -0.5 H ' + (this.width + this.margin.right) + ' V 0');
 
-        const yAxisSvg = this.svg.append("g")
-            .attr("class", "y axis")
+        const yAxisSvg = this.svg.append('g')
+            .attr('class', 'y axis')
             .call(this.yAxis);
 
-        yAxisSvg.append("path")
-            .attr("class", "axis-line")
-            .attr("d", "M 0," + (this.height + this.margin.bottom + 5) + " H -0.5 V -0.5 H 0");
+        yAxisSvg.append('path')
+            .attr('class', 'axis-line')
+            .attr('d', 'M 0,' + (this.height + this.margin.bottom + 5) + ' H -0.5 V -0.5 H 0');
 
-        this.svg.append("path")
-            .datum(this.orderbook.asks)
-            .attr("class", "ask-area")
-            .attr("d", this.askArea);
+        this.svg.append('path')
+            .datum(this.asks)
+            .attr('class', 'ask-area')
+            .attr('d', this.askArea);
 
-        this.svg.append("path")
-            .datum(this.orderbook.bids)
-            .attr("class", "bid-area")
-            .attr("d", this.bidArea);
+        this.svg.append('path')
+            .datum(this.bids)
+            .attr('class', 'bid-area')
+            .attr('d', this.bidArea);
 
         this.svg.append('g')
-            .attr("class", "crosshair")
+            .attr('class', 'crosshair')
             .call(this.crosshair); // Display the current data
 
         this.removeZeroTickers(yAxisSvg);
@@ -217,13 +230,13 @@ export class OrderbookChartCustomElement {
         this.currentData = this.findLastGreaterThanOrEqual(coords.x, this.orderbook.bids, b => parseFloat(b.price, 10));
 
         if (this.currentData) {
-            this.currentData.type = 'Bidding';
+            this.currentData.type = 'bid';
         }
         else {
             this.currentData = this.findLastLessThanOrEqual(coords.x, this.orderbook.asks, a => parseFloat(a.price, 10));
 
             if (this.currentData) {
-                this.currentData.type = 'Asking';
+                this.currentData.type = 'ask';
             }
         }
     }

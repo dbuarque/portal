@@ -4,7 +4,7 @@
 
 import moment from 'moment';
 import {inject, TaskQueue} from 'aurelia-framework';
-import {Store, connected} from 'au-redux';
+import {Store, connected} from 'aurelia-redux-connect';
 import {TradingviewPriceChartConfig} from './tradingview-price-chart.config';
 import {timeFrameToAmountScale, BarsRealtimeUpdater} from './resources';
 

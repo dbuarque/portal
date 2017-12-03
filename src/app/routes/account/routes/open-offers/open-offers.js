@@ -3,7 +3,7 @@
  */
 
 import {inject, computedFrom} from 'aurelia-framework';
-import {connected} from 'au-redux';
+import {connected} from 'aurelia-redux-connect';
 import {AccountResource, OfferService} from 'app-resources';
 import {OpenOffersConfig} from './open-offers.config';
 

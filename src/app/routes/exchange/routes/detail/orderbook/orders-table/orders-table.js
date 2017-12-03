@@ -4,7 +4,7 @@
 
 import BigNumber from 'bignumber.js';
 import {inject, bindable, computedFrom} from 'aurelia-framework';
-import {connected, Store} from 'au-redux';
+import {connected, Store} from 'aurelia-redux-connect';
 import {UpdateMyAskActionCreator, UpdateMyBidActionCreator} from '../../action-creators';
 
 @inject(Store, UpdateMyAskActionCreator, UpdateMyBidActionCreator)

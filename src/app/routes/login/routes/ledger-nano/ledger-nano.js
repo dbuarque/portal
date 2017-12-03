@@ -1,5 +1,5 @@
 import {inject} from 'aurelia-framework';
-import {Store, connected} from 'au-redux';
+import {Store, connected} from 'aurelia-redux-connect';
 import {ValidationManager} from 'global-resources';
 import {SecretStore, LedgerHwService} from 'app-resources';
 import {UpdateAccountActionCreator, UpdateBip32PathActionCreator} from '../../../../action-creators';

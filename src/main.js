@@ -4,7 +4,7 @@ import './third-party-css';
 import 'babel-polyfill';
 import './main.config';
 import './main.scss';
-import {Store} from 'au-redux';
+import {Store} from 'aurelia-redux-connect';
 import {app as rootReducer} from './app/reducers';
 import {applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';

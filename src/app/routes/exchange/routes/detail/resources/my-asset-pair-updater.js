@@ -3,7 +3,7 @@
  */
 
 import {inject} from 'aurelia-framework';
-import {connected} from 'au-redux';
+import {connected} from 'aurelia-redux-connect';
 import {AccountResource, AccountStream} from 'app-resources';
 import {UpdateMyAssetPairActionCreator} from '../action-creators';
 
