@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux';
-import {restrictReducerToNamespace} from 'au-redux';
+import {restrictReducerToNamespace} from 'aurelia-redux-connect';
 import {namespace} from '../top-ten-markets.action-types';
 import {order} from './order';
 import {results} from './results';

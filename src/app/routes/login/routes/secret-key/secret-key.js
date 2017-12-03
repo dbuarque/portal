@@ -1,6 +1,6 @@
 import * as StellarSdk from 'stellar-sdk';
 import {inject, computedFrom} from 'aurelia-framework';
-import {Store} from 'au-redux';
+import {Store} from 'aurelia-redux-connect';
 import {SecretStore} from 'app-resources';
 import {UpdateAccountActionCreator} from '../../../../action-creators';
 

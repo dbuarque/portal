@@ -4,7 +4,7 @@
 
 import {inject} from 'aurelia-framework';
 import {subscriptionService, AlertToaster} from 'global-resources';
-import {connected} from 'au-redux';
+import {connected} from 'aurelia-redux-connect';
 
 @inject(AlertToaster)
 @subscriptionService()

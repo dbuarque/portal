@@ -5,7 +5,7 @@
 import _throttle from 'lodash/throttle';
 import {inject} from 'aurelia-framework';
 import techan from 'techan';
-import {Store, connected} from 'au-redux';
+import {Store, connected} from 'aurelia-redux-connect';
 import {FormatNumberValueConverter} from 'app-resources';
 
 @inject(Element, Store, FormatNumberValueConverter)

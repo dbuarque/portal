@@ -3,7 +3,7 @@
  */
 
 import {inject} from 'aurelia-framework';
-import {connected} from 'au-redux';
+import {connected} from 'aurelia-redux-connect';
 import {EventHelper} from 'global-resources';
 import {MarketResource} from 'app-resources';
 import {UpdateAssetPairActionCreator} from '../../../action-creators';

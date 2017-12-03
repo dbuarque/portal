@@ -5,7 +5,7 @@
 import {inject, computedFrom} from 'aurelia-framework';
 import {SanitizeHTMLValueConverter} from 'aurelia-templating-resources';
 import {Router} from 'aurelia-router';
-import {connected} from 'au-redux';
+import {connected} from 'aurelia-redux-connect';
 import {AccountResource, TrustService} from 'app-resources';
 import {UpdateAccountActionCreator} from '../../../../action-creators';
 import {AssetBalancesConfig} from './asset-balances.config';

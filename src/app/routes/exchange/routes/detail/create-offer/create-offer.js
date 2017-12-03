@@ -5,7 +5,7 @@
 import BigNumber from 'bignumber.js';
 import {computedFrom} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
-import {connected} from 'au-redux';
+import {connected} from 'aurelia-redux-connect';
 import {TrustService, OfferService, validStellarNumber} from 'app-resources';
 import {UpdateMyAssetPairActionCreator, UpdateMyOffersActionCreator} from '../action-creators';
 

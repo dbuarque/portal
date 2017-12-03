@@ -1,7 +1,7 @@
 import {bindable, inject} from 'aurelia-framework';
 import * as StellarSdk from 'stellar-sdk';
 import {ValidationManager} from 'global-resources';
-import {Store} from 'au-redux';
+import {Store} from 'aurelia-redux-connect';
 import {SecretStore} from 'app-resources';
 
 @inject(ValidationManager, Store, SecretStore)

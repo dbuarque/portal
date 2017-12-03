@@ -5,7 +5,7 @@
 import {inject} from 'aurelia-framework';
 import {Redirect} from 'aurelia-router';
 import {EventAggregator} from 'aurelia-event-aggregator';
-import {connected} from 'au-redux';
+import {connected} from 'aurelia-redux-connect';
 import {LoginConfig} from './login.config';
 
 @inject(LoginConfig, EventAggregator)

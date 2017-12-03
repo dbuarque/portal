@@ -1,5 +1,5 @@
 import {inject} from 'aurelia-framework';
-import {Store} from 'au-redux';
+import {Store} from 'aurelia-redux-connect';
 import {UpdateAccountActionCreator} from '../../../../action-creators';
 
 @inject(Store, UpdateAccountActionCreator)

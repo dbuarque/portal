@@ -1,7 +1,7 @@
 import {inject} from 'aurelia-framework';
 import {BindingSignaler} from 'aurelia-templating-resources';
 import {computedFrom} from 'aurelia-framework';
-import {connected} from 'au-redux';
+import {connected} from 'aurelia-redux-connect';
 
 @inject(BindingSignaler)
 export class RecentTradesCustomElement {

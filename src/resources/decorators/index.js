@@ -3,4 +3,3 @@
  */
 
 export * from './subsription-service';
-export * from './awaited-bindable';

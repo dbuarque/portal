@@ -1,4 +1,4 @@
-import {actionCreator} from 'au-redux';
+import {actionCreator} from 'aurelia-redux-connect';
 import {UPDATE_BIP_32_PATH} from '../app.action-types';
 
 @actionCreator()

@@ -5,7 +5,7 @@
 import './detail.scss';
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
-import {connected} from 'au-redux';
+import {connected} from 'aurelia-redux-connect';
 import {UpdateAssetPairActionCreator} from '../../action-creators';
 import {UpdateDisplayedOfferTypeActionCreator} from './action-creators';
 import {OrderbookUpdater, RecentTradesUpdater, MyOffersUpdater, MyAssetPairUpdater} from './resources';

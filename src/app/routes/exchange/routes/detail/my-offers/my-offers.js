@@ -3,7 +3,7 @@
  */
 
 import {inject, computedFrom} from 'aurelia-framework';
-import {connected} from 'au-redux';
+import {connected} from 'aurelia-redux-connect';
 import {OfferService} from 'app-resources';
 import {UpdateMyOffersActionCreator} from '../action-creators';
 

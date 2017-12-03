@@ -2,7 +2,3 @@
 	path = assets/charting_library
 	url = https://github.com/tradingview/charting_library.git
 	branch = unstable
-[submodule "src/resources/au-redux"]
-	path = src/resources/au-redux
-	url = https://github.com/istrau2/au-redux.git
-	branch = master

@@ -1,14 +1,12 @@
-
 import {bindable, computedFrom, inject} from 'aurelia-framework';
-import {awaitedBindable} from "global-resources";
-import {shortenAddress, TomlCache} from "app-resources";
-import {AssetSelectionService} from "../../crud/stellar/asset-selection-service";
+import {asyncBindable} from 'aurelia-async-bindable-bluebird';
+import {shortenAddress, TomlCache} from 'app-resources';
+import {AssetSelectionService} from '../../crud/stellar/asset-selection-service';
 
 @inject(TomlCache, AssetSelectionService)
 export class AssetCardCustomElement {
-
-    @bindable reselect;
-    @bindable asset;
+    @bindable() reselect;
+    @bindable() asset;
 
     loading = 0;
 
@@ -57,7 +55,7 @@ export class AssetCardCustomElement {
     get assetCode() {
         return this.asset.type.toLowerCase() === 'native' ?
             window.lupoex.stellar.nativeAssetCode :
-                this.asset.code;
+            this.asset.code;
     }
 
     @computedFrom('asset', 'toml')
@@ -69,7 +67,7 @@ export class AssetCardCustomElement {
                 this.asset.code + ' asset';
     }
 
-    @awaitedBindable()
+    @asyncBindable()
     @computedFrom('asset')
     get toml() {
         if (!this.asset) {
@@ -88,7 +86,6 @@ export class AssetCardCustomElement {
 
                 return toml;
             });
-
     }
 
     constructor(tomlCache, assetSelectionService) {
@@ -102,7 +99,7 @@ export class AssetCardCustomElement {
                 const newAsset = await this.assetSelectionService.select(this.asset);
                 this.reselect(newAsset);
             }
-            catch(e) {}
+            catch (e) {}
         }
     }
 }

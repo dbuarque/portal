@@ -2,7 +2,7 @@ import {EventAggregator} from 'aurelia-event-aggregator';
 import {Router} from 'aurelia-router';
 import {AppConfig} from './app.config';
 import {inject} from 'aurelia-framework';
-import {Store} from 'au-redux';
+import {Store} from 'aurelia-redux-connect';
 import {WakeEventEmitter} from 'global-resources';
 import {JsonClient, PageTracker, AccountEffectAlerter} from 'app-resources';
 import {UpdateAccountActionCreator, UpdateBip32PathActionCreator} from './action-creators';

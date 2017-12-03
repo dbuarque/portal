@@ -4,7 +4,7 @@
 
 import {PLATFORM} from 'aurelia-pal';
 import {inject} from 'aurelia-framework';
-import {Store} from 'au-redux';
+import {Store} from 'aurelia-redux-connect';
 import {ModalService, AlertToaster} from 'global-resources';
 import {InactivityTracker} from '../inactivity-tracker';
 
