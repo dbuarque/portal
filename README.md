@@ -17,13 +17,7 @@ unless you want to run master.
 npm install
 ```
 This will install all required dependencies, including a local version of Webpack that is going to
-build and bundle the app. There is no need to install Webpack globally. 
-
-Then, execute the following command
-```
-git submodule update --init src/resources/au-redux
-```
-This will clone the au-redux dependency as a git submodule.
+build and bundle the app. There is no need to install Webpack globally.
 
 Additionally, if you have github access to the tradingview charting_library (which this repo uses) you can run:
  ```
