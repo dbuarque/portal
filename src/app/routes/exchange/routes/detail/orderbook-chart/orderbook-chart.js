@@ -119,15 +119,39 @@ export class OrderbookChartCustomElement {
         this.bids = this.orderbook.bids;
         this.asks = this.orderbook.asks;
 
-        if (this.bids.length > 0 && this.asks.length > 0) {
-            const median = (parseFloat(this.bids[0].price, 10) + parseFloat(this.asks[0].price, 10)) / 2;
-            const asksDepth = parseFloat(this.asks[this.asks.length - 1].price, 10) - median;
-            const bidsDepth = median - parseFloat(this.bids[this.bids.length - 1].price, 10);
+        // We want to make sure the orderbook is equally deep on either side.
+        if (this.bids.length > 1 && this.asks.length > 1) {
+            const asksDepth = parseFloat(this.asks[this.asks.length - 1].price, 10) - parseFloat(this.asks[0].price, 10);
+            const bidsDepth = parseFloat(this.bids[0].price, 10) - parseFloat(this.bids[this.bids.length - 1].price, 10);
             const depth = Math.min(asksDepth, bidsDepth);
-            const minPrice = median - depth;
-            const maxPrice = median + depth;
-            this.bids = this.bids.filter(b => b.price >= minPrice);
-            this.asks = this.asks.filter(a => a.price <= maxPrice);
+
+            // We now have the depth for both sides, let's apply it
+            if (asksDepth === depth) {
+                const minPrice = parseFloat(this.bids[0].price, 10) - depth;
+                this.bids = this.bids.filter(b => b.price >= minPrice);
+                this.bids.push({
+                    ...this.bids[this.bids.length - 1],
+                    price: minPrice
+                });
+            }
+            else {
+                const maxPrice = parseFloat(this.asks[0].price, 10) + depth;
+                this.asks = this.asks.filter(a => a.price <= maxPrice);
+                this.asks.push({
+                    ...this.asks[this.asks.length - 1],
+                    price: maxPrice
+                });
+            }
+
+            // add a little bit of width to the orders on the ends (that way they don't just appear as lines)
+            //this.bids.push({
+            //    ...this.bids[this.bids.length - 1],
+            //    price: parseFloat(this.bids[this.bids.length - 1].price, 10) * 0.095
+            //});
+            //this.asks.push({
+            //    ...this.asks[this.asks.length - 1],
+            //    price: parseFloat(this.asks[this.asks.length - 1].price, 10) * 1.05
+            //});
         }
 
         const xStart = this.bids.length > 0 ? this.bids[this.bids.length - 1].price : this.asks[0].price;
