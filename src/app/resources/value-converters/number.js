@@ -37,7 +37,7 @@ export class ValidStellarNumberValueConverter {
 
 export class FormatNumberValueConverter {
     toView(num, sigFigs = 8) {
-        sigFigs = parseInt(sigFigs);
+        sigFigs = parseInt(sigFigs, 10);
 
         //Make sure sigFigs meets requirements of toPrecision()
         if (isNaN(sigFigs) || sigFigs < 1 || sigFigs > 21) {
@@ -45,8 +45,12 @@ export class FormatNumberValueConverter {
         }
 
         if (num < 1) {
-            return num.toPrecision(sigFigs);
+            return parseFloat(
+                parseFloat(num, 10).toPrecision(sigFigs),
+                10
+            ).toString();
         }
+
         return d3.format(',.' + sigFigs + 's')(num).replace('k', 'K').replace('G', 'B');
     }
 }
