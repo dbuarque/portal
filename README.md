@@ -115,12 +115,12 @@ The production bundle includes all files that are required for deployment.
 ## Deploying
 To tag a version execute:
 ```
-./tag.sh sitename version
+./scripts/tag.sh sitename version
 ```
 
 To actually deploy execute:
 ```
-./deploy.sh environment sitename
+./scripts/deploy.sh environment sitename
 ```
 
 ## Troubleshooting
