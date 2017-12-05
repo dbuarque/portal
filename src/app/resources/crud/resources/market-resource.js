@@ -17,14 +17,11 @@ export class MarketResource extends BaseResource {
     }
 
     /**
-     * Gets the top then markets (when ordered by order).
-     * @param [order='trade_count'] - API defaults ordering to trade_count (you get the top ten markets by trade_count)
+     * Gets the top markets
      * @returns {*}
      */
-    topTen(order) {
-        return this.get('/TopTen', {
-            order
-        });
+    top() {
+        return this.get('/Top');
     }
 
     /**

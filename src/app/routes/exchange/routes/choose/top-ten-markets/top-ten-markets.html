@@ -2,18 +2,12 @@
     <require from="../choose.value-converters"></require>
     <div class="top-ten-markets">
         <div class="card">
-            <div class="card-content">
-                <div class="card-heading">
-                    <div class="card-title">
-                        Top Markets
-                    </div>
-                    <i class="fa fa-refresh right refresh-button" no-collapse click.trigger="refresh()"></i>
-                </div>
+            <div class="card-content no-heading">
                 <div class="card-body">
-                    <div show.bind="markets.length === 0">
+                    <div show.bind="marketsList.length === 0">
                         <i>No markets trading in the last 24 hours.</i>
                     </div>
-                    <div show.bind="markets.length > 0">
+                    <div show.bind="marketsList.length > 0">
                         <table class="hide-on-small-only centered bordered">
                             <thead>
                                 <tr>
@@ -37,7 +31,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr repeat.for="market of markets" click.delegate="chooseMarket(market)">
+                                <tr repeat.for="market of marketsList" click.delegate="chooseMarket(market)">
                                     <td>
                                         <asset-pair-cards asset-pair.one-time="market | marketToAssetPair"></asset-pair-cards>
                                     </td>
@@ -55,7 +49,7 @@
 
                         <table class="hide-on-med-and-up centered bordered">
                             <tbody>
-                                <tr repeat.for="market of markets" click.delegate="chooseMarket(market)">
+                                <tr repeat.for="market of marketsList" click.delegate="chooseMarket(market)">
                                     <td>
                                         <asset-pair-cards asset-pair.one-time="market | marketToAssetPair"></asset-pair-cards>
                                         <div class="show-on-small-only">
