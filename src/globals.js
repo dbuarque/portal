@@ -15,7 +15,6 @@ window.$ = jQuery;
 window.jQuery = jQuery;
 window.d3 = d3;
 // Instantiate the socket client (`io`)
-// (for now, you must explicitly pass in the socket.io client when using this library from Node.js)
 window.io = sailsIOClient(socketIOClient);
 //window.io.sails.useCORSRouteToGetCookie = false;
 
