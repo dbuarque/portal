@@ -18,6 +18,7 @@ export class OrderbookChartCustomElement {
 
     loading = 0;
     numRefreshes = 0;
+    numTicks = 5;
     noData = false;
 
     constructor(element, store, formatNumber) {
@@ -39,14 +40,13 @@ export class OrderbookChartCustomElement {
         this.width = this.$element.parent().width() - this.margin.left - this.margin.right;
         this.height = 230;
 
-        this.x = d3.scaleLinear()
+        this.x = d3.scaleLog()
             .range([0, this.width]);
 
         this.y = d3.scaleLinear().range([this.height, 0]);
 
         this.xAxis = d3.axisBottom(this.x)
-            .tickFormat(num => this.formatNumber.toView(num, 3))
-            .ticks(6);
+            .tickFormat(num => this.formatNumber.toView(num, 3));
 
         this.yAxis = d3.axisLeft(this.y)
             .tickFormat(num => this.formatNumber.toView(num, 3));
@@ -119,15 +119,18 @@ export class OrderbookChartCustomElement {
         this.bids = this.orderbook.bids;
         this.asks = this.orderbook.asks;
 
+        let minPrice = this.bids.length > 0 ? this.bids[this.bids.length - 1].price : this.asks[0].price;
+        let maxPrice = this.asks.length > 0 ? this.asks[this.asks.length - 1].price : this.bids[0].price;
+
         // We want to make sure the orderbook is equally deep on either side.
         if (this.bids.length > 1 && this.asks.length > 1) {
-            const asksDepth = parseFloat(this.asks[this.asks.length - 1].price, 10) - parseFloat(this.asks[0].price, 10);
-            const bidsDepth = parseFloat(this.bids[0].price, 10) - parseFloat(this.bids[this.bids.length - 1].price, 10);
-            const depth = Math.min(asksDepth, bidsDepth);
+            const asksDepth = parseFloat(this.asks[0].price, 10) / maxPrice;
+            const bidsDepth = minPrice / parseFloat(this.bids[0].price, 10);
+            const depth = Math.max(asksDepth, bidsDepth);
 
             // We now have the depth for both sides, let's apply it
             if (asksDepth === depth) {
-                const minPrice = parseFloat(this.bids[0].price, 10) - depth;
+                minPrice = parseFloat(this.bids[0].price, 10) * depth;
                 this.bids = this.bids.filter(b => b.price >= minPrice);
                 this.bids.push({
                     ...this.bids[this.bids.length - 1],
@@ -135,30 +138,48 @@ export class OrderbookChartCustomElement {
                 });
             }
             else {
-                const maxPrice = parseFloat(this.asks[0].price, 10) + depth;
+                maxPrice = parseFloat(this.asks[0].price, 10) * (2 - depth);
                 this.asks = this.asks.filter(a => a.price <= maxPrice);
                 this.asks.push({
                     ...this.asks[this.asks.length - 1],
                     price: maxPrice
                 });
             }
-
-            // add a little bit of width to the orders on the ends (that way they don't just appear as lines)
-            //this.bids.push({
-            //    ...this.bids[this.bids.length - 1],
-            //    price: parseFloat(this.bids[this.bids.length - 1].price, 10) * 0.095
-            //});
-            //this.asks.push({
-            //    ...this.asks[this.asks.length - 1],
-            //    price: parseFloat(this.asks[this.asks.length - 1].price, 10) * 1.05
-            //});
         }
 
-        const xStart = this.bids.length > 0 ? this.bids[this.bids.length - 1].price : this.asks[0].price;
-        const xEnd = this.asks.length > 0 ? this.asks[this.asks.length - 1].price : this.bids[0].price;
+        const tickValues = [];
+        const logMinPrice = Math.log10(minPrice);
+        const logMaxPrice = Math.log10(maxPrice);
+        const fullRange = logMaxPrice - logMinPrice;
+        const lowerTickValue = parseFloat(
+            (logMinPrice + (fullRange * 0.05)).toFixed(3),
+            10
+        );
+        const upperTickValue = parseFloat(
+            (logMaxPrice - (fullRange * 0.05)).toFixed(3),
+            10
+        );
+        let tickValue = lowerTickValue;
+        const interval = parseFloat(
+            ((upperTickValue - tickValue) / (this.numTicks - 1)).toFixed(3),
+            10
+        );
+
+        while (tickValue <= upperTickValue) {
+            tickValues.push(
+                Math.pow(10, tickValue)
+            );
+            tickValue = parseFloat(
+                (tickValue + interval).toFixed(3),
+                10
+            );
+        }
+
+        this.xAxis.tickValues(tickValues);
+
         const xDomain = [
-            parseFloat(xStart.toString().slice(0, 10), 10),
-            parseFloat(xEnd.toString().slice(0, 10), 10)
+            parseFloat(minPrice.toString().slice(0, 10), 10),
+            parseFloat(maxPrice.toString().slice(0, 10), 10)
         ];
         const yDomain = [0, 0];
 
