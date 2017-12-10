@@ -8,14 +8,13 @@ import {Router} from 'aurelia-router';
 import {connected} from 'aurelia-redux-connect';
 import {UpdateAssetPairActionCreator} from '../../action-creators';
 import {UpdateDisplayedOfferTypeActionCreator} from './action-creators';
-import {OrderbookUpdater, RecentTradesUpdater, MyOffersUpdater, MyAssetPairUpdater} from './resources';
-    
+import {MarketStream, OrderbookUpdater, RecentTradesUpdater, MyOffersUpdater, MyAssetPairUpdater} from './resources';
+
 @inject(
-    Router, UpdateAssetPairActionCreator, UpdateDisplayedOfferTypeActionCreator, OrderbookUpdater,
+    Router, UpdateAssetPairActionCreator, UpdateDisplayedOfferTypeActionCreator, MarketStream, OrderbookUpdater,
     RecentTradesUpdater, MyOffersUpdater, MyAssetPairUpdater
 )
 export class Detail {
-
     @connected('myAccount')
     account;
 
@@ -26,24 +25,24 @@ export class Detail {
     displayedOfferType;
 
     constructor(
-        router, updateAssetPair, updateDisplayedOfferType, orderbookUpdater,
+        router, updateAssetPair, updateDisplayedOfferType, marketStream, orderbookUpdater,
         recentTradesUpdater, myOffersUpdater, myAssetPairUpdater
     ) {
         this.router = router;
         this.updateAssetPair = updateAssetPair;
         this.updateDisplayedOfferType = updateDisplayedOfferType;
+        this.marketStream = marketStream;
+        this.orderbookUpdater = orderbookUpdater;
+        this.recentTradesUpdater = recentTradesUpdater;
+        this.myOffersUpdater = myOffersUpdater;
+        this.myAssetPairUpdater = myAssetPairUpdater;
 
         this.switchAssets = this._switchAssets.bind(this);
         this.reselect = this._reselect.bind(this);
-
-        orderbookUpdater.init();
-        recentTradesUpdater.init();
-        myOffersUpdater.init();
-        myAssetPairUpdater.init();
     }
 
-    activate(params) {
-        return this.updateAssetPair.dispatch({
+    async activate(params) {
+        await this.updateAssetPair.dispatch({
             buying: {
                 code: params.buyingCode,
                 issuer: params.buyingType.toLowerCase() === 'native' ? null : params.buyingIssuer,
@@ -55,6 +54,20 @@ export class Detail {
                 type: params.sellingType
             }
         });
+
+        this.marketStream.init();
+        this.orderbookUpdater.init();
+        this.recentTradesUpdater.init();
+        this.myOffersUpdater.init();
+        this.myAssetPairUpdater.init();
+    }
+
+    deactivate() {
+        this.orderbookUpdater.deinit();
+        this.recentTradesUpdater.deinit();
+        this.myOffersUpdater.deinit();
+        this.myAssetPairUpdater.deinit();
+        this.marketStream.deinit();
     }
 
     assetPairChanged() {

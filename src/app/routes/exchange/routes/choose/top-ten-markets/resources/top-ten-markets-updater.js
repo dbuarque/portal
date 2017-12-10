@@ -11,19 +11,21 @@ export class TopTenMarketsUpdater {
         this.updateTopTenMarkets = updateTopTenMarkets;
     }
 
-    async start() {
-        this.stop();
+    async init() {
+        this.deinit();
 
         const topTenMarkets = await this.marketResource.top();
         this.updateTopTenMarkets.dispatch(topTenMarkets);
+
         this.unsubscribeFromStream = this.topMarketsStream.subscribe(payload => {
             this.updateTopTenMarkets.dispatch(payload);
         });
     }
 
-    stop() {
+    deinit() {
         if (this.unsubscribeFromStream) {
             this.unsubscribeFromStream();
+            this.unsubscribeFromStream = undefined;
         }
     }
 }

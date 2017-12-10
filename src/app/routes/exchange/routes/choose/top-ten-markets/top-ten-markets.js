@@ -8,11 +8,11 @@ import {EventHelper} from 'global-resources';
 import {UpdateAssetPairActionCreator} from '../../../action-creators';
 import {MarketToAssetPairValueConverter} from '../choose.value-converters';
 import {UpdateTopTenMarketsOrderActionCreator} from './action-creators';
-import {TopTenMarketsUpdater} from './resources';
+import {TopMarketsStream, TopTenMarketsUpdater} from './resources';
 
 @inject(
-    Element, UpdateAssetPairActionCreator,
-    MarketToAssetPairValueConverter, UpdateTopTenMarketsOrderActionCreator, TopTenMarketsUpdater
+    Element, UpdateAssetPairActionCreator, MarketToAssetPairValueConverter,
+    UpdateTopTenMarketsOrderActionCreator, TopMarketsStream, TopTenMarketsUpdater
 )
 export class TopTenMarkets {
     @connected('exchange.choose.topTenMarkets.results')
@@ -29,20 +29,27 @@ export class TopTenMarkets {
     loading = 0;
     nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
 
-    constructor(element, updateAssetPair, marketToAssetPair, updateTopTenMarkets, topTenMarketsUpdater) {
+    constructor(element, updateAssetPair, marketToAssetPair, updateTopTenMarkets, topMarketsStream, topTenMarketsUpdater) {
         this.element = element;
         this.updateAssetPair = updateAssetPair;
         this.marketToAssetPair = marketToAssetPair;
         this.updateTopTenMarkets = updateTopTenMarkets;
+        this.topMarketsStream = topMarketsStream;
         this.topTenMarketsUpdater = topTenMarketsUpdater;
     }
 
     bind() {
-        this.topTenMarketsUpdater.start();
+        this.loading++;
+
+        this.topMarketsStream.init();
+        this.topTenMarketsUpdater.init();
+
+        this.loading--;
     }
 
     unbind() {
-        this.topTenMarketsUpdater.stop();
+        this.topMarketsStream.deinit();
+        this.topTenMarketsUpdater.deinit();
     }
 
     async changeOrder(newOrder) {

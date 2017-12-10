@@ -12,38 +12,33 @@ export class TopMarketsStream {
         io.socket.on('topMarkets', this._newPayload.bind(this));
     }
 
+    init() {
+        this._connectToSocket();
+    }
+
+    deinit() {
+        this._disconnectFromSocket();
+    }
+
     _newPayload(payload) {
         this._notifySubscribers(payload);
     }
 
-    subscribed() {
-        if (this.subscribers.length === 1) {
-            this.connectToSocket();
-        }
-    }
-
-    unsubscribed() {
-        if (this.subscribers.length === 0) {
-            this.disconnectFromSocket();
-        }
-    }
-
-    disconnectFromSocket() {
-        this.isConnected = false;
-
+    _disconnectFromSocket() {
         return new Promise((resolve, reject) => {
             io.socket.get('/Market/Top/Unsubscribe', {}, (resData, jwRes) => {
                 if (jwRes.statusCode > 300) {
                     reject();
                     return;
                 }
+                this.isConnected = false;
 
                 resolve();
             });
         });
     }
 
-    connectToSocket() {
+    _connectToSocket() {
         return new Promise((resolve, reject) => {
             io.socket.get('/Market/Top/Subscribe', {}, (resData, jwRes) => {
                 if (jwRes.statusCode > 300) {
