@@ -1,4 +1,8 @@
 .alert {
+    &.card {
+        border-top: 1px solid $light-gray;
+    }
+
     &.alert-error {
         color: $error;
     }

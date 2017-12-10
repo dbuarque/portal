@@ -5,7 +5,7 @@
 import _findIndex from 'lodash/findIndex';
 
 export function subscriptionService() {
-    return function (target) {
+    return function(target) {
         target.prototype.subscribe = function subscribe(subscriber) {
             if (!this.subscribers) {
                 this.subscribers = [];
@@ -37,5 +37,5 @@ export function subscriptionService() {
                 s(payload);
             });
         };
-    }
+    };
 }

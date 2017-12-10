@@ -88,24 +88,12 @@ export class TransactionService {
             await transactionSubmissionPromise;
         }
         catch (e) {
-            let errorMessage;
-
-            if (e.message) {
-                errorMessage = e.message;
-            }
-            else if (e.extras) {
-                errorMessage = 'There was an error in submitting the transaction to the stellar network. The transaction failed with the following code(s):<br>' + Object.values(e.extras.result_codes).join(', ');
-            }
-            else {
-                errorMessage = 'An unknown error occurred in submitting your transaction to the stellar network. The transaction was not executed.';
-            }
-
             try {
                 this.modalService.open(
                     PLATFORM.moduleName('app/resources/crud/stellar/transaction-service/error-modal/error-modal'),
                     {
                         title: 'Stellar Transaction Error',
-                        message: errorMessage
+                        error: e
                     }, {
                         modalClass: 'sm'
                     }

@@ -15,3 +15,11 @@ export class CamelToBrokenValueConverter {
             string;
     }
 }
+
+export class WithHttpProtocolValueConverter {
+    toView(string = '') {
+        return string.indexOf('http') === 0 ?
+            string :
+            'http://' + string;
+    }
+}

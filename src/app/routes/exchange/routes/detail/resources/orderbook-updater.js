@@ -4,13 +4,12 @@
 
 import {inject} from 'aurelia-framework';
 import {connected} from 'aurelia-redux-connect';
-import {MarketResource} from 'app-resources';
+import {MarketResource, assetPairsAreDifferent} from 'app-resources';
 import {MarketStream} from './market-stream';
 import {UpdateOrderbookActionCreator} from '../action-creators';
 
 @inject(MarketResource, MarketStream, UpdateOrderbookActionCreator)
 export class OrderbookUpdater {
-
     @connected('exchange.assetPair')
     assetPair;
 
@@ -21,30 +20,50 @@ export class OrderbookUpdater {
     }
 
     init() {
-        //calling bind, connects the assetPair which will trigger the assetPairChanged listener.
+        //calling bind, connects the connected properties
         this.bind();
+        this._start();
+    }
+
+    deinit() {
+        this._stop();
+        this.unbind();
     }
 
     async assetPairChanged() {
-        // First simply get the new orderbook if there is an assetPair.
-        if (this.assetPair) {
-            const newOrderbook = await this.marketResource.orderbook(this.assetPair);
-            this.updateOrderbook.dispatch(newOrderbook);
-        }
-
-        // Now, subscribe to changes (subscribeToStream will simply unsubscribe in the case of no assetPair).
-        this.subscribeToStream();
+        this.restart();
     }
 
-    subscribeToStream() {
-        if (this.unsubscribeFromStream) {
-            this.unsubscribeFromStream();
-            this.unsubscribeFromStream = undefined;
+    restart() {
+        if (
+            !assetPairsAreDifferent(this.assetPair, this.previousAssetPair)
+        ) {
+            return;
         }
+
+        this._stop();
 
         if (!this.assetPair) {
             return;
         }
+
+        this._start();
+    }
+
+    _stop() {
+        this.previousAssetPair = undefined;
+
+        if (this.unsubscribeFromStream) {
+            this.unsubscribeFromStream();
+            this.unsubscribeFromStream = undefined;
+        }
+    }
+
+    async _start() {
+        this.previousAssetPair = this.assetPair;
+
+        const newOrderbook = await this.marketResource.orderbook(this.assetPair);
+        this.updateOrderbook.dispatch(newOrderbook);
 
         this.unsubscribeFromStream = this.marketStream.subscribe(payload => {
             if (payload.type !== 'orderbook') {

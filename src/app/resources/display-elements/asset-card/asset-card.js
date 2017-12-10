@@ -1,9 +1,10 @@
 import {bindable, computedFrom, inject} from 'aurelia-framework';
 import {asyncBindable} from 'aurelia-async-bindable-bluebird';
+import {WithHttpProtocolValueConverter} from 'global-resources';
 import {shortenAddress, TomlCache} from 'app-resources';
 import {AssetSelectionService} from '../../crud/stellar/asset-selection-service';
 
-@inject(TomlCache, AssetSelectionService)
+@inject(TomlCache, WithHttpProtocolValueConverter, AssetSelectionService)
 export class AssetCardCustomElement {
     @bindable() reselect;
     @bindable() asset;
@@ -88,9 +89,21 @@ export class AssetCardCustomElement {
             });
     }
 
-    constructor(tomlCache, assetSelectionService) {
+    constructor(tomlCache, withHttpProtocol, assetSelectionService) {
         this.tomlCache = tomlCache;
+        this.withHttpProtocol = withHttpProtocol;
         this.assetSelectionService = assetSelectionService;
+    }
+
+    followHomeDomain(e) {
+        window.open(
+            this.homeDomain === 'Stellar' ?
+                'https://stellar.org' :
+                this.withHttpProtocol.toView(this.homeDomain),
+            '_blank'
+        );
+
+        e.stopPropagation();
     }
 
     async openSidebar() {

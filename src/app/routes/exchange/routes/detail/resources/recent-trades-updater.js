@@ -4,13 +4,12 @@
 
 import {inject} from 'aurelia-framework';
 import {connected} from 'aurelia-redux-connect';
-import {MarketResource} from 'app-resources';
+import {MarketResource, assetPairsAreDifferent} from 'app-resources';
 import {MarketStream} from './market-stream';
 import {UpdateRecentTradesActionCreator} from '../action-creators';
 
 @inject(MarketResource, MarketStream, UpdateRecentTradesActionCreator)
 export class RecentTradesUpdater {
-
     @connected('exchange.assetPair')
     assetPair;
 
@@ -21,30 +20,51 @@ export class RecentTradesUpdater {
     }
 
     init() {
-        //calling bind, connects the assetPair which will trigger the assetPairChanged listener.
+        //calling bind, connects the connected properties
         this.bind();
+        this._start();
+    }
+
+    deinit() {
+        this._stop();
+        this.unbind();
     }
 
     async assetPairChanged() {
-        // First simply get the new orderbook if there is an assetPair.
-        if (this.assetPair) {
-            const newTrades = await this.marketResource.recentTrades(this.assetPair);
-            this.updateRecentTrades.dispatch(newTrades, true);
-        }
-
-        // Now, subscribe to changes (subscribeToStream will simply unsubscribe if there is no assetPair).
-        this.subscribeToStream();
+        this.restart();
     }
 
-    subscribeToStream() {
-        if (this.unsubscribeFromStream) {
-            this.unsubscribeFromStream();
-            this.unsubscribeFromStream = undefined;
+    restart() {
+        if (
+            !assetPairsAreDifferent(this.assetPair, this.previousAssetPair)
+        ) {
+            return;
         }
+
+        this._start();
 
         if (!this.assetPair) {
             return;
         }
+
+        this._stop();
+    }
+
+    _stop() {
+        this.previousAssetPair = undefined;
+
+        if (this.unsubscribeFromStream) {
+            this.unsubscribeFromStream();
+            this.unsubscribeFromStream = undefined;
+        }
+    }
+
+    async _start() {
+        this.previousAssetPair = this.assetPair;
+
+        // First simply get the new orderbook if there is an assetPair.
+        const newTrades = await this.marketResource.recentTrades(this.assetPair);
+        this.updateRecentTrades.dispatch(newTrades, true);
 
         // Now, subscribe to changes.
         this.unsubscribeFromStream = this.marketStream.subscribe(payload => {

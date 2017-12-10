@@ -28,8 +28,13 @@ export class SignWithProvidedSecretCustomElement {
             return;
         }
 
-        const keypair = StellarSdk.Keypair.fromSecret(this.secret);
         const account = this.store.getState().myAccount;
+        let keypair;
+
+        try {
+            keypair = StellarSdk.Keypair.fromSecret(this.secret);
+        }
+        catch (e) {}
 
         if (!account) {
             this.errorMessage = 'Hey, you aren\'t logged in. You can\'t create a transaction without being logged in first silly. Please login and try again.';

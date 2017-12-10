@@ -4,7 +4,12 @@
         <div class="card-content">
             <div class="card-heading">
                 <div class="card-title">
-                    ${type | capitalizeFirstLetter}
+                    ${type | capitalizeFirstLetter}&nbsp;
+                    <span class="accent-text">
+                        (${selling ? assetPair.selling.code : assetPair.buying.code}
+                        For
+                        ${selling ? assetPair.buying.code : assetPair.selling.code})
+                    </span>
                 </div>
             </div>
             <div class="card-body">
