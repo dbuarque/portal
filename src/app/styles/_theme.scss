@@ -6,19 +6,35 @@
     /*background-color: white;*/
     color: $primary;
 }
+
+.accent {
+    background-color: $accent;
+}
+
+.accent-text {
+    color: $accent;
+}
+
+.primary-border {
+    border: 1px solid $primary !important;
+}
+.accent-border {
+    border: 1px solid $accent !important;
+}
+
 .waves-effect.waves-primary .waves-ripple {
     background-color: $primary;
 }
-.waves-effect.waves-accent .waves-ripple {
-    background-color: $accent;
+.waves-effect.waves-dark-gray .waves-ripple {
+    background-color: $dark-gray;
 }
-.accent {
-    background-color: $accent;
+.dark-gray {
+    background-color: $dark-gray;
     color: white;
 }
-.accent-text {
+.dark-gray-text {
     /*background-color: white;*/
-    color: $accent;
+    color: $dark-gray;
 }
 
 .gray-text {
@@ -73,55 +89,55 @@
     box-shadow: none;
     transition: .2s ease-out;
 }
-.btn.accent, .btn-flat.accent, .btn-large.accent {
+.btn.dark-gray, .btn-flat.dark-gray, .btn-large.dark-gray {
     transition: .2s ease-out;
 }
-.btn.accent:hover, .btn-flat.accent:hover, .btn-large.accent:hover, .btn-floating:hover {
-    background-color: lighten($accent, 5%);
+.btn.dark-gray:hover, .btn-flat.dark-gray:hover, .btn-large.dark-gray:hover, .btn-floating:hover {
+    background-color: lighten($dark-gray, 5%);
     transition: .2s ease-out;
 }
-.btn.accent:focus, .btn-flat.accent:focus, .btn-large.accent:focus, .btn-floating:focus {
-    background-color: lighten($accent, 10%);
+.btn.dark-gray:focus, .btn-flat.dark-gray:focus, .btn-large.dark-gray:focus, .btn-floating:focus {
+    background-color: lighten($dark-gray, 10%);
     transition: .2s ease-out;
 }
 /* checkbox */
 [type="checkbox"]:checked + label:before {
-    border-right-color: $accent;
-    border-bottom-color: $accent;
+    border-right-color: $dark-gray;
+    border-bottom-color: $dark-gray;
 }
 [type="checkbox"].filled-in:checked + label:after {
-    border-color: $accent;
-    background-color: $accent;
+    border-color: $dark-gray;
+    background-color: $dark-gray;
 }
 [type="checkbox"]:indeterminate + label:before {
-    border-right-color: $accent;
+    border-right-color: $dark-gray;
 }
 /* collection */
 md-collection .collection md-collection-item.collection-item.active {
-    background-color: $accent;
+    background-color: $dark-gray;
     color: white;
 }
 md-collection .collection md-collection-item.collection-item .secondary-content {
-    color: $accent;
+    color: $dark-gray;
 }
 md-collection .collection md-collection-item.collection-item.avatar i.circle.primary {
     background-color: $primary;
 }
-md-collection .collection md-collection-item.collection-item.avatar i.circle.accent {
-    background-color: $accent;
+md-collection .collection md-collection-item.collection-item.avatar i.circle.dark-gray {
+    background-color: $dark-gray;
 }
 md-collection .collection md-collection-item.collection-item.avatar i.circle.error {
     background-color: $error;
 }
 md-collection .collection md-collection-item.collection-item.avatar i.circle.success {
-    background-color: $accent;
+    background-color: $dark-gray;
 }
 md-collection .collection md-collection-item.collection-item.avatar i.circle.primary-text {
     color: $primary;
     background-color: transparent;
 }
-md-collection .collection md-collection-item.collection-item.avatar i.circle.accent-text {
-    color: $accent;
+md-collection .collection md-collection-item.collection-item.avatar i.circle.dark-gray-text {
+    color: $dark-gray;
     background-color: transparent;
 }
 md-collection .collection md-collection-item.collection-item.avatar i.circle.error-text {
@@ -129,27 +145,27 @@ md-collection .collection md-collection-item.collection-item.avatar i.circle.err
     background-color: transparent;
 }
 md-collection .collection md-collection-item.collection-item.avatar i.circle.success-text {
-    color: $accent;
+    color: $dark-gray;
     background-color: transparent;
 }
 /* datepicker */
 .picker__date-display {
-    background-color: $accent;
+    background-color: $dark-gray;
 }
 .picker__weekday-display {
-    background-color: darken($accent, 30%);
+    background-color: darken($dark-gray, 30%);
 }
 .picker__day--selected, .picker__day--selected:hover, .picker--focused .picker__day--selected {
-    background-color: $accent;
+    background-color: $dark-gray;
 }
 .picker__day.picker__day--today {
-    color: $accent
+    color: $dark-gray
 }
 .picker__footer button:not(.picker__clear) {
-    color: $accent
+    color: $dark-gray
 }
 .picker__footer button:focus {
-    background-color: lighten($accent, 60%);
+    background-color: lighten($dark-gray, 60%);
 }
 [md-datepicker] + i.material-icons.std-icon-fixup {
     margin-left: -24px;
@@ -162,49 +178,49 @@ md-input .input-field label {
     left: 0;
 }
 md-input .input-field input[type=text]:focus {
-    border-bottom: 1px solid $accent;
-    box-shadow: 0 1px 0 0 $accent;
+    border-bottom: 1px solid $dark-gray;
+    box-shadow: 0 1px 0 0 $dark-gray;
 }
 md-input .input-field input[type=text]:focus + label {
-    color: $accent;
+    color: $dark-gray;
 }
 md-input .input-field input[type=email]:focus {
-    border-bottom: 1px solid $accent;
-    box-shadow: 0 1px 0 0 $accent;
+    border-bottom: 1px solid $dark-gray;
+    box-shadow: 0 1px 0 0 $dark-gray;
 }
 md-input .input-field input[type=email]:focus + label {
-    color: $accent;
+    color: $dark-gray;
 }
 md-input .input-field input[type=password]:focus {
-    border-bottom: 1px solid $accent;
-    box-shadow: 0 1px 0 0 $accent;
+    border-bottom: 1px solid $dark-gray;
+    box-shadow: 0 1px 0 0 $dark-gray;
 }
 md-input .input-field input[type=password]:focus + label {
-    color: $accent;
+    color: $dark-gray;
 }
 md-input .input-field input[type=number]:focus {
-    border-bottom: 1px solid $accent;
-    box-shadow: 0 1px 0 0 $accent;
+    border-bottom: 1px solid $dark-gray;
+    box-shadow: 0 1px 0 0 $dark-gray;
 }
 md-input .input-field input[type=number]:focus + label {
-    color: $accent;
+    color: $dark-gray;
 }
 md-input .input-field input[type=time]:focus {
-    border-bottom: 1px solid $accent;
-    box-shadow: 0 1px 0 0 $accent;
+    border-bottom: 1px solid $dark-gray;
+    box-shadow: 0 1px 0 0 $dark-gray;
 }
 md-input .input-field input[type=time]:focus + label {
-    color: $accent;
+    color: $dark-gray;
 }
 md-input .input-field .prefix.active {
-    color: $accent;
+    color: $dark-gray;
 }
 md-input textarea.materialize-textarea:focus:not([readonly]) {
-    border-bottom: 1px solid $accent;
-    box-shadow: 0 1px 0 0 $accent;
+    border-bottom: 1px solid $dark-gray;
+    box-shadow: 0 1px 0 0 $dark-gray;
 }
 md-input textarea.materialize-textarea:focus:not([readonly]) + label {
-    color: $accent
+    color: $dark-gray
 }
 md-input input:not([type]).invalid + label:after,
 md-input input:not([type]):focus.invalid + label:after,
@@ -268,39 +284,39 @@ md-pagination .pagination li.active {
 }
 /* progress */
 md-progress .progress {
-    background-color: lighten($accent, 60%);
+    background-color: lighten($dark-gray, 60%);
 }
 md-progress .progress .determinate, md-progress .progress .indeterminate {
-    background-color: $accent;
+    background-color: $dark-gray;
 }
 /* radio input */
 md-radio input[type="radio"]:checked + label:after {
-    border: 2px solid $accent;
-    background-color: $accent;
+    border: 2px solid $dark-gray;
+    background-color: $dark-gray;
 }
 md-radio [type="radio"].with-gap:checked + label:before {
-    border: 2px solid $accent;
+    border: 2px solid $dark-gray;
 }
 md-radio [type="radio"].with-gap:checked + label:after {
-    border: 2px solid $accent;
-    background-color: $accent;
+    border: 2px solid $dark-gray;
+    background-color: $dark-gray;
 }
 /* range */
 md-range .range-field input[type="range"]::-webkit-slider-thumb {
-    background: $accent;
+    background: $dark-gray;
 }
 md-range .range-field input[type="range"]::-moz-range-thumb {
-    background: $accent;
+    background: $dark-gray;
 }
 md-range .range-field input[type="range"]::-ms-thumb {
-    background: $accent;
+    background: $dark-gray;
 }
 md-range input[type="range"] + .thumb {
-    background-color: $accent !important;
+    background-color: $dark-gray !important;
 }
 /* select */
 .dropdown-content li > a, .dropdown-content li > span {
-    color: $accent;
+    color: $dark-gray;
 }
 .select-wrapper input.select-dropdown {
     -webkit-user-select:none;
@@ -318,14 +334,14 @@ md-sidenav .side-nav .collapsible-body li.active, .side-nav.fixed .collapsible-b
 }
 /* slider */
 .slider .indicators .indicator-item.active {
-    background-color: $accent;
+    background-color: $dark-gray;
 }
 /* switch */
 md-switch.switch label input[type=checkbox]:checked + .lever {
-    background-color: lighten($accent, 30%);
+    background-color: lighten($dark-gray, 30%);
 }
 md-switch.switch label input[type=checkbox]:checked + .lever:after {
-    background-color: $accent;
+    background-color: $dark-gray;
 }
 /* tabs */
 .tabs {
@@ -366,7 +382,7 @@ footer.page-footer {
     border-bottom: 1px solid $error;
 }
 .select-wrapper + label {
-    color: $accent;
+    color: $dark-gray;
     width: 100%;
 }
 /* position validation label */

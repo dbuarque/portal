@@ -25,7 +25,7 @@ input:not([type]), input[type=text], input[type=password], input[type=email], in
 
     .select2-results__option--highlighted[aria-selected] {
         background-color: $background;
-        color: $accent;
+        color: $dark-gray;
     }
 
     &.disabled {
@@ -130,7 +130,7 @@ input:not([type]), input[type=text]:not(.browser-default), input[type=password]:
 }
 
 input.aurelia-flatpickr, .aurelia-flatpickr input {
-    color: $accent-text !important;
+    color: $dark-gray-text !important;
     border-bottom: 1px solid $gray !important;
 }
 
@@ -202,6 +202,21 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
     transition: .2s ease-out;
 }
 
+
+/* buttons */
+.btn.accent, .btn-flat.accent, .btn-large.accent {
+    color: $dark-gray;
+    background-color: $accent;
+    transition: .2s ease-out;
+}
+.btn.accent:hover, .btn-flat.accent:hover, .btn-large.accent:hover {
+    background-color: lighten($accent, 10%);
+    transition: .2s ease-out;
+}
+.btn.accent:focus, .btn-flat.accent:focus, .btn-large.accent:focus {
+    background-color: lighten($accent, 5%);
+    transition: .2s ease-out;
+}
 
 /* buttons */
 .btn.warning, .btn-flat.warning, .btn-large.warning {

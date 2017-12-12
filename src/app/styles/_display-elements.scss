@@ -89,7 +89,7 @@
 
     .modal-header {
         //border-bottom: 1px solid $light-gray;
-        background: $accent;
+        background: $dark-gray;
         color: #fff;
     }
 
@@ -133,7 +133,7 @@
         }
 
         &.active {
-            color: $accent;
+            color: $dark-gray;
             background-color: $background;
         }
     }
