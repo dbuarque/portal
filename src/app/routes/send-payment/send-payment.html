@@ -9,8 +9,11 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div if.bind="destination === lupoexPublicKey" class="card alert alert-warning center-text">
-                        Hey, that looks like our address. Thanks in advance for the donation.&nbsp;<i class="fa fa-smile-o fa-lg"></i>
+                    <div show.bind="destination === lupoexPublicKey">
+                        <div class="card alert accent-border center-text primary-text">
+                            Hey, that looks like our address. Thanks in advance for the donation.&nbsp;<i class="fa fa-smile-o fa-lg"></i>
+                        </div>
+                        <br>
                     </div>
 
                     <alert-card type="info" title="Careful! Payments Are Permenant">
@@ -40,7 +43,7 @@
                                 </div>
                             </div>
 
-                            <div class="accent-text" show.bind="requiredMemo">
+                            <div class="dark-gray-text" show.bind="requiredMemo">
                                 <br>
                                 <alert-card type="success" title="Your Federated Address Requires A Memo" dismissible.bind="false">
                                     You entered a federated destination address which requires a specific memo to be submitted along with the transaction.
@@ -73,7 +76,7 @@
                                     </div>
                                 </div>
                                 <br>
-                                <button md-waves type="button" class="btn btn-flat accent" click.trigger="addMemo()" if.bind="!memo">
+                                <button md-waves type="button" class="btn btn-flat dark-gray" click.trigger="addMemo()" if.bind="!memo">
                                     <i class="fa fa-plus"></i>&nbsp;Add Memo
                                 </button>
                             </div>

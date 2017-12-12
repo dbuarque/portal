@@ -8,24 +8,20 @@
     .brand-logo {
         height: 54px;
         line-height: 54px;
-        vertical-align: middle;
         margin-left: 15px;
-        color: $accent;
         font-weight: bold;
-        text-shadow: 0 0 5px rgba(255, 255, 255, 1);
-
+        vertical-align: bottom;
 
         img {
-            height: 50px;
-            width: 50px;
+            height: 40px;
+            width: 40px;
             display: inline;
             vertical-align: middle;
             margin-top: -5px;
         }
 
         .brand-desc {
-            font-size: 16px;
-            vertical-align: middle;
+            font-size: 12px;
         }
     }
 }
@@ -40,7 +36,7 @@ nav .nav-wrapper i {
 
     nav {
         height: 54px;
-        background-color: $primary;
+        background-color: $dark-gray;
         -webkit-box-shadow: $shadow1;
         -moz-box-shadow: $shadow1;
         box-shadow: $shadow1;
@@ -59,7 +55,7 @@ nav .nav-wrapper i {
 
                     &:hover {
                         color: $accent;
-                        background-color: $primary;
+                        background-color: $dark-gray;
                     }
 
                     i {

@@ -6,7 +6,7 @@
         width: auto;
         padding: 2px;
         border: 1px solid $gray;
-        color: $accent;
+        color: $dark-gray;
         border-radius: 0;
         height: auto;
     }
@@ -106,7 +106,7 @@
 
 .breadcrumbs {
     .crumb {
-        color: $accent-text;
+        color: $dark-gray-text;
 
         &.final-crumb {
             color: $primary-text;
@@ -122,10 +122,10 @@
         background: #fff;
 
         .trumbowyg-active {
-            background-color: $accent;
+            background-color: $dark-gray;
 
             &:hover {
-                background-color: $accent;
+                background-color: $dark-gray;
             }
         }
     }

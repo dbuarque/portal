@@ -20,7 +20,7 @@
     }
 
     &.alert-info {
-        color: $accent;
+        color: $dark-gray;
 
         i.fa-info-circle {
             color: $primary;
@@ -28,8 +28,12 @@
     }
 
     button {
-        color: $accent !important;
+        color: $dark-gray !important;
     }
+}
+
+.alert-card {
+    border-top: 1px solid $light-gray;
 }
 
 .toast {
@@ -95,11 +99,11 @@
     }
 
     &.info {
-        color: $accent;
-        border: 1px solid $accent;
+        color: $dark-gray;
+        border: 1px solid $dark-gray;
 
         &:before {
-            color: $accent;
+            color: $dark-gray;
             content: "\f05a";
         }
     }
