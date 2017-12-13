@@ -28,6 +28,13 @@ export class AppConfig {
                     breadcrumb: true
                 },
                 {
+                    route: ['create-account'],
+                    name: 'createAccount',
+                    moduleId: PLATFORM.moduleName('./routes/create-account/create-account', 'createAccount'),
+                    title: 'Create Account',
+                    breadcrumb: true
+                },
+                {
                     route: ['account'],
                     name: 'account',
                     moduleId: PLATFORM.moduleName('./routes/account/account', 'account'),
