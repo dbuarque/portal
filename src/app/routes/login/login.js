@@ -57,7 +57,7 @@ export class IdentifyUser {
     }
 
     accountChanged() {
-        if (this.account) {
+        if (this.account && Object.keys(this.account).length > 1) {
             this.router.parent.navigateToRoute('account');
         }
     }

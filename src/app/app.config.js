@@ -18,28 +18,30 @@ export class AppConfig {
                     route: ['exchange'],
                     name: 'exchange',
                     moduleId: PLATFORM.moduleName('./routes/exchange/exchange', 'exchange'),
-                    title: 'Exchange'
+                    title: 'Decentralized Exchange'
                 },
                 {
                     route: ['login'],
                     name: 'login',
                     moduleId: PLATFORM.moduleName('./routes/login/login'),
                     title: 'Login',
-                    breadcrumb: true
+                    breadcrumb: true,
+                    anonymousRequired: true
                 },
                 {
                     route: ['create-account'],
                     name: 'createAccount',
                     moduleId: PLATFORM.moduleName('./routes/create-account/create-account', 'createAccount'),
                     title: 'Create Account',
-                    breadcrumb: true
+                    breadcrumb: true,
+                    anonymousRequired: true
                 },
                 {
                     route: ['account'],
                     name: 'account',
                     moduleId: PLATFORM.moduleName('./routes/account/account', 'account'),
                     accountRequired: true,
-                    title: 'Account',
+                    title: 'My Account',
                     breadcrumb: true
                 },
                 {

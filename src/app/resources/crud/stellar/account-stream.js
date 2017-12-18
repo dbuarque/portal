@@ -32,18 +32,24 @@ export class AccountStream {
         }
 
         try {
-            try {
-                await this._disconnectFromSocket();
-                this.previousAccountId = undefined;
+            await this._disconnectFromSocket();
+            this.previousAccountId = undefined;
+        }
+        catch (e) {
+            if (e.statusCode >= 500) {
+                this.alertToaster.networkError();
             }
-            catch (e) {
-                throw e;
-            }
+            throw e;
+        }
+
+        try {
             await this._connectToSocket();
             this.previousAccountId = this.accountId;
         }
-        catch(e) {
-            this.alertToaster.networkError();
+        catch (e) {
+            if (e.statusCode >= 500) {
+                this.alertToaster.networkError();
+            }
             throw e;
         }
     }
@@ -82,7 +88,7 @@ export class AccountStream {
         return new Promise((resolve, reject) => {
             io.socket.get('/Account/' + this.accountId + '/Subscribe', {}, (resData, jwRes) => {
                 if (jwRes.statusCode > 300) {
-                    reject();
+                    reject(jwRes);
                     return;
                 }
 

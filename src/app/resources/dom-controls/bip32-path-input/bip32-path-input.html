@@ -1,10 +1,12 @@
 <template>
     <div class="bip32-path-input">
-        <label class="dark-gray-text">-- enter BIP32 path or leave at default --</label>
+        <label class="dark-gray-text">-- enter BIP32 path or leave as default --</label>
         <input value.bind="inputValue" placeholder="BIP32 path: 44'/148'/n'"><br>
         <div if.bind="inputValue">
             <div>
                 <span if.bind="!isValidBip32Path" class="error-text"><i class="fa fa-exclamation-circle"></i>&nbsp;Invalid BIP32 path</span>
+                <span show.bind="publicKey" class="primary-text small-text">${publicKey}</span>
+                <span show.bind="bip32Path && !publicKey" class="error-text small-text">Could not get public key. Have you entered your pin into your ledger?</span>
             </div>
         </div>
     </div>
