@@ -1,4 +1,3 @@
-
 import {inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
@@ -18,7 +17,7 @@ export class WakeEventEmitter {
 
     checkIfAwoken() {
         let currentTime = (new Date()).getTime();
-        if (currentTime > (this.lastTime + this.TIMEOUT + 2000)) {
+        if (currentTime > (this.lastTime + (this.TIMEOUT * 2) + 2000)) {
             this.eventAggregator.publish('wake');
         }
         this.lastTime = currentTime;

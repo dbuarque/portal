@@ -36,13 +36,7 @@ export class PublicKey {
     async login() {
         this.loading++;
 
-        if (this.ledgerConnected) {
-            this.publicKey = await this.ledgerHwService.getPublicKeyFromLedger(this.bip32Path);
-        }
-
         if (!this.publicKey) {
-            this.errorMessage = 'Something is wrong, a valid stellar account could not be detected.';
-            this.loading--;
             return;
         }
 

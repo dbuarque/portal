@@ -1,15 +1,13 @@
-
-import BigNumber from 'bignumber.js';
-import {shortenAddress} from "./misc";
+import {shortenAddress} from './misc';
 
 export function userFriendlyEffectMessage(e) {
-    switch(e.type) {
+    switch (e.type) {
         case 'ACCOUNT_CREATED':
             return 'Account created with initial balance of ' + e.details.starting_balance + ' ' + window.lupoex.stellar.nativeAssetCode;
         case 'ACCOUNT_REMOVED':
             return 'Account removed';
         case 'ACCOUNT_CREDITED':
-            switch(e.operation.type) {
+            switch (e.operation.type) {
                 case 'PAYMENT':
                 case 'PATH_PAYMENT':
                     return 'Received payment from ' + shortenAddress(e.operation.details.from) + ' for ' +
@@ -49,7 +47,7 @@ export function userFriendlyEffectMessage(e) {
 function accountDebitedMessage(e) {
     const {type, details} = e.operation;
 
-    switch(type) {
+    switch (type) {
         case 'PAYMENT':
             // We don't want two alerts coming up every time someone puts an offer in (one for the trade and one for the fee)
             // For the effect history (because we want an entry for the fee as well), just don't include the transaction's memo
@@ -62,7 +60,7 @@ function accountDebitedMessage(e) {
             return 'Sent path payment to ' + shortenAddress(details.to) +
                 'via path' + ' -> '  + assetDetailsToText(details.source_amount, details.source_asset_type, details.source_asset_code)
                 + details.path.reduce((result, fragment) => {
-                    return result + ' -> '  + assetDetailsToText(fragment.amount, fragment.asset_type, fragment.asset_code)
+                    return result + ' -> '  + assetDetailsToText(fragment.amount, fragment.asset_type, fragment.asset_code);
                 }, '')
                 + ' -> '  + assetDetailsToText(details.amount, details.asset_type, details.asset_code);
         case 'CREATE_ACCOUNT':

@@ -19,6 +19,7 @@ npm install
 This will install all required dependencies, including a local version of Webpack that is going to
 build and bundle the app. There is no need to install Webpack globally.
 
+
 Additionally, if you have github access to the tradingview charting_library (which this repo uses) you can run:
  ```
  git submodule update --init assets/charting_library
@@ -37,6 +38,8 @@ npm start
 This command starts the webpack development server that serves the build bundles.
 You can now browse the skeleton app at https://localhost:8080 (or the next available port, notice the output of the command). Changes in the code
 will automatically build and reload the app.
+
+If you are getting `node-sass` errors on startup, see the Troubleshooting section.
 
 **Below are some environment variables that can be set (and in some cases must be set):**
 #### Environment Variables
@@ -136,6 +139,12 @@ To trust a certificate on windows:
 8. In the toolbar that comes up (from the right-click) select All Tasks > Import
 9. Complete the Certificate Import Wizard using `dev-assets/server.cert` 
 10. Your browser should now trust the certificate and you should no longer get the intermittent page reload.
+
+2. **Why am I getting node-sass errors on startup?**
+Sometimes node-sass needs to be rebuilt for a particular operating system. To fix, run:
+```shell
+npm rebuild node-sass
+```
 
 <!--
 ## Running The Tests

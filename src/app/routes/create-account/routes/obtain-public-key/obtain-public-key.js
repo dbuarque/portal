@@ -9,22 +9,22 @@ import {connected} from 'aurelia-redux-connect';
 import {LoginConfig} from './login.config';
 
 @inject(LoginConfig, EventAggregator)
-export class IdentifyUser {
+export class ObtainPublicKey {
     @connected('myAccount')
     account;
 
-    loginMethods = [
+    addressGenerationMethods = [
         {
-            routeName: 'publicKey',
-            label: 'Public Key'
+            routeName: 'generateKeypair',
+            label: 'Generate A New Address'
         },
         {
-            routeName: 'secretKey',
-            label: 'Secret Key'
+            routeName: 'providePublicKey',
+            label: 'I Already Have An Address'
         },
         {
-            routeName: 'ledgerNano',
-            label: 'Ledger Nano S'
+            routeName: 'obtainFromLedgerNano',
+            label: 'Use My Ledger Nano S'
         }
     ];
 
@@ -57,16 +57,16 @@ export class IdentifyUser {
     }
 
     accountChanged() {
-        if (this.account && Object.keys(this.account).length > 1) {
+        if (this.account) {
             this.router.parent.navigateToRoute('account');
         }
     }
 
     syncLoginMethodFromRouter() {
-        this.loginMethod = this.loginMethods.find(m => m.routeName === this.router.currentInstruction.config.name);
+        this.method = this.addressGenerationMethods.find(m => m.routeName === this.router.currentInstruction.config.name);
     }
 
-    changeLoginMethod() {
-        this.router.navigateToRoute(this.loginMethod.routeName);
+    changeMethod() {
+        this.router.navigateToRoute(this.method.routeName);
     }
 }

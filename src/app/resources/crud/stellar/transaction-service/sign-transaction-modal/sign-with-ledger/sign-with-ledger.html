@@ -10,13 +10,15 @@
             <alert-card title="No Ledger Connected" type="warning" show.bind="ledgerConnected === false">
                 A Ledger Nano S could not be found. Please ensure that you have:
                 <ol>
-                    <li>Installed the Stellar app from Ledger app store on to your ledger device.</li>
-                    <li>Enabled browser support from your ledger device</li>
+                    <li>Installed the stellar app from the ledger app store.</li>
+                    <li>Enabled browser support in the stellar app's settings.</li>
                     <li>Physically connected your ledger device.</li>
+                    <li>Logged in with your PIN.</li>
+                    <li>Selected your stellar app.</li>
                 </ol>
                 Additionally, please note that as of now support for the Ledger Nano S is only available on the Chrome and Opera browsers.
             </alert-card>
-            <div class="center-text">
+            <div class="center-text" style="padding-bottom: 10px;">
                 <button md-waves type="button" class="btn gray" click.trigger="back()">
                     <i class="fa fa-arrow-left"></i>&nbsp;Back
                 </button>
@@ -29,7 +31,7 @@
             <alert-card show.bind="errorMessage" title="Error with your Ledger" type="error">
                 <div>${errorMessage}</div>
             </alert-card>
-            <form novalidate focus-input submit.trigger="sign()">
+            <form novalidate focus-input submit.trigger="sign()" style="padding-bottom: 10px;">
                 <div class="row">
                     <div class="cols center-align form-field">
                         <button md-waves type="button" class="btn gray" click.trigger="back()">
