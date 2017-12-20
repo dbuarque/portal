@@ -35,13 +35,17 @@
                                     <li>
                                         <a class="${displayedOfferType === 'bid' ? 'active' : ''}" click.trigger="changeOfferType('bid')" href="#bid-tab">
                                             Create Bid
-                                            <i class="gray-text fa fa-question-circle-o" md-tooltip="text.bind: 'Bid your ' + assetPair.buying.code  + ' to receive ' + assetPair.selling.code;"></i>
+                                            <span md-tooltip="text.bind: 'Bid your ' + assetPair.buying.code  + ' to receive ' + assetPair.selling.code;">
+                                                <i class="gray-text fal fa-question-circle"></i>
+                                            </span>
                                         </a>
                                     </li>
                                     <li>
                                         <a class="${displayedOfferType === 'ask' ? 'active' : ''}" click.trigger="changeOfferType('ask')" href="#ask-tab">
                                             Create Ask
-                                            <i class="gray-text fa fa-question-circle-o" md-tooltip="text.bind: 'Ask ' + assetPair.buying.code  + ' for your ' + assetPair.selling.code;"></i>
+                                            <span md-tooltip="text.bind: 'Ask ' + assetPair.buying.code  + ' for your ' + assetPair.selling.code;">
+                                                <i class="gray-text fal fa-question-circle"></i>
+                                            </span>
                                         </a>
                                     </li>
                                 </ul>

@@ -41,6 +41,7 @@ export class IdentifyUser {
 
     attached() {
         this.subscription = this.eventAggregator.subscribe('router:navigation:success', this.syncLoginMethodFromRouter.bind(this));
+        this.syncLoginMethodFromRouter();
     }
 
     detached() {

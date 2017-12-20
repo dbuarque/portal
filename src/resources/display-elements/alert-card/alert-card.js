@@ -7,7 +7,7 @@ export class AlertCardCustomElement {
 
     @computedFrom('type')
     get iconClasses() {
-        let classes = 'fa';
+        let classes = 'fal';
 
         switch (this.type) {
             case 'error':

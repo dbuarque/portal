@@ -50,7 +50,7 @@ export class AssetBalances {
 
         vm.config.table.columns[4].cellCallback = (cell, rowData) => {
             cell.empty();
-            $('<button class="btn dark-gray btn-small btn-flat" type="button"><i class="fa fa-paper-plane-o"></i>&nbsp;Pay</button>')
+            $('<button class="btn dark-gray btn-small btn-flat" type="button"><i class="fal fa-paper-plane"></i>&nbsp;Pay</button>')
                 .click(() => {
                     vm.goToSendPayment(rowData);
                 })

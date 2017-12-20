@@ -54,7 +54,7 @@
                     <div class="card-body">
                         <ul class="collection">
                             <li repeat.for="flag of account.flags | objectToArray" class="collection-item">
-                                ${flag.key | camelToBroken}: <i class="fa fa-lg ${flag.value ? 'fa-check-circle-o primary-text' : 'fa-times-circle-o error-text'}"></i>
+                                ${flag.key | camelToBroken}: <i class="fal fa-lg ${flag.value ? 'fa-check-circle primary-text' : 'fa-times-circle error-text'}"></i>
                             </li>
                         </ul>
                     </div>

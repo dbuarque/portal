@@ -51,15 +51,16 @@ nav .nav-wrapper i {
                 line-height: 53px;
                 a {
                     height: 53px;
+                    line-height: 53px;
                     color: #fff;
 
                     &:hover {
-                        color: $accent;
+                        color: $light-gray;
                         background-color: $dark-gray;
                     }
 
-                    i {
-                        height: auto;
+                    svg {
+                        vertical-align: middle;
                     }
                 }
             }
@@ -74,6 +75,7 @@ nav .nav-wrapper i {
                         font-size: 14px;
                         padding: 10px;
                         height: auto;
+                        color: $dark-gray;
                     }
                 }
 

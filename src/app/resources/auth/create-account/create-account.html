@@ -11,7 +11,7 @@
                 <!--<alert config.bind="createAccountHelpAlertConfig"></alert>-->
                 <div class="cols center-align form-field">
                     <button md-waves class="btn primary" click.delegate="generateKeypair()" >
-                        <i class="fa fa-refresh"></i>&nbsp;Generate Key Pair
+                        <i class="fal fa-sync"></i>&nbsp;Generate Key Pair
                     </button>
                 </div>
                 <div show.bind="newKeypair">
@@ -24,7 +24,7 @@
                     <div class="form-field">
                         <label>
                             Secret Key
-                            <i style="cursor: pointer" class="fa fa-lg fa-${displayNewSecret ? 'eye-slash' : 'eye'} primary-text" click.delegate="displayNewSecret = !displayNewSecret"></i>
+                            <i style="cursor: pointer" class="fal fa-lg fa-${displayNewSecret ? 'eye-slash' : 'eye'} primary-text" click.delegate="displayNewSecret = !displayNewSecret"></i>
                         </label>
                         <div style="font-size: 12px; word-break: break-all;">
                             ${displayNewSecret ? newSecret : hiddenNewSecret}
