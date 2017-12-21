@@ -2,6 +2,7 @@
  * Created by Ishai on 3/31/2016.
  */
 
+import './login.scss';
 import {inject} from 'aurelia-framework';
 import {Redirect} from 'aurelia-router';
 import {EventAggregator} from 'aurelia-event-aggregator';

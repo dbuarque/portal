@@ -2,6 +2,7 @@
  * Created by istrauss on 5/19/2017.
  */
 
+import './send-payment.scss';
 import * as StellarSdk from 'stellar-sdk';
 import {inject, computedFrom} from 'aurelia-framework';
 import {Router, Redirect} from 'aurelia-router';

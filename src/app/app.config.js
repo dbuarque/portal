@@ -15,27 +15,34 @@ export class AppConfig {
                     redirect: 'exchange'
                 },
                 {
+                    route: ['home'],
+                    name: 'home',
+                    moduleId: PLATFORM.moduleName('./routes/home/home'),
+                    title: 'Home'
+                },
+                {
                     route: ['exchange'],
                     name: 'exchange',
                     moduleId: PLATFORM.moduleName('./routes/exchange/exchange', 'exchange'),
-                    title: 'Decentralized Exchange'
+                    title: 'Decentralized Exchange',
+                    breadcrumb: true
                 },
                 {
                     route: ['login'],
                     name: 'login',
-                    moduleId: PLATFORM.moduleName('./routes/login/login'),
+                    moduleId: PLATFORM.moduleName('./routes/login/login', 'login'),
                     title: 'Login',
                     breadcrumb: true,
                     anonymousRequired: true
                 },
-                //{
-                //    route: ['create-account'],
-                //    name: 'createAccount',
-                //    moduleId: PLATFORM.moduleName('./routes/create-account/create-account', 'createAccount'),
-                //    title: 'Create Account',
-                //    breadcrumb: true,
-                //    anonymousRequired: true
-                //},
+                {
+                    route: ['create-account'],
+                    name: 'createAccount',
+                    moduleId: PLATFORM.moduleName('./routes/create-account/create-account', 'create-account'),
+                    title: 'Create Account',
+                    breadcrumb: true,
+                    anonymousRequired: true
+                },
                 {
                     route: ['account'],
                     name: 'account',
@@ -47,7 +54,7 @@ export class AppConfig {
                 {
                     route: ['send-payment/:type/:code/:issuer'],
                     name: 'send-payment',
-                    moduleId: PLATFORM.moduleName('./routes/send-payment/send-payment'),
+                    moduleId: PLATFORM.moduleName('./routes/send-payment/send-payment', 'send-payment'),
                     accountRequired: true,
                     title: 'Send Payment',
                     breadcrumb: true
