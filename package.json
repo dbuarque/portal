@@ -1,6 +1,6 @@
 {
     "name": "lupoex-client",
-    "version": "3.7.0",
+    "version": "3.8.0",
     "description": "Lupoex Client App.",
     "main": "dist/main.js",
     "productName": "Lupoex Client App",
@@ -135,7 +135,6 @@
         "datatables.net-responsive": "2.1.1",
         "datatables.net-responsive-dt": "2.1.1",
         "flatpickr": "2.5.8",
-        "font-awesome": "4.7.0",
         "isomorphic-fetch": "2.2.1",
         "jquery": "3.2.1",
         "lodash": "4.17.4",

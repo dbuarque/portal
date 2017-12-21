@@ -1,9 +1,9 @@
 <template>
     <require from="./memo-select/memo-select"></require>
     <div class="send-payment">
-        <div class="card" collapsible-card="is-open:true">
+        <div class="card">
             <div class="card-content">
-                <div class="card-heading">
+                <div class="card-heading center-text">
                     <div class="card-title">
                         Send Payment
                     </div>
@@ -11,7 +11,7 @@
                 <div class="card-body">
                     <div show.bind="destination === lupoexPublicKey">
                         <div class="card alert accent-border center-text primary-text">
-                            Hey, that looks like our address. Thanks in advance for the donation.&nbsp;<i class="fa fa-smile-o fa-lg"></i>
+                            Hey, that looks like our address. Thanks in advance for the donation.&nbsp;<i class="fal fa-smile fa-lg"></i>
                         </div>
                         <br>
                     </div>
@@ -69,7 +69,7 @@
                                             </div>
                                             <div class="col s2" style="padding-top: 20px;">
                                                 <button class="btn btn-flat error">
-                                                    <i class="fa fa-2x fa-trash-o" click.trigger="removeMemo()"></i>
+                                                    <i class="fal fa-trash" click.trigger="removeMemo()"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -77,7 +77,7 @@
                                 </div>
                                 <br>
                                 <button md-waves type="button" class="btn btn-flat dark-gray" click.trigger="addMemo()" if.bind="!memo">
-                                    <i class="fa fa-plus"></i>&nbsp;Add Memo
+                                    <i class="fal fa-plus"></i>&nbsp;Add Memo
                                 </button>
                             </div>
 
@@ -85,7 +85,7 @@
                             <br>
                             <div class="center-text">
                                 <button md-waves class="btn primary" click.delegate="submitInput()">
-                                    <i class="fa fa-paper-plane-o"></i>&nbsp;Submit Payment
+                                    <i class="fal fa-paper-plane"></i>&nbsp;Submit Payment
                                 </button>
                             </div>
                         </div>
@@ -126,10 +126,10 @@
                             </div>
                             <div class="center-text">
                                 <button md-waves class="btn gray" click.delegate="step = 'input'">
-                                    <i class="fa fa-arrow-left"></i>&nbsp;Back
+                                    <i class="fal fa-arrow-left"></i>&nbsp;Back
                                 </button>
                                 <button md-waves type="button" class="btn primary" click.trigger="submitConfirmation()">
-                                    <i class="fa fa-check"></i>&nbsp;Confirm
+                                    <i class="fal fa-check"></i>&nbsp;Confirm
                                 </button>
                             </div>
                         </div>

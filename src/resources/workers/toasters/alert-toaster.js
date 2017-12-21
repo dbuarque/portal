@@ -12,10 +12,8 @@ const defaultNetworkErrorText = 'Something went wrong. We are having trouble con
 
 @inject(MdToastService)
 export class AlertToaster {
-
     constructor(toastService) {
         this.toastService = toastService;
-        const a = 1;
     }
 
     networkError(text = defaultNetworkErrorText, options = {}) {
@@ -26,7 +24,7 @@ export class AlertToaster {
         options.type = 'error network-error';
         options.timeout = options.timeout || 60 * 1000;
 
-        this._networkToastPromise = this.toast(text, options)
+        this._networkToastPromise = this.toast('<i class="fal fa-lg fa-times-circle"></i>' + text, options)
             .then(() => {
                 this._networkToastPromise = undefined;
             });
@@ -36,27 +34,27 @@ export class AlertToaster {
 
     error(text, options = {}) {
         options.type = 'error';
-        return this.toast(text, options);
+        return this.toast('<i class="fal fa-lg fa-times-circle"></i>' + text, options);
     }
 
     warning(text, options = {}) {
         options.type = 'warning';
-        return this.toast(text, options);
+        return this.toast('<i class="fal fa-lg fa-exclamation-circle"></i>' + text, options);
     }
 
     primary(text, options = {}) {
         options.type = 'primary';
-        return this.toast(text, options);
+        return this.toast('<i class="fal fa-lg fa-info-circle"></i>' + text, options);
     }
 
     info(text, options = {}) {
         options.type = 'info';
-        return this.toast(text, options);
+        return this.toast('<i class="fal fa-lg fa-info-circle"></i>' + text, options);
     }
 
     success(text, options = {}) {
         options.type = 'success';
-        return this.toast(text, options);
+        return this.toast('<i class="fal fa-lg fa-success-circle"></i>' + text, options);
     }
 
     toast(text, options) {

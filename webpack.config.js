@@ -84,6 +84,15 @@ module.exports = ({production, server, extractCss, coverage, remoteBackend, publ
                     },
                     secure: false,
                     changeOrigin: true
+                },
+                '/assets/font-awesome/*': {
+                    target: {
+                        host: publicNetwork ? 'lupoex.com' : 'test.lupoex.com',
+                        protocol: 'https:',
+                        port: 443
+                    },
+                    secure: false,
+                    changeOrigin: true
                 }
             } :
             undefined
@@ -144,11 +153,7 @@ module.exports = ({production, server, extractCss, coverage, remoteBackend, publ
         ]
     },
     plugins: [
-        new AureliaPlugin(
-            {
-                svg: false
-            }
-        ),
+        new AureliaPlugin(),
         new ProvidePlugin({
             'Promise': 'bluebird'
             //'$': 'jquery',

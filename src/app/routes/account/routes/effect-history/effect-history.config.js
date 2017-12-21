@@ -10,10 +10,9 @@ import {ShortenAddressValueConverter, userFriendlyEffectMessage} from 'app-resou
 @transient()
 @inject(SanitizeHTMLValueConverter, FormatDateTimeValueConverter, ShortenAddressValueConverter)
 export class EffectHistoryConfig {
-
     constructor(sanitizeHTML, formatDateTime, shortenAddress) {
         const self = this;
-        
+
         self.shortenAddress = shortenAddress;
 
         return {
@@ -37,7 +36,7 @@ export class EffectHistoryConfig {
                         searchable: false,
                         orderable: false,
                         className: 'left-align',
-                        cellCallback (cell, rowData) {
+                        cellCallback(cell, rowData) {
                             cell.empty();
                             let newHtml = self.effectDetailsHtml(rowData);
                             newHtml = sanitizeHTML.toView(newHtml);
@@ -54,31 +53,32 @@ export class EffectHistoryConfig {
     }
 
     effectDetailsIcon(e) {
-        switch(e.type) {
+        switch (e.type) {
             case 'ACCOUNT_CREATED':
-                return '<i class="fa fa-lg fa-check success-text"></i>';
+                return '<i class="fal fa-lg fa-check success-text"></i>';
             case 'ACCOUNT_REMOVED':
-                return '<i class="fa fa-lg fa-times error-text"></i>';
+                return '<i class="fal fa-lg fa-times error-text"></i>';
             case 'ACCOUNT_CREDITED':
-                return '<i class="fa fa-lg fa-arrow-left success-text"></i>';
+                return '<i class="fal fa-lg fa-arrow-left success-text"></i>';
             case 'ACCOUNT_DEBITED':
-                return '<i class="fa fa-lg fa-arrow-right error-text"></i>';
+                return '<i class="fal fa-lg fa-arrow-right error-text"></i>';
             case 'SIGNER_CREATED':
-                return '<span><i class="fa fa-gray fa-pencil fa-lg"></i><i class="fa fa-plus success-text fa-sub"></i></span>';
+                return '<span class="fa-lg fa-layers fa-gray"><i class="fal fa-pencil"></i><i class="fas fa-plus success-text" data-fa-transform="shrink-8 down-8 right-8"></i></span>';
             case 'SIGNER_UPDATED':
-                return '<span><i class="fa fa-gray fa-pencil fa-lg"></i><i class="fa fa-arrow-up primary-text fa-sub"></i></span>';
+                return '<span class="fa-lg fa-layers fa-gray"><i class="fal fa-pencil"></i><i class="fas fa-arrow-up primary-text" data-fa-transform="shrink-8 down-8 right-8"></i></span>';
             case 'SIGNER_REMOVED':
-                return '<span><i class="fa fa-gray fa-pencil fa-lg"></i><i class="fa fa-times error-text fa-sub"></i></span>';
+                return '<span class="fa-lg fa-layers fa-gray"><i class="fal fa-pencil"></i><i class="fas fa-times error-text" data-fa-transform="shrink-8 down-8 right-8"></i></span>';
             case 'TRUSTLINE_CREATED':
-                return '<span><i class="fa fa-gray fa-handshake-o fa-lg"></i><i class="fa fa-plus success-text fa-sub"></i></span>';
+                return '<span class="fa-lg fa-layers fa-gray"><i class="fal fa-handshake"></i><i class="fas fa-plus success-text" data-fa-transform="shrink-8 down-8 right-8"></i></span>';
             case 'TRUSTLINE_UPDATED':
-                return '<span"><i class="fa fa-gray fa-handshake-o fa-lg"></i><i class="fa fa-arrow-up primary-text fa-sub"></i></span>';
+                return '<span class="fa-lg fa-layers fa-gray"><i class="fal fa-handshake"></i><i class="fas fa-arrow-up primary-text" data-fa-transform="shrink-8 down-8 right-8"></i></span>';
             case 'TRUSTLINE_REMOVED':
-                return '<span><i class="fa fa-gray fa-handshake-o fa-lg"></i><i class="fa fa-times error-text fa-sub"></i></span>';
+                return '<span class="fa-lg fa-layers fa-gray"><i class="fal fa-handshake"></i><i class="fas fa-times error-text" data-fa-transform="shrink-8 down-8 right-8"></i></span>';
             case 'TRADE':
-                return '<i class="fa fa-lg fa-exchange primary-text"></i>';
+                return '<i class="fal fa-lg fa-exchange primary-text"></i>';
             default:
-                return '<i class="fa fa-lg fa-circle-o gray-text"></i>';
+                return '<i class="fal fa-lg fa-circle gray-text"></i>';
         }
     }
 }
+

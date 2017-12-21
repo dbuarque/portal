@@ -7,17 +7,19 @@
             <div class="col s12">
                 <div class="form-field">
                     <label>Account Address&nbsp;
-                        <i class="primary-text fa fa-question-circle-o" md-tooltip="text: Signing in with your account address will allow you to view your account details. However, when executing your first transaction, you will be required to enter your secret key as well.;"></i>
+                        <span md-tooltip="text: Signing in with your account address will allow you to view your account details. However, when executing your first transaction, you will be required to enter your secret key as well.;">
+                            <i class="primary-text fal fa-question-circle"></i>
+                        </span>
                     </label>
                     <stellar-address-input public-key.bind="publicKey" title="Account Address"></stellar-address-input>
                 </div>
                 <div class="cols center-align form-field">
                     <button md-waves type="submit" class="btn primary" disabled.bind="!publicKey">
-                        <i class="fa fa-check"></i>&nbsp;Login
+                        <i class="fal fa-check"></i>&nbsp;Login
                     </button>
                 </div>
             </div>
         </div>
-        <spinner-overlay min-height="150" spin.bind="loading > 0"></spinner-overlay>
+        <spinner-overlay min-height="150" size="2x" spin.bind="loading > 0"></spinner-overlay>
     </form>
 </template>

@@ -28,14 +28,14 @@ export class AppConfig {
                     breadcrumb: true,
                     anonymousRequired: true
                 },
-                {
-                    route: ['create-account'],
-                    name: 'createAccount',
-                    moduleId: PLATFORM.moduleName('./routes/create-account/create-account', 'createAccount'),
-                    title: 'Create Account',
-                    breadcrumb: true,
-                    anonymousRequired: true
-                },
+                //{
+                //    route: ['create-account'],
+                //    name: 'createAccount',
+                //    moduleId: PLATFORM.moduleName('./routes/create-account/create-account', 'createAccount'),
+                //    title: 'Create Account',
+                //    breadcrumb: true,
+                //    anonymousRequired: true
+                //},
                 {
                     route: ['account'],
                     name: 'account',

@@ -7,7 +7,9 @@
         <div class="cards-container">
             <hr class="hr-one">
             <hr class="hr-two">
-            <i show.bind="switchAssets" click.trigger="switchAssets()" class="fa fa-exchange primary-text"></i>
+            <span click.trigger="switchAssets()" show.bind="switchAssets">
+                <i class="fal fa-exchange primary-text"></i>
+            </span>
             <div class="row">
                 <div class="col col1 s6 center-text">
                     <asset-card reselect.bind="reselectBuying" asset.bind="assetPair.buying"></asset-card>

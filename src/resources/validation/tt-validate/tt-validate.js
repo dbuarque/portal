@@ -15,7 +15,6 @@ import {RequiredValidator, NumberValidator, EmailValidator, MinlengthValidator, 
 @customAttribute('tt-validate')
 @inject(Element, TaskQueue)
 export class TtValidateCustomAttribute {
-
     /**
      * BINDABLE - The validation manager that should validate this element.
      * @property {ValidationManager} manager
@@ -135,7 +134,7 @@ export class TtValidateCustomAttribute {
 
     participateInValidation() {
         const self = this;
-        
+
         self.keys.forEach(key => {
             let validationInstruction = self.manager.getInstruction(key);
 
@@ -147,7 +146,7 @@ export class TtValidateCustomAttribute {
 
             let participant = validationInstruction.addParticipant(self.observer.getValue.bind(self.observer));
             participant.subscribe((name, args) => {
-                switch(name) {
+                switch (name) {
                     case 'validated':
                         self.onValidated(args);
                         break;
@@ -200,7 +199,7 @@ export class TtValidateCustomAttribute {
                 let key = participantKeys[i];
                 if (!this.validationParticipantResults[key]) {
                     result = false;
-                    let participant = _find(this.validationParticipants, {key});
+                    participant = _find(this.validationParticipants, {key});
                     if (participant) {
                         participant.validate();
                         return;
@@ -304,7 +303,7 @@ export class TtValidateCustomAttribute {
         }
         else {
             this.$validatedElement.tooltipster('enable');
-            let newMessage = '<i class="fa fa-warning"></i>&nbsp;' + message;
+            let newMessage = '<i class="fal fa-exclamation-triangle"></i>&nbsp;' + message;
             if ( this.$validatedElement.tooltipster('content') !== newMessage) {
                 this.$validatedElement.tooltipster('content', newMessage);
             }

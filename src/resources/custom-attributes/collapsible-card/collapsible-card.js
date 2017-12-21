@@ -73,8 +73,8 @@ export class CollapsibleCardCustomAttribute {
         this.toggleContainer = $('<div class="toggle-container"></div>');
         this.headingEl.prepend(this.toggleContainer);
 
-        this.openToggle = $('<i class="fa fa-chevron-right"></i>');
-        this.closeToggle = $('<i class="fa fa-chevron-down"></i>');
+        this.openToggle = $('<span><i class="fal fa-chevron-right"></i></span>');
+        this.closeToggle = $('<span><i class="fal fa-chevron-down"></i></span>');
         this.toggleContainer.append(this.openToggle);
         this.toggleContainer.append(this.closeToggle);
 
