@@ -15,12 +15,14 @@
                 <div class="col s12">
                     <div class="form-field">
                         <label>
-                            Transaction Envelope XDR (Base 64 Encoded)
+                            Transaction Envelope XDR (Base 64 Encoded)&nbsp;
                             <span show.bind="!displayCopySuccess" class="primary-text copy-label">
-                                <i class="fal fa-copy"></i>
+                                <span class="copy-icon">
+                                    <i class="far fa-copy"></i>
+                                </span>
                             </span>
                             <span show.bind="displayCopySuccess" class="success-text">
-                                <i class="fal fa-check"></i>&nbsp;Copied!
+                                <i class="far fa-check"></i>&nbsp;Copied!
                             </span>
                         </label>
                         <div class="copy-transaction">

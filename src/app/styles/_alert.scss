@@ -41,69 +41,37 @@
     position:relative;
     padding: 10px;
     word-break: normal;
-    padding-left: 40px;
     font-size: 14px;
     line-height: 20px;
-    border: 1px solid $light-gray;
-    -webkit-box-shadow: $shadow1;
-    -moz-box-shadow: $shadow1;
-    box-shadow: $shadow1;
+    -webkit-box-shadow: $shadow2;
+    -moz-box-shadow: $shadow2;
+    box-shadow: $shadow2;
 
-    &:before {
-        font-family: "FontAwesome";
-        font-size: 1.5em;
-        left:10px;
-        position:absolute;
-        top:50%;
-        margin-top: -10px;
+    svg {
+        margin-right: 10px;
     }
 
     &.error {
-        color: $error;
-        border: 1px solid $error;
-
-        &:before {
-            color: $error;
-            content: "\f057";
-        }
+        background-color: $error;;
     }
 
     &.success {
-        color: $success;
-        border: 1px solid $success;
-
-        &:before {
-            color: $success;
-            content: "\f058";
-        }
+        background-color: $success;
     }
 
     &.warning {
-        color: $warning;
-        border: 1px solid $warning;
-
-        &:before {
-            color: $warning;
-            content: "\f06a";
-        }
+        background-color: $warning;
     }
 
     &.primary {
-        color: $primary;
-        border: 1px solid $primary;
-
-        &:before {
-            color: $primary;
-            content: "\f05a";
-        }
+        background-color: $primary;
     }
 
     &.info {
-        color: $dark-gray;
         border: 1px solid $dark-gray;
+        color: $dark-gray;
 
-        &:before {
-            color: $dark-gray;
+        &::before {
             content: "\f05a";
         }
     }

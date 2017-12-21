@@ -39,10 +39,10 @@ export default class HttpErrorHandler {
                 response
             };
         }
-        
+
         const err = await (response.json ? response.json() : {});
         const defaultErr = defaultErrors[response.status] || defaultErrors.default;
-        
+
         return {
             ...defaultErr,
             ...err,

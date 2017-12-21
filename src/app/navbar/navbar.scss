@@ -68,18 +68,21 @@ nav .nav-wrapper i {
             &.dropdown-content {
 
                 li {
+                    line-height: 25px;
                     height: auto;
                     min-height: 0;
 
                     a {
                         font-size: 14px;
                         padding: 10px;
+                        line-height: 25px;
                         height: auto;
                         color: $dark-gray;
                     }
                 }
 
                 i {
+                    height: auto;
                     margin-right: 0;
                 }
             }

@@ -83,17 +83,19 @@ export class TransactionService {
 
         try {
             // Finally, attempt to submit the transaction to the network.
-            const transactionSubmissionPromise = this.transactionResource.submitTransaction(signedTransaction);
+            const transactionSubmissionPromise = this.transactionResource.submitTransaction(signedTransaction, {
+                handleError: false
+            });
             this.spinnerModalService.open('Submitting to network...', transactionSubmissionPromise);
             await transactionSubmissionPromise;
         }
-        catch (e) {
+        catch (errResponse) {
             try {
                 this.modalService.open(
                     PLATFORM.moduleName('app/resources/crud/stellar/transaction-service/error-modal/error-modal'),
                     {
                         title: 'Stellar Transaction Error',
-                        error: e
+                        error: errResponse ? await errResponse.json() : null
                     }, {
                         modalClass: 'sm'
                     }

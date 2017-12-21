@@ -24,7 +24,9 @@
             <div class="scrollable-container">
                 <asset-card asset.bind="asset" repeat.for="asset of assets" click.delegate="select(asset)"></asset-card>
                 <br>
-                <i class="fal fa-sync fa-spin fa-lg primary-text" show.bind="loading"></i>
+                <span class="loading" show.bind="loading">
+                    <i class="fal fa-sync fa-spin fa-lg"></i>
+                </span>
                 <button click.trigger="loadMore()" show.bind="!noMore && !loading" class="btn btn-flat" md-waves>
                     Load More
                 </button>

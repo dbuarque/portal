@@ -9,9 +9,9 @@ export class TransactionResource extends BaseResource {
         super('/Transaction');
     }
 
-    submitTransaction(transaction) {
+    submitTransaction(transaction, options) {
         return this.post('', {}, {
             transaction: transaction.toEnvelope().toXDR('base64')
-        });
+        }, options);
     }
 }
