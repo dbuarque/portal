@@ -5,12 +5,12 @@
 import './send-payment.scss';
 import * as StellarSdk from 'stellar-sdk';
 import {inject, computedFrom} from 'aurelia-framework';
-import {Router, Redirect} from 'aurelia-router';
-import {Store, connected} from 'aurelia-redux-connect';
+import {Router} from 'aurelia-router';
+import {connected} from 'aurelia-redux-connect';
 import {ModalService, ValidationManager} from 'global-resources';
 import {AccountResource, TransactionService} from 'app-resources';
 
-@inject(Router, Store, ModalService, ValidationManager, AccountResource, TransactionService)
+@inject(Router, ModalService, ValidationManager, AccountResource, TransactionService)
 export class SendPayment {
     @connected('myAccount')
     account;
@@ -23,23 +23,14 @@ export class SendPayment {
         return this.type.toLowerCase() === 'native';
     }
 
-    constructor(router, store, modalService, validationManager, accountResource, transactionService) {
+    constructor(router, modalService, validationManager, accountResource, transactionService) {
         this.router = router;
-        this.store = store;
         this.modalService = modalService;
         this.validationManager = validationManager;
         this.accountResource = accountResource;
         this.transactionService = transactionService;
 
         this.lupoexPublicKey = window.lupoex.publicKey;
-    }
-
-    canActivate() {
-        const account = this.store.getState().myAccount;
-
-        if (!account) {
-            return new Redirect('login');
-        }
     }
 
     activate(params) {

@@ -4,7 +4,7 @@ import {AppConfig} from './app.config';
 import {inject} from 'aurelia-framework';
 import {Store} from 'aurelia-redux-connect';
 import {WakeEventEmitter} from 'global-resources';
-import {JsonClient, PageTracker, AccountEffectAlerter} from 'app-resources';
+import {JsonClient, PageTracker, AccountEffectAlerter, HasAccountStep} from 'app-resources';
 import {UpdateAccountActionCreator, UpdateBip32PathActionCreator} from './action-creators';
 
 @inject(AppConfig, EventAggregator, Router, Store, WakeEventEmitter, JsonClient, PageTracker, AccountEffectAlerter, UpdateAccountActionCreator, UpdateBip32PathActionCreator)
@@ -41,6 +41,8 @@ export class App {
         routerConfig.options.pushState = true;
         routerConfig.map(this.config.routes);
 
+        this.registerNavigationPipelineSteps(routerConfig);
+
         this.router = router;
 
         this.router.transformTitle = title => 'LuPoEx';
@@ -50,5 +52,9 @@ export class App {
         if (window.lupoex.env !== 'development') {
             this.pageTracker.init();
         }
+    }
+
+    registerNavigationPipelineSteps(routerConfig) {
+        routerConfig.addPipelineStep('authorize', HasAccountStep);
     }
 }

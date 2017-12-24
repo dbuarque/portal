@@ -3,3 +3,4 @@
  */
 
 export * from './secret-store/secret-store';
+export * from './navigation-steps';

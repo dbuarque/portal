@@ -5,12 +5,11 @@
 import './account.scss';
 import _findIndex from 'lodash/findIndex';
 import {inject} from 'aurelia-framework';
-import {Redirect} from 'aurelia-router';
 import {EventAggregator} from 'aurelia-event-aggregator';
-import {Store, connected} from 'aurelia-redux-connect';
+import {connected} from 'aurelia-redux-connect';
 import {AccountConfig} from './account.config';
 
-@inject(AccountConfig, EventAggregator, Store)
+@inject(AccountConfig, EventAggregator)
 export class Account {
     @connected('myAccount')
     account;
@@ -19,11 +18,9 @@ export class Account {
         return this.config.routes.filter(r => !r.redirect);
     }
 
-    constructor(config, eventAggregator, store) {
+    constructor(config, eventAggregator) {
         this.config = config;
         this.eventAggregator = eventAggregator;
-
-        this.store = store;
     }
 
     configureRouter(routerConfig, router) {
@@ -33,14 +30,6 @@ export class Account {
         this.router = router;
 
         this.router.transformTitle = title => false;
-    }
-
-    canActivate() {
-        const account = this.store.getState().myAccount;
-
-        if (!account) {
-            return new Redirect('login');
-        }
     }
 
     attached() {

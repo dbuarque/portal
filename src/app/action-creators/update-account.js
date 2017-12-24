@@ -1,12 +1,14 @@
 import {inject} from 'aurelia-framework';
+import {Router} from 'aurelia-router';
 import {actionCreator} from 'aurelia-redux-connect';
 import {AccountResource} from '../resources/crud/resources';
 import {UPDATE_MY_ACCOUNT_ID, UPDATE_MY_ACCOUNT} from '../app.action-types';
 
 @actionCreator()
-@inject(AccountResource)
+@inject(Router, AccountResource)
 export class UpdateAccountActionCreator {
-    constructor(accountResource) {
+    constructor(router, accountResource) {
+        this.router = router;
         this.accountResource = accountResource;
     }
 
@@ -56,6 +58,10 @@ export class UpdateAccountActionCreator {
             account && account.accountId ?
                 localStorage.setItem('account-id', account.accountId) :
                 localStorage.removeItem('account-id');
+
+            if (!account && this.router.currentInstruction.config.accountRequired) {
+                this.router.navigate('/');
+            }
 
             return account;
         };
