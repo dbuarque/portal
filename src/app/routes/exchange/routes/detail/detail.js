@@ -113,6 +113,10 @@ export class Detail {
         });
     }
 
+    back() {
+        this.router.navigateToRoute('choose');
+    }
+
     //updateRouteTitle() {
     //    if (!this.router.currentInstruction || !this.assetPair) {
     //        return;

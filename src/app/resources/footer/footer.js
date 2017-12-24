@@ -7,7 +7,6 @@ import {Router} from 'aurelia-router';
 
 @inject(Router)
 export class FooterCustomElement {
-
     constructor(router) {
         this.router = router;
     }

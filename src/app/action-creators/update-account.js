@@ -59,7 +59,7 @@ export class UpdateAccountActionCreator {
                 localStorage.setItem('account-id', account.accountId) :
                 localStorage.removeItem('account-id');
 
-            if (!account && this.router.currentInstruction.config.accountRequired) {
+            if (!account && this.router.currentInstruction && this.router.currentInstruction.config.accountRequired) {
                 this.router.navigate('/');
             }
 

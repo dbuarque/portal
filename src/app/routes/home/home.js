@@ -1,3 +1,4 @@
+import './home.scss';
 import {inject, computedFrom} from 'aurelia-framework';
 import {connected} from 'aurelia-redux-connect';
 import {AppConfig} from '../../app.config';
@@ -10,13 +11,13 @@ export class Home {
     @computedFrom('account')
     get enabledRoutes() {
         return this.appConfig.routes
-            .filter(r => this.isRouteEnabled(r));
+            .filter(r => r.name && r.name !== 'home' && this.isRouteEnabled(r));
     }
 
     @computedFrom('account')
     get disabledRoutes() {
         return this.appConfig.routes
-            .filter(r => !this.isRouteEnabled(r));
+            .filter(r => r.name && r.name !== 'home' && !this.isRouteEnabled(r));
     }
 
     constructor(appConfig) {
