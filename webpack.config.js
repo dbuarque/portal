@@ -199,7 +199,8 @@ module.exports = ({production, server, extractCss, coverage, remoteBackend, publ
         //}),
         new CopyWebpackPlugin([
             { from: 'favicon.ico', to: 'favicon.ico' },
-            { from: 'assets', to: 'assets'}
+            { from: 'assets', to: 'assets', ignore: ['Font-Awesome-Pro/**/*']},
+            { from: 'assets/Font-Awesome-Pro/svg-with-js', to: 'assets/Font-Awesome-Pro/svg-with-js'}
         ])
     ]
 });
