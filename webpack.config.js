@@ -153,7 +153,9 @@ module.exports = ({production, server, extractCss, coverage, remoteBackend, publ
         ]
     },
     plugins: [
-        new AureliaPlugin(),
+        new AureliaPlugin({
+            svg: false
+        }),
         new ProvidePlugin({
             'Promise': 'bluebird'
             //'$': 'jquery',

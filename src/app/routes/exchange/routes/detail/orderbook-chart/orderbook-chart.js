@@ -147,35 +147,37 @@ export class OrderbookChartCustomElement {
             }
         }
 
-        const tickValues = [];
-        const logMinPrice = Math.log10(minPrice);
-        const logMaxPrice = Math.log10(maxPrice);
-        const fullRange = logMaxPrice - logMinPrice;
-        const lowerTickValue = parseFloat(
-            (logMinPrice + (fullRange * 0.05)).toFixed(3),
-            10
-        );
-        const upperTickValue = parseFloat(
-            (logMaxPrice - (fullRange * 0.05)).toFixed(3),
-            10
-        );
-        let tickValue = lowerTickValue;
-        const interval = parseFloat(
-            ((upperTickValue - tickValue) / (this.numTicks - 1)).toFixed(3),
-            10
-        );
-
-        while (tickValue <= upperTickValue) {
-            tickValues.push(
-                Math.pow(10, tickValue)
-            );
-            tickValue = parseFloat(
-                (tickValue + interval).toFixed(3),
+        if (this.bids.length + this.asks.length > 1) {
+            const tickValues = [];
+            const logMinPrice = Math.log10(minPrice);
+            const logMaxPrice = Math.log10(maxPrice);
+            const fullRange = logMaxPrice - logMinPrice;
+            const lowerTickValue = parseFloat(
+                (logMinPrice + (fullRange * 0.05)).toFixed(3),
                 10
             );
-        }
+            const upperTickValue = parseFloat(
+                (logMaxPrice - (fullRange * 0.05)).toFixed(3),
+                10
+            );
+            let tickValue = lowerTickValue;
+            const interval = parseFloat(
+                ((upperTickValue - tickValue) / (this.numTicks - 1)).toFixed(3),
+                10
+            );
 
-        this.xAxis.tickValues(tickValues);
+            while (tickValue <= upperTickValue) {
+                tickValues.push(
+                    Math.pow(10, tickValue)
+                );
+                tickValue = parseFloat(
+                    (tickValue + interval).toFixed(3),
+                    10
+                );
+            }
+
+            this.xAxis.tickValues(tickValues);
+        }
 
         const xDomain = [
             parseFloat(minPrice.toString().slice(0, 10), 10),
