@@ -11,7 +11,7 @@
     transition: all 0.5s ease;
     top: 54px;
     background-color: $dark-gray;
-    border-right: 1px solid $dark-gray;
+    border-right: 1px solid $gray;
 
     button.btn {
         position: absolute;
@@ -22,9 +22,9 @@
         width: 15px;
         padding: 1px;
         background: #fff !important;
-        color: $dark-gray;
+        color: $gray;
         z-index: 997;
-        border: 1px solid $dark-gray;
+        border: 1px solid $gray;
         border-left-width: 0 !important;
         box-shadow: none !important;
         -webkit-box-shadow: none !important;

@@ -9,6 +9,10 @@
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
 
+    button.refresh {
+        margin-bottom: 10px;
+    }
+
     > .card > .card-content {
 
         > .card-heading {
@@ -40,7 +44,7 @@
 
 
     &.sidebar-hidden {
-        padding-left: 55px;
+        padding-left: 45px;
 
         .sidebar {
             margin-left: -160px;
