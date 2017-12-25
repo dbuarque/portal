@@ -1,0 +1,64 @@
+.sidebar {
+    z-index: 996;
+    position: fixed;
+    left: 0;
+    width: 200px;
+    height: 100%;
+    overflow-x: visible;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    top: 54px;
+    background-color: $dark-gray;
+    border-right: 1px solid $dark-gray;
+
+    button.btn {
+        position: absolute;
+        top: 50%;
+        margin-top: -95px;
+        right: 0;
+        margin-right: -15px;
+        width: 15px;
+        padding: 1px;
+        background: #fff !important;
+        color: $dark-gray;
+        z-index: 997;
+        border: 1px solid $dark-gray;
+        border-left-width: 0 !important;
+        box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        -moz-box-shadow: none !important;
+    }
+
+    .sidebar-nav {
+        position: absolute;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        overflow-x: hidden;
+        overflow-y: auto;
+        z-index: 996;
+        background: #fff;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+
+        li {
+            text-indent: 15px;
+            line-height: 40px;
+            cursor: pointer;
+            color: $dark-gray;
+
+            .icon {
+                margin-right: 12px;
+            }
+
+            &:hover, &:focus, &.active  {
+                color: $primary;
+                background: $very-light-gray;
+            }
+        }
+    }
+}

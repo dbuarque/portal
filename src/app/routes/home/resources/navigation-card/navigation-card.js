@@ -12,6 +12,6 @@ export class NavigationCardCustomElement {
     }
 
     goToRoute() {
-        this.router.navigateToRoute(this.route.name);
+        this.router.navigateToRoute(this.route.name, this.route.href);
     }
 }

@@ -46,11 +46,11 @@ html, body {
     body {
 
         .page-wrapper {
-            padding: 20px 2px;
+            padding: 15px 2px;
             overflow: hidden;
         }
     }
 }
 
-@import "navbar/navbar";
-@import "footer/footer";
+@import "resources/navbar/navbar";
+@import "resources/footer/footer";

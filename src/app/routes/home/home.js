@@ -11,13 +11,13 @@ export class Home {
     @computedFrom('account')
     get enabledRoutes() {
         return this.appConfig.routes
-            .filter(r => r.name && r.name !== 'home' && this.isRouteEnabled(r));
+            .filter(r => r.nav && this.isRouteEnabled(r));
     }
 
     @computedFrom('account')
     get disabledRoutes() {
         return this.appConfig.routes
-            .filter(r => r.name && r.name !== 'home' && !this.isRouteEnabled(r));
+            .filter(r => r.nav && !this.isRouteEnabled(r));
     }
 
     constructor(appConfig) {

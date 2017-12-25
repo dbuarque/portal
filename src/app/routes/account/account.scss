@@ -1,6 +1,13 @@
+@import "../../../app/styles/variables/variables";
+
 .account {
     margin: 0 -2px;
     padding: 2px;
+    padding-left: 205px;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 
     > .card > .card-content {
 
@@ -27,5 +34,23 @@
                 padding: 0 2px;
             }
         }
+    }
+
+    @import "resources/sidebar/sidebar";
+
+
+    &.sidebar-hidden {
+        padding-left: 55px;
+
+        .sidebar {
+            margin-left: -160px;
+        }
+    }
+}
+
+@media(max-width:768px) {
+    .account {
+        padding-left: 40px !important;
+        padding-right: 0 !important;
     }
 }

@@ -3,24 +3,24 @@
  */
 
 import './account.scss';
-import _findIndex from 'lodash/findIndex';
-import {inject} from 'aurelia-framework';
-import {EventAggregator} from 'aurelia-event-aggregator';
+import {inject, computedFrom} from 'aurelia-framework';
 import {connected} from 'aurelia-redux-connect';
 import {AccountConfig} from './account.config';
 
-@inject(AccountConfig, EventAggregator)
+@inject(AccountConfig)
 export class Account {
     @connected('myAccount')
     account;
 
-    get routableRoutes() {
-        return this.config.routes.filter(r => !r.redirect);
+    @computedFrom('router.currentInstruction')
+    get currentViewModel() {
+        return this.router.currentInstruction ?
+            this.router.currentInstruction.viewPortInstructions.default.component.viewModel :
+            null;
     }
 
-    constructor(config, eventAggregator) {
+    constructor(config) {
         this.config = config;
-        this.eventAggregator = eventAggregator;
     }
 
     configureRouter(routerConfig, router) {
@@ -32,16 +32,14 @@ export class Account {
         this.router.transformTitle = title => false;
     }
 
-    attached() {
-        this.subscription = this.eventAggregator.subscribe(
-            'router:navigation:success',
-            this.navigationSuccess.bind(this));
-
-        this.navigationSuccess();
+    activate() {
+        this.hideSidebarIfSmall();
     }
 
-    detached() {
-        this.subscription.dispose();
+    hideSidebarIfSmall() {
+        if ($( window ).width() <= 768) {
+            this.sidebarHidden = true;
+        }
     }
 
     refresh() {
@@ -50,32 +48,5 @@ export class Account {
         }
 
         this.currentViewModel.refresh();
-    }
-
-    navigationSuccess() {
-        const viewPortInstruction = this.router.currentInstruction.viewPortInstructions.default;
-
-        if (viewPortInstruction.strategy === 'no-change') {
-            return;
-        }
-
-        this.currentViewModel = viewPortInstruction.controller.viewModel;
-        this.currentRoute = this.router.currentInstruction.config.route.split('/')[0];
-
-        let routeName = this.router.currentInstruction.config.name;
-        routeName = _findIndex(this.config.routes, {name: routeName}) > -1 ? routeName : 'profile';
-        this.accountTabs.selectTab('tab-' + routeName);
-    }
-
-    navigateToRoute(routeName) {
-        if (this.router.currentInstruction.config.name !== routeName) {
-            this.router.navigateToRoute(routeName);
-        }
-    }
-
-    accountChanged() {
-        if (!this.account) {
-            this.router.parent.navigateToRoute('exchange');
-        }
     }
 }

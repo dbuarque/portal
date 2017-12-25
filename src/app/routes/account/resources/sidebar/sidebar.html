@@ -1,0 +1,15 @@
+<template>
+    <div class="sidebar">
+        <ul class="sidebar-nav">
+            <li repeat.for="route of routes" title.one-time="route.title"
+                class.bind="router.currentInstruction.config.name === route.name ? 'active' : ''" click.delegate="router.navigateToRoute(route.name)">
+                ${route.title}
+                <span class="right icon" innerhtml.one-time="route.icon"></span>
+            </li>
+        </ul>
+        <button type="button" class="btn btn-xs" click.delegate="hidden = !hidden">
+            <span show.bind="hidden"><i class="fa fa-chevron-right"></i></span>
+            <span show.bind="!hidden"><i class="fa fa-chevron-left"></i></span>
+        </button>
+    </div>
+</template>
