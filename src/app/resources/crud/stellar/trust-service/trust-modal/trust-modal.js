@@ -2,29 +2,21 @@
  * Created by istrauss on 5/8/2017.
  */
 
-import {inject} from 'aurelia-framework';
+import {inject, NewInstance} from 'aurelia-framework';
 import {Store} from 'aurelia-redux-connect';
-import {ValidationManager} from 'global-resources';
+import {ValidationRules, ValidationController, validateTrigger} from 'aurelia-validation';
 import {AccountResource} from 'app-resources';
 
-@inject(Store, ValidationManager, AccountResource)
+@inject(Store, NewInstance.of(ValidationController), AccountResource)
 export class OfferModal {
-
     loading = 0;
-    alertConfig = {
-        type: 'info',
-        dismissible: false,
-        message: 'Acquiring an asset on the stellar network implies a trust in the asset issuer because the issuer is responsible for backing the asset. In other words,' +
-            ' if you buy a BTC asset on the network, the BTC asset is only valuable if the issuer can be counted on to redeem your asset with real BTC.<br>' +
-            '<p>Because of this, stellar requires you to explicitly declare that you trust an asset/issuer. This declaration of trust is done by setting a trust limit.' +
-            ' Your asset balance cannot be greater than your trust limit.</p>' +
-            '<p>To learn more about stellar assets and trust see the <a href="https://www.stellar.org/developers/guides/concepts/assets.html" target="_blank">Stellar Asset Concept Documentation</a>.</p>'
-    };
 
-    constructor(store, validationManager, accountResource) {
+    constructor(store, validationController, accountResource) {
         this.store = store;
-        this.validationManager = validationManager;
+        this.validationController = validationController;
         this.accountResource = accountResource;
+
+        this.configureValidation();
     }
 
     async activate(params) {
@@ -34,6 +26,16 @@ export class OfferModal {
         this.issuer = params.passedInfo.issuer;
 
         this.getTrustline();
+    }
+
+    configureValidation() {
+        this.validationController.validateTrigger = validateTrigger.blur;
+
+        ValidationRules
+            .ensure('newLimit')
+            .displayName('New Limit')
+            .required()
+            .on(this);
     }
 
     async getTrustline() {
@@ -48,7 +50,8 @@ export class OfferModal {
     }
 
     async modifyLimit() {
-        if (!this.validationManager.validate()) {
+        const validationResult = await this.validationController.validate();
+        if (!validationResult.valid) {
             return;
         }
 

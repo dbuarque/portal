@@ -6,37 +6,16 @@ a.underline {
   padding: 10px;
 }
 
-.tt-validation.tooltipster-sidetip {
-
-    .tooltipster-box {
-        background: #fff;
-        border: 1px solid $error !important;
-        font-family: Arial, sans-serif;
-        font-size: 14px;
-        line-height: 16px;
-
-        .tooltipster-content {
-            color: $error;
-        }
-    }
-
-    .tooltipster-arrow {
-        bottom: -1px;
-    }
-
-    .tooltipster-arrow-border {
-        border-top-color: $error;
-    }
-
-    .tooltipster-arrow-background {
-        border-top-color: #fff;
-        top: -1px;
+.invalid {
+    input:not([type]), input[type=text]:not(.browser-default), input[type=password]:not(.browser-default), input[type=email]:not(.browser-default), input[type=url]:not(.browser-default), input[type=time]:not(.browser-default), input[type=date]:not(.browser-default), input[type=datetime]:not(.browser-default), input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default), input[type=number]:not(.browser-default), input[type=search]:not(.browser-default), textarea.materialize-textarea {
+        border-bottom: 1px solid $error;
+        box-shadow: none !important;
     }
 }
 
-.invalid.touched, .validated.invalid {
-    border-bottom: 1px solid $error;
-    box-shadow: none !important;
+.validation-error-text {
+    color: $error;
+    font-size: 12px;
 }
 
 .bold {

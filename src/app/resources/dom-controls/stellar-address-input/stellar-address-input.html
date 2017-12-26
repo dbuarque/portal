@@ -7,7 +7,7 @@
                 <i class="fal fa-sync fa-spin primary-text"></i>
             </span>
             <div if.bind="loading === 0">
-                <span if.bind="!publicKey" class="error-text"><i class="fal fa-exclamation-circle"></i>&nbsp;Invalid Account Address</span>
+                <span if.bind="!publicKey" class="validation-error-text"><i class="fal fa-exclamation-circle"></i>&nbsp;Invalid Account Address</span>
                 <span if.bind="publicKey && !federatedAddress" class="success-text"><i class="fal fa-check-circle"></i>&nbsp;Valid Account Address</span>
                 <span if.bind="publicKey && federatedAddress" style="word-break: break-all" class="success-text"><i class="fal fa-check-circle"></i>&nbsp;Valid Federated Address. Resolved to ${publicKey | shortenAddress:6}</span>
             </div>
