@@ -54,7 +54,7 @@ export class AlertToaster {
 
     success(text, options = {}) {
         options.type = 'success';
-        return this.toast('<i class="fal fa-lg fa-success-circle"></i>' + text, options);
+        return this.toast('<i class="fal fa-lg fa-check-circle"></i>' + text, options);
     }
 
     toast(text, options) {

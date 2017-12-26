@@ -303,9 +303,8 @@ export class TtValidateCustomAttribute {
         }
         else {
             this.$validatedElement.tooltipster('enable');
-            let newMessage = '<i class="fal fa-exclamation-triangle"></i>&nbsp;' + message;
-            if ( this.$validatedElement.tooltipster('content') !== newMessage) {
-                this.$validatedElement.tooltipster('content', newMessage);
+            if ( this.$validatedElement.tooltipster('content') !== message) {
+                this.$validatedElement.tooltipster('content', message);
             }
         }
     }
