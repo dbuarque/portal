@@ -65,7 +65,7 @@ export class StellarAddressInputCustomElement {
                     return;
                 }
 
-                this.publicKey = undefined;
+                this.publicKey = this.resolvedPublicKey = undefined;
                 this.federatedAddress = undefined;
                 this.memo = undefined;
                 this.memoType = undefined;

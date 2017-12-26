@@ -31,6 +31,6 @@ export default class RequiredValidator extends BaseValidator {
         if (input && input.length !== undefined) {
             input = input.length > 0;
         }
-        return input || this.allowedValues.indexOf(input) > -1 ? true : false;
+        return input || this.allowedValues.indexOf(input) > -1;
     }
 }
