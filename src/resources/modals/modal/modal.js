@@ -3,11 +3,11 @@
  */
 
 import {inject, bindable, customElement, TaskQueue} from 'aurelia-framework';
-import {EventAggregator} from 'aurelia-event-aggregator';
+import {ModalService} from './modal-service';
 
 const defaultOptions = {
     dismissible: true, // Modal can be dismissed by clicking outside of the modal
-    opacity: .5, // Opacity of modal background
+    opacity: 0.5, // Opacity of modal background
     in_duration: 300, // Transition in duration
     out_duration: 200, // Transition out duration
     starting_top: '4%', // Starting top style attribute
@@ -15,22 +15,21 @@ const defaultOptions = {
 };
 
 @customElement('modal')
-@inject(Element, EventAggregator, TaskQueue)
+@inject(Element, TaskQueue, ModalService)
 export class ModalCustomElement {
-
     @bindable instruction;
 
-    constructor(element, eventAggregator, taskQueue) {
+    constructor(element, taskQueue, modalService) {
         this.element = element;
-        this.eventAggregator = eventAggregator;
         this.taskQueue = taskQueue;
+        this.modalService = modalService;
     }
 
     attached() {
         const self = this;
 
         self.$modalWrapper = $(self.element).find('.modal-wrapper');
-        
+
         self.$modal = self.$modalWrapper.find('.modal');
 
         self.options = Object.assign({}, defaultOptions, self.instruction.options);
@@ -50,7 +49,8 @@ export class ModalCustomElement {
             if (userDefinedComplete) {
                 userDefinedComplete();
             }
-            self.eventAggregator.publish('modal.destroy', self.instruction.modalId);
+
+            this.modalService.close(self.instruction.modalId);
 
             self.taskQueue.queueTask(() => {
                 const resolvedValue = self.closed ? self.result : Promise.reject(self.result);

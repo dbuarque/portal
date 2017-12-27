@@ -10,7 +10,6 @@ import {InactivityTracker} from '../inactivity-tracker';
 
 @inject(ModalService, Store, AlertToaster, InactivityTracker)
 export class SecretStore {
-
     get canSign() {
         return !!this._keypair;
     }
@@ -39,15 +38,19 @@ export class SecretStore {
     }
 
     async forget(pastDue) {
+        if (!this._keypair) {
+            return;
+        }
+
         if (!pastDue) {
             try {
-                await this.modalService.open(PLATFORM.moduleName('app/resources/auth/secret-store/timeout-modal/timeout-modal'), {}, {modalClass: 'sm'});
+                await this.modalService.open(PLATFORM.moduleName('app/resources/auth/secret-store/timeout-modal/timeout-modal'), {title: 'Inactivity Timeout'}, {modalClass: 'sm'});
                 //If the modal does not throw then that means the user selected not to forget the secret.
                 return;
             }
             catch (e) {}
         }
-        this._secret = undefined;
+        this._keypair = undefined;
         this.alertToaster.primary('Secret key has been removed from memory.');
         this.unsubscribeFromInactivityTracker();
     }
