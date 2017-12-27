@@ -56,7 +56,7 @@ export class EffectHistoryConfig {
 
     effectDetailsHtml(rowData, cell) {
         cell.append(
-            userFriendlyEffectMessage(rowData)
+            userFriendlyEffectMessage(rowData, true)
         );
 
         cell.find('span.shortened-address').each(function() {

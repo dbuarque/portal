@@ -11,7 +11,7 @@ export class AlertCardCustomElement {
 
         switch (this.type) {
             case 'error':
-                classes += ' fa-exclamation-circle error-text';
+                classes += ' fa-times-circle error-text';
                 break;
             case 'warning':
                 classes += ' fa-exclamation-triangle warning-text';

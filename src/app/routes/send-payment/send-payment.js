@@ -119,7 +119,7 @@ export class SendPayment {
     }
 
     tryAgain() {
-        this.alertConfig = undefined;
+        this.errorMessage = undefined;
         this.step = 'input';
     }
 
@@ -128,7 +128,7 @@ export class SendPayment {
         this.memoType = undefined;
         this.validationController.reset();
         this.step = 'input';
-        this.alertConfig = undefined;
+        this.errorMessage = undefined;
     }
 
     async submitConfirmation() {
@@ -155,10 +155,7 @@ export class SendPayment {
                     const mimimumAmount = window.lupoex.stellar.minimumNativeBalance + 1;
 
                     if (parseInt(this.amount, 10) < mimimumAmount) {
-                        this.alertConfig = {
-                            type: 'error',
-                            message: 'That destination account does not exist. We cannot create the account with less than ' + mimimumAmount + ' ' + window.lupoex.stellar.nativeAssetCode + '.'
-                        };
+                        this.errorMessage = 'That destination account does not exist. We cannot create the account with less than ' + mimimumAmount + ' ' + window.lupoex.stellar.nativeAssetCode + '.';
                         this.loading--;
                         return;
                     }
@@ -171,10 +168,7 @@ export class SendPayment {
                     );
                 }
                 else {
-                    this.alertConfig = {
-                        type: 'error',
-                        message: 'That destination account does not exist on the stellar network. Please ensure that you are sending this payment to an existing account.'
-                    };
+                    this.errorMessage = 'That destination account does not exist on the stellar network. Please ensure that you are sending this payment to an existing account.';
                     this.loading--;
                     return;
                 }
@@ -202,10 +196,7 @@ export class SendPayment {
             }
         }
         catch (e) {
-            this.alertConfig = {
-                type: 'error',
-                message: e.message || 'Something is wrong, can\'t submit the payment to the network'
-            };
+            this.errorMessage = e.message || 'Something is wrong, can\'t submit the payment to the network';
         }
 
         this.loading--;

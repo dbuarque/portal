@@ -2,9 +2,8 @@
  * Created by istrauss on 4/7/2016.
  */
 
-import {inject, TemplatingEngine} from 'aurelia-framework';
-import {EventAggregator} from 'aurelia-event-aggregator';
 import _uniqueId from 'lodash/uniqueId';
+import {subscriptionService} from '../../decorators';
 
 const defaultModalOptions = {
     keyboard: false,
@@ -12,18 +11,12 @@ const defaultModalOptions = {
     dismissible: true
 };
 
-@inject(TemplatingEngine, EventAggregator)
-export default class ModalService {
-
-    constructor(templatingEngine, eventAggregator) {
-        this.templatingEngine = templatingEngine;
-        this.eventAggregator = eventAggregator;
-        this.modalInstructions = {};
-    }
+@subscriptionService()
+export class ModalService {
+    modalInstructions = {};
 
     addListeners() {
         this.eventAggregator.subscribe('modal.destroy', (modalId) => {
-            delete this.modalInstructions[modalId];
         });
     }
 
@@ -35,7 +28,19 @@ export default class ModalService {
 
             this.modalInstructions[modalId] = {path, passedInfo, resolve, options, modalId};
 
-            this.eventAggregator.publish('modal.open', modalId);
+            this._notifySubscribers({
+                event: 'opened',
+                modalId
+            });
+        });
+    }
+
+    close(modalId) {
+        delete this.modalInstructions[modalId];
+
+        this._notifySubscribers({
+            event: 'closed',
+            modalId
         });
     }
 
