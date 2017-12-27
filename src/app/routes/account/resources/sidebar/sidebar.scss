@@ -12,24 +12,9 @@
     top: 54px;
     background-color: $dark-gray;
     border-right: 1px solid $gray;
-
-    button.btn {
-        position: absolute;
-        top: 50%;
-        margin-top: -95px;
-        right: 0;
-        margin-right: -15px;
-        width: 15px;
-        padding: 1px;
-        background: #fff !important;
-        color: $gray;
-        z-index: 997;
-        border: 1px solid $gray;
-        border-left-width: 0 !important;
-        box-shadow: none !important;
-        -webkit-box-shadow: none !important;
-        -moz-box-shadow: none !important;
-    }
+    box-shadow: $shadow1 !important;
+    -webkit-box-shadow: $shadow1 !important;
+    -moz-box-shadow: $shadow1 !important;
 
     .sidebar-nav {
         position: absolute;
@@ -49,15 +34,18 @@
             text-indent: 15px;
             line-height: 40px;
             cursor: pointer;
-            color: $dark-gray;
+            height: 40px;
 
             .icon {
                 margin-right: 12px;
             }
 
-            &:hover, &:focus, &.active  {
-                color: $primary;
-                background: $very-light-gray;
+            &.navigation-item {
+                color: $dark-gray;
+
+                &:hover, &:focus, &.active  {
+                    color: $primary;
+                }
             }
         }
     }

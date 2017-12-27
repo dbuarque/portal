@@ -55,7 +55,6 @@ export class SendPayment {
         this.router = router;
         this.validationController = validationController;
         this.modalService = modalService;
-        this.validationManager = validationManager;
         this.accountResource = accountResource;
         this.transactionService = transactionService;
         this.lupoexPublicKey = window.lupoex.publicKey;
