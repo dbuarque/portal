@@ -48,3 +48,8 @@ a.underline {
 .bold {
     font-weight: bold;
 }
+
+.break-word {
+    -ms-word-wrap: break-word;
+    word-wrap: break-word;
+}
