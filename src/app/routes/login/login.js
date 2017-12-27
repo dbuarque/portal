@@ -5,11 +5,10 @@
 import {inject} from 'aurelia-framework';
 import {Redirect} from 'aurelia-router';
 import {EventAggregator} from 'aurelia-event-aggregator';
-import {AlertToaster} from 'global-resources';
 import {connected} from 'aurelia-redux-connect';
 import {LoginConfig} from './login.config';
 
-@inject(LoginConfig, AlertToaster, EventAggregator)
+@inject(LoginConfig, EventAggregator)
 export class IdentifyUser {
     @connected('myAccount')
     account;
@@ -29,9 +28,8 @@ export class IdentifyUser {
         }
     ];
 
-    constructor(config, alertToaster, eventAggregator) {
+    constructor(config, eventAggregator) {
         this.config = config;
-        this.alertToaster = alertToaster;
         this.eventAggregator = eventAggregator;
     }
 
@@ -44,20 +42,6 @@ export class IdentifyUser {
     attached() {
         this.subscription = this.eventAggregator.subscribe('router:navigation:success', this.syncLoginMethodFromRouter.bind(this));
         this.syncLoginMethodFromRouter();
-
-        this.alertToaster.success(
-            'This is a really long message with some more length and lenghth',
-            {
-                timeout: 180000
-            }
-        );
-
-        this.alertToaster.primary(
-            'Short message',
-            {
-                timeout: 180000
-            }
-        );
     }
 
     detached() {
