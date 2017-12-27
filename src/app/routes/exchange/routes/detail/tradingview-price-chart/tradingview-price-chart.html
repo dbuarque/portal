@@ -5,6 +5,17 @@
         <div class="card-content no-heading">
             <div class="card-body no-padding">
                 <div id="tradingview-price-chart-container">
+                    <button class="studies-button btn btn-small" md-dropdown="ref.bind: studiesDropdown;">
+                        <i class="fal fa-line-chart"></i>
+                    </button>
+                    <ul class="studies-dropdown" ref="studiesDropdown">
+                        <li repeat.for="s of availableStudies | objectToArray">
+                            ${s.value & oneTime}
+                            <span class="checkbox">
+                                <md-checkbox change.delegate="toggleStudy($event)" md-model.one-time="s.key" md-checked.bind="displayedStudies"></md-checkbox>
+                            </span>
+                        </li>
+                    </ul>
                 </div>
                 <div class="filters center">
                     <div class="btn-group">

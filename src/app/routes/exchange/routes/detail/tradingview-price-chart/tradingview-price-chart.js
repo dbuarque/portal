@@ -3,7 +3,7 @@
  */
 
 import moment from 'moment';
-import {inject, TaskQueue} from 'aurelia-framework';
+import {inject, TaskQueue, computedFrom} from 'aurelia-framework';
 import {Store, connected} from 'aurelia-redux-connect';
 import {TradingviewPriceChartConfig} from './tradingview-price-chart.config';
 import {timeFrameToAmountScale, BarsRealtimeUpdater} from './resources';
@@ -24,6 +24,15 @@ export class TradingviewPriceChartCustomElement {
             (this.assetPair.selling.type.toLowerCase() === 'native' ? 'Stellar' : this.assetPair.selling.issuer.accountId) :
             null;
     }
+
+    @computedFrom('chartReady')
+    get availableStudies() {
+        return this.chartReady ?
+            this.widget.getStudiesList() :
+            [];
+    }
+
+    displayedStudies = {};
 
     constructor(taskQueue, config, store, rtUpdater) {
         this.taskQueue = taskQueue;
@@ -77,11 +86,14 @@ export class TradingviewPriceChartCustomElement {
         if (!self.widget) {
             self.config.symbol = self.symbol;
 
-            self.widget = new TradingView.widget(self.config);
+            const Widget = TradingView.widget;
+
+            self.widget = new Widget(self.config);
 
             self.widget.onChartReady(() => {
                 self.intervalSubscriptionObj = self.widget.chart().onIntervalChanged();
                 self.intervalSubscriptionObj.subscribe(self, self.onIntervalChanged);
+                self.chartReady = true;
             });
 
             self.currentResolution = self.config.interval;
@@ -89,6 +101,10 @@ export class TradingviewPriceChartCustomElement {
         else {
             self.widget.setSymbol(self.symbol, self.currentResolution);
         }
+    }
+
+    toggleStudy(e) {
+
     }
 
     onIntervalChanged(interval, obj) {
