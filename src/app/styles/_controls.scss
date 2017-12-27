@@ -33,56 +33,56 @@ input:not([type]), input[type=text], input[type=password], input[type=email], in
         cursor: not-allowed;
     }
 
-    .select2 {
-        width: 100% !important;
-        display: block;
-
-        .select2-selection {
-            border-radius: 0;
-            border: none;
-        }
-
-        .select2-selection__rendered {
-            padding-left: 0;
-        }
-    }
-
-    .select2-dropdown {
-        border: 1px solid $gray;
-
-        > .select2-search.select2-search--dropdown {
-            padding: 0;
-
-            input {
-                margin-bottom: 0;
-                height: 2rem;
-                border: none;
-                border-bottom: 1px solid $gray;
-                padding: 0 4px;
-            }
-        }
-
-        li.loading-results {
-            color: #fff;
-            position: relative;
-
-            &:before {
-                content: "\f021";
-                font-family: "FontAwesome";
-                left:10px;
-                position:absolute;
-                top:5px;
-                -webkit-animation: fa-spin 2s infinite linear;
-                animation: fa-spin 2s infinite linear;
-                color: $primary;
-            }
-        }
-    }
-
-    .select2-container--default.select2-container--disabled .select2-selection--single {
-        background: none;
-        cursor: not-allowed;
-    }
+    //.select2 {
+    //    width: 100% !important;
+    //    display: block;
+//
+    //    .select2-selection {
+    //        border-radius: 0;
+    //        border: none;
+    //    }
+//
+    //    .select2-selection__rendered {
+    //        padding-left: 0;
+    //    }
+    //}
+//
+    //.select2-dropdown {
+    //    border: 1px solid $gray;
+//
+    //    > .select2-search.select2-search--dropdown {
+    //        padding: 0;
+//
+    //        input {
+    //            margin-bottom: 0;
+    //            height: 2rem;
+    //            border: none;
+    //            border-bottom: 1px solid $gray;
+    //            padding: 0 4px;
+    //        }
+    //    }
+//
+    //    li.loading-results {
+    //        color: #fff;
+    //        position: relative;
+//
+    //        &:before {
+    //            content: "\f021";
+    //            font-family: "FontAwesome";
+    //            left:10px;
+    //            position:absolute;
+    //            top:5px;
+    //            -webkit-animation: fa-spin 2s infinite linear;
+    //            animation: fa-spin 2s infinite linear;
+    //            color: $primary;
+    //        }
+    //    }
+    //}
+//
+    //.select2-container--default.select2-container--disabled .select2-selection--single {
+    //    background: none;
+    //    cursor: not-allowed;
+    //}
 }
 
 

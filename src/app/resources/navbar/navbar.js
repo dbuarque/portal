@@ -5,9 +5,10 @@
 import {bindable, inject, computedFrom} from 'aurelia-framework';
 import {connected} from 'aurelia-redux-connect';
 import {AlertToaster} from 'global-resources';
+import {SecretStore} from '../../resources';
 import {UpdateAccountActionCreator} from '../../action-creators';
 
-@inject(UpdateAccountActionCreator, AlertToaster)
+@inject(SecretStore, UpdateAccountActionCreator, AlertToaster)
 export class Navbar {
     @connected('myAccount')
     account;
@@ -22,7 +23,8 @@ export class Navbar {
         return this.account && this.account.accountId ? this.account.accountId.slice(0, 5) : null;
     }
 
-    constructor(updateAccount, toaster) {
+    constructor(secretStore, updateAccount, toaster) {
+        this.secretStore = secretStore;
         this.updateAccount = updateAccount;
         this.toaster = toaster;
     }
@@ -55,6 +57,7 @@ export class Navbar {
 
     logout() {
         this.updateAccount.dispatch();
+        this.secretStore.forget(true);
         this.toaster.primary('Logged out successfully.');
     }
 

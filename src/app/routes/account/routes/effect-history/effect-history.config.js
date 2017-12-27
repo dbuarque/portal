@@ -28,6 +28,17 @@ export class EffectHistoryConfig {
                         }
                     },
                     {
+                        data: 'historyOperationId',
+                        searchable: false,
+                        orderable: false,
+                        cellCallback(cell, rowData) {
+                            cell.empty();
+                            cell.append(
+                                self.effectDetailsIcon(rowData)
+                            );
+                        }
+                    },
+                    {
                         title: 'Details',
                         data: 'historyOperationId',
                         searchable: false,
@@ -44,13 +55,8 @@ export class EffectHistoryConfig {
     }
 
     effectDetailsHtml(rowData, cell) {
-        cell.append(this.effectDetailsIcon(rowData));
         cell.append(
-            $('<span>&nbsp;&nbsp;&nbsp;</span>')
-        );
-
-        cell.append(
-            userFriendlyEffectMessage(rowData)
+            userFriendlyEffectMessage(rowData, true)
         );
 
         cell.find('span.shortened-address').each(function() {
@@ -58,6 +64,12 @@ export class EffectHistoryConfig {
                 shortenedAddressLink(this.title)
             );
         });
+
+        const transaction = rowData.operation.transaction;
+
+        cell.append(
+            $('<br><span style="max-width: 100%;" class="small-tex">' + transaction.transactionHash + (transaction.memo ? ' - memo (' + transaction.memo_type + '): ' + transaction.memo : '') + '</span>')
+        );
     }
 
     effectDetailsIcon(e) {

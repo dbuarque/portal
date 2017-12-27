@@ -40,8 +40,6 @@
         }
     }
 
-    @import "resources/sidebar/sidebar";
-
 
     &.sidebar-hidden {
         padding-left: 45px;
@@ -50,6 +48,9 @@
             margin-left: -160px;
         }
     }
+
+    @import "resources/sidebar/sidebar";
+    @import "routes/effect-history/effect-history";
 }
 
 @media(max-width:768px) {

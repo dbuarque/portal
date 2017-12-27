@@ -19,6 +19,10 @@
                         Once made, payments are <strong>irreversible</strong>. Please be sure to verify every detail of your payment before confirming.
                     </alert-card>
 
+                    <alert-card type="error" show.bind="errorMessage" title="You have errors">
+                        ${errorMessage}
+                    </alert-card>
+
                     <div class="form-container">
 
                         <div show.bind="step==='input'" class="input-step">

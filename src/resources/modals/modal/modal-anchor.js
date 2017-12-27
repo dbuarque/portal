@@ -3,36 +3,40 @@
  */
 
 import {inject, bindable, customElement} from 'aurelia-framework';
-import {EventAggregator} from 'aurelia-event-aggregator';
 import _findIndex from 'lodash/findIndex';
-import ModalService from './modal-service';
+import {ModalService} from './modal-service';
 
 @customElement('modal-anchor')
-@inject(EventAggregator, ModalService)
+@inject(ModalService)
 export class ModalAnchorCustomElement {
-
     @bindable config;
 
-    constructor(eventAggregator, modalService) {
-        this.eventAggregator = eventAggregator;
+    constructor(modalService) {
         this.modalService = modalService;
         this.modalInstructions = [];
 
-        this.addListeners();
+        this.modalService.subscribe(this.modalEventHandler.bind(this))
     }
 
-    addListeners() {
-        this.eventAggregator.subscribe('modal.open', (modalId) => {
-            this.modalInstructions.push(this.modalService.getInstruction(modalId));
-            $('body').addClass('modal-open');
-        });
+    modalEventHandler(params) {
+        if (params.event === 'opened') {
+            this.modalOpened(params.modalId);
+        }
+        else if (params.event === 'closed') {
+            this.modalClosed(params.modalId);
+        }
+    }
 
-        this.eventAggregator.subscribe('modal.destroy', (modalId) => {
-            this.modalInstructions.splice(_findIndex(this.modalInstructions, {modalId: modalId}), 1);
+    modalOpened(modalId) {
+        this.modalInstructions.push(this.modalService.getInstruction(modalId));
+        $('body').addClass('modal-open');
+    }
 
-            if (this.modalInstructions.length === 0) {
-                $('body').removeClass('modal-open');
-            }
-        });
+    modalClosed(modalId) {
+        const index = _findIndex(this.modalInstructions, {modalId});
+        this.modalInstructions.splice(index, 1);
+        if (this.modalInstructions.length === 0) {
+            $('body').removeClass('modal-open');
+        }
     }
 }

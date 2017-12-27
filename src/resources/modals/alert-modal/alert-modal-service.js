@@ -4,10 +4,10 @@
 
 import {PLATFORM} from 'aurelia-pal';
 import {inject} from 'aurelia-framework';
-import ModalService from '../modal/modal-service';
+import {ModalService} from '../modal/modal-service';
 
 @inject(ModalService)
-export default class AlertModalService {
+export class AlertModalService {
     constructor(modalService) {
         this.modalService = modalService;
     }
