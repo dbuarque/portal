@@ -34,7 +34,8 @@ export async function configure(aurelia) {
         .history()
         .router()
         .eventAggregator()
-        .plugin(PLATFORM.moduleName('aurelia-crumbs'))
+        .plugin(PLATFORM.moduleName('aurelia-validation'))
+        //.plugin(PLATFORM.moduleName('aurelia-crumbs'))
         .plugin(PLATFORM.moduleName('aurelia-materialize-bridge'), bridge => {
             return bridge
                 .useCheckbox()

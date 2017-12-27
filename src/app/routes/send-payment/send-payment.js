@@ -6,31 +6,61 @@ import './send-payment.scss';
 import * as StellarSdk from 'stellar-sdk';
 import {inject, computedFrom} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
+import {ValidationRules, ValidationController, validateTrigger} from 'aurelia-validation';
 import {connected} from 'aurelia-redux-connect';
-import {ModalService, ValidationManager} from 'global-resources';
+import {ModalService} from 'global-resources';
 import {AccountResource, TransactionService} from 'app-resources';
 
-@inject(Router, ModalService, ValidationManager, AccountResource, TransactionService)
+@inject(Router, ValidationController, ModalService, AccountResource, TransactionService)
 export class SendPayment {
     @connected('myAccount')
     account;
-
-    loading = 0;
-    step = 'input';
 
     @computedFrom('type')
     get isNative() {
         return this.type.toLowerCase() === 'native';
     }
 
-    constructor(router, modalService, validationManager, accountResource, transactionService) {
+    @computedFrom('_memoType')
+    get memoType() {
+        return this._memoType;
+    }
+    set memoType(newType) {
+        this.memoValue = undefined;
+        this._memoType = newType;
+    }
+
+    memoTypes = [
+        {
+            title: 'Id',
+            method: 'id'
+        },
+        {
+            title: 'Text',
+            method: 'text'
+        },
+        {
+            title: 'Hash',
+            method: 'hash'
+        },
+        {
+            title: 'Return',
+            method: 'returnHash'
+        }
+    ];
+    loading = 0;
+    step = 'input';
+
+    constructor(router, validationController, modalService, accountResource, transactionService) {
         this.router = router;
+        this.validationController = validationController;
         this.modalService = modalService;
         this.validationManager = validationManager;
         this.accountResource = accountResource;
         this.transactionService = transactionService;
-
         this.lupoexPublicKey = window.lupoex.publicKey;
+
+        this.configureValidation();
     }
 
     activate(params) {
@@ -46,24 +76,36 @@ export class SendPayment {
         }
     }
 
-    addMemo() {
-        this.memo = {};
+    configureValidation() {
+        this.validationController.validateTrigger = validateTrigger.blur;
+
+        ValidationRules
+            .ensure('destination')
+            .displayName('Destination Address')
+            .required()
+            .ensure('amount')
+            .displayName('Amount')
+            .required()
+            .ensure('memoValue')
+            .displayName('Memo Value')
+            .required()
+            .when(vm => vm.memoType)
+            .maxLength(64)
+            .when(vm => vm.memoType && vm.memoType !== 'text')
+            .maxLength(28)
+            .when(vm => vm.memoType === 'text')
+            .on(this);
     }
 
-    removeMemo(index) {
-        this.memo = undefined;
-    }
-
-    submitInput() {
-        if (!this.validationManager.validate()) {
+    async submitInput() {
+        const validationResult = await this.validationController.validate();
+        if (!validationResult.valid) {
             return;
         }
 
         if (this.requiredMemo) {
-            this.memo = {
-                type: this.memoTypeTitle(this.requiredMemoType),
-                value: this.requiredMemo
-            };
+            this.memoType = this.requiredMemoType;
+            this.memoValue = this.requiredMemo;
         }
 
         this.step = 'confirm';
@@ -76,8 +118,8 @@ export class SendPayment {
 
     refresh() {
         this.amount = undefined;
-        this.memo = undefined;
-        this.validationManager.clear();
+        this.memoType = undefined;
+        this.validationController.reset();
         this.step = 'input';
         this.alertConfig = undefined;
     }
@@ -144,7 +186,7 @@ export class SendPayment {
 
             try {
                 await this.transactionService.submit(operations, {
-                    memo: this.memo ? new StellarSdk.Memo[this.memoMethodFromType(this.memo.type)](this.memo.value) : undefined
+                    memo: this.memoValue ? new StellarSdk.Memo[this.memoType](this.memoValue) : undefined
                 });
                 this.refresh();
             }
@@ -160,35 +202,5 @@ export class SendPayment {
         }
 
         this.loading--;
-    }
-
-    memoMethodFromType(memoType) {
-        switch (memoType) {
-            case 'Id':
-                return 'id';
-            case 'Text':
-                return 'text';
-            case 'Hash':
-                return 'hash';
-            case 'Return':
-                return 'returnHash';
-            default:
-                throw new Error('Unrecognized Memo Type.');
-        }
-    }
-
-    memoTypeTitle(memoType) {
-        switch (memoType) {
-            case 'id':
-                return 'Id';
-            case 'text':
-                return 'Text';
-            case 'hash':
-                return 'Hash';
-            case 'returnHash':
-                return 'Return';
-            default:
-                throw new Error('Unrecognized Memo Type.');
-        }
     }
 }

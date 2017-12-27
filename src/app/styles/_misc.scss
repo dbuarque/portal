@@ -6,37 +6,43 @@ a.underline {
   padding: 10px;
 }
 
-.tt-validation.tooltipster-sidetip {
-
-    .tooltipster-box {
-        background: #fff;
-        border: 1px solid $error !important;
-        font-family: Arial, sans-serif;
-        font-size: 14px;
-        line-height: 16px;
-
-        .tooltipster-content {
-            color: $error;
-        }
+.invalid {
+    input:not([type]), input[type=text]:not(.browser-default), input[type=password]:not(.browser-default), input[type=email]:not(.browser-default), input[type=url]:not(.browser-default), input[type=time]:not(.browser-default), input[type=date]:not(.browser-default), input[type=datetime]:not(.browser-default), input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default), input[type=number]:not(.browser-default), input[type=search]:not(.browser-default), textarea.materialize-textarea {
+        border-bottom: 1px solid $error;
+        box-shadow: none !important;
     }
+}
 
-    .tooltipster-arrow {
-        bottom: -1px;
-    }
+.validation-error-text {
+    color: $error;
+    font-size: 12px;
+}
+
+.tooltipster-sidetip.tooltipster-light .tooltipster-box {
+    border: 1px solid $dark-gray;
+    background: #fff;
+}
+
+.tooltipster-base {
+    max-width: 100%;
+    word-wrap: break-word;
+    height: auto;
+}
+
+.tooltipster-box {
+    max-width: 100%;
+    word-wrap: break-word;
+}
+
+.tooltipster-sidetip.tooltipster-light.tooltipster-top {
 
     .tooltipster-arrow-border {
-        border-top-color: $error;
+        border-top-color: $dark-gray;
     }
 
     .tooltipster-arrow-background {
         border-top-color: #fff;
-        top: -1px;
     }
-}
-
-.invalid.touched, .validated.invalid {
-    border-bottom: 1px solid $error;
-    box-shadow: none !important;
 }
 
 .bold {

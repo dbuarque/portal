@@ -35,7 +35,7 @@
                             In order to trade ${buyingAsset.code} you must get authorization from the issuer
                             (
                             <span show.bind="buyingAsset.issuer.homeDomain">${buyingAsset.issuer.homeDomain}</span>
-                            <span show.bind="!buyingAsset.issuer.homeDomain">${buyingAsset.issuer.accountId | shortenAddress}</span>
+                            <span show.bind="!buyingAsset.issuer.homeDomain"><shorten-address address.bind="buyingAsset.issuer.accountId"></shorten-address></span>
                             ).
                         </strong>
                         <br>

@@ -2,15 +2,12 @@
  * Created by Ishai on 4/27/2017.
  */
 
-import {transient, inject} from 'aurelia-framework';
-import {SanitizeHTMLValueConverter} from 'aurelia-templating-resources';
-import {IssuerHtmlValueConverter} from '../../account.value-converters';
+import {transient} from 'aurelia-framework';
+import {issuerElement} from '../../resources';
 
 @transient()
-@inject(IssuerHtmlValueConverter, SanitizeHTMLValueConverter)
 export class AssetBalancesConfig {
-
-    constructor(issuerHtml, sanitizeHTML) {
+    constructor() {
         return {
             table: {
                 lengthMenu: [ 10, 25, 100 ],
@@ -25,11 +22,11 @@ export class AssetBalancesConfig {
                     {
                         title: 'Issuer',
                         data: 'issuerId',
-                        cellCallback (cell, rowData) {
+                        cellCallback(cell, rowData) {
                             cell.empty();
-                            let newHtml = issuerHtml.toView(rowData.issuer);
-                            newHtml = sanitizeHTML.toView(newHtml);
-                            cell.html(newHtml);
+                            cell.append(
+                                issuerElement(rowData.issuer)
+                            );
                         },
                         orderable: false,
                         searchable: true

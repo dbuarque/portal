@@ -1,13 +1,28 @@
 <template>
     <div class="offer-modal">
-        <alert config.bind="alertConfig"></alert>
+        <alert-card title="What is a trustline?" type="info">
+            Acquiring an asset on the stellar network implies a trust in the asset issuer because the issuer is responsible for backing the asset. In other words,
+            if you buy a BTC asset on the network, the BTC asset is only valuable if the issuer can be counted on to redeem your asset with real BTC.
+            <br>
+            <p>
+                Because of this, stellar requires you to explicitly declare that you trust an asset/issuer. This declaration of trust is done by setting a trust limit.
+                Your asset balance cannot be greater than your trust limit.
+            </p>
+            <p>
+                To learn more about stellar assets and trust see the
+                <a href="https://www.stellar.org/developers/guides/concepts/assets.html" target="_blank">Stellar Asset Concept Documentation</a>.
+            </p>
+        </alert-card>
         <div>
             Currently, your trust limit for ${code & oneTime}(${issuer.homeDomain || issuer.accountId || issuer & oneTime})
             is <strong>${limit || 0 & oneTime}</strong>. You can modify your limit below:
         </div>
-        <div class="form-field">
+        <div class="form-field" validation-errors.bind="newLimitErrors" class.bind="newLimitErrors.length ? 'invalid' : ''">
             <label>New Limit</label>
-            <input type="tel" value.bind="newLimit | validStellarNumber & reflectModel" tt-validate="key:newLimit; manager.bind: validationManager" required title="New Limit">
+            <input type="tel" value.bind="newLimit | validStellarNumber & reflectModel & validate" title="New Limit">
+            <div class="validation-error-text" repeat.for="errorInfo of newLimitErrors">
+                ${errorInfo.error.message}
+            </div>
         </div>
         <br>
         <div class="center-text">
