@@ -32,7 +32,9 @@
                                 <div class="asset-code"><strong>${assetCode}</strong></div>
                                 <div click.trigger="followHomeDomain($event)" show.bind="homeDomain" class="primary-text home-domain">${homeDomain}</div>
                                 <!--<a show.bind="homeDomain" target="_blank" href.bind="homeDomain" class="primary-text home-domain">${homeDomain}</a>-->
-                                <div class="issuer-address">${issuerAddress}</div>
+                                <div class="issuer-address" if.bind="asset.type.toLowerCase() !== 'native'">
+                                    <shortened-address address.bind="issuerAddress"></shortened-address>
+                                </div>
                             </td>
                         </tr>
                     </table>

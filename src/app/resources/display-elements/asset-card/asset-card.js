@@ -1,7 +1,7 @@
 import {bindable, computedFrom, inject} from 'aurelia-framework';
 import {asyncBindable} from 'aurelia-async-bindable-bluebird';
 import {WithHttpProtocolValueConverter} from 'global-resources';
-import {shortenAddress, TomlCache} from 'app-resources';
+import {TomlCache} from 'app-resources';
 import {AssetSelectionService} from '../../crud/stellar/asset-selection-service';
 
 @inject(TomlCache, WithHttpProtocolValueConverter, AssetSelectionService)
@@ -48,7 +48,7 @@ export class AssetCardCustomElement {
         return this.asset.type.toLowerCase() === 'native' ?
             'Native' :
             this.asset.issuer ?
-                shortenAddress(this.asset.issuer.accountId) :
+                this.asset.issuer.accountId :
                 '';
     }
 

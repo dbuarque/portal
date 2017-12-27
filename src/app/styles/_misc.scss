@@ -18,6 +18,33 @@ a.underline {
     font-size: 12px;
 }
 
+.tooltipster-sidetip.tooltipster-light .tooltipster-box {
+    border: 1px solid $dark-gray;
+    background: #fff;
+}
+
+.tooltipster-base {
+    max-width: 100%;
+    word-wrap: break-word;
+    height: auto;
+}
+
+.tooltipster-box {
+    max-width: 100%;
+    word-wrap: break-word;
+}
+
+.tooltipster-sidetip.tooltipster-light.tooltipster-top {
+
+    .tooltipster-arrow-border {
+        border-top-color: $dark-gray;
+    }
+
+    .tooltipster-arrow-background {
+        border-top-color: #fff;
+    }
+}
+
 .bold {
     font-weight: bold;
 }

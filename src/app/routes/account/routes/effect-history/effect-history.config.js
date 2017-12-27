@@ -3,17 +3,14 @@
  */
 
 import {transient, inject} from 'aurelia-framework';
-import {SanitizeHTMLValueConverter} from 'aurelia-templating-resources';
 import {FormatDateTimeValueConverter} from 'global-resources';
-import {ShortenAddressValueConverter, userFriendlyEffectMessage} from 'app-resources';
+import {userFriendlyEffectMessage, shortenedAddressLink} from 'app-resources';
 
 @transient()
-@inject(SanitizeHTMLValueConverter, FormatDateTimeValueConverter, ShortenAddressValueConverter)
+@inject(FormatDateTimeValueConverter)
 export class EffectHistoryConfig {
-    constructor(sanitizeHTML, formatDateTime, shortenAddress) {
+    constructor(formatDateTime) {
         const self = this;
-
-        self.shortenAddress = shortenAddress;
 
         return {
             table: {
@@ -38,9 +35,7 @@ export class EffectHistoryConfig {
                         className: 'left-align',
                         cellCallback(cell, rowData) {
                             cell.empty();
-                            let newHtml = self.effectDetailsHtml(rowData);
-                            newHtml = sanitizeHTML.toView(newHtml);
-                            cell.html(newHtml);
+                            self.effectDetailsHtml(rowData, cell);
                         }
                     }
                 ]
@@ -48,8 +43,21 @@ export class EffectHistoryConfig {
         };
     }
 
-    effectDetailsHtml(e) {
-        return this.effectDetailsIcon(e) + '&nbsp;&nbsp;&nbsp;' + userFriendlyEffectMessage(e);
+    effectDetailsHtml(rowData, cell) {
+        cell.append(this.effectDetailsIcon(rowData));
+        cell.append(
+            $('<span>&nbsp;&nbsp;&nbsp;</span>')
+        );
+
+        cell.append(
+            userFriendlyEffectMessage(rowData)
+        );
+
+        cell.find('span.shortened-address').each(function() {
+            this.replaceWith(
+                shortenedAddressLink(this.title)
+            );
+        });
     }
 
     effectDetailsIcon(e) {

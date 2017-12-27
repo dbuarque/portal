@@ -8,3 +8,9 @@ import 'tooltipster';
 import 'datatables.net';
 import 'datatables.net-responsive';
 //import 'select2';
+
+$.tooltipster.setDefaults({
+    theme: 'tooltipster-light',
+    trigger: 'click',
+    interactive: true
+});

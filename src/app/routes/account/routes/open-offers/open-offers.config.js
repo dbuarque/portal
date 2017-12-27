@@ -3,15 +3,13 @@
  */
 
 import {transient, inject} from 'aurelia-framework';
-import {SanitizeHTMLValueConverter} from 'aurelia-templating-resources';
 import {FormatNumberValueConverter} from 'app-resources';
-import {IssuerHtmlValueConverter} from '../../account.value-converters';
+import {issuerElement} from '../../resources';
 
 @transient()
-@inject(FormatNumberValueConverter, IssuerHtmlValueConverter, SanitizeHTMLValueConverter)
+@inject(FormatNumberValueConverter)
 export class OpenOffersConfig {
-
-    constructor(formatNumber, issuerHtml, sanitizeHTML) {
+    constructor(formatNumber) {
         return {
             table: {
                 lengthMenu: [ 10, 25, 100 ],
@@ -35,11 +33,11 @@ export class OpenOffersConfig {
                         title: 'Offered Asset Issuer',
                         data: 'sellingIssuerId',
                         searchable: true,
-                        cellCallback (cell, rowData) {
+                        cellCallback(cell, rowData) {
                             cell.empty();
-                            let newHtml = issuerHtml.toView(rowData.sellingIssuer);
-                            newHtml = sanitizeHTML.toView(newHtml);
-                            cell.html(newHtml);
+                            cell.append(
+                                issuerElement(rowData.sellingIssuer)
+                            );
                         }
                     },
                     {
@@ -54,11 +52,11 @@ export class OpenOffersConfig {
                         title: 'Desired Asset Issuer',
                         data: 'buyingIssuerId',
                         searchable: true,
-                        cellCallback (cell, rowData) {
+                        cellCallback(cell, rowData) {
                             cell.empty();
-                            let newHtml = issuerHtml.toView(rowData.buyingIssuer);
-                            newHtml = sanitizeHTML.toView(newHtml);
-                            cell.html(newHtml);
+                            cell.append(
+                                issuerElement(rowData.buyingIssuer)
+                            );
                         }
                     },
                     {
