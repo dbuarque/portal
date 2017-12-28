@@ -4,6 +4,17 @@
     <div class="card tradingview-price-chart">
         <div class="card-content no-heading">
             <div class="card-body no-padding">
+                <button show.bind="chartReady" class="studies-button primary btn btn-small btn-flat" md-dropdown="ref.bind: studiesDropdown; below-origin: true; constrain-width: false; stop-propagation: true;">
+                    <i class="fal fa-chart-line"></i>
+                </button>
+                <ul class="studies-dropdown" ref="studiesDropdown">
+                    <li repeat.for="s of studiesList" click.trigger="toggleStudy($event, s)">
+                            <div class="icon-container" show.bind="displayedStudies[s]">
+                                <i class="fal fa-check-square primary-text"></i>
+                            </div>&nbsp;
+                        ${s & oneTime}
+                    </li>
+                </ul>
                 <div id="tradingview-price-chart-container">
                 </div>
                 <div class="filters center">
