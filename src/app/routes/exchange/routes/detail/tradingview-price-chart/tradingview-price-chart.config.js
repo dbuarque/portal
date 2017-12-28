@@ -46,6 +46,9 @@ export class TradingviewPriceChartConfig {
                 'hide_last_na_study_output'
             ],
             overrides: {
+                'mainSeriesProperties.priceAxisProperties.autoScale': true,
+                'mainSeriesProperties.priceAxisProperties.percentage': false,
+                'mainSeriesProperties.priceAxisProperties.log': false,
                 'mainSeriesProperties.candleStyle.drawBorder': false,
                 'mainSeriesProperties.candleStyle.upColor': '#388e3c',
                 'mainSeriesProperties.candleStyle.downColor': '#c62828',
