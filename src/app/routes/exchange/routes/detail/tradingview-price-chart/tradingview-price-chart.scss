@@ -1,8 +1,41 @@
 .tradingview-price-chart {
     font-size: 12px;
 
+    .card-body {
+        position: relative;
+
+        .studies-button {
+            position: absolute;
+            left: 15px;
+            top: 295px;
+            z-index: 100;
+        }
+
+        .studies-dropdown {
+            z-index: 100;
+            max-height: 200px;
+
+            .checkbox {
+                float: right;
+            }
+
+            li {
+                min-height: 0;
+                height: 20px;
+                line-height: 20px;
+                font-size: 12px;
+                padding: 0 5px;
+
+                .icon-container {
+                    display: inline-block;
+                }
+            }
+        }
+    }
+
     #tradingview-price-chart-container {
         height: 379px;
+        position: relative;
     }
 
     .filters {
