@@ -124,6 +124,12 @@ To actually deploy execute:
 
 1. **Why is my application reloading itself again and again in development mode?**
    Are you running with `USE_HTTPS=true` enabled? If so, you need to trust the security certificate located in `dev-assets`. See the Trusting Certificates section below.
+   
+2. **Why am I getting node-sass errors on startup?**
+Sometimes node-sass needs to be rebuilt for a particular operating system. To fix, run:
+```shell
+npm rebuild node-sass
+```
 
 ### Trusting Certificates
 If you are running in https mode you will want to trust the certificate located in `dev-assets`. 
@@ -139,12 +145,6 @@ To trust a certificate on windows:
 8. In the toolbar that comes up (from the right-click) select All Tasks > Import
 9. Complete the Certificate Import Wizard using `dev-assets/server.cert` 
 10. Your browser should now trust the certificate and you should no longer get the intermittent page reload.
-
-2. **Why am I getting node-sass errors on startup?**
-Sometimes node-sass needs to be rebuilt for a particular operating system. To fix, run:
-```shell
-npm rebuild node-sass
-```
 
 <!--
 ## Running The Tests

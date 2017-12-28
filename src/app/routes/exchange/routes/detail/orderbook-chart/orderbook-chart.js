@@ -2,6 +2,7 @@
  * Created by istrauss on 3/19/2017.
  */
 
+import _debounce from 'lodash/debounce';
 import _throttle from 'lodash/throttle';
 import {inject} from 'aurelia-framework';
 import techan from 'techan';
@@ -37,11 +38,9 @@ export class OrderbookChartCustomElement {
         this.$chart = this.$element.find('.chart');
 
         this.margin = {top: 0, right: 3, bottom: 20, left: 100};
-        this.width = this.$element.parent().width() - this.margin.left - this.margin.right;
         this.height = 230;
 
-        this.x = d3.scaleLog()
-            .range([0, this.width]);
+        this.x = d3.scaleLog();
 
         this.y = d3.scaleLinear().range([this.height, 0]);
 
@@ -87,7 +86,6 @@ export class OrderbookChartCustomElement {
 
         this.svg = d3.select(this.$chart[0]).append('svg')
             .attr('class', 'main-chart')
-            .attr('width', this.width + this.margin.left + this.margin.right)
             .attr('height', this.height + this.margin.top + this.margin.bottom)
             .append('g')
             .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
@@ -95,6 +93,12 @@ export class OrderbookChartCustomElement {
         this.isAttached = true;
 
         this.draw();
+
+        $(window).on('resize.orderbookChart', _debounce(this.draw.bind(this), 500));
+    }
+
+    detached() {
+        $(window).off('resize.orderbookChart');
     }
 
     async orderbookChanged() {
@@ -107,6 +111,10 @@ export class OrderbookChartCustomElement {
         }
 
         this.svg.selectAll('*').remove();
+
+        this.width = this.$element.parent().width() - this.margin.left - this.margin.right;
+        this.x.range([0, this.width]);
+        this.svg.attr('width', this.width + this.margin.left + this.margin.right);
 
         if (
             !this.assetPair ||
