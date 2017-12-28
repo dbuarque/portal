@@ -11,6 +11,13 @@
             z-index: 100;
         }
 
+        .axis-style {
+            position: absolute;
+            right: 3px;
+            top: 357px;
+            z-index: 100;
+        }
+
         .studies-dropdown {
             z-index: 100;
             max-height: 200px;
@@ -38,6 +45,28 @@
         position: relative;
     }
 
+    button.btn.btn-transparent {
+        border-radius: 0;
+        border: none !important;
+        border-left: none !important;
+        color: $dark-gray !important;
+        background-color: #fff;
+        height: 20px;
+        line-height: 12px;
+        padding: 2px 3px;
+        font-size: 12px;
+        text-transform: lowercase;
+
+        &.active, &:hover, &.active {
+            color: $primary !important;
+        }
+
+        &:disabled {
+            color: $light-gray !important;
+            background-color: #fff !important;
+        }
+    }
+
     .filters {
 
         .btn-group {
@@ -48,28 +77,6 @@
                 display: inline-block;
                 vertical-align: middle;
                 font-weight: bold;
-            }
-
-            button.btn.btn-flat {
-                border-radius: 0;
-                border: none !important;
-                border-left: none !important;
-                color: $dark-gray !important;
-                background-color: #fff;
-                height: 20px;
-                line-height: 12px;
-                padding: 2px 3px;
-                font-size: 12px;
-                text-transform: lowercase;
-
-                &.active, &:hover, &.active {
-                    color: $primary !important;
-                }
-
-                &:disabled {
-                    color: $light-gray !important;
-                    background-color: #fff !important;
-                }
             }
         }
     }
