@@ -4,18 +4,18 @@
     <div class="card tradingview-price-chart">
         <div class="card-content no-heading">
             <div class="card-body no-padding">
+                <button show.bind="chartReady" class="studies-button primary btn btn-small btn-flat" md-dropdown="ref.bind: studiesDropdown; below-origin: true; constrain-width: false; stop-propagation: true;">
+                    <i class="fal fa-chart-line"></i>
+                </button>
+                <ul class="studies-dropdown" ref="studiesDropdown">
+                    <li repeat.for="s of studiesList" click.trigger="toggleStudy($event, s)">
+                            <div class="icon-container" show.bind="displayedStudies[s]">
+                                <i class="fal fa-check-square primary-text"></i>
+                            </div>&nbsp;
+                        ${s & oneTime}
+                    </li>
+                </ul>
                 <div id="tradingview-price-chart-container">
-                    <button class="studies-button btn btn-small" md-dropdown="ref.bind: studiesDropdown;">
-                        <i class="fal fa-line-chart"></i>
-                    </button>
-                    <ul class="studies-dropdown" ref="studiesDropdown">
-                        <li repeat.for="s of availableStudies | objectToArray">
-                            ${s.value & oneTime}
-                            <span class="checkbox">
-                                <md-checkbox change.delegate="toggleStudy($event)" md-model.one-time="s.key" md-checked.bind="displayedStudies"></md-checkbox>
-                            </span>
-                        </li>
-                    </ul>
                 </div>
                 <div class="filters center">
                     <div class="btn-group">

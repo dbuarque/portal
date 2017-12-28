@@ -10,7 +10,6 @@ import {timeFrameToAmountScale, BarsRealtimeUpdater} from './resources';
 
 @inject(TaskQueue, TradingviewPriceChartConfig, Store, BarsRealtimeUpdater)
 export class TradingviewPriceChartCustomElement {
-
     @connected('exchange.assetPair')
     assetPair;
 
@@ -26,9 +25,9 @@ export class TradingviewPriceChartCustomElement {
     }
 
     @computedFrom('chartReady')
-    get availableStudies() {
+    get studiesList() {
         return this.chartReady ?
-            this.widget.getStudiesList() :
+            Object.values(this.widget.getStudiesList()) :
             [];
     }
 
@@ -94,6 +93,11 @@ export class TradingviewPriceChartCustomElement {
                 self.intervalSubscriptionObj = self.widget.chart().onIntervalChanged();
                 self.intervalSubscriptionObj.subscribe(self, self.onIntervalChanged);
                 self.chartReady = true;
+
+                // make sure any studies displayed initially are also recoreded in displayedStudies object
+                self.widget.chart().getAllStudies().forEach(s => {
+                    self.displayedStudies[s.name] = s.id;
+                });
             });
 
             self.currentResolution = self.config.interval;
@@ -103,8 +107,22 @@ export class TradingviewPriceChartCustomElement {
         }
     }
 
-    toggleStudy(e) {
-
+    toggleStudy(e, s) {
+        if (this.displayedStudies[s]) {
+            this.widget.chart().removeEntity(this.displayedStudies[s]);
+            this.displayedStudies[s] = undefined;
+        }
+        else {
+            try {
+                this.widget.chart().createStudy(s, true, true, undefined, entityId => {
+                    this.displayedStudies[s] = entityId;
+                });
+            }
+            catch (err) {
+                // sometimes there is an unexpected study error? not sure what that means... either way, we want to continue on and stop the event propagation.
+            }
+        }
+        e.stopPropagation();
     }
 
     onIntervalChanged(interval, obj) {
