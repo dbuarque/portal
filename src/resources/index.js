@@ -6,7 +6,6 @@ import {PLATFORM} from 'aurelia-pal';
 export * from './helpers';
 export * from './workers';
 export * from './modals';
-export * from './validation';
 export * from './value-converters';
 //export * from './stellar';
 export * from './decorators';
@@ -19,7 +18,6 @@ export function configure(config) {
         PLATFORM.moduleName('./value-converters/object'),
         PLATFORM.moduleName('./value-converters/string'),
         PLATFORM.moduleName('./value-converters/date-time'),
-        PLATFORM.moduleName('./validation/tt-validate/tt-validate'),
         PLATFORM.moduleName('./custom-attributes/collapsible-card/collapsible-card'),
         PLATFORM.moduleName('./modals/modal/modal-anchor'),
         PLATFORM.moduleName('./display-elements/alert/alert'),

@@ -1,10 +1,9 @@
 import {bindable, inject} from 'aurelia-framework';
 import * as StellarSdk from 'stellar-sdk';
-import {ValidationManager} from 'global-resources';
 import {Store} from 'aurelia-redux-connect';
 import {SecretStore} from 'app-resources';
 
-@inject(ValidationManager, Store, SecretStore)
+@inject(Store, SecretStore)
 export class SignWithProvidedSecretCustomElement {
 
     @bindable() transactionSigned;
@@ -17,17 +16,12 @@ export class SignWithProvidedSecretCustomElement {
         'so you can create additional transactions without entering it again. Even when you select this option, ' +
         'we do not store it anywhere but in the memory of the browser. As soon as you close or refresh this tab, the secret will be forgotten.';
 
-    constructor(validationManager, store, secretStore) {
-        this.validationManager = validationManager;
+    constructor(store, secretStore) {
         this.store = store;
         this.secretStore = secretStore;
     }
 
     sign() {
-        if (!this.validationManager.validate()) {
-            return;
-        }
-
         const account = this.store.getState().myAccount;
         let keypair;
 

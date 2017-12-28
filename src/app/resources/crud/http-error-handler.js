@@ -21,7 +21,6 @@ const defaultErrors = {
 
 @inject(AlertToaster)
 export default class HttpErrorHandler {
-
     constructor(alertToaster) {
         this.alertToaster = alertToaster;
     }

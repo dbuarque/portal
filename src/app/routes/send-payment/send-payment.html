@@ -1,5 +1,4 @@
 <template>
-    <require from="./memo-select/memo-select"></require>
     <div class="send-payment">
         <div class="card">
             <div class="card-content">
@@ -20,6 +19,10 @@
                         Once made, payments are <strong>irreversible</strong>. Please be sure to verify every detail of your payment before confirming.
                     </alert-card>
 
+                    <alert-card type="error" show.bind="errorMessage" title="You have errors">
+                        ${errorMessage}
+                    </alert-card>
+
                     <div class="form-container">
 
                         <div show.bind="step==='input'" class="input-step">
@@ -32,14 +35,19 @@
                                     <label>Issuer</label>
                                     <input type="text" value.one-time="issuer" disabled title="Issuer">
                                 </div>
-                                <div class="col s12">
+                                <div class="col s12" validation-errors.bind="amountErrors" class.bind="amountErrors.length ? 'invalid' : ''">
                                     <label>Amount</label>
-                                    <input type="number" value.bind="amount | validStellarNumber" required title="Amount" tt-validate="manager.bind: validationManager; key: amount;">
+                                    <input type="number" value.bind="amount | validStellarNumber & validate" title="Amount">
+                                    <div class="validation-error-text" repeat.for="errorInfo of amountErrors">
+                                        ${errorInfo.error.message}
+                                    </div>
                                 </div>
-                                <div class="col s12">
+                                <div class="col s12" validation-errors.bind="destinationErrors" class.bind="destinationErrors.length ? 'invalid' : ''">
                                     <label>Destination Account</label>
-                                    <stellar-address-input public-key.bind="destination" required title="Destination Account" memo.bind="requiredMemo" memo-type.bind="requiredMemoType"
-                                                           tt-validate="manager.bind: validationManager; key: destination; element-selector: :input; value-prop: publicKey"></stellar-address-input>
+                                    <stellar-address-input public-key.bind="destination & validate" title="Destination Address" memo.bind="requiredMemo" memo-type.bind="requiredMemoType"></stellar-address-input>
+                                    <div class="validation-error-text" repeat.for="errorInfo of destinationErrors">
+                                        ${errorInfo.error.message}
+                                    </div>
                                 </div>
                             </div>
 
@@ -57,31 +65,34 @@
                             </div>
 
                             <div show.bind="!requiredMemo">
-                                <div class="row" if.bind="memo">
-                                    <br>
+                                <br>
+                                <div class="row">
                                     <div class="col s12">
-                                        <h6>Memo:</h6>
+                                        <h6>Memo (Optional):</h6>
                                     </div>
                                     <div class="col s12">
                                         <div class="row">
-                                            <div class="col s10">
-                                                <memo-select validation-manager.bind="validationManager" type.bind="memo.type" value.bind="memo.value"></memo-select>
+                                            <div class="col s6">
+                                                <label>Type</label>
+                                                <select md-select value.two-way="memoType" title="Type">
+                                                    <option value=""></option>
+                                                    <option repeat.for="type of memoTypes & oneTime" model.one-time="type.method">${type.title & oneTime}</option>
+                                                </select>
                                             </div>
-                                            <div class="col s2" style="padding-top: 20px;">
-                                                <button class="btn btn-flat error">
-                                                    <i class="fal fa-trash" click.trigger="removeMemo()"></i>
-                                                </button>
+                                            <div class="col s6" show.bind="memoType" validation-errors.bind="memoValueErrors" class.bind="memoValueErrors.length ? 'invalid' : ''">
+                                                <label>Value</label>
+                                                <input type="number" if.bind="memoType === 'id'" value.bind="memoValue & validate" maxlength="64" title="Id">
+                                                <input type="text" if.bind="memoType === 'text'" value.bind="memoValue & validate" maxlength="28" title="Text">
+                                                <input type="text" if.bind="memoType === 'hash'" value.bind="memoValue & validate" maxlength="64" title="Hash">
+                                                <input type="text" if.bind="memoType === 'returnHash'" value.bind="memoValue & validate" maxlength="64" title="Return">
+                                                <div class="validation-error-text" repeat.for="errorInfo of memoValueErrors">
+                                                    ${errorInfo.error.message}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <br>
-                                <button md-waves type="button" class="btn btn-flat dark-gray" click.trigger="addMemo()" if.bind="!memo">
-                                    <i class="fal fa-plus"></i>&nbsp;Add Memo
-                                </button>
                             </div>
-
-                            <br>
                             <br>
                             <div class="center-text">
                                 <button md-waves class="btn primary" click.delegate="submitInput()">
@@ -109,7 +120,7 @@
                                     <td class="value">${destination}</td>
                                 </tr>
                             </table>
-                            <div class="row" show.bind="memo">
+                            <div class="row" show.bind="memoValue">
                                 <br>
                                 <div class="col s12">
                                     <h6>Memo:</h6>
@@ -118,8 +129,8 @@
                                 <div class="col s12">
                                     <table>
                                         <tr>
-                                            <td class="label">${memo.type}</td>
-                                            <td class="value">${memo.value}</td>
+                                            <td class="label">${memoType}</td>
+                                            <td class="value">${memoValue}</td>
                                         </tr>
                                     </table>
                                 </div>

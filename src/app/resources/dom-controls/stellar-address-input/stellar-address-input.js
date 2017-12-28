@@ -6,7 +6,6 @@ import {bindable, bindingMode, computedFrom} from 'aurelia-framework';
 import * as StellarSdk from 'stellar-sdk';
 
 export class StellarAddressInputCustomElement {
-
     @bindable({
         defaultBindingMode: bindingMode.twoWay
     })

@@ -13,7 +13,6 @@ import {UpdateMySeqnumActionCreator} from '../../../../action-creators';
 
 @inject(ModalService, SpinnerModalService, Store, AlertToaster, SecretStore, TransactionResource, UpdateMySeqnumActionCreator)
 export class TransactionService {
-
     constructor(modalService, spinnerModalService, store, alertToaster, secretStore, transactionResource, udpateMySeqnum) {
         this.modalService = modalService;
         this.spinnerModalService = spinnerModalService;
@@ -91,7 +90,7 @@ export class TransactionService {
         }
         catch (errResponse) {
             try {
-                this.modalService.open(
+                await this.modalService.open(
                     PLATFORM.moduleName('app/resources/crud/stellar/transaction-service/error-modal/error-modal'),
                     {
                         title: 'Stellar Transaction Error',

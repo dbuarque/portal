@@ -37,11 +37,11 @@ export class AccountEffectAlerter {
                 const msg = userFriendlyEffectMessage(e);
 
                 return msg ?
-                {
-                    msg,
-                    type: this._alertType(e)
-                } :
-                null;
+                    {
+                        msg,
+                        type: this._alertType(e)
+                    } :
+                    null;
             })
             .filter(alert => !!alert);
     }
