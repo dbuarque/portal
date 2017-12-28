@@ -13,6 +13,8 @@ export class TradingviewPriceChartCustomElement {
     @connected('exchange.assetPair')
     assetPair;
 
+    priceStyle = 'auto';
+
     get symbol() {
         return this.assetPair ?
             this.assetPair.buying.type + '|' +
@@ -148,5 +150,19 @@ export class TradingviewPriceChartCustomElement {
         }
 
         this.widget.chart().setResolution(r.resolution);
+    }
+
+    setPriceStyle(style) {
+        if (this.priceStyle === style) {
+            return;
+        }
+
+        this.widget.applyOverrides({
+            'mainSeriesProperties.priceAxisProperties.autoScale': style === 'auto',
+            'mainSeriesProperties.priceAxisProperties.percentage': style === 'percent',
+            'mainSeriesProperties.priceAxisProperties.log': style === 'log'
+        });
+
+        this.priceStyle = style;
     }
 }
