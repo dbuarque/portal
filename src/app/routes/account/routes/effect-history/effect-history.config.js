@@ -68,7 +68,7 @@ export class EffectHistoryConfig {
         const transaction = rowData.operation.transaction;
 
         cell.append(
-            $('<br><span style="max-width: 100%;" class="small-tex">' + transaction.transactionHash + (transaction.memo ? ' - memo (' + transaction.memo_type + '): ' + transaction.memo : '') + '</span>')
+            $('<br><span style="max-width: 100%;" class="small-text">hash: ' + transaction.transactionHash + (transaction.memo ? ' - memo (' + transaction.memo_type + '): ' + transaction.memo : '') + '</span>')
         );
     }
 
