@@ -7,6 +7,19 @@
                         <img src="/assets/stellarport_brand_40x250.png">
                     </a>
 
+                    <ul class="left hide-on-med-and-down">
+                        <li>
+                            <a href="javascript:void(0)" click.delegate="goToExchangeChoose()" title="Go To Markets">
+                                <i class="fal fa-list-ul fa-lg"></i>&nbsp;Markets
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" if.bind="assetPair" click.delegate="goToExchangeDetail()" title="Go To Exchange">
+                                <i class="fal fa-chart-line fa-lg"></i>&nbsp;Exchange
+                            </a>
+                        </li>
+                    </ul>
+
                     <ul class="right hide-on-med-and-down">
                         <li>
                             <a href="javascript:void(0)" click.delegate="goToAccount()" if.bind="account" title="View Account Details">
