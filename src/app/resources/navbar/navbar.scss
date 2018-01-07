@@ -1,25 +1,14 @@
 .nav-wrapper {
     margin: 0 auto;
-
-    .left {
-        margin-left: 250px;
-    }
+    text-align: center;
+    height: 54px;
+    line-height: 54px;
 
     .brand {
-        line-height: 54px;
-        font-weight: bold;
-        vertical-align: bottom;
-        position: absolute;
-        margin-top: 3px;
+        margin-left: 58px;
 
         img {
-            display: inline;
             vertical-align: middle;
-            margin-top: -5px;
-        }
-
-        .brand-desc {
-            font-size: 12px;
         }
     }
 }
@@ -83,35 +72,6 @@ nav .nav-wrapper i {
                     height: auto;
                     margin-right: 0;
                 }
-            }
-        }
-    }
-}
-
-@media all and (min-width: 992px) {
-    .nav-wrapper {
-        margin: 0 auto;
-
-        .left {
-            margin-left: 250px;
-        }
-
-        .brand {
-            left: 0;
-        }
-    }
-}
-
-@media all and (max-width: 600px) {
-    .nav-wrapper {
-        .brand {
-            line-height: 56px;
-            margin-left: 0;
-
-            img {
-                display: inline;
-                vertical-align: middle;
-                margin-top: -5px;
             }
         }
     }

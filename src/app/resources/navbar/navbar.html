@@ -3,22 +3,10 @@
         <div class="navbar-fixed">
             <nav>
                 <div class="nav-wrapper">
-                    <a href="javascript:void(0)" class="brand" click.delegate="goToExchangeChoose()">
-                        <img src="/assets/stellarport_brand_40x250.png">
+                    <a href="javascript:void(0)" class="brand" click.delegate="goHome()">
+                        <img class="hide-on-med-and-down" src="/assets/stellarport_brand_40x250.png">
+                        <img class="hide-on-large-only" src="/assets/stellarport_logo_40x40.png">
                     </a>
-
-                    <ul class="left hide-on-med-and-down">
-                        <li>
-                            <a href="javascript:void(0)" click.delegate="goToExchangeChoose()" title="Go To Markets">
-                                <i class="fal fa-list-ul fa-lg"></i>&nbsp;Markets
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)" if.bind="assetPair" click.delegate="goToExchangeDetail()" title="Go To Exchange">
-                                <i class="fal fa-chart-line fa-lg"></i>&nbsp;Exchange
-                            </a>
-                        </li>
-                    </ul>
 
                     <ul class="right hide-on-med-and-down">
                         <li>

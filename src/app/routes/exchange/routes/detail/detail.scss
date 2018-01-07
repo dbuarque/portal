@@ -5,11 +5,11 @@
         position: relative;
 
         .back {
-            position: absolute;
+            position: fixed;
             margin-top: -15px;
             width: 70px;
             left: 50%;
-            margin-left: -30px;
+            margin-left: -35px;
             background-color: #fff;
             border: 1px solid $dark-gray;
             border-top-width: 0;
