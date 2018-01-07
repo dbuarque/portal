@@ -2,7 +2,7 @@
 export class AnalyticsService {
 
     get trackingId() {
-        switch(window.lupoex.env) {
+        switch(window.stellarport.env) {
             case 'production':
                 return 'UA-107386084-1';
             case 'test':

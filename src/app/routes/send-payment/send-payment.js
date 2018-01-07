@@ -57,7 +57,7 @@ export class SendPayment {
         this.modalService = modalService;
         this.accountResource = accountResource;
         this.transactionService = transactionService;
-        this.lupoexPublicKey = window.lupoex.publicKey;
+        this.stellarportPublicKey = window.stellarport.publicKey;
 
         this.configureValidation();
     }
@@ -152,10 +152,10 @@ export class SendPayment {
             //Destination account doest exist? Let's try to create it (if the user is sending native asset).
             if (!destinationAccount) {
                 if (this.isNative) {
-                    const mimimumAmount = window.lupoex.stellar.minimumNativeBalance + 1;
+                    const mimimumAmount = window.stellarport.stellar.minimumNativeBalance + 1;
 
                     if (parseInt(this.amount, 10) < mimimumAmount) {
-                        this.errorMessage = 'That destination account does not exist. We cannot create the account with less than ' + mimimumAmount + ' ' + window.lupoex.stellar.nativeAssetCode + '.';
+                        this.errorMessage = 'That destination account does not exist. We cannot create the account with less than ' + mimimumAmount + ' ' + window.stellarport.stellar.nativeAssetCode + '.';
                         this.loading--;
                         return;
                     }

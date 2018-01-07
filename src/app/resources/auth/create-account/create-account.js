@@ -10,7 +10,7 @@ export class CreateAccountCustomElement {
     changellyAlertConfig = {
         type: 'info',
         message: 'After you record the keypair above (<span class="error-text"><strong>Please be sure that the secret key is stored securely, a hacked or lost secret key will mean loss of all funds</strong></span>), you can use our partners at Changelly to fund your new stellar account.' +
-        ' Stellar will not actually create your account until you fund it with ' + window.lupoex.stellar.nativeAssetCode + '. To fund your stellar account, use the button below.',
+        ' Stellar will not actually create your account until you fund it with ' + window.stellarport.stellar.nativeAssetCode + '. To fund your stellar account, use the button below.',
         dismissible: false
     };
 
