@@ -43,7 +43,7 @@ export class AppConfig {
                         '<i class="fal fa-circle primary-text" data-fa-transform="grow-4"></i>' +
                         '<i class="fal fa-users" data-fa-transform="shrink-6 left-2"></i>' +
                         '</div>',
-                    details: 'Help us help you. Join our inflation pool to receive weekly ' + window.lupoex.stellar.nativeAssetCode + ' distributions.',
+                    details: 'Help us help you. Join our inflation pool to receive weekly ' + window.stellarport.stellar.nativeAssetCode + ' distributions.',
                     breadcrumb: true,
                     nav: true
                 },
@@ -93,12 +93,12 @@ export class AppConfig {
                     '<i class="fal fa-triangle" data-fa-transform="grow-6 rotate-90"></i>' +
                     '<i class="fal fa-paper-plane primary-text" data-fa-transform="up-2 shrink-4 rotate-60 left-1"></i>' +
                     '</div>',
-                    details: 'Send a payment using ' + window.lupoex.stellar.nativeAssetCode + '.',
+                    details: 'Send a payment using ' + window.stellarport.stellar.nativeAssetCode + '.',
                     breadcrumb: true,
                     nav: true,
                     href: {
                         type: 'native',
-                        code: window.lupoex.stellar.nativeAssetCode,
+                        code: window.stellarport.stellar.nativeAssetCode,
                         issuer: 'stellar'
                     }
                 }
