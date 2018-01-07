@@ -55,14 +55,14 @@ export class AssetCardCustomElement {
     @computedFrom('asset')
     get assetCode() {
         return this.asset.type.toLowerCase() === 'native' ?
-            window.lupoex.stellar.nativeAssetCode :
+            window.stellarport.stellar.nativeAssetCode :
             this.asset.code;
     }
 
     @computedFrom('asset', 'toml')
     get description() {
         return this.asset.type.toLowerCase() === 'native' ?
-            window.lupoex.stellar.nativeAssetCode + ' is the native asset used to power the stellar network.' :
+            window.stellarport.stellar.nativeAssetCode + ' is the native asset used to power the stellar network.' :
             this.toml && this.toml.desc ?
                 this.toml.desc :
                 this.asset.code + ' asset';

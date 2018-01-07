@@ -62,9 +62,6 @@ export class OfferService {
         const operations = [];
 
         try {
-            //const fee = await this.calculateFee(amount, sellingAsset);
-            //const sellingAmount = (new BigNumber(amount)).minus(fee).toFixed(7);
-
             const offerOp = StellarSdk.Operation.manageOffer({
                 selling: sellingAsset.type.toLowerCase() === 'native' ?
                     StellarSdk.Asset.native() :
@@ -77,48 +74,14 @@ export class OfferService {
             });
 
             operations.push(offerOp);
-
-            // if (fee && fee > 0) {
-            //     const feePaymentOp = StellarSdk.Operation.payment({
-            //         destination: window.lupoex.publicKey,
-            //         asset: sellingAsset.code === nativeAssetCode ?
-            //             StellarSdk.Asset.native() :
-            //             new StellarSdk.Asset(sellingAsset.code, sellingAsset.issuer),
-            //         amount: fee.toString()
-            //     });
-            //
-            //     operations.push(feePaymentOp);
-            // }
         }
         catch (e) {
             this.alertToaster.error('Unexpected error occured. Please check your inputs. Your offer was NOT submitted to the network.');
             throw e;
         }
 
-        //const options = {
-        //    memo: StellarSdk.Memo.text('offer_via_lupoex')
-        //};
-
         await this.transactionService.submit(operations);
     }
-
-    //async calculateFee(amount, asset) {
-    //    if (!window.lupoex.offerFeeFactor) {
-    //        return 0;
-    //    }
-//
-    //    const lupoexHasTrust = asset.code === window.lupoex.stellar.nativeAssetCode ?
-    //        true :
-    //        await this.accountResource.trustline(window.lupoex.publicKey, asset);
-//
-    //    if (!lupoexHasTrust) {
-    //        return 0;
-    //    }
-//
-    //    const feeString = (new BigNumber(amount)).times(window.lupoex.offerFeeFactor).toFixed(7);
-//
-    //    return parseFloat(feeString, 10);
-    //}
 
     async cancelOffer(offer) {
         const operations = [

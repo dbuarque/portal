@@ -14,9 +14,9 @@ export class FooterCustomElement {
     donate() {
         this.router.navigateToRoute('send-payment', {
             type: 'Native',
-            code: window.lupoex.stellar.nativeAssetCode,
+            code: window.stellarport.stellar.nativeAssetCode,
             issuer: 'Stellar',
-            destination: window.lupoex.publicKey
+            destination: window.stellarport.publicKey
         });
     }
 }

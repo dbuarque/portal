@@ -50,11 +50,11 @@ try {
 catch (e) {}
 
 // sails socket io configuration
-window.io.sails.url = window.lupoex.urls.api;
+window.io.sails.url = window.stellarport.urls.api;
 window.io.sails.transports = ['websocket'];
 
 // stellar sdk configuration
-if (window.lupoex.networkMode === 'public') {
+if (window.stellarport.networkMode === 'public') {
     StellarSdk.Network.usePublicNetwork();
 }
 else {

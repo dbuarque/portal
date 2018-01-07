@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>LuPoEx</title>
+    <title>Stellarport</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <base href="<%- htmlWebpackPlugin.options.metadata.baseUrl %>">
 
@@ -38,27 +38,27 @@
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-107386084-1"></script>
 
         <script>
-            lupoex = {
+            stellarport = {
                 env: '%env%'
             };
         </script>
     <% } %>
     <% if (!htmlWebpackPlugin.options.metadata.production) { %>
     <script>
-        lupoex = {
+        stellarport = {
             env: 'development'
         };
 
         <% if (htmlWebpackPlugin.options.metadata.publicNetwork) { %>
-            lupoex.networkMode = 'public';
+            stellarport.networkMode = 'public';
         <% } else { %>
-            lupoex.networkMode = 'test';
+            stellarport.networkMode = 'test';
         <% } %>
 
         <% if (htmlWebpackPlugin.options.metadata.remoteBackend) { %>
-            lupoex.remoteBackend = true;
+            stellarport.remoteBackend = true;
         <% } else { %>
-            lupoex.remoteBackend = false;
+            stellarport.remoteBackend = false;
         <% } %>
     </script>
     <% } %>
@@ -66,7 +66,7 @@
 </head>
 <body aurelia-app="main">
 <div class="splash">
-    <div class="message">LuPoEx</div>
+    <div class="message">Stellarport</div>
     <i class="fal fa-sync fa-spin fa-3x"></i>
 </div>
 

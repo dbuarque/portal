@@ -3,7 +3,7 @@ import {shortenAddress} from './misc';
 export function userFriendlyEffectMessage(e, withSpan) {
     switch (e.type) {
         case 'ACCOUNT_CREATED':
-            return 'Account created with initial balance of ' + e.details.starting_balance + ' ' + window.lupoex.stellar.nativeAssetCode;
+            return 'Account created with initial balance of ' + e.details.starting_balance + ' ' + window.stellarport.stellar.nativeAssetCode;
         case 'ACCOUNT_REMOVED':
             return 'Account removed';
         case 'ACCOUNT_CREDITED':
@@ -49,11 +49,6 @@ function accountDebitedMessage(e, withSpan) {
 
     switch (type) {
         case 'PAYMENT':
-            // We don't want two alerts coming up every time someone puts an offer in (one for the trade and one for the fee)
-            // For the effect history (because we want an entry for the fee as well), just don't include the transaction's memo
-            //if (e.operation.transaction.memo === 'offer_via_lupoex') {
-            //    return null;
-            //}
             return 'Sent payment to ' + shortenAddressSpan(details.to, withSpan) + ' for ' +
                 assetDetailsToText(details.amount, details.asset_type, details.asset_code);
         case 'PATH_PAYMENT':
@@ -71,7 +66,7 @@ function accountDebitedMessage(e, withSpan) {
 }
 
 function assetDetailsToText(amount, assetType, assetCode) {
-    return amount + ' ' + (assetType.toLowerCase() === 'native' ? window.lupoex.stellar.nativeAssetCode : assetCode);
+    return amount + ' ' + (assetType.toLowerCase() === 'native' ? window.stellarport.stellar.nativeAssetCode : assetCode);
 }
 
 function shortenAddressSpan(address, withSpan) {
