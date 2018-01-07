@@ -78,7 +78,7 @@ module.exports = ({production, server, extractCss, coverage, remoteBackend, publ
             {
                 '/assets/charting_library/*': {
                     target: {
-                        host: publicNetwork ? 'lupoex.com' : 'test.lupoex.com',
+                        host: publicNetwork ? 'portal.stellarport.io' : 'test.portal.stellarport.io',
                         protocol: 'https:',
                         port: 443
                     },
@@ -87,7 +87,7 @@ module.exports = ({production, server, extractCss, coverage, remoteBackend, publ
                 },
                 '/assets/font-awesome/*': {
                     target: {
-                        host: publicNetwork ? 'lupoex.com' : 'test.lupoex.com',
+                        host: publicNetwork ? 'portal.stellarport.io' : 'test.portal.stellarport.io',
                         protocol: 'https:',
                         port: 443
                     },

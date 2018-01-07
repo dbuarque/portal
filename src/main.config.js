@@ -7,27 +7,27 @@ import _merge from 'lodash/merge';
 const config = {
     development: {
         urls: {
-            api: window.lupoex.remoteBackend ?
-                window.lupoex.networkMode === 'public' ?
-                    'https://api.lupoex.com' : 'https://test.api.lupoex.com' :
+            api: window.stellarport.remoteBackend ?
+                window.stellarport.networkMode === 'public' ?
+                    'https://stellar.api.stellarport.io' : 'https://test.stellar.api.stellarport.io' :
                 'http://localhost:1337'
         }
     },
     test: {
         urls: {
-            api: 'https://test.api.lupoex.com'
+            api: 'https://test.stellar.api.stellarport.io'
         },
         networkMode: 'test'
     },
     beta: {
         urls: {
-            api: 'https://beta.api.lupoex.com'
+            api: 'https://beta.stellar.api.stellarport.io'
         },
         networkMode: 'public'
     },
     production: {
         urls: {
-            api: 'https://api.lupoex.com'
+            api: 'https://stellar.api.stellarport.io'
         },
         networkMode: 'public'
     },
@@ -36,9 +36,9 @@ const config = {
             nativeAssetCode: 'XLM',
             minimumNativeBalance: 20
         },
-        publicKey: 'GACGNVW44F7GNUVALL2YFEHAVBVWO7WQROZ2ZRSYVL3H7UB4QPEUVJSN',
+        publicKey: 'GCPXPQXHLSZ2OSVYDC5DXCMBSE5ODXCGBWRVFS4TVXN737EDOWZUT6PS',
         offerFeeFactor: 0
     }
 };
 
-Object.assign(window.lupoex, _merge(config.all, config[window.lupoex.env]));
+Object.assign(window.stellarport, _merge(config.all, config[window.stellarport.env]));

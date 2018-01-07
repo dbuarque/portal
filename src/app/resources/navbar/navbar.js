@@ -34,7 +34,7 @@ export class Navbar {
     }
 
     goToExchangeDetail() {
-        const nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
+        const nativeAssetCode = window.stellarport.stellar.nativeAssetCode;
         const buyingIsNative = this.assetPair.buying.type.toLowerCase() === 'native';
         const sellingIsNative = this.assetPair.selling.type.toLowerCase() === 'native';
         const buyingType = this.assetPair.buying.type;

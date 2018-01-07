@@ -14,7 +14,7 @@ export async function configure(aurelia) {
     const middleware = [thunk];
 
     const composeEnhancers =
-        window.lupoex.env === 'development' &&
+        window.stellarport.env === 'development' &&
         window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
             window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
                 // Specify here name, actionsBlacklist, actionsCreators and other options
@@ -52,7 +52,7 @@ export async function configure(aurelia) {
         .feature(PLATFORM.moduleName('resources/index'))
         .feature(PLATFORM.moduleName('app/resources/index'));
 
-    if (window.lupoex.env === 'development') {
+    if (window.stellarport.env === 'development') {
         aurelia.use
             .developmentLogging();
     }

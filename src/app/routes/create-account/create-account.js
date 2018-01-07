@@ -5,6 +5,6 @@ export class CreateAccount {
 
         this.router = router;
 
-        this.router.transformTitle = title => 'LuPoEx';
+        this.router.transformTitle = title => 'Stellarport';
     }
 }

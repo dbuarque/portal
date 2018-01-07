@@ -21,7 +21,7 @@ export class App {
 
         // We only want to enable page refresh on wake outside of development because pausing the debugger
         // on a breakpoint will trigger a "wake" event and refresh the page (which can get VERY annoying).
-        if (window.lupoex.env !== 'development') {
+        if (window.stellarport.env !== 'development') {
             // Ensure that the wake event will get published to the eventAggregator if the browser comes back from sleep.
             wakeEventEmitter.init();
 
@@ -45,11 +45,11 @@ export class App {
 
         this.router = router;
 
-        this.router.transformTitle = title => 'LuPoEx';
+        this.router.transformTitle = title => 'Stellarport';
     }
 
     activate() {
-        if (window.lupoex.env !== 'development') {
+        if (window.stellarport.env !== 'development') {
             this.pageTracker.init();
         }
     }

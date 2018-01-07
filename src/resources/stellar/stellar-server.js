@@ -6,7 +6,7 @@ import * as StellarSdk from 'stellar-sdk';
 
 export class StellarServer {
     constructor() {
-        if (window.lupoex.networkMode === 'public') {
+        if (window.stellarport.networkMode === 'public') {
             StellarSdk.Network.usePublicNetwork();
         }
         else {
@@ -14,7 +14,7 @@ export class StellarServer {
             StellarSdk.Network.useTestNetwork();
         }
 
-        const server = new StellarSdk.Server(window.lupoex.urls.horizon);
+        const server = new StellarSdk.Server(window.stellarport.urls.horizon);
         server.sdk = StellarSdk;
 
         return server;

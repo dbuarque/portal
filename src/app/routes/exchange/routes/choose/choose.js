@@ -28,7 +28,7 @@ export class Choose {
     }
 
     goTrade(e) {
-        const nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
+        const nativeAssetCode = window.stellarport.stellar.nativeAssetCode;
         const buyingIsNative = this.assetPair.buying.type.toLowerCase() === 'native';
         const sellingIsNative = this.assetPair.selling.type.toLowerCase() === 'native';
 
