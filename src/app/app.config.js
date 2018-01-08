@@ -33,20 +33,20 @@ export class AppConfig {
                     breadcrumb: true,
                     nav: true
                 },
-                {
-                    route: ['inflation-pool'],
-                    name: 'inflationPool',
-                    moduleId: PLATFORM.moduleName('./routes/inflation-pool/inflation-pool', 'inflation-pool'),
-                    title: 'Inflation Pool',
-                    icon: '<div class="fa-layers">' +
-                        '<i class="fal fa-circle" data-fa-transform="grow-10"></i>' +
-                        '<i class="fal fa-circle primary-text" data-fa-transform="grow-4"></i>' +
-                        '<i class="fal fa-users" data-fa-transform="shrink-6 left-2"></i>' +
-                        '</div>',
-                    details: 'Help us help you. Join our inflation pool to receive weekly ' + window.stellarport.stellar.nativeAssetCode + ' distributions.',
-                    breadcrumb: true,
-                    nav: true
-                },
+                //{
+                //    route: ['inflation-pool'],
+                //    name: 'inflationPool',
+                //    moduleId: PLATFORM.moduleName('./routes/inflation-pool/inflation-pool', 'inflation-pool'),
+                //    title: 'Inflation Pool',
+                //    icon: '<div class="fa-layers">' +
+                //        '<i class="fal fa-circle" data-fa-transform="grow-10"></i>' +
+                //        '<i class="fal fa-circle primary-text" data-fa-transform="grow-4"></i>' +
+                //        '<i class="fal fa-users" data-fa-transform="shrink-6 left-2"></i>' +
+                //        '</div>',
+                //    details: 'Help us help you. Join our inflation pool to receive weekly ' + window.stellarport.stellar.nativeAssetCode + ' distributions.',
+                //    breadcrumb: true,
+                //    nav: true
+                //},
                 {
                     route: ['login'],
                     name: 'login',
@@ -67,6 +67,7 @@ export class AppConfig {
                     moduleId: PLATFORM.moduleName('./routes/create-account/create-account', 'create-account'),
                     title: 'Create Account',
                     breadcrumb: true,
+                    nav: true,
                     anonymousRequired: true
                 },
                 {

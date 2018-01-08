@@ -13,21 +13,6 @@ export class ObtainPublicKey {
     @connected('myAccount')
     account;
 
-    addressGenerationMethods = [
-        {
-            routeName: 'generateKeypair',
-            label: 'Generate A New Address'
-        },
-        {
-            routeName: 'providePublicKey',
-            label: 'I Already Have An Address'
-        },
-        {
-            routeName: 'obtainFromLedgerNano',
-            label: 'Use My Ledger Nano S'
-        }
-    ];
-
     constructor(config, eventAggregator) {
         this.config = config;
         this.eventAggregator = eventAggregator;
