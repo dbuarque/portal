@@ -3,13 +3,18 @@
     text-align: center;
     height: 54px;
     line-height: 54px;
+    position: relative;
 
     .brand {
-        margin-left: 58px;
-
         img {
             vertical-align: middle;
         }
+    }
+
+    .align-right {
+        position: absolute;
+        right: 0;
+        top: 0;
     }
 }
 

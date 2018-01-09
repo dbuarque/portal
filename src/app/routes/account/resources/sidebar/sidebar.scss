@@ -11,10 +11,10 @@
     transition: all 0.5s ease;
     top: 54px;
     background-color: $dark-gray;
-    border-right: 1px solid $gray;
-    box-shadow: $shadow1 !important;
-    -webkit-box-shadow: $shadow1 !important;
-    -moz-box-shadow: $shadow1 !important;
+    //border-right: 1px solid $gray;
+    -webkit-box-shadow: 1px 0px 1px 0px rgba(0,0,0,0.15) !important;
+    -moz-box-shadow: 1px 0px 1px 0px rgba(0,0,0,0.15) !important;
+    box-shadow: 1px 0px 1px 0px rgba(0,0,0,0.15) !important;
 
     .sidebar-nav {
         position: absolute;
