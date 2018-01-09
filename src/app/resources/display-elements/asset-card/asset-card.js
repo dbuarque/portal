@@ -15,7 +15,7 @@ export class AssetCardCustomElement {
     get imageSrc() {
         return this.asset.type.toLowerCase() === 'native' ?
             '/assets/stellar-rocket-144x144.png' :
-            this.toml && this.toml.image ?
+            this.toml && this.toml.image && this.toml.image.indexOf('https') > -1 ?
                 this.toml.image :
                 '/assets/font-awesome_4-7-0_question-circle-o_144_10_e0e0e0_none.png';
     }
