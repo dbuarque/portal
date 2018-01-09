@@ -65,9 +65,13 @@ export class AppConfig {
                     route: ['create-account'],
                     name: 'createAccount',
                     moduleId: PLATFORM.moduleName('./routes/create-account/create-account', 'create-account'),
-                    title: 'Create Account',
+                    title: 'New Account',
                     breadcrumb: true,
                     nav: true,
+                    icon: '<div class="fa-layers">' +
+                    '<i class="fal fa-square" data-fa-transform="grow-9"></i>' +
+                    '<i class="fal fa-plus-square primary-text" data-fa-transform="shrink-2"></i>' +
+                    '</div>',
                     anonymousRequired: true
                 },
                 {
