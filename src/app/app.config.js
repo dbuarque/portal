@@ -82,7 +82,7 @@ export class AppConfig {
                     title: 'My Account',
                     icon: '<div class="fa-layers">' +
                     '<i class="fal fa-square" data-fa-transform="grow-9"></i>' +
-                    '<i class="fal fa-user primary-text" data-fa-transform="down-1 shrink-2"></i>' +
+                    '<i class="fal fa-user primary-text" data-fa-transform="down-1                     "></i>' +
                     '</div>',
                     details: 'View your stellar account details.',
                     breadcrumb: true,
