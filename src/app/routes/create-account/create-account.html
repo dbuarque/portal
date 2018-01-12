@@ -1,5 +1,19 @@
 <template>
     <div class="create-account">
-        <div class="card"></div>
+        <div class="card">
+            <div class="card-content no-heading">
+                <div class="card-heading">
+                    <div class="card-title">
+                        Create Account -
+                        <span class="primary-text">
+                            ${config.routes[stepIndex + 1].name}
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <router-view></router-view>
+                </div>
+            </div>
+        </div>
     </div>
 </template>

@@ -144,7 +144,7 @@ export class SendPayment {
             //Destination account doest exist? Let's try to create it (if the user is sending native asset).
             if (!destinationAccount) {
                 if (this.isNative) {
-                    const mimimumAmount = window.stellarport.stellar.minimumNativeBalance + 1;
+                    const mimimumAmount = (window.stellarport.stellar.baseReserve * 2) + 0.00001;
 
                     if (parseInt(this.amount, 10) < mimimumAmount) {
                         this.errorMessage = 'That destination account does not exist. We cannot create the account with less than ' + mimimumAmount + ' ' + window.stellarport.stellar.nativeAssetCode + '.';

@@ -1,10 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<template>
+    <div class="choose-public-key-method">
+        <div class="row">
+            <div class="col m6">
+                <div repeat.for="m of availableMethods">
+                    <md-radio md-value="$index" md-checked.bind="methodIndex">m.label</md-radio>
+                </div>
+            </div>
+            <div class="col m6">
+                <alert-card type="info" title.bind="method.title">
+                    ${method.description}
+                </alert-card>
+            </div>
+        </div>
+    </div>
+</template>

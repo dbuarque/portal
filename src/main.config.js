@@ -34,7 +34,7 @@ const config = {
     all: {
         stellar: {
             nativeAssetCode: 'XLM',
-            minimumNativeBalance: 20
+            baseReserve: 0.5
         },
         publicKey: 'GCPXPQXHLSZ2OSVYDC5DXCMBSE5ODXCGBWRVFS4TVXN737EDOWZUT6PS',
         offerFeeFactor: 0
