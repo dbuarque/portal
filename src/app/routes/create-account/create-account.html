@@ -2,16 +2,22 @@
     <div class="create-account">
         <div class="card">
             <div class="card-content no-heading">
-                <div class="card-heading">
+                <div class="card-heading center-text">
                     <div class="card-title">
                         Create Account -
-                        <span class="primary-text">
-                            ${config.routes[stepIndex + 1].name}
-                        </span>
+                        ${config.routes[stepIndex + 1].title}
                     </div>
                 </div>
                 <div class="card-body">
                     <router-view></router-view>
+                    <div class="center-text">
+                        <button class="btn btn-flat gray" click.trigger="stepBack.dispatch()" show.bind="stepIndex > 0">
+                            <i class="fal fa-chevron-left"></i>&nbsp;Back
+                        </button>
+                        <button class="btn btn-flat primary" click.trigger="stepForward.dispatch()" show.bind="stepIndex < config.routes.length - 2">
+                            Next&nbsp;<i class="fal fa-chevron-right"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

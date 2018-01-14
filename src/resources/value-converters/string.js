@@ -23,3 +23,9 @@ export class WithHttpProtocolValueConverter {
             'http://' + string;
     }
 }
+
+export class ToStringValueConverter {
+    toView(anything) {
+        return anything.toString();
+    }
+}

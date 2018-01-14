@@ -290,15 +290,15 @@ md-progress .progress .determinate, md-progress .progress .indeterminate {
 }
 /* radio input */
 md-radio input[type="radio"]:checked + label:after {
-    border: 2px solid $dark-gray;
-    background-color: $dark-gray;
+    border: 2px solid $primary;
+    background-color: $primary;
 }
 md-radio [type="radio"].with-gap:checked + label:before {
-    border: 2px solid $dark-gray;
+    border: 2px solid $primary;
 }
 md-radio [type="radio"].with-gap:checked + label:after {
-    border: 2px solid $dark-gray;
-    background-color: $dark-gray;
+    border: 2px solid $primary;
+    background-color: $primary;
 }
 /* range */
 md-range .range-field input[type="range"]::-webkit-slider-thumb {

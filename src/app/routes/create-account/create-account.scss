@@ -3,4 +3,12 @@
         max-width: 800px;
         margin: 0 auto;
     }
+
+    .card.alert-card {
+        border: none;
+
+        .card-content .card-body {
+            font-size: 14px;
+        }
+    }
 }

@@ -1,16 +1,19 @@
 <template>
     <div class="choose-public-key-method">
-        <div class="row">
-            <div class="col m6">
-                <div repeat.for="m of availableMethods">
-                    <md-radio md-value="$index" md-checked.bind="methodIndex">m.label</md-radio>
-                </div>
-            </div>
-            <div class="col m6">
-                <alert-card type="info" title.bind="method.title">
-                    ${method.description}
-                </alert-card>
-            </div>
+        <alert-card type="info" title="Let's get your account address" dismissible.bind="false">
+            A stellar account is composed of a keypair, two keys - a public key and a private key. The public key is kind of like your email address for money.
+            You can give it to people and they can send money to it. The secret key is <span class="error-text"><strong>HIGHLY SENSITIVE</strong></span>.
+            You use your secret key to control you account. <strong>Anybody who has your secret key has complete control over your account.</strong>.
+            Below, choose an option so we can obtain your account's public key.
+        </alert-card>
+
+        <div repeat.for="m of availableMethods">
+            <md-radio md-gap="true" md-value.bind="$index" md-checked.bind="methodIndex | toString">${m.label}</md-radio>
         </div>
+
+        <div class="primary-text" style="font-size: 12px;">
+            ${method.description}
+        </div>
+        <br>
     </div>
 </template>

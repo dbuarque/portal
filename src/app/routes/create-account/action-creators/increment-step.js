@@ -17,8 +17,8 @@ export class IncrementStepActionCreator {
                 type: actionType
             });
 
-            this.router.navigateToRoute(
-                this.createAccountConfig.routes[getState().createAccount.stepIndex + 1].name
+            this.router.navigate(
+                this.router.generate('createAccount') + '/' + this.createAccountConfig.routes[getState().createAccount.stepIndex + 1].name
             );
         };
     }
