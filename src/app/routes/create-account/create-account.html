@@ -14,7 +14,7 @@
                         <button class="btn btn-flat gray" click.trigger="stepBack.dispatch()" show.bind="stepIndex > 0">
                             <i class="fal fa-chevron-left"></i>&nbsp;Back
                         </button>
-                        <button class="btn btn-flat primary" click.trigger="stepForward.dispatch()" show.bind="stepIndex < config.routes.length - 2">
+                        <button class="btn btn-flat primary" click.trigger="stepForward.dispatch()" disabled.bind="!canProceed" show.bind="stepIndex < config.routes.length - 2">
                             Next&nbsp;<i class="fal fa-chevron-right"></i>
                         </button>
                     </div>

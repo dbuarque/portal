@@ -1,12 +1,6 @@
 <template>
+    <require from="./generate-new-keypair/generate-new-keypair"></require>
     <div class="obtain-public-key">
-        <h4 class="primary-text">
-            Ok, before we can actually create your account on the network, you need to pick an account address. Please choose a method below. If you don't know what's going on, just choose 'Generate A New Address'.
-        </h4>
-        <label>Address Generation Method</label>
-        <select md-select value.two-way="loginMethod" change.trigger="changeLoginMethod()" title="Login Method">
-            <option repeat.for="method of loginMethods" model.bind="method">${method.label}</option>
-        </select>
-        <br>
+        <generate-new-keypair if.bind="method.name === 'generateRawKeypair'" public-key.bind="publicKey" can-proceed.bind="canProceed"></generate-new-keypair>
     </div>
 </template>

@@ -9,6 +9,9 @@ export class CreateAccount {
     @connected('createAccount.stepIndex')
     stepIndex;
 
+    @connected('createAccount.canProceed')
+    canProceed;
+
     constructor(config, stepBack, stepForward) {
         this.config = config;
         this.stepBack = stepBack;
@@ -22,5 +25,9 @@ export class CreateAccount {
         this.router = router;
 
         this.router.transformTitle = title => 'Stellarport';
+    }
+
+    bind() {
+        this.router.navigateToRoute('introduction');
     }
 }

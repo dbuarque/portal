@@ -1,8 +1,8 @@
 import {inject, computedFrom} from 'aurelia-framework';
 import {Store, connected} from 'aurelia-redux-connect';
-import {UpdatePublicKeyMethodIndexActionCreator} from '../../action-creators';
+import {UpdatePublicKeyMethodIndexActionCreator, UpdateCanProceedActionCreator} from '../../action-creators';
 
-@inject(Store, UpdatePublicKeyMethodIndexActionCreator)
+@inject(Store, UpdatePublicKeyMethodIndexActionCreator, UpdateCanProceedActionCreator)
 export class ChoosePublicKeyMethod {
     @computedFrom('availableMethods', 'methodIndex')
     get method() {
@@ -21,8 +21,13 @@ export class ChoosePublicKeyMethod {
         return this.store.getState().createAccount.publicKeyMethods;
     }
 
-    constructor(store, updatePublicKeyMethodIndex) {
+    constructor(store, updatePublicKeyMethodIndex, updateCanProceed) {
         this.store = store;
         this.updatePublicKeyMethodIndex = updatePublicKeyMethodIndex;
+        this.updateCanProceed = updateCanProceed;
+    }
+
+    activate() {
+        this.updateCanProceed.dispatch(true);
     }
 }

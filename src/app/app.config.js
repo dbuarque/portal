@@ -17,13 +17,13 @@ export class AppConfig {
                 {
                     route: ['home'],
                     name: 'home',
-                    moduleId: PLATFORM.moduleName('./routes/home/home'),
+                    moduleId: PLATFORM.moduleName('./resources/home/home'),
                     title: 'Home'
                 },
                 {
                     route: ['exchange'],
                     name: 'exchange',
-                    moduleId: PLATFORM.moduleName('./routes/exchange/exchange', 'exchange'),
+                    moduleId: PLATFORM.moduleName('./resources/exchange/exchange', 'exchange'),
                     title: 'Exchange',
                     icon: '<div class="fa-layers">' +
                     '<i class="fal fa-desktop" data-fa-transform="grow-5"></i>' +
@@ -36,7 +36,7 @@ export class AppConfig {
                 //{
                 //    route: ['inflation-pool'],
                 //    name: 'inflationPool',
-                //    moduleId: PLATFORM.moduleName('./routes/inflation-pool/inflation-pool', 'inflation-pool'),
+                //    moduleId: PLATFORM.moduleName('./resources/inflation-pool/inflation-pool', 'inflation-pool'),
                 //    title: 'Inflation Pool',
                 //    icon: '<div class="fa-layers">' +
                 //        '<i class="fal fa-circle" data-fa-transform="grow-10"></i>' +
@@ -50,7 +50,7 @@ export class AppConfig {
                 {
                     route: ['login'],
                     name: 'login',
-                    moduleId: PLATFORM.moduleName('./routes/login/login', 'login'),
+                    moduleId: PLATFORM.moduleName('./resources/login/login', 'login'),
                     title: 'Login',
                     icon: '<div class="fa-layers">' +
                     '<i class="fal fa-square" data-fa-transform="grow-10"></i>' +
@@ -64,7 +64,7 @@ export class AppConfig {
                 {
                     route: ['create-account'],
                     name: 'createAccount',
-                    moduleId: PLATFORM.moduleName('./routes/create-account/create-account', 'create-account'),
+                    moduleId: PLATFORM.moduleName('./resources/create-account/create-account', 'create-account'),
                     title: 'New Account',
                     breadcrumb: true,
                     nav: true,
@@ -77,7 +77,7 @@ export class AppConfig {
                 {
                     route: ['account'],
                     name: 'account',
-                    moduleId: PLATFORM.moduleName('./routes/account/account', 'account'),
+                    moduleId: PLATFORM.moduleName('./resources/account/account', 'account'),
                     accountRequired: true,
                     title: 'My Account',
                     icon: '<div class="fa-layers">' +
@@ -91,7 +91,7 @@ export class AppConfig {
                 {
                     route: ['send-payment/:type/:code/:issuer'],
                     name: 'send-payment',
-                    moduleId: PLATFORM.moduleName('./routes/send-payment/send-payment', 'send-payment'),
+                    moduleId: PLATFORM.moduleName('./resources/send-payment/send-payment', 'send-payment'),
                     accountRequired: true,
                     title: 'Payment',
                     icon: '<div class="fa-layers">' +

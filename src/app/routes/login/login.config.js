@@ -12,19 +12,19 @@ export class LoginConfig {
                 {
                     route: ['public-key'],
                     name: 'publicKey',
-                    moduleId: PLATFORM.moduleName('./routes/public-key/public-key'),
+                    moduleId: PLATFORM.moduleName('./resources/public-key/public-key'),
                     title: 'Public Key'
                 },
                 {
                     route: ['secret-key'],
                     name: 'secretKey',
-                    moduleId: PLATFORM.moduleName('./routes/secret-key/secret-key'),
+                    moduleId: PLATFORM.moduleName('./resources/secret-key/secret-key'),
                     title: 'Secret Key'
                 },
                 {
                     route: ['ledger-nano'],
                     name: 'ledgerNano',
-                    moduleId: PLATFORM.moduleName('./routes/ledger-nano/ledger-nano'),
+                    moduleId: PLATFORM.moduleName('./resources/ledger-nano/ledger-nano'),
                     title: 'Ledger Nano'
                 }
             ]

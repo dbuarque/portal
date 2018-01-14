@@ -1,0 +1,32 @@
+<template>
+    <div class="generate-new-keypair">
+        <div class="cols center-align form-field">
+            <button md-waves class="btn dark-gray btn-flat" click.delegate="generateKeypair()" >
+                <i class="fal fa-sync"></i>&nbsp;Generate Key Pair
+            </button>
+        </div>
+        <div show.bind="newKeypair">
+            <div class="form-field">
+                <label>Public Key</label>
+                <div style="font-size: 12px; word-break: break-all;">
+                    ${publicKey}
+                </div>
+            </div>
+            <div class="form-field">
+                <label>
+                    Secret Key
+                    <i style="cursor: pointer" class="fal fa-lg fa-${displaySecret ? 'eye-slash' : 'eye'} primary-text" click.delegate="displaySecret = !displaySecret"></i>
+                </label>
+                <div style="font-size: 12px; word-break: break-all;">
+                    ${displaySecret ? secret : hiddenSecret}
+                </div>
+            </div>
+            <div class="form-field">
+                <label>
+                    I have secured my keypair:
+                </label>
+                <md-switch md-label-on="Yes" md-label-off="No" md-checked.bind="canProceed"></md-switch>
+            </div>
+        </div>
+    </div>
+</template>
