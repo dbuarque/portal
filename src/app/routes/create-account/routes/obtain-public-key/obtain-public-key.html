@@ -1,5 +1,5 @@
 <template>
-    <require from="./generate-new-keypair/generate-new-keypair"></require>
+    <require from="./resources/generate-new-keypair/generate-new-keypair"></require>
     <div class="obtain-public-key">
         <generate-new-keypair if.bind="method.name === 'generateRawKeypair'" public-key.bind="publicKey" can-proceed.bind="canProceed"></generate-new-keypair>
     </div>

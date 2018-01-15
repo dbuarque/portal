@@ -7,8 +7,17 @@
     .card.alert-card {
         border: none;
 
-        .card-content .card-body {
-            font-size: 14px;
+        .card-content  {
+            .card-heading {
+                padding-right: 0;
+                padding-left: 0;
+            }
+
+            .card-body {
+                font-size: 14px;
+                padding-right: 0;
+                padding-left: 0;
+            }
         }
     }
 }

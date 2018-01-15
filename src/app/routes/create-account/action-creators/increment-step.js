@@ -1,24 +1,20 @@
 import {inject} from 'aurelia-framework';
 import {actionCreator} from 'aurelia-redux-connect';
-import {Router} from 'aurelia-router';
-import {CreateAccountConfig} from '../create-account.config';
+import {UpdateStepIndexActionCreator} from './update-step-index';
 
 @actionCreator()
-@inject(Router, CreateAccountConfig)
+@inject(UpdateStepIndexActionCreator)
 export class IncrementStepActionCreator {
-    constructor(router, createAccountConfig) {
-        this.router = router;
-        this.createAccountConfig = createAccountConfig;
+    constructor(updateStepIndex) {
+        this.updateStepIndex = updateStepIndex;
     }
 
-    create(actionType) {
+    create(change) {
         return (dispatch, getState) => {
-            dispatch({
-                type: actionType
-            });
-
-            this.router.navigate(
-                this.router.generate('createAccount') + '/' + this.createAccountConfig.routes[getState().createAccount.stepIndex + 1].name
+            dispatch(
+                this.updateStepIndex.create(
+                    getState().createAccount.stepIndex + change
+                )
             );
         };
     }

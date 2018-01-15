@@ -1,16 +1,13 @@
-import {inject, computedFrom} from 'aurelia-framework';
-import {connected} from 'aurelia-redux-connect';
+import {inject} from 'aurelia-framework';
+import {connected, Store} from 'aurelia-redux-connect';
 import {UpdateCanProceedActionCreator, UpdatePublicKeyActionCreator} from '../../action-creators';
 
-@inject(UpdateCanProceedActionCreator, UpdatePublicKeyActionCreator)
+@inject(Store, UpdateCanProceedActionCreator, UpdatePublicKeyActionCreator)
 export class ObtainPublicKey {
-    @computedFrom('availableMethods', 'methodIndex')
     get method() {
-        return this.availableMethods[this.methodIndex];
+        const state = this.store.getState().createAccount;
+        return state.publicKeyMethods[state.publicKeyMethodIndex];
     }
-
-    @connected('createAccount.publicKeyMethodIndex')
-    methodIndex;
 
     @connected('createAccount.publicKey')
     get publicKey() {}
@@ -24,7 +21,8 @@ export class ObtainPublicKey {
         this.updateCanProceed.dispatch(newValue);
     }
 
-    constructor(updateCanProceed, updatePublicKey) {
+    constructor(store, updateCanProceed, updatePublicKey) {
+        this.store = store;
         this.updateCanProceed = updateCanProceed;
         this.updatePublicKey = updatePublicKey;
     }

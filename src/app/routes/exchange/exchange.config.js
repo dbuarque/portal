@@ -18,13 +18,13 @@ export class ExchangeConfig {
                 {
                     route: ['choose'],
                     name: 'choose',
-                    moduleId: PLATFORM.moduleName('./resources/choose/choose'),
+                    moduleId: PLATFORM.moduleName('./routes/choose/choose'),
                     title: 'Choose Asset Pair'
                 },
                 {
                     route: [':sellingType/:sellingCode/:sellingIssuer/:buyingType/:buyingCode/:buyingIssuer'],
                     name: 'detail',
-                    moduleId: PLATFORM.moduleName('./resources/detail/detail', 'exchange-detail'),
+                    moduleId: PLATFORM.moduleName('./routes/detail/detail', 'exchange-detail'),
                     title: 'Detail',
                     breadcrumb: true
                 }

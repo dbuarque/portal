@@ -1,21 +1,23 @@
-import {computedFrom, bindable} from 'aurelia-framework';
+import {computedFrom, bindable, bindingMode} from 'aurelia-framework';
 import * as StellarSdk from 'stellar-sdk';
 
 export class GenerateNewKeypairCustomElement {
-    @computedFrom('newSecret')
-    get hiddenNewSecret() {
-        return this.secret ? this.secret.split('').map(l => 'x').join('') : '';
+    @computedFrom('secret')
+    get hiddenSecret() {
+        return this.secret ? this.secret.split('').map(l => 'X').join('') : '';
     }
 
-    @bindable()
+    @bindable({defaultBindingMode: bindingMode.twoWay})
     publicKey;
 
-    @bindable()
+    @bindable({defaultBindingMode: bindingMode.twoWay})
     canProceed;
 
+    displaySecret = false;
+
     generateKeypair() {
-        this.newKeypair = StellarSdk.Keypair.random();
-        this.publicKey = this.newKeypair.publicKey();
-        this.secret = this.newKeypair.secret();
+        const newKeypair = StellarSdk.Keypair.random();
+        this.publicKey = newKeypair.publicKey();
+        this.secret = newKeypair.secret();
     }
 }

@@ -1,10 +1,10 @@
 import './create-account.scss';
 import {inject} from 'aurelia-framework';
 import {connected} from 'aurelia-redux-connect';
-import {StepBackActionCreator, StepForwardActionCreator} from './action-creators';
+import {IncrementStepActionCreator, UpdateStepIndexActionCreator} from './action-creators';
 import {CreateAccountConfig} from './create-account.config';
 
-@inject(CreateAccountConfig, StepBackActionCreator, StepForwardActionCreator)
+@inject(CreateAccountConfig, IncrementStepActionCreator, UpdateStepIndexActionCreator)
 export class CreateAccount {
     @connected('createAccount.stepIndex')
     stepIndex;
@@ -12,10 +12,10 @@ export class CreateAccount {
     @connected('createAccount.canProceed')
     canProceed;
 
-    constructor(config, stepBack, stepForward) {
+    constructor(config, incrementStep, updateStepIndex) {
         this.config = config;
-        this.stepBack = stepBack;
-        this.stepForward = stepForward;
+        this.incrementStep = incrementStep;
+        this.updateStepIndex = updateStepIndex;
     }
 
     configureRouter(routerConfig, router) {
@@ -28,6 +28,6 @@ export class CreateAccount {
     }
 
     bind() {
-        this.router.navigateToRoute('introduction');
+        this.updateStepIndex.dispatch(0);
     }
 }

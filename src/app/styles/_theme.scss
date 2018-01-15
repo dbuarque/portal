@@ -337,10 +337,10 @@ md-sidenav .side-nav .collapsible-body li.active, .side-nav.fixed .collapsible-b
 }
 /* switch */
 md-switch.switch label input[type=checkbox]:checked + .lever {
-    background-color: lighten($dark-gray, 30%);
+    background-color: lighten($primary, 30%);
 }
 md-switch.switch label input[type=checkbox]:checked + .lever:after {
-    background-color: $dark-gray;
+    background-color: $primary;
 }
 /* tabs */
 .tabs {
