@@ -1,0 +1,48 @@
+<template>
+    <div if.bind="!publicKey">
+        <alert-card type="info" title="Generate a keystore file" dismissible.bind="false">
+            We are going to generate a keystore file. The keystore file will store your account's keypair in encrypted format so that only you, using the password of your choice, can recover the keypair.
+            Please fill out the form below and click <i>Generate Keystore File</i>. Additionally, for the security conscious, we use <a target="_blank" href="https://tweetnacl.js.org">TweetNaCl.js</a> to run the encryption.
+        </alert-card>
+        <div class="form-field">
+            <label>File Name</label>
+            <input type="text" value.bind="fileName">
+        </div>
+        <div class="form-field">
+            <label>Password</label>
+            <input type="password" value.bind="password">
+        </div>
+        <div class="form-field">
+            <label>Confirm Password</label>
+            <input type="password" value.bind="confirmPassword">
+        </div>
+        <div class="cols center-align form-field">
+            <button md-waves class="btn dark-gray btn-flat" click.delegate="generateKeystoreFile()" >
+                <i class="fal fa-sync"></i>&nbsp;Generate Keystore File
+            </button>
+        </div>
+    </div>
+    <div show.bind="publicKey">
+        <alert-card type="warning" title="Keystore file created" dismissible.bind="false">
+            We have generated the keystore file encrypted with the supplied password. Please be sure to store the file securely, so that you don't lose it.
+            <span class="error-text"><strong>If you lose your keystore file, your stellar account will be unrecoverable</strong></span> so be sure to store it well.
+            Additionally, we recommend writing down the public key below. The public key is not sensitive (so don't worry about exposing it).
+            You can use your public key to log into stellarport and check your balance, or supply it to another party so that they can send you funds.
+        </alert-card>
+        <div class="form-field">
+            <label>Public Key</label>
+            <div style="font-size: 12px; word-break: break-all;">
+                ${publicKey}
+            </div>
+        </div>
+        <br>
+        <hr>
+        <br>
+        <div class="form-field">
+            <label>
+                I have stored my keystore file:
+            </label>
+            <md-switch md-label-on="Yes" md-label-off="No" md-checked.bind="canProceed"></md-switch>
+        </div>
+    </div>
+</template>

@@ -18,6 +18,11 @@ a.underline {
     font-size: 12px;
 }
 
+.validation-success-text {
+    color: $success;
+    font-size: 12px;
+}
+
 .tooltipster-sidetip.tooltipster-light .tooltipster-box {
     border: 1px solid $dark-gray;
     background: #fff;

@@ -1,11 +1,11 @@
 export function publicKeyMethods(state, action) {
     return [
-        {
-            name: 'generateKeystoreFile',
-            label: 'Generate New Keystore File (Default)',
-            description: 'Choose this if you dont know what to choose. Use this method to generate keystore file which you can use to access you stellar account.' +
-            ' A keystore file is a file that stores you stellar account\'s public key and is encrypted with a password of your choice.'
-        },
+        //{
+        //    name: 'generateKeystoreFile',
+        //    label: 'Generate New Keystore File (Default)',
+        //    description: 'Choose this if you dont know what to choose. Use this method to generate keystore file which you can use to access you stellar account.' +
+        //    ' A keystore file is a file that stores you stellar account\'s public key and is encrypted with a password of your choice.'
+        //},
         {
             name: 'generateRawKeypair',
             label: 'Generate New Key Pair',
