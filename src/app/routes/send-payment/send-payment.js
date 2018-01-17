@@ -2,15 +2,16 @@
  * Created by istrauss on 5/19/2017.
  */
 
+import './send-payment.scss';
 import * as StellarSdk from 'stellar-sdk';
 import {inject, computedFrom} from 'aurelia-framework';
-import {Router, Redirect} from 'aurelia-router';
+import {Router} from 'aurelia-router';
 import {ValidationRules, ValidationController, validateTrigger} from 'aurelia-validation';
-import {Store, connected} from 'aurelia-redux-connect';
+import {connected} from 'aurelia-redux-connect';
 import {ModalService} from 'global-resources';
 import {AccountResource, TransactionService} from 'app-resources';
 
-@inject(Router, ValidationController, Store, ModalService, AccountResource, TransactionService)
+@inject(Router, ValidationController, ModalService, AccountResource, TransactionService)
 export class SendPayment {
     @connected('myAccount')
     account;
@@ -50,24 +51,15 @@ export class SendPayment {
     loading = 0;
     step = 'input';
 
-    constructor(router, validationController, store, modalService, accountResource, transactionService) {
+    constructor(router, validationController, modalService, accountResource, transactionService) {
         this.router = router;
         this.validationController = validationController;
-        this.store = store;
         this.modalService = modalService;
         this.accountResource = accountResource;
         this.transactionService = transactionService;
-        this.lupoexPublicKey = window.lupoex.publicKey;
+        this.stellarportPublicKey = window.stellarport.publicKey;
 
         this.configureValidation();
-    }
-
-    canActivate() {
-        const account = this.store.getState().myAccount;
-
-        if (!account) {
-            return new Redirect('login');
-        }
     }
 
     activate(params) {
@@ -152,10 +144,10 @@ export class SendPayment {
             //Destination account doest exist? Let's try to create it (if the user is sending native asset).
             if (!destinationAccount) {
                 if (this.isNative) {
-                    const mimimumAmount = window.lupoex.stellar.minimumNativeBalance + 1;
+                    const mimimumAmount = (window.stellarport.stellar.baseReserve * 2) + 0.00001;
 
                     if (parseInt(this.amount, 10) < mimimumAmount) {
-                        this.errorMessage = 'That destination account does not exist. We cannot create the account with less than ' + mimimumAmount + ' ' + window.lupoex.stellar.nativeAssetCode + '.';
+                        this.errorMessage = 'That destination account does not exist. We cannot create the account with less than ' + mimimumAmount + ' ' + window.stellarport.stellar.nativeAssetCode + '.';
                         this.loading--;
                         return;
                     }

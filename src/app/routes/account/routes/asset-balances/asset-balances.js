@@ -67,7 +67,7 @@ export class AssetBalances {
         const isNative = balance.assetType.toLowerCase() === 'native';
         this.router.parent.navigateToRoute('send-payment', {
             type: balance.assetType,
-            code: isNative ? window.lupoex.stellar.nativeAssetCode : balance.assetCode,
+            code: isNative ? window.stellarport.stellar.nativeAssetCode : balance.assetCode,
             issuer: isNative ? 'Stellar' : balance.issuerId
         });
     }
@@ -79,7 +79,7 @@ export class AssetBalances {
         this.accountResource = accountResource;
         this.trustService = trustService;
         this.updateAccount = updateAccount;
-        this.nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
+        this.nativeAssetCode = window.stellarport.stellar.nativeAssetCode;
     }
 
     bind() {

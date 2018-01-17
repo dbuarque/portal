@@ -19,7 +19,6 @@ export function configure(config) {
         PLATFORM.moduleName('./display-elements/shortened-address/shortened-address'),
         PLATFORM.moduleName('./display-elements/asset-card/asset-card'),
         PLATFORM.moduleName('./display-elements/asset-pair-cards/asset-pair-cards'),
-        PLATFORM.moduleName('./crud/stellar/asset-selection-sidebar/asset-selection-sidebar'),
-        PLATFORM.moduleName('./auth/create-account/create-account')
+        PLATFORM.moduleName('./crud/stellar/asset-selection-sidebar/asset-selection-sidebar')
     );
 }

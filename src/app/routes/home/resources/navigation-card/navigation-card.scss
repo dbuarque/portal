@@ -1,0 +1,21 @@
+.navigation-card {
+    margin: 7px;
+    width: 105px;
+    display: inline-block;
+    cursor: pointer;
+
+    .card-body {
+        padding: 5px;
+        padding-bottom: 10px;
+    }
+
+    &:hover {
+        box-shadow: $shadow2;
+        -webkit-box-shadow: $shadow2;
+        -moz-box-shadow: $shadow2;
+    }
+
+    .title {
+        margin-bottom: 5px;
+    }
+}

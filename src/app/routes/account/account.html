@@ -1,25 +1,14 @@
 <template>
-    <div class="account">
+    <require from="./resources/sidebar/sidebar"></require>
+
+    <div class="account ${sidebarHidden ? 'sidebar-hidden' : ''}">
+        <sidebar hidden.bind="sidebarHidden"></sidebar>
+
+        <!--<button class="btn primary btn-flat refresh" click.trigger="refresh()">-->
+            <!--<i class="fal fa-sync"></i>-->
+        <!--</button>-->
         <div class="card">
-            <div class="card-content">
-                <div class="card-heading">
-                    <div class="row">
-                        <div class="col m11">
-                            <div class="tabs">
-                                <ul md-tabs="fixed: true;" md-tabs.ref="accountTabs"  class="z-depth-1">
-                                    <li repeat.for="route of routableRoutes & oneTime">
-                                        <a class="${router.currentInstruction.config.name === route.name ? 'active' : '' & oneTime}" click.trigger="navigateToRoute(route.name)" href="${'#tab-' + route.name}">${route.title & oneTime}</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col s1">
-                            <button disabled.bind="account.updating" type="button" class="btn btn-flat dark-gray-text refresh-button" click.trigger="refresh()">
-                                <i class="fal fa-sync refresh-button"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            <div class="card-content no-heading">
                 <div class="card-body" style="min-height: 200px;">
                     <div class="row">
                         <div class="tab-content col s12">

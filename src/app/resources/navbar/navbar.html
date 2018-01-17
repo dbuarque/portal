@@ -1,0 +1,58 @@
+<template>
+    <div class="navbar">
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="javascript:void(0)" class="brand" click.delegate="goHome()">
+                        <img class="hide-on-med-and-down" src="/assets/stellarport_brand_40x250.png">
+                        <img class="hide-on-large-only" src="/assets/stellarport_logo_40x40.png">
+                    </a>
+
+                    <ul class="align-right hide-on-med-and-down">
+                        <li>
+                            <a href="javascript:void(0)" click.delegate="goToAccount()" if.bind="account" title="View Account Details">
+                                <i class="fal fa-user-circle fa-2x"></i>&nbsp;${firstFive}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" click.delegate="logout()" if.bind="account" title="Log Out">
+                                <i class="fal fa-sign-out fa-2x"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" click.delegate="login()" if.bind="!account" title="Log In/Sign Up">
+                                <i class="fal fa-user-circle fa-2x"></i>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="align-right hide-on-large-only">
+                        <li>
+                            <a href="javascript:void(0)" md-dropdown="activates: user-dd" if.bind="account" title="View Account Details">
+                                <i class="fal fa-user-circle fa-2x"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" click.delegate="login()" if.bind="!account" title="Log In/Sign Up">
+                                <i class="fal fa-user-circle fa-2x"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <ul id="user-dd" class="dropdown-content">
+                <li md-waves>
+                    <a href="javascript:void(0)" click.delegate="goToAccount()">
+                        <i class="fal fa-folder-open"></i>&nbsp;Account
+                    </a>
+                </li>
+                <li md-wave>
+                    <a href="javascript:void(0)" click.delegate="logout()">
+                        <i class="fal fa-sign-out"></i>&nbsp;Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</template>

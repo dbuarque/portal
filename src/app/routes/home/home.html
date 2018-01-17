@@ -1,0 +1,12 @@
+<template>
+    <require from="./resources/navigation-card/navigation-card"></require>
+
+    <div class="home center-text">
+        <h5>
+            <strong>
+                What do you want to do?
+            </strong>
+        </h5>
+        <navigation-card repeat.for="route of enabledRoutes" route.bind="route"></navigation-card>
+    </div>
+</template>

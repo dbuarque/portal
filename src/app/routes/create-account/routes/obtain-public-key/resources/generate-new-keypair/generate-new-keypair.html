@@ -1,0 +1,50 @@
+<template>
+    <div class="generate-new-keypair">
+        <alert-card type="info" title="Generate a keypair" dismissible.bind="false">
+            Alright, you've chosen to generate a raw keypair for your new account - we hope you know what you are doing. When you are ready,
+            you can use the <i>Generate Key Pair</i> button below to generate key pairs. You can generate as many keypairs as you want (by repeatedly clicking the button) until you have one you are satisfied with.
+            Please note: you do not need to be connected to the internet to generate key pairs.
+        </alert-card>
+        <div class="cols center-align form-field">
+            <button md-waves class="btn dark-gray btn-flat" click.delegate="generateKeypair()" >
+                <i class="fal fa-sync"></i>&nbsp;Generate Key Pair
+            </button>
+        </div>
+        <div show.bind="publicKey">
+            <div class="form-field">
+                <label>Public Key</label>
+                <div style="font-size: 12px; word-break: break-all;">
+                    ${publicKey}
+                </div>
+            </div>
+            <div class="form-field">
+                <label>
+                    Secret Key
+                    <span click.trigger="displaySecret = !displaySecret">
+                        <span show.bind="!displaySecret">
+                            <i style="cursor: pointer" class="fal fa-lg fa-eye primary-text"></i>
+                        </span>
+                        <span show.bind="displaySecret">
+                            <i style="cursor: pointer" class="fal fa-lg fa-eye-slash primary-text"></i>
+                        </span>
+                    </span>
+                </label>
+                <div style="font-size: 12px; word-break: break-all;">
+                    ${displaySecret ? secret : hiddenSecret}
+                </div>
+            </div>
+            <br>
+            <alert-card type="warning" title="Secure your keypair" dismissible.bind="false">
+                After generating a keypair, you must secure your keypair so that you don't lose it and so that no malicious party can get access to to your secret key.
+                When you have finished securing your keypair, you can toggle the <i>I have secured my keypair</i> toggle and click <i>Next</i>.
+            </alert-card>
+            <div class="form-field">
+                <label>
+                    I have secured my keypair:
+                </label>
+                <md-switch md-label-on="Yes" md-label-off="No" md-checked.bind="canProceed"></md-switch>
+            </div>
+        </div>
+        <br>
+    </div>
+</template>

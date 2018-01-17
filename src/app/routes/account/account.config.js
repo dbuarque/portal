@@ -19,28 +19,40 @@ export class AccountConfig {
                     route: ['profile'],
                     name: 'profile',
                     moduleId: PLATFORM.moduleName('./routes/profile/profile'),
-                    title: 'Profile'
+                    title: 'Profile',
+                    icon: '<i class="fal fa-user"></i>',
+                    details: 'General account information regarding your stellar account',
+                    nav: true
                 },
                 {
                     route: ['asset-balances'],
                     name: 'asset-balances',
                     moduleId: PLATFORM.moduleName('./routes/asset-balances/asset-balances'),
                     title: 'Asset Balances',
-                    breadcrumb: true
+                    icon: '<i class="fal fa-th"></i>',
+                    details: 'Account asset balances on stellar',
+                    breadcrumb: true,
+                    nav: true
                 },
                 {
                     route: ['open-offers'],
                     name: 'open-offers',
                     moduleId: PLATFORM.moduleName('./routes/open-offers/open-offers'),
                     title: 'Open Offers',
-                    breadcrumb: true
+                    icon: '<i class="fal fa-sliders-h"></i>',
+                    details: 'All current open offers on stellar for your account',
+                    breadcrumb: true,
+                    nav: true
                 },
                 {
                     route: ['history'],
                     name: 'effect-history',
                     moduleId: PLATFORM.moduleName('./routes/effect-history/effect-history'),
                     title: 'History',
-                    breadcrumb: true
+                    icon: '<i class="fal fa-history"></i>',
+                    details: 'Your stellar account history',
+                    breadcrumb: true,
+                    nav: true
                 }
             ]
         };

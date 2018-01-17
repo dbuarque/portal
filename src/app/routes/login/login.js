@@ -2,8 +2,8 @@
  * Created by Ishai on 3/31/2016.
  */
 
+import './login.scss';
 import {inject} from 'aurelia-framework';
-import {Redirect} from 'aurelia-router';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {connected} from 'aurelia-redux-connect';
 import {LoginConfig} from './login.config';
@@ -33,10 +33,8 @@ export class IdentifyUser {
         this.eventAggregator = eventAggregator;
     }
 
-    canActivate() {
-        if (this.account) {
-            return new Redirect('exchange');
-        }
+    activate(params) {
+        this.redirect = params.redirect;
     }
 
     attached() {
@@ -59,7 +57,7 @@ export class IdentifyUser {
 
     accountChanged() {
         if (this.account && Object.keys(this.account).length > 1) {
-            this.router.parent.navigateToRoute('account');
+            this.redirect ? this.router.parent.navigate(this.redirect) : this.router.parent.navigateToRoute('account');
         }
     }
 

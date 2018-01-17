@@ -1,12 +1,9 @@
 <template>
     <div class="introduction">
-        <h4 class="primary-text">
-            Great, it looks like you want to create a new Stellar account so you can store assets, send payments and trade on the blockchain. If you are ready, click continue below.
-        </h4>
-        <div class="center">
-            <button class="btn primary">
-                Continue&nbsp;<i class="fal fa-arrow-right"></i>
-            </button>
-        </div>
+        <alert-card type="success" title="Let's get you set up" dismissible.bind="false">
+            Great, it looks like you want to create a new Stellar account. We will do this in a easy step by step process.
+            When we are finished you will have a stellar account. Once you have your account, you will be able to store assets, send payments and trade directly on the blockchain using stellarport.
+            If you are ready, then click next.
+        </alert-card>
     </div>
 </template>

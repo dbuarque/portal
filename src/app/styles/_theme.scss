@@ -290,15 +290,15 @@ md-progress .progress .determinate, md-progress .progress .indeterminate {
 }
 /* radio input */
 md-radio input[type="radio"]:checked + label:after {
-    border: 2px solid $dark-gray;
-    background-color: $dark-gray;
+    border: 2px solid $primary;
+    background-color: $primary;
 }
 md-radio [type="radio"].with-gap:checked + label:before {
-    border: 2px solid $dark-gray;
+    border: 2px solid $primary;
 }
 md-radio [type="radio"].with-gap:checked + label:after {
-    border: 2px solid $dark-gray;
-    background-color: $dark-gray;
+    border: 2px solid $primary;
+    background-color: $primary;
 }
 /* range */
 md-range .range-field input[type="range"]::-webkit-slider-thumb {
@@ -337,10 +337,10 @@ md-sidenav .side-nav .collapsible-body li.active, .side-nav.fixed .collapsible-b
 }
 /* switch */
 md-switch.switch label input[type=checkbox]:checked + .lever {
-    background-color: lighten($dark-gray, 30%);
+    background-color: lighten($primary, 30%);
 }
 md-switch.switch label input[type=checkbox]:checked + .lever:after {
-    background-color: $dark-gray;
+    background-color: $primary;
 }
 /* tabs */
 .tabs {

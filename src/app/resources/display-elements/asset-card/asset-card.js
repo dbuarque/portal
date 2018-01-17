@@ -15,7 +15,7 @@ export class AssetCardCustomElement {
     get imageSrc() {
         return this.asset.type.toLowerCase() === 'native' ?
             '/assets/stellar-rocket-144x144.png' :
-            this.toml && this.toml.image ?
+            this.toml && this.toml.image && this.toml.image.indexOf('https') > -1 ?
                 this.toml.image :
                 '/assets/font-awesome_4-7-0_question-circle-o_144_10_e0e0e0_none.png';
     }
@@ -55,14 +55,14 @@ export class AssetCardCustomElement {
     @computedFrom('asset')
     get assetCode() {
         return this.asset.type.toLowerCase() === 'native' ?
-            window.lupoex.stellar.nativeAssetCode :
+            window.stellarport.stellar.nativeAssetCode :
             this.asset.code;
     }
 
     @computedFrom('asset', 'toml')
     get description() {
         return this.asset.type.toLowerCase() === 'native' ?
-            window.lupoex.stellar.nativeAssetCode + ' is the native asset used to power the stellar network.' :
+            window.stellarport.stellar.nativeAssetCode + ' is the native asset used to power the stellar network.' :
             this.toml && this.toml.desc ?
                 this.toml.desc :
                 this.asset.code + ' asset';

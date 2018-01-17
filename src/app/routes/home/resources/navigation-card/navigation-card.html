@@ -1,0 +1,14 @@
+<template>
+    <div class="navigation-card card" click.trigger="goToRoute()" title.bind="route.details">
+        <div class="card-content no-heading">
+            <div class="card-body">
+                <h6 class="title">
+                    <strong>
+                        ${route.title}
+                    </strong>
+                </h6>
+                <div class="fa-3x" innerhtml.bind="route.icon | sanitizeHTML"></div>
+            </div>
+        </div>
+    </div>
+</template>

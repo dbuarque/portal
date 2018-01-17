@@ -1,0 +1,26 @@
+<template>
+    <div class="fund-account">
+        <alert-card type="success" title="Activate by funding" dismissible.bind="false">
+            <div>
+                Ok, you now have a stellar account address. However, <strong>you account is not yet active</strong>. To prevent spam,
+                the stellar network requires that an account hold at least ${accountMinBalance} ${nativeAssetCode}, so that the network is not spammed with accounts.
+                In order to have a functioning account you will need to send some ${nativeAssetCode} to your public key (below).
+                You can purchase ${nativeAssetCode} on a variety of exchanges listed here: <a target="_blank" href="https://coinmarketcap.com/currencies/stellar/#markets">Exchanges</a>
+                You will not be able to log in using your account until it is funded. Once it is funded, you can proceed to the login page to login and view your account balance.
+            </div>
+        </alert-card>
+
+        <alert-card type="info" title="More funding options coming" dismissible.bind="false">
+            <div>
+                Hold your horses, we are working on integrated funding options. Keep an eye out for those.
+            </div>
+        </alert-card>
+
+        <div class="form-field">
+            <label>Public Key</label>
+            <div style="font-size: 12px; word-break: break-all;">
+                ${publicKey}
+            </div>
+        </div>
+    </div>
+</template>

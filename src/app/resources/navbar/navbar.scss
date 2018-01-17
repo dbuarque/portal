@@ -1,0 +1,83 @@
+.nav-wrapper {
+    margin: 0 auto;
+    text-align: center;
+    height: 54px;
+    line-height: 54px;
+    position: relative;
+
+    .brand {
+        img {
+            vertical-align: middle;
+        }
+    }
+
+    .align-right {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+}
+
+nav .nav-wrapper i {
+    height: initial;
+    line-height: normal;
+}
+
+.navbar-fixed {
+    height: 54px;
+
+    nav {
+        height: 54px;
+        background-color: $dark-gray;
+        -webkit-box-shadow: $shadow1;
+        -moz-box-shadow: $shadow1;
+        box-shadow: $shadow1;
+
+        .dropdown-content {
+            margin-top: 55px;
+        }
+
+        ul {
+            li {
+                height: 53px;
+                line-height: 53px;
+                a {
+                    height: 53px;
+                    line-height: 53px;
+                    color: #fff;
+
+                    &:hover {
+                        color: $light-gray;
+                        background-color: $dark-gray;
+                    }
+
+                    svg {
+                        vertical-align: middle;
+                    }
+                }
+            }
+
+            &.dropdown-content {
+
+                li {
+                    line-height: 25px;
+                    height: auto;
+                    min-height: 0;
+
+                    a {
+                        font-size: 14px;
+                        padding: 10px;
+                        line-height: 25px;
+                        height: auto;
+                        color: $dark-gray;
+                    }
+                }
+
+                i {
+                    height: auto;
+                    margin-right: 0;
+                }
+            }
+        }
+    }
+}

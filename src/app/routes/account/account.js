@@ -3,27 +3,24 @@
  */
 
 import './account.scss';
-import _findIndex from 'lodash/findIndex';
-import {inject} from 'aurelia-framework';
-import {Redirect} from 'aurelia-router';
-import {EventAggregator} from 'aurelia-event-aggregator';
-import {Store, connected} from 'aurelia-redux-connect';
+import {inject, computedFrom} from 'aurelia-framework';
+import {connected} from 'aurelia-redux-connect';
 import {AccountConfig} from './account.config';
 
-@inject(AccountConfig, EventAggregator, Store)
+@inject(AccountConfig)
 export class Account {
     @connected('myAccount')
     account;
 
-    get routableRoutes() {
-        return this.config.routes.filter(r => !r.redirect);
+    @computedFrom('router.currentInstruction')
+    get currentViewModel() {
+        return this.router.currentInstruction ?
+            this.router.currentInstruction.viewPortInstructions.default.component.viewModel :
+            null;
     }
 
-    constructor(config, eventAggregator, store) {
+    constructor(config) {
         this.config = config;
-        this.eventAggregator = eventAggregator;
-
-        this.store = store;
     }
 
     configureRouter(routerConfig, router) {
@@ -35,24 +32,14 @@ export class Account {
         this.router.transformTitle = title => false;
     }
 
-    canActivate() {
-        const account = this.store.getState().myAccount;
+    activate() {
+        this.hideSidebarIfSmall();
+    }
 
-        if (!account) {
-            return new Redirect('login');
+    hideSidebarIfSmall() {
+        if ($( window ).width() <= 768) {
+            this.sidebarHidden = true;
         }
-    }
-
-    attached() {
-        this.subscription = this.eventAggregator.subscribe(
-            'router:navigation:success',
-            this.navigationSuccess.bind(this));
-
-        this.navigationSuccess();
-    }
-
-    detached() {
-        this.subscription.dispose();
     }
 
     refresh() {
@@ -61,32 +48,5 @@ export class Account {
         }
 
         this.currentViewModel.refresh();
-    }
-
-    navigationSuccess() {
-        const viewPortInstruction = this.router.currentInstruction.viewPortInstructions.default;
-
-        if (viewPortInstruction.strategy === 'no-change') {
-            return;
-        }
-
-        this.currentViewModel = viewPortInstruction.controller.viewModel;
-        this.currentRoute = this.router.currentInstruction.config.route.split('/')[0];
-
-        let routeName = this.router.currentInstruction.config.name;
-        routeName = _findIndex(this.config.routes, {name: routeName}) > -1 ? routeName : 'profile';
-        this.accountTabs.selectTab('tab-' + routeName);
-    }
-
-    navigateToRoute(routeName) {
-        if (this.router.currentInstruction.config.name !== routeName) {
-            this.router.navigateToRoute(routeName);
-        }
-    }
-
-    accountChanged() {
-        if (!this.account) {
-            this.router.parent.navigateToRoute('exchange');
-        }
     }
 }

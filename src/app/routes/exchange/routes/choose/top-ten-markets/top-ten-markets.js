@@ -27,7 +27,7 @@ export class TopTenMarkets {
     }
 
     loading = 0;
-    nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
+    nativeAssetCode = window.stellarport.stellar.nativeAssetCode;
 
     constructor(element, updateAssetPair, marketToAssetPair, updateTopTenMarkets, topMarketsStream, topTenMarketsUpdater) {
         this.element = element;

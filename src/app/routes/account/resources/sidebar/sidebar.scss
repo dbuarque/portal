@@ -1,0 +1,52 @@
+.sidebar {
+    z-index: 996;
+    position: fixed;
+    left: 0;
+    width: 200px;
+    height: 100%;
+    overflow-x: visible;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    top: 54px;
+    background-color: $dark-gray;
+    //border-right: 1px solid $gray;
+    -webkit-box-shadow: 1px 0px 1px 0px rgba(0,0,0,0.15) !important;
+    -moz-box-shadow: 1px 0px 1px 0px rgba(0,0,0,0.15) !important;
+    box-shadow: 1px 0px 1px 0px rgba(0,0,0,0.15) !important;
+
+    .sidebar-nav {
+        position: absolute;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        overflow-x: hidden;
+        overflow-y: auto;
+        z-index: 996;
+        background: #fff;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+
+        li {
+            text-indent: 15px;
+            line-height: 40px;
+            cursor: pointer;
+            height: 40px;
+
+            .icon {
+                margin-right: 12px;
+            }
+
+            &.navigation-item {
+                color: $dark-gray;
+
+                &:hover, &:focus, &.active  {
+                    color: $primary;
+                }
+            }
+        }
+    }
+}

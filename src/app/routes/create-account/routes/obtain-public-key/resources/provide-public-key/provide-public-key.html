@@ -1,0 +1,12 @@
+<template>
+    <div class="provide-public-key">
+        <alert-card type="info" title="Provide public key" dismissible.bind="false">
+            Oh, it looks like you already have a stellar keypair chosen, great. Please provide your public key below to continue. You can provide either a regular stellar public key or a federated address.
+        </alert-card>
+    </div>
+    <div class="form-field">
+        <label>Your Public Key</label>
+        <stellar-address-input public-key.bind="_publicKey"></stellar-address-input>
+    </div>
+    <br>
+</template>

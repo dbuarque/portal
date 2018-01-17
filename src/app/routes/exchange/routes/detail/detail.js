@@ -99,7 +99,7 @@ export class Detail {
     }
 
     goToNewAssetPair(newAssetPair) {
-        const nativeAssetCode = window.lupoex.stellar.nativeAssetCode;
+        const nativeAssetCode = window.stellarport.stellar.nativeAssetCode;
         const buyingIsNative = newAssetPair.buying.type.toLowerCase() === 'native';
         const sellingIsNative = newAssetPair.selling.type.toLowerCase() === 'native';
 
@@ -111,6 +111,10 @@ export class Detail {
             sellingCode: sellingIsNative ? nativeAssetCode : newAssetPair.selling.code,
             sellingIssuer: sellingIsNative ? 'Stellar': newAssetPair.selling.issuer.accountId
         });
+    }
+
+    back() {
+        this.router.navigateToRoute('choose');
     }
 
     //updateRouteTitle() {
