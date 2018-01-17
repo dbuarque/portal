@@ -1,4 +1,4 @@
-# lupoex-client
+# stellarport portal
 
 ## Getting started
 
