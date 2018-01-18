@@ -13,6 +13,62 @@
                 <div class="card-content">
                     <div class="card-heading">
                         <div class="card-title">
+                            Inflation Destination
+                        </div>
+                        <div class="right" no-collapse>
+                            <button show.bind="!editingProps.inflationDest" class="btn primary btn-small btn-flat" title="Edit Inflation Destination" click.trigger="editProperty('inflationDest')">
+                                <i class="far fa-pencil"></i>
+                            </button>
+                            <button show.bind="editingProps.inflationDest" class="btn gray btn-small btn-flat" title="Cancel" click.trigger="cancelProperty('inflationDest')">
+                                <i class="far fa-times"></i>
+                            </button>
+                            <button show.bind="editingProps.inflationDest" class="btn primary btn-small btn-flat" title="Save" click.trigger="saveProperty('inflationDest')">
+                                <i class="far fa-check"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body" style="word-break: break-all;">
+                        <span show.bind="!editingProps.inflationDest">
+                            ${account.inflationDest}
+                        </span>
+                        <div show.bind="editingProps.inflationDest">
+                            <stellar-address-input public-key.bind="inflationDestNew"></stellar-address-input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card" collapsible-card="is-open:true">
+                <div class="card-content">
+                    <div class="card-heading">
+                        <div class="card-title">
+                            Home Domain
+                        </div>
+                        <div class="right" no-collapse>
+                            <button show.bind="!editingProps.homeDomain" class="btn primary btn-small btn-flat" title="Edit Home Domain" click.trigger="editProperty('homeDomain')">
+                                <i class="far fa-pencil"></i>
+                            </button>
+                            <button show.bind="editingProps.homeDomain" class="btn gray btn-small btn-flat" title="Cancel"  click.trigger="cancelProperty('homeDomain')">
+                                <i class="far fa-times"></i>
+                            </button>
+                            <button show.bind="editingProps.homeDomain" class="btn primary btn-small btn-flat" title="Save" click.trigger="saveProperty('homeDomain')">
+                                <i class="far fa-check"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body" style="word-break: break-all;">
+                        <span show.bind="!editingProps.homeDomain">
+                            ${account.homeDomain}
+                        </span>
+                        <div show.bind="editingProps.homeDomain">
+                            <input type="text" value.bind="homeDomainNew"></input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card" collapsible-card="is-open:true">
+                <div class="card-content">
+                    <div class="card-heading">
+                        <div class="card-title">
                             Thresholds
                         </div>
                     </div>
@@ -43,7 +99,7 @@
                 </div>
             </div>
         </div>
-        <div class="col l6">
+        <div class="col m6">
             <div class="card" collapsible-card="is-open:true">
                 <div class="card-content">
                     <div class="card-heading">
@@ -60,8 +116,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col l6">
             <account-data view-model.ref="accountData"></account-data>
         </div>
     </div>
