@@ -2,7 +2,22 @@ import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {actionCreator} from 'aurelia-redux-connect';
 import {AccountResource} from '../resources/crud/resources';
-import {UPDATE_MY_ACCOUNT_ID, UPDATE_MY_ACCOUNT} from '../app.action-types';
+import {UPDATE_MY_ACCOUNT} from '../app.action-types';
+
+const emptyAccount = {
+    _balance: '0',
+    _flags: 0,
+    _thresholds: null,
+    balance: '0',
+    flags: {},
+    homeDomain: null,
+    inflationDest: null,
+    lastModified: null,
+    numSubentries: 0,
+    seqNum: null,
+    thresholds: {},
+    otherSigners: []
+};
 
 @actionCreator()
 @inject(Router, AccountResource)
@@ -32,38 +47,46 @@ export class UpdateAccountActionCreator {
             }
 
             // There are times (especially on app startup) that we need an accountId in the store synchronously.
-            dispatch({
-                type: UPDATE_MY_ACCOUNT_ID,
-                payload: publicKey
-            });
+            // Let's synchronously update the account (or remove the account)
+            if (!publicKey) {
+                dispatch({
+                    type: UPDATE_MY_ACCOUNT,
+                    payload: null
+                });
 
-            let account = null;
+                localStorage.removeItem('account-id');
 
-            if (publicKey) {
+                if (this.router.currentInstruction && this.router.currentInstruction.config.accountRequired) {
+                    this.router.navigate('/');
+                }
+            }
+            else {
+                dispatch({
+                    type: UPDATE_MY_ACCOUNT,
+                    payload: {
+                        ...emptyAccount,
+                        accountId: publicKey
+                    }
+                });
+
+                localStorage.setItem('account-id', publicKey);
+
                 try {
-                    account = await this.accountResource.account(publicKey, {
+                    const account = await this.accountResource.account(publicKey, {
                         handleError: false
                     });
+
+                    dispatch({
+                        type: UPDATE_MY_ACCOUNT,
+                        payload: account
+                    });
+
+                    return account;
                 }
                 catch (e) {
                     // Couldn't find account. We want to logout so let's just leave the account null.
                 }
             }
-
-            dispatch({
-                type: UPDATE_MY_ACCOUNT,
-                payload: account
-            });
-
-            account && account.accountId ?
-                localStorage.setItem('account-id', account.accountId) :
-                localStorage.removeItem('account-id');
-
-            if (!account && this.router.currentInstruction && this.router.currentInstruction.config.accountRequired) {
-                this.router.navigate('/');
-            }
-
-            return account;
         };
     }
 }

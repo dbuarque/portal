@@ -28,6 +28,15 @@
                         <div show.bind="step==='input'" class="input-step">
                             <div class="row">
                                 <div class="col s12">
+                                    <label>Current Balance</label>
+                                    <h6>
+                                        <strong>
+                                            <span class="primary-text balance" click.trigger="amount = balance">${balance}</span>
+                                        </strong>
+                                        &nbsp;${code}
+                                    </h6>
+                                </div>
+                                <div class="col s12">
                                     <label>Code</label>
                                     <input type="text" value.one-time="code" disabled title="Code">
                                 </div>

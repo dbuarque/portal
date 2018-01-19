@@ -62,7 +62,7 @@ export class AccountResource extends BaseResource {
      * @returns {*}
      */
     trustlines(accountId, query) {
-        return this.get('/' + accountId + '/Trustlines', query)
+        return this.get('/' + accountId + '/Trustlines', query);
     }
 
     async trustlinesDataTable(accountId, data, settings) {
