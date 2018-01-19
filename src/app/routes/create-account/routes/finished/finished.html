@@ -1,0 +1,21 @@
+<template>
+    <div class="fund-account">
+        <alert-card type="success" title="Success" dismissible.bind="false">
+            <div>
+                Ok, you now have a stellar account address. Use it to log in below.
+            </div>
+        </alert-card>
+
+        <alert-card type="info" title="More funding options coming" dismissible.bind="false">
+            <div>
+                Hold your horses, we are working on integrated funding options. Keep an eye out for those.
+            </div>
+        </alert-card>
+
+        <div class="cols center-align form-field">
+            <button md-waves class="btn primary btn-flat" click.delegate="goToLogin()" >
+                Go To Login&nbsp;<i class="fal fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+</template>
