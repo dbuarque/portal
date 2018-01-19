@@ -8,6 +8,7 @@ import {inject, computedFrom} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {ValidationRules, ValidationController, validateTrigger} from 'aurelia-validation';
 import {connected} from 'aurelia-redux-connect';
+import {asyncBindable} from 'aurelia-async-bindable-bluebird';
 import {ModalService} from 'global-resources';
 import {AccountResource, TransactionService} from 'app-resources';
 
@@ -15,6 +16,26 @@ import {AccountResource, TransactionService} from 'app-resources';
 export class SendPayment {
     @connected('myAccount')
     account;
+
+    @asyncBindable({
+        pendWith: 0
+    })
+    @computedFrom('account')
+    get balance() {
+        if (!this.account) {
+            return 0;
+        }
+
+        return this.type.toLowerCase() === 'native' ?
+            this.account.balance :
+            this.accountResource.trustline(this.account.accountId, {
+                type: this.type,
+                code: this.code,
+                issuer: this.issuer
+            })
+                .then(trustline => trustline.balance)
+                .catch(e => 0);
+    }
 
     @computedFrom('type')
     get isNative() {
@@ -76,7 +97,9 @@ export class SendPayment {
     }
 
     configureValidation() {
-        this.validationController.validateTrigger = validateTrigger.blur;
+        const self = this;
+
+        self.validationController.validateTrigger = validateTrigger.blur;
 
         ValidationRules
             .ensure('destination')
@@ -85,6 +108,8 @@ export class SendPayment {
             .ensure('amount')
             .displayName('Amount')
             .required()
+            .satisfies(value => parseFloat(value, 10) > 0 && parseFloat(value, 10) <= parseFloat(self.balance, 10))
+            .withMessage(`Not enough \${$object.code}`)
             .ensure('memoValue')
             .displayName('Memo Value')
             .required()
@@ -93,7 +118,7 @@ export class SendPayment {
             .when(vm => vm.memoType && vm.memoType !== 'text')
             .maxLength(28)
             .when(vm => vm.memoType === 'text')
-            .on(this);
+            .on(self);
     }
 
     async submitInput() {

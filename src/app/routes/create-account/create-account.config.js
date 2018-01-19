@@ -8,13 +8,7 @@ export class CreateAccountConfig {
             routes: [
                 {
                     route: [''],
-                    redirect: 'introduction'
-                },
-                {
-                    route: ['introduction'],
-                    name: 'introduction',
-                    moduleId: PLATFORM.moduleName('./routes/introduction/introduction'),
-                    title: 'Introduction'
+                    redirect: 'choose-public-key-method'
                 },
                 {
                     route: ['choose-public-key-method'],
@@ -29,10 +23,10 @@ export class CreateAccountConfig {
                     title: 'Obtain Public Key'
                 },
                 {
-                    route: ['fund-account'],
-                    name: 'fund-account',
-                    moduleId: PLATFORM.moduleName('./routes/fund-account/fund-account'),
-                    title: 'Activate Account'
+                    route: ['finished'],
+                    name: 'finished',
+                    moduleId: PLATFORM.moduleName('./routes/finished/finished'),
+                    title: 'Finished'
                 }
             ]
         };

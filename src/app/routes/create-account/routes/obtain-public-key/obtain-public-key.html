@@ -1,10 +1,8 @@
 <template>
     <require from="./resources/generate-new-keypair/generate-new-keypair"></require>
-    <require from="./resources/provide-public-key/provide-public-key"></require>
     <require from="./resources/use-ledger-nano-s/use-ledger-nano-s"></require>
     <div class="obtain-public-key">
         <generate-new-keypair if.bind="method.name === 'generateRawKeypair'" public-key.bind="publicKey" can-proceed.bind="canProceed"></generate-new-keypair>
-        <provide-public-key if.bind="method.name === 'providePublicKey'" public-key.bind="publicKey" can-proceed.bind="canProceed"></provide-public-key>
         <use-ledger-nano-s if.bind="method.name === 'obtainFromLedgerNano'" public-key.bind="publicKey" can-proceed.bind="canProceed"></use-ledger-nano-s>
     </div>
 </template>

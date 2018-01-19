@@ -11,11 +11,11 @@ export function publicKeyMethods(state, action) {
             label: 'Generate New Key Pair',
             description: 'Use this method to generate a raw key pair. You will be given your secret and public keys. It will be your job to secure them.'
         },
-        {
-            name: 'providePublicKey',
-            label: 'I Already Have An Address',
-            description: 'Use this method if you already have a stellar address picked out.'
-        },
+        //{
+        //    name: 'providePublicKey',
+        //    label: 'I Already Have An Address',
+        //    description: 'Use this method if you already have a stellar address picked out.'
+        //},
         {
             name: 'obtainFromLedgerNano',
             label: 'Use My Ledger Nano S',

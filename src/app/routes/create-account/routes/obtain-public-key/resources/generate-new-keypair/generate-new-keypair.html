@@ -1,9 +1,8 @@
 <template>
     <div class="generate-new-keypair">
         <alert-card type="info" title="Generate a keypair" dismissible.bind="false">
-            Alright, you've chosen to generate a raw keypair for your new account - we hope you know what you are doing. When you are ready,
-            you can use the <i>Generate Key Pair</i> button below to generate key pairs. You can generate as many keypairs as you want (by repeatedly clicking the button) until you have one you are satisfied with.
-            Please note: you do not need to be connected to the internet to generate key pairs.
+            Alright, you've chosen to generate a raw keypair for your new account. When you are ready,
+            you can use the <i>Generate Key Pair</i> button below to generate key pairs.
         </alert-card>
         <div class="cols center-align form-field">
             <button md-waves class="btn dark-gray btn-flat" click.delegate="generateKeypair()" >
