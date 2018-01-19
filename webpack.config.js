@@ -85,7 +85,7 @@ module.exports = ({production, server, extractCss, coverage, remoteBackend, publ
                     secure: false,
                     changeOrigin: true
                 },
-                '/assets/font-awesome/*': {
+                '/assets/Font-Awesome-Pro/*': {
                     target: {
                         host: publicNetwork ? 'portal.stellarport.io' : 'test.portal.stellarport.io',
                         protocol: 'https:',
@@ -197,9 +197,15 @@ module.exports = ({production, server, extractCss, coverage, remoteBackend, publ
         //        "./waves/waves"
         //    ]
         //}),
-        new CopyWebpackPlugin([
-            { from: 'assets', to: 'assets', ignore: ['Font-Awesome-Pro/**/*']},
-            { from: 'assets/Font-Awesome-Pro/svg-with-js', to: 'assets/Font-Awesome-Pro/svg-with-js'}
-        ])
+        new CopyWebpackPlugin(
+            remoteBackend ?
+                [
+                    { from: 'assets', to: 'assets', ignore: ['Font-Awesome-Pro/**/*']}
+                ] :
+                [
+                    { from: 'assets', to: 'assets', ignore: ['Font-Awesome-Pro/**/*']},
+                    { from: 'assets/Font-Awesome-Pro/svg-with-js', to: 'assets/Font-Awesome-Pro/svg-with-js'}
+                ]
+        )
     ]
 });
