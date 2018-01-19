@@ -9,6 +9,8 @@ export class UseLedgerNanoSCustomElement {
     @bindable({defaultBindingMode: bindingMode.twoWay})
     canProceed;
 
+    loading = 0;
+
     get _publicKey() {
         return this.publicKey;
     }

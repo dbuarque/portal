@@ -8,13 +8,7 @@ export class CreateAccountConfig {
             routes: [
                 {
                     route: [''],
-                    redirect: 'introduction'
-                },
-                {
-                    route: ['introduction'],
-                    name: 'introduction',
-                    moduleId: PLATFORM.moduleName('./routes/introduction/introduction'),
-                    title: 'Introduction'
+                    redirect: 'choose-public-key-method'
                 },
                 {
                     route: ['choose-public-key-method'],
