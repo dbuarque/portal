@@ -29,10 +29,11 @@
             <div>
                 Ledger devices support multiple accounts that can be accessed by BIP32 paths. Use the input below to specify the BIP32 path on the ledger device.
                 If you are unsure as to what a BIP32 path is, then just leave it as the default value (it will use your default ledger account).
-                When you are ready, click the 'Login' button below and your Stellar public address will be obtained from your ledger device.
+                When you are ready, click the 'Next' button below and your Stellar public address will be obtained from your ledger device.
             </div>
         </alert-card>
         <bip32-path-input if.bind="ledgerConnected" bip32-path.bind="bip32Path" public-key.bind="_publicKey" title="BIP32 path"></bip32-path-input>
+        <br>
         <spinner-overlay min-height="150" size="2x" spin.bind="loading > 0"></spinner-overlay>
     </div>
 </template>

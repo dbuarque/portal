@@ -1,8 +1,18 @@
 import {bindable, bindingMode, inject} from 'aurelia-framework';
+import {connected} from 'aurelia-redux-connect';
 import {LedgerHwService} from 'app-resources';
+import {UpdateBip32PathActionCreator} from '../../../../../../action-creators';
 
-@inject(LedgerHwService)
+@inject(LedgerHwService, UpdateBip32PathActionCreator)
 export class UseLedgerNanoSCustomElement {
+    @connected('bip32Path')
+    get bip32Path() {
+        // getter will be set by @connected
+    }
+    set bip32Path(newValue) {
+        this.updateBip32Path.dispatch(newValue);
+    }
+
     @bindable({defaultBindingMode: bindingMode.twoWay})
     publicKey;
 
@@ -19,8 +29,9 @@ export class UseLedgerNanoSCustomElement {
         this.canProceed = !!newKey;
     }
 
-    constructor(ledgerHwService) {
+    constructor(ledgerHwService, updateBip32Path) {
         this.ledgerHwService = ledgerHwService;
+        this.updateBip32Path = updateBip32Path;
     }
 
     async connectLedger() {
