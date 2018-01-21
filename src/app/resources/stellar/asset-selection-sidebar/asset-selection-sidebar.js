@@ -1,7 +1,7 @@
 
 import _debounce from 'lodash/debounce';
 import {inject} from 'aurelia-framework';
-import {AssetResource} from '../../resources/asset-resource';
+import {AssetResource} from '../../crud';
 import {AssetSelectionService} from '../asset-selection-service';
 
 @inject(AssetResource, AssetSelectionService)

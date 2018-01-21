@@ -10,3 +10,4 @@ export * from './asset-selection-service';
 export * from './account-stream';
 export * from './account-effect-alerter';
 export * from './ledger-hw-service';
+export * from './keystore-service';

@@ -3,11 +3,10 @@
  */
 
 import {computedFrom} from 'aurelia-framework';
-import {shortenAddress} from "app-resources";
+import {shortenAddress} from '../../../helpers';
 import BigNumber from 'bignumber.js';
 
 export class OfferModal {
-
     loading = 0;
 
     @computedFrom('amount')
@@ -31,7 +30,7 @@ export class OfferModal {
         if (this.sellingAsset.type.toLowerCase() === 'native') {
             return 'Native';
         }
-        
+
         return this.sellingAsset.issuer.homeDomain ||
             shortenAddress(this.sellingAsset.issuer.accountId) ||
             shortenAddress(this.sellingAsset.issuer);

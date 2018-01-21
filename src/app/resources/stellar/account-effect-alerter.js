@@ -9,7 +9,6 @@ import {AccountStream} from './account-stream';
 
 @inject(AlertToaster, AccountStream)
 export class AccountEffectAlerter {
-
     constructor(alertToaster, accountStream) {
         this.alertToaster = alertToaster;
         this.accountStream = accountStream;

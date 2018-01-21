@@ -2,7 +2,6 @@ import * as StellarSdk from 'stellar-sdk';
 import _find from 'lodash/find';
 
 export class TomlCache {
-
     promises = {};
 
     refresh() {

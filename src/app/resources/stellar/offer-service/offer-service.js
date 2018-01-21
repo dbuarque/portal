@@ -8,8 +8,8 @@ import {inject} from 'aurelia-framework';
 import * as StellarSdk from 'stellar-sdk';
 import {Store} from 'aurelia-redux-connect';
 import {ModalService, AlertToaster} from 'global-resources';
-import {validStellarNumber} from '../../../helpers';
-import {AccountResource} from '../../resources';
+import {validStellarNumber} from '../../helpers';
+import {AccountResource} from '../../crud';
 import {TransactionService} from '../transaction-service/transaction-service';
 
 @inject(ModalService, Store, AlertToaster, AccountResource, TransactionService)
@@ -45,7 +45,7 @@ export class OfferService {
             rm: BigNumber.ROUND_DOWN
         });
 
-        await this.modalService.open(PLATFORM.moduleName('app/resources/crud/stellar/offer-service/offer-modal/offer-modal'),
+        await this.modalService.open(PLATFORM.moduleName('app/resources/stellar/offer-service/offer-modal/offer-modal'),
             {
                 type,
                 amount,

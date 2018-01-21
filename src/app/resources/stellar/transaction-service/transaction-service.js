@@ -7,9 +7,9 @@ import {inject} from 'aurelia-framework';
 import * as StellarSdk from 'stellar-sdk';
 import {Store} from 'aurelia-redux-connect';
 import {ModalService, SpinnerModalService, AlertToaster} from 'global-resources';
-import {SecretStore} from '../../../auth/secret-store/secret-store';
-import {TransactionResource} from '../../resources';
-import {UpdateMySeqnumActionCreator} from '../../../../action-creators';
+import {SecretStore} from '../../auth/secret-store/secret-store';
+import {TransactionResource} from '../../crud';
+import {UpdateMySeqnumActionCreator} from '../../../action-creators';
 
 @inject(ModalService, SpinnerModalService, Store, AlertToaster, SecretStore, TransactionResource, UpdateMySeqnumActionCreator)
 export class TransactionService {
@@ -70,7 +70,7 @@ export class TransactionService {
         let signedTransaction = this.secretStore.canSign ?
             await this.secretStore.sign(transaction) :
             await this.modalService.open(
-                PLATFORM.moduleName('app/resources/crud/stellar/transaction-service/sign-transaction-modal/sign-transaction-modal'),
+                PLATFORM.moduleName('app/resources/stellar/transaction-service/sign-transaction-modal/sign-transaction-modal'),
                 {
                     title: 'Sign Transaction',
                     transaction
@@ -91,7 +91,7 @@ export class TransactionService {
         catch (errResponse) {
             try {
                 await this.modalService.open(
-                    PLATFORM.moduleName('app/resources/crud/stellar/transaction-service/error-modal/error-modal'),
+                    PLATFORM.moduleName('app/resources/stellar/transaction-service/error-modal/error-modal'),
                     {
                         title: 'Stellar Transaction Error',
                         error: errResponse ? await errResponse.json() : null

@@ -2,7 +2,7 @@ import {bindable, computedFrom, inject} from 'aurelia-framework';
 import {asyncBindable} from 'aurelia-async-bindable-bluebird';
 import {WithHttpProtocolValueConverter} from 'global-resources';
 import {TomlCache} from 'app-resources';
-import {AssetSelectionService} from '../../crud/stellar/asset-selection-service';
+import {AssetSelectionService} from '../../stellar/asset-selection-service';
 
 @inject(TomlCache, WithHttpProtocolValueConverter, AssetSelectionService)
 export class AssetCardCustomElement {

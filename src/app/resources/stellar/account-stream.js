@@ -9,7 +9,6 @@ import {connected} from 'aurelia-redux-connect';
 @inject(AlertToaster)
 @subscriptionService()
 export class AccountStream {
-
     @connected('myAccount.accountId')
     accountId;
 

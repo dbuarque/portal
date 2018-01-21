@@ -4,6 +4,5 @@
 
 export * from './clients';
 export * from './resources';
-export * from './stellar';
 export * from './value-converters';
 export * from './analytics';

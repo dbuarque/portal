@@ -7,12 +7,11 @@ import {inject} from 'aurelia-framework';
 import * as StellarSdk from 'stellar-sdk';
 import {Store} from 'aurelia-redux-connect';
 import {ModalService, AlertToaster} from 'global-resources';
-import {MAX_STELLAR_NUMBER} from '../../../constants';
+import {MAX_STELLAR_NUMBER} from '../../constants';
 import {TransactionService} from '../transaction-service/transaction-service';
 
 @inject(ModalService, Store, AlertToaster, TransactionService)
 export class TrustService {
-
     constructor(modalService, store, alertToaster, transactionService) {
         this.modalService = modalService;
         this.store = store;
@@ -34,7 +33,7 @@ export class TrustService {
             throw new Error(errorMessage);
         }
 
-        const newTrustlimit = await this.modalService.open(PLATFORM.moduleName('app/resources/crud/stellar/trust-service/trust-modal/trust-modal'),
+        const newTrustlimit = await this.modalService.open(PLATFORM.moduleName('app/resources/stellar/trust-service/trust-modal/trust-modal'),
             {
                 type: assetType,
                 code,

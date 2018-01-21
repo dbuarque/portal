@@ -8,6 +8,7 @@ export * from './auth';
 export * from './crud';
 export * from './value-converters';
 export * from './helpers';
+export * from './stellar';
 
 export function configure(config) {
     config.globalResources(
@@ -19,6 +20,6 @@ export function configure(config) {
         PLATFORM.moduleName('./display-elements/shortened-address/shortened-address'),
         PLATFORM.moduleName('./display-elements/asset-card/asset-card'),
         PLATFORM.moduleName('./display-elements/asset-pair-cards/asset-pair-cards'),
-        PLATFORM.moduleName('./crud/stellar/asset-selection-sidebar/asset-selection-sidebar')
+        PLATFORM.moduleName('./stellar/asset-selection-sidebar/asset-selection-sidebar')
     );
 }
